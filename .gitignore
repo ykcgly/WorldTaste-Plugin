@@ -1,0 +1,32 @@
+# ── Gradle 构建输出 ───────────────────────────────
+build/
+bin/
+out/
+classes/
+
+# ── Gradle 本地缓存 ───────────────────────────────
+.gradle/
+
+# ── IDE 配置 ──────────────────────────────────────
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+*.launch
+
+# ── 日志 / 崩溃转储 ───────────────────────────────
+*.log
+hs_err_pid*
+replay_pid*
+
+# ── 操作系统文件 ─────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ── 本地工具缓存 ─────────────────────────────────
+.openclaw/
