@@ -742,7 +742,7 @@ WT_JIYINFENXIYI:
       name: ' '
       amount: 1
       material_type: mc
-      material: ORANGE_STAINED_GLASS_PANE
+      material: RECOVERY_COMPASS
       progressbar: true
     0-1:
       name: ' '

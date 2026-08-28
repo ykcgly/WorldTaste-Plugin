@@ -70,6 +70,47 @@ WORLDTASTE_HOJI:
   placeable: false
   recipe_type: 'NULL'
 
+WT_HAIMAN:
+  item_group: ws_info
+  item:
+    name: "&6海曼&7（MC：&6haiman&7）"
+    material_type: skull_hash
+    material: fd524332cdb381c9e51f77d4cec9bc6d4d1c5bdec1499d206d8383e9176bdfb0
+    lore:
+      - '&6海曼系列附属作者'
+      - '&6粘液科技元老级附属作者'
+      - '&7在这个遍地ai的时代'
+      - '&7老一辈艺术家还在坚持手搓'
+  placeable: false
+  recipe_type: "null"
+
+WT_ZTF3:
+  item_group: ws_info
+  item:
+    name: "&b乐乐趴趴&7（MC：&bZTF3&7）"
+    material_type: skull_hash
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjUxMDFkZmFiY2EwMjVmNmZmOTdlOTExYWMyYThlMjNkYjhlNDBlOTgzNTY4YjdmMDAxOTJiZmI0NWE0ZTUxYiJ9fX0=
+    lore:
+      - '&e尘世百味附属维护者'
+      - '&a承担了将尘世百味从rsc转味jar的部分'
+      - '&7纯大蛇😋'
+  placeable: false
+  recipe_type: "null"
+
+WT_YKCGLY:
+  item_group: ws_info
+  item:
+    name: "&d养坤场管理员&7（MC：&dykcgly&7）"
+    material_type: skull_hash
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjRlZmI5YTE4ZmI4YzU4OGNhNTY5Yjc2YTJhYzNkNjUyNGM2ODBmYTUzZGUwMWI3MzVkYWY1MzI2ZThjZjlkMyJ9fX0=
+    lore:
+      - '&e尘世百味附属维护者'
+      - '&a将附属兼容了slimefun4'
+      - "&a修复了大量bug与增加了一些特性"
+      - "&7&m这其实是猫娘"
+  placeable: false
+  recipe_type: "null"
+
 WORLDTASTE_TIP:
   item_group: ws_tieshi
   item:
@@ -98933,9 +98974,10 @@ WT_MATL114:
   item:
     lore: ['', §7§o恢复 §b§o9 §7§o点饥饿值和饱和度]
     name: §d§l马桶乐
+    lore: [&b据说吃了能学会刷物？ ]
     amount: 1
     material_type: skull_hash
-    material: 7620caf4a5c4d1aaee04a3ce253cd4e0bb2c61de381b99af9fc8a2d0559365f5
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNThkOWQ4YTc5MjdmYjg1OWEzMTNmYjAwNjhmMWQzNjhjOWRlZTdkMGFkYWNiYmQzNWZmYTRkOTk4ZmY4OGRlYiJ9fX0=
   item_group: ws_luojishipin
   recipe_type: ANCIENT_ALTAR
   recipe:

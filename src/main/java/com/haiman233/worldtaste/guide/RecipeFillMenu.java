@@ -181,18 +181,25 @@ public final class RecipeFillMenu {
             if (have >= target) continue;
             int take = Math.min(target - have, capacity - have);
             if (take <= 0) continue;
+            // 有多少拿多少：背包不足时把现有部分也放入机器并提示差额，绝不吞掉玩家材料
             ItemStack collected = takeFromPlayer(p, need, take);
-            if (collected == null) {
+            if (collected == null || collected.getAmount() <= 0) {
                 missing++;
                 p.sendMessage(ChatColor.RED + "背包缺少 " + displayName(need) + " ×" + take);
                 continue;
             }
+            int got = collected.getAmount();
             if (have == 0) {
                 inv.replaceExistingItem(slot, collected);
             } else {
                 ItemStack merged = cur.clone();
-                merged.setAmount(have + collected.getAmount());
+                merged.setAmount(have + got);
                 inv.replaceExistingItem(slot, merged);
+            }
+            if (got < take) {
+                missing++;
+                p.sendMessage(ChatColor.RED + "材料不足：" + displayName(need) + " 还差 " + (take - got)
+                        + " 个（已放入 " + got + " 个）");
             }
         }
         return missing;
@@ -223,12 +230,12 @@ public final class RecipeFillMenu {
         return -1;
     }
 
-    /** 从玩家背包收集 amount 个匹配 need 的物品（不足返回 null，已取的不回滚）。 */
+    /** 从玩家背包收集至多 amount 个匹配 need 的物品（有多少拿多少、全部扣除），返回实收堆；背包一个都没有时返回 null。 */
     private static ItemStack takeFromPlayer(Player p, ItemStack need, int amount) {
         PlayerInventory inv = p.getInventory();
         ItemStack result = null;
         int left = amount;
-        for (int k = 0; k < inv.getSize(); k++) {
+        for (int k = 0; k < inv.getSize() && left > 0; k++) {
             ItemStack it = inv.getItem(k);
             if (it == null || it.getType().isAir()) continue;
             if (!SlimefunUtils.isItemSimilar(it, need, true)) continue;
@@ -250,7 +257,7 @@ public final class RecipeFillMenu {
             left -= take;
             if (left <= 0) break;
         }
-        return left <= 0 ? result : null;
+        return result;
     }
 
     private static ItemStack describeRecipe(WTRecipe r, int index) {
