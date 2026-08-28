@@ -20,9 +20,9 @@
 
 | 类型 | 插件 |
 |---|---|
-| 必须 | Slimefun（需适配 Minecraft 1.21.11 的版本） |
+| 必须 | [Slimefun](https://builds.guizhanss.com/SlimefunGuguProject/Slimefun4/master)(粘液科技本体) |
 | 必须 | [Gastronomicon](https://builds.guizhanss.com/SlimefunGuguProject/Gastronomicon/master)（美食家）、[ExoticGarden](https://builds.guizhanss.com/balugaq/ExoticGardenComplex/master)（异域花园·复合花园 fork） |
-| 可选 | [Cultivation](https://builds.guizhanss.com/SlimefunGuguProject/Cultivation/main)（农耕工艺）、[InfinityExpansion](https://builds.guizhanss.com/SlimefunReloadingProject/InfinityExpansion/master)（无尽贪婪）、LogiTech |
+| 可选 | [Cultivation](https://builds.guizhanss.com/SlimefunGuguProject/Cultivation/main)（农耕工艺）、[InfinityExpansion](https://builds.guizhanss.com/SlimefunGuguProject/InfinityExpansion/master)（无尽贪婪）、[LogiTech](https://builds.guizhanss.com/Ruchikanmani/LogiTech/master) |
 
 > 提示：若 Gastronomicon 的捕鱼网拉低 TPS，可在其配置中禁用捕鱼网（粘液 ID `GN_FISHING_NET_I/II/III`），或改用本附属性能更优的捕鱼器。
 
