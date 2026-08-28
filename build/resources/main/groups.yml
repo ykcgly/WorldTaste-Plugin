@@ -1,0 +1,633 @@
+worldtaste:
+  lateInit: false
+  type: nested
+  item:
+    material_type: skull_hash
+    material: 1591b61529d25a7ecd6bec00948e6fe155e3007f2d7fe559f3a83c6f808e434d
+    name: '&7&kll{#D9D919}尘{#856363}世{#FF1CAE}百{#CD7F32}味&7&kll'
+  tier: 0
+ws_zwf_1:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_cfzs:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: f4d376a23bc1c1cf6b4b51a7aaa61949aea43b83e3c46c284317ff208d91002d
+    name: '&e&l厨房与门店装饰'
+  parent: worldtaste
+ws_zhongzi:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 7aadb37dd556f9eefbb8ea54943e1f657fac45409e34cd99c810d4dd461bc633
+    name: '&a&l作物种子'
+  parent: worldtaste
+ws_zwf_5:
+  lateInit: false
+  type: button
+  item:
+    material: lime_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zhishi:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: cbaf68a657d3dac6209018f0671947aefc473d07bdf89cf6fe586efe34e4cdfc
+    name: '&e&l发酵食品'
+  parent: worldtaste
+ws_yan:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 6698af7bebc636de1798d3639cc30c3117647101e272e1b1c19bf00bd082cc44
+    name: '&d&l香烟'
+  parent: worldtaste
+ws_hongbei:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: fe9bce86196a857bf095333136a9630ececf61894b6a5c5853e593af53dad60
+    name: '&f&l烘焙'
+  parent: worldtaste
+ws_tuzai:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: b6a0249a78a999037ff7806338bc0b3c8dbac6793dc312c376d7e9ddf46bc614
+    name: '&f&l屠宰食材'
+  parent: worldtaste
+ws_info:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 16439d2e306b225516aa9a6d007a7e75edd2d5015d113b42f44be62a517e574f
+    name: '&b&l信息'
+  parent: worldtaste
+ws_zwf_7:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_jiqi:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: da88ab0af11230d3a4683e033354c428115d52a9588c93f3263512e440214600
+    name: '&6&l厨房用具'
+  parent: worldtaste
+ws_zuowu:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: e837f64da8b735139b4b0173e66f6d80b2081c868c6813a20112b8aeca5c7f66
+    name: '&a&l作物'
+  parent: worldtaste
+ws_zwf_8:
+  lateInit: false
+  type: button
+  item:
+    material: lime_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_kuaican:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 6e56c37ece4629ce6531829b7a55bf42bee7d12ad4363410c821f8571f4a7cdf
+    name: '&6&l快餐'
+  parent: worldtaste
+ws_zhongcan:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 819b1f24e86d5372de0a565432a6b3390be60975c2750851628279aabeaf0d9
+    name: '&4&l中餐'
+  parent: worldtaste
+ws_tang:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 6e1c7ac436c0e4972d093a8f63306409e3fa5321db4bf106f4ef1d80cc360774
+    name: '&b&l汤与炖菜'
+  parent: worldtaste
+ws_kaorou:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 66ca1698f77d60b8b92c795ab9ed5bf3f35ba9ffde433175a53fdfe32dedd
+    name: '&6&l烤肉'
+  parent: worldtaste
+ws_tieshi:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: d53f0c9a652897eecabc21a45ddda77464f2a62509b481a6a3b53120ad0e7815
+    name: '&e&l贴士'
+  parent: worldtaste
+ws_zwf_10:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_shicai:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: bf4c5db9363318e85aad6a818e3906150eaebd2031e146c8d83e444af8ca73eb
+    name: '&d&l食材'
+  parent: worldtaste
+ws_roulei:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: d600fd1add1c1473bccc8158d87f0432d91fa27aa8545b486ead9a8e32e45e97
+    name: '&4&l肉类与海鲜'
+  parent: worldtaste
+ws_zwf_11:
+  lateInit: false
+  type: button
+  item:
+    material: lime_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_bingjiling:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 35ed19c0802e9b485242ab9a18aa37570df7df05ed5edef402df26156c85ba08
+    name: '&d&l冰激凌与糖'
+  parent: worldtaste
+ws_riliao:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 7f49c352d5b810642a48e9524d03ffd2bd4cdc6e831d51fa55ac589f0b3d8e0d
+    name: '&f&l日料'
+  parent: worldtaste
+ws_dangao:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: c1a5ee8db73b81ee9550da29f93ca9ada2a6d88d35ec22841cc03b25c176d380
+    name: '&e&l甜品'
+  parent: worldtaste
+ws_lingshi:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: b2e797b8b4733e1711aa17cbd8b4c51b537809af2df6727f0a61465387d3020a
+    name: '&e&l零食'
+  parent: worldtaste
+ws_zwf_13:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_14:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_gongju:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: d235388f091b7fd13397151fca580fdf9a41c2a0a297f887838710f629aa3fd6
+    name: '&f&l工具'
+  parent: worldtaste
+ws_dongwu:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: fe68647011ff22479fa83a38c247e95abff6de212a317603b8915dc8403a954a
+    name: '&a&l动物与卵'
+  parent: worldtaste
+ws_zwf_17:
+  lateInit: false
+  type: button
+  item:
+    material: lime_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_yingliao:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 94ae151e73602882b250dedcde5df6a9d5ff16470e39f9118b42f250f937f52b
+    name: '&6&l饮品'
+  parent: worldtaste
+ws_dacan:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: a2ce9b42cb1f664d02c8ccda6155f5186adc09475c3769db20e6bdb84ee68468
+    name: '&5&l怪味餐'
+  parent: worldtaste
+ws_wanzi:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 87b972f008d9eceb034bd664ff9e993e142e6e163fa2b12573852059e9bf2e9c
+    name: '&6&l功能丸子'
+  parent: worldtaste
+ws_guoqie:
+  lateInit: false
+  type: sub
+  item:
+    material_type: skull_hash
+    material: 393f34d6ed944fe40924d22313c37e1bc19c9773bbcb4ec68b96c96f149a130
+    name: '&6&l果切'
+  parent: worldtaste
+# 尘世百味第二页 主题餐饮
+ws_zwf_2_1:
+  lateInit: false
+  type: button
+  item:
+    material: yellow_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_2:
+  lateInit: false
+  type: button
+  item:
+    material: yellow_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_3:
+  lateInit: false
+  type: button
+  item:
+    material: yellow_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_4:
+  lateInit: false
+  type: button
+  item:
+    material: yellow_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_5:
+  lateInit: false
+  type: button
+  item:
+    material_type: skull_hash
+    material: d01afe973c5482fdc71e6aa10698833c79c437f21308ea9a1a095746ec274a0f
+    name: '&6&l主题餐饮'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_6:
+  lateInit: false
+  type: button
+  item:
+    material: yellow_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_7:
+  lateInit: false
+  type: button
+  item:
+    material: yellow_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_8:
+  lateInit: false
+  type: button
+  item:
+    material: yellow_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_9:
+  lateInit: false
+  type: button
+  item:
+    material: yellow_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_10:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+# 愚人节
+ws_yurenjie:
+  type: sub
+  parent: worldtaste
+  item:
+    name: "&6&k&ld&a&l“毒薯管理员”&6&k&ld"
+    material: POISONOUS_POTATO
+    glow: true
+# 肝帝月
+ws_gandi:
+  type: sub
+  parent: worldtaste
+  item:
+    name: "&7&k&ld&d&l肝帝的晚宴&7&k&ld"
+    material_type: skull_hash
+    material: 2d3eb91ec65585b4491f72ea52b72623a64967cdba1265579390dbc7fe689ddc
+# 星露谷
+ws_xinglugubuchong:
+  type: sub
+  parent: worldtaste
+  item:
+    name: "&7&k&ld&e&l星露谷拓展&7&k&ld"
+    material_type: skull_hash
+    material: ff4265dbf47af6a6dd09a54cb981238e375c53510fb1f2da0692328a9c0f0330
+# 河豚
+ws_hetun:
+  type: sub
+  parent: worldtaste
+  item:
+    name: "&6&k&ld&c&l河豚钓鱼佬&6&k&ld"
+    material: PUFFERFISH
+    glow: true
+# 罐头食品
+ws_guantou:
+  type: sub
+  parent: worldtaste
+  item:
+    name: "&b&k&ld&f&l罐头食品&b&k&ld"
+    material_type: skull_hash
+    material: d497d9f1493f8dd2765094703435a5321e28f5fe0fa02253e5aea6dbdcd48e82
+# 月饼
+ws_yuebing:
+  type: sub
+  parent: worldtaste
+  item:
+    name: "&c&k&ld&e&l中秋节月饼&c&k&ld"
+    material_type: skull_hash
+    material: f484c435aa0dca82c29ebf4a5354c32948061a76c7ecb0535f4e9ba2403d0c36
+# 逻辑食品
+ws_luojishipin:
+  type: sub
+  parent: worldtaste
+  item:
+    name: "&e&k&ld&d&l逻辑食品&e&k&ld"
+    material_type: mc
+    material: AMETHYST_BLOCK
+    glow: true
+ws_zwf_2_16:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_17:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+# 茶
+ws_chagongyi:
+  type: sub
+  parent: worldtaste
+  item:
+    name: "&f&k&ld&a&l焙茶工艺&f&k&ld"
+    material_type: skull_hash
+    material: 2bbfff4d0aafdfe75e6aeedd070e2a487751cf499028670da704ae3aafb5b11b
+ws_zwf_2_19:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_20:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_21:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_22:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_23:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_24:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_25:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_26:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_27:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_28:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_29:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_30:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_31:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_32:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_33:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+ws_zwf_2_34:
+  lateInit: false
+  type: button
+  item:
+    material: pink_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
+# 生日蛋糕 季节性分类
+ws_shengri:
+  type: seasonal
+  month: 12
+  item:
+    name: "&7&k&ld&6&l生日快乐&7&k&ld"
+    material_type: skull_hash
+    material: 185484498537f510f17da60558b0cff50e671a7d239b816bab63e82706736ea8

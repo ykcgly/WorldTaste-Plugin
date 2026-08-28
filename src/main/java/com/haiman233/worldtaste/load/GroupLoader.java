@@ -1,6 +1,8 @@
 package com.haiman233.worldtaste.load;
 
 import com.haiman233.worldtaste.WT;
+import com.haiman233.worldtaste.guide.DecorativeSubGroup;
+import com.haiman233.worldtaste.guide.WTNestedGroup;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.NestedItemGroup;
@@ -55,7 +57,7 @@ public final class GroupLoader {
             return;
         }
         int tier = s.getInt("tier", 3);
-        NestedItemGroup g = new NestedItemGroup(nsKey(key), display, tier);
+        NestedItemGroup g = WTNestedGroup.create(nsKey(key), display, tier);
         g.register(WT.plugin);
         WT.groups.put(key.toLowerCase(Locale.ROOT), g);
     }
@@ -75,8 +77,21 @@ public final class GroupLoader {
                 WT.groups.put(key.toLowerCase(Locale.ROOT), g);
                 break;
             }
+            case "button": {
+                // 装饰分隔板/标签（RSC 中 actions: none 的对应物）：注册为 DecorativeSubGroup——
+                // 展示为普通原版玻璃板（无名字/lore）；原版指南点击无反应；
+                // JEG 指南点击由 JegGuideListener 取消 ItemGroupButtonClickEvent，同样无反应
+                String parentId = s.getString("parent");
+                ItemGroup parent = parentId == null ? null : WT.groups.get(parentId.toLowerCase(Locale.ROOT));
+                if (parent instanceof NestedItemGroup nested) {
+                    DecorativeSubGroup g = new DecorativeSubGroup(nsKey(key), nested, display, tier);
+                    g.register(WT.plugin);
+                    WT.groups.put(key.toLowerCase(Locale.ROOT), g);
+                }
+                // 无嵌套父组的 button：纯装饰无承载，直接忽略（注册为普通组会混入指南主菜单）
+                break;
+            }
             case "sub":
-            case "button":
             default: {
                 String parentId = s.getString("parent");
                 ItemGroup parent = parentId == null ? null : WT.groups.get(parentId.toLowerCase(Locale.ROOT));

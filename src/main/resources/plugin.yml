@@ -1,5 +1,5 @@
 name: WorldTaste
-version: 1.8.12-standalone
+version: 1.8.13-standalone
 main: com.haiman233.worldtaste.WorldTastePlugin
 api-version: '1.21'
 author: haiman233

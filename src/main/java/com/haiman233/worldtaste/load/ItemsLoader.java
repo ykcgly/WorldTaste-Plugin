@@ -2,6 +2,7 @@ package com.haiman233.worldtaste.load;
 
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.behavior.BlockDrops;
+import com.haiman233.worldtaste.guide.DecorativeSubGroup;
 import com.haiman233.worldtaste.items.ItemSpec;
 import com.haiman233.worldtaste.items.ScriptItemFactory;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -70,8 +71,8 @@ public final class ItemsLoader {
         // 注册条件
         if (!RegisterConditions.pass(s)) return false;
 
-        // 占位玻璃板（如各分组"分割板"）：不注册为 Slimefun 物品——
-        // 不再出现在指南中、点击无反应；旧存档持有的该类物品自动降级为普通玻璃板
+        // 占位玻璃板物品（各分组分割板：材质 *_STAINED_GLASS_PANE 且无配方）：
+        // 不注册为 Slimefun 物品，不再出现在指南中；旧存档遗留的此类物品因 id 未注册而自然失效
         ConfigurationSection itemSec = s.getConfigurationSection("item");
         if (itemSec != null) {
             String mat = itemSec.getString("material", "");
@@ -85,6 +86,11 @@ public final class ItemsLoader {
         ItemGroup g = WT.group(s.getString("item_group"));
         if (g == null) {
             WT.log(effId + ": 物品组 " + s.getString("item_group") + " 缺失，跳过");
+            return false;
+        }
+        // 装饰分隔板组（groups.yml type: button，如 ws_zwf_*）内挂载的占位物品
+        //（PAPER「这就是一个占位符而已」）一律不注册——任何指南里都不出现
+        if (g instanceof DecorativeSubGroup) {
             return false;
         }
         ItemStack display = WT.preload.get(effId.toUpperCase(java.util.Locale.ROOT));

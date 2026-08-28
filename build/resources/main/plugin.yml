@@ -1,0 +1,9 @@
+name: WorldTaste
+version: 1.8.13-standalone
+main: com.haiman233.worldtaste.WorldTastePlugin
+api-version: '1.21'
+author: haiman233
+description: 尘世百味（独立 Slimefun4.1 附属，由 RSC 脚本版改写而来）
+depend: [Slimefun]
+softdepend: [Gastronomicon, ExoticGarden, Cultivation, InfinityExpansion, LogiTech, JustEnoughGuide]
+website: https://github.com/haiman233/WorldTaste
