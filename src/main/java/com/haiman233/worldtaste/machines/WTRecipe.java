@@ -20,23 +20,26 @@ public class WTRecipe extends MachineRecipe {
     private final int[] inSlots;
     /** 每个输出绑定的菜单槽（-1=任意输出槽），用于 linked 机器。 */
     private final int[] outSlots;
+    /** 每个输入每次合成的耐久消耗点数（0=按数量整件消耗，&gt;0=工具类输入按耐久损耗而不消耗物品本身）。 */
+    private final int[] inputDamage;
     /** 每个输入预解析的 Slimefun id（原版输入为 null）；惰性解析（首次 {@link #inputSfId} 时填充）。
      *  供 {@link WTRecipeMachine} 的 SF-id 预筛使用：两端均 SF 且 id 不同时可安全跳过昂贵的
      *  {@code SlimefunUtils.isItemSimilar}（其 both-SF 分支按 id 比较，id 不同必返回 false）。 */
     private String[] inputSfIds;
 
     public WTRecipe(int seconds, ItemStack[] input, ItemStack[] output, int[] chances, boolean chooseOne, boolean[] noConsume) {
-        this(seconds, input, output, chances, chooseOne, noConsume, new int[0], new int[0]);
+        this(seconds, input, output, chances, chooseOne, noConsume, new int[0], new int[0], new int[0]);
     }
 
     public WTRecipe(int seconds, ItemStack[] input, ItemStack[] output, int[] chances, boolean chooseOne,
-                    boolean[] noConsume, int[] inSlots, int[] outSlots) {
+                    boolean[] noConsume, int[] inSlots, int[] outSlots, int[] inputDamage) {
         super(seconds, input, output);
         this.chances = chances;
         this.chooseOne = chooseOne;
         this.noConsume = noConsume;
         this.inSlots = inSlots;
         this.outSlots = outSlots;
+        this.inputDamage = inputDamage;
     }
 
     public int inSlot(int i) {
@@ -73,6 +76,14 @@ public class WTRecipe extends MachineRecipe {
 
     public boolean isNoConsume(int index) {
         return index >= 0 && index < noConsume.length && noConsume[index];
+    }
+
+    /**
+     * 第 i 个输入每次合成消耗的耐久点数（0=按数量整件消耗，&gt;0=工具类输入按耐久损耗，如钓竿）。
+     * 配置缺省或越界返回 0（整件消耗）。
+     */
+    public int inputDamage(int i) {
+        return (inputDamage != null && i >= 0 && i < inputDamage.length) ? inputDamage[i] : 0;
     }
 
     /** 完成时滚动产出并把每个通过项推入其绑定槽（无绑定则推入 freeSlots）。 */

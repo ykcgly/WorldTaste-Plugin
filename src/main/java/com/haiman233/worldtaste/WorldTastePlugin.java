@@ -44,6 +44,6 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
 
     @Override
     public String getBugTrackerURL() {
-        return "https://github.com/haiman233/WorldTaste/issues";
+        return "https://github.com/ykcgly/WorldTaste-Plugin/issues";
     }
 }

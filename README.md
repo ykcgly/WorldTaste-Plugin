@@ -29,9 +29,8 @@
 ## 构建与安装
 
 ```bash
-cd plugin
 ./gradlew build
-# 产物：plugin/build/libs/WorldTaste-1.8.12-standalone.jar
+# 产物：build/libs/WorldTaste-1.8.15-standalone.jar
 ```
 
 1. 将构建出的 jar放入服务器的 `plugins/` 目录。

@@ -38,6 +38,10 @@ public final class Setup {
         Yaml.clearCache();
         // R7：释放头颅贴图(PlayerSkin)去重缓存（Read 仅加载期使用，运行期不再调 Read.item/recipe）。
         Read.clearSkinCache();
+        // R9：释放 preload 展示物品表（数千个 ItemStack）。经核查全部读取方（Read.resolve 的
+        // material_type:slimefun 回退、RegisterConditions 的 itemexist、各 Loader 的展示堆获取）
+        // 均在本次 loadAll 流程内，运行期无引用，可安全释放（长稳省内存）。
+        WT.preload.clear();
         WT.plugin.getLogger().info("基础内容加载完成，耗时 " + (System.currentTimeMillis() - t) + "ms");
     }
 

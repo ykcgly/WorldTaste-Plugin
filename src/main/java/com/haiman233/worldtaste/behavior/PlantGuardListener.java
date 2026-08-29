@@ -22,7 +22,8 @@ import org.bukkit.inventory.ItemStack;
  * <ol>
  *   <li>所有作物种子（{@link CropBlock}）放置校验：显式 plantOn 或按材质推断的种植要求
  *       （耕地/灵魂沙/丛林原木/末地石等原版机制），不满足则取消放置并提示。
- *       悬挂类作物（COCOA）按附着面（Directional 反方向）校验。</li>
+ *       方向性作物（COCOA 等需侧面附着的）必须以侧面附着方式放置且附着方块符合要求，
+ *       地面式放置（如点在原木顶面）无效。</li>
  *   <li>食物（{@link ConsumableItem}）：普通右键=食用（此时取消放置，避免"吃+放"双消耗），
  *       潜行右键=放置——放置时登记进 {@link BlockStorage}，挖掘时 Slimefun 掉落带粘液数据的物品
  *       （持久化于 Slimefun 数据库，爆炸/活塞/水流等破坏路径也由 Slimefun 统一处理）。</li>
@@ -56,11 +57,16 @@ public final class PlantGuardListener implements Listener {
             List<Material> allowed = crop.getPlantOn();
             if (allowed != null && !allowed.isEmpty()) {
                 Block block = e.getBlock();
-                boolean ok = allowed.contains(block.getRelative(BlockFace.DOWN).getType());
-                // 悬挂类作物（如 COCOA）：按附着面校验
-                if (!ok && block.getBlockData() instanceof Directional dir) {
-                    Block attached = block.getRelative(dir.getFacing().getOppositeFace());
-                    ok = allowed.contains(attached.getType());
+                boolean ok;
+                if (crop.isDirectionalCrop()) {
+                    // 方向性作物（如 COCOA，facing 须指向附着的原木）：必须以侧面附着方式放置
+                    // 且附着方块符合 plantOn；地面式放置（如点在原木顶面）无法附着，直接拒绝，
+                    // 否则种子头转换为作物方块后会因附着失效被原版反复破坏
+                    ok = block.getBlockData() instanceof Directional dir
+                            && allowed.contains(block.getRelative(dir.getFacing().getOppositeFace()).getType());
+                } else {
+                    // 地面作物：仅要求脚下方块符合 plantOn（点在支撑侧面放置的悬空种子无效）
+                    ok = allowed.contains(block.getRelative(BlockFace.DOWN).getType());
                 }
                 if (!ok) {
                     e.setCancelled(true);

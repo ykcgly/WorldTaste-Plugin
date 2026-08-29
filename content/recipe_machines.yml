@@ -4943,13 +4943,13 @@ WT_BUYUWANG:
   hideAllRecipes: false
   recipes:
     '1':
-      seconds: 40
+      seconds: 20
       input:
         '1':
           amount: 1
           material_type: mc
           material: FISHING_ROD
-          noConsume: true
+          damage: 1
       output:
         '1':
           material_type: slimefun
@@ -5060,12 +5060,13 @@ WT_BUYUWANG:
       forDisplay: false
       hide: false
     '2':
-      seconds: 40
+      seconds: 20
       input:
         '1':
           amount: 1
           material_type: mc
           material: CARROT_ON_A_STICK
+          damage: 1
       output:
         '1':
           amount: 1
@@ -5106,12 +5107,13 @@ WT_BUYUWANG:
       forDisplay: false
       hide: false
     '3':
-      seconds: 40
+      seconds: 20
       input:
         '1':
           amount: 1
           material_type: mc
           material: WARPED_FUNGUS_ON_A_STICK
+          damage: 1
       output:
         '1':
           amount: 1

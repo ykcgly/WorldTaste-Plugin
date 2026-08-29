@@ -6,6 +6,7 @@ import com.haiman233.worldtaste.guide.BigRecipeMenu;
 import com.haiman233.worldtaste.guide.DecorativeSubGroup;
 import com.haiman233.worldtaste.machines.WTRecipeMachine;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,6 +37,8 @@ public final class JegGuideListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onItemClick(GuideEvents.ItemButtonClickEvent e) {
+        // 作弊模式点击 = 领取物品，不拦截（否则终焉厨锅等大型配方机器无法从指南拿取）
+        if (e.getGuide().getMode() != SlimefunGuideMode.SURVIVAL_MODE) return;
         ItemStack clicked = e.getClickedItem();
         if (clicked == null || clicked.getType().isAir()) return;
         SlimefunItem sf = SlimefunItem.getByItem(clicked);

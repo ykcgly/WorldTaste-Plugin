@@ -87,15 +87,6 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
     public int[] getOutputSlots() { return outputSlots; }
 
     @Override
-    public void postRegister() {
-        super.postRegister();
-        // 配方补全统一走自定义补全按钮（RecipeFillMenu），不再向 JEG 注册配方补全：
-        // JEG Build 205 对绑定槽配方存在循环左移缺陷（填充顺序与 GUI 布局不一致），
-        // 其补全按钮也会与自定义补全按钮重复。JEG 仍保留用于指南配方展示（大配方菜单），
-        // 由 JegHook.openGuide 等按需调用。
-    }
-
-    @Override
     public String getMachineIdentifier() { return getId(); }
 
     @Override
@@ -303,12 +294,16 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         // false（其 both-SF 分支按 id 比较），故跳过不改变匹配结果，仅省去昂贵的 isItemSimilar（内含 2× getByItem）。
         // sfPrune=false 时 slotSfId=null，下方 !(sfPrune && ...) 短路为 true，行为与优化前逐字一致（零回归）。
         String[] slotSfId = sfPrune ? resolveSlotSfIds(slotItems) : null;
+        // 本配方匹配过程中已被占用的输入槽（同一物理槽不允许被多个配方位消耗，除非总量足够——
+        // 现实现保守禁止共享，防止消耗越过实际存量导致吞物品）。
+        boolean[] claimed = new boolean[slotCount];
         for (WTRecipe recipe : recipeList) {
             ItemStack[] inputs = recipe.getInput();
             int n = inputs.length;
             int[] chosen = new int[n];
             int matched = 0;
             boolean failed = false;
+            java.util.Arrays.fill(claimed, false);
             for (int i = 0; i < n; i++) {
                 chosen[i] = -1;
                 ItemStack need = inputs[i];
@@ -317,25 +312,40 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
                 if (bound >= 0) {
                     // 绑定到指定槽：仅检查该槽（posBySlot 覆盖 0..53 GUI 槽；越界或非输入槽 → -1 → failed）
                     int pos = (bound < posBySlot.length) ? posBySlot[bound] : -1;
-                    if (pos < 0) { failed = true; break; }
+                    if (pos < 0 || claimed[pos]) { failed = true; break; }
                     ItemStack in = slotItems[pos];
                     if (in != null && in.getAmount() >= need.getAmount()
                             && !(sfPrune && idCertainlyMismatch(slotSfId[pos], recipe.inputSfId(i)))
                             && SlimefunUtils.isItemSimilar(in, need, true)) {
                         chosen[i] = pos;
+                        claimed[pos] = true;
                         matched++;
                     } else { failed = true; break; }
                 } else {
+                    // 无绑定输入：在所有可满足且未被本配方其它项占用的槽中选「余量最小」的（best-fit），
+                    // 把大堆留给需要更多材料的输入项——修复同物品多条输入（如 [A×1, A×2]）在
+                    // 两条输入都贪心命中同一槽后被 distinct 去重整条误杀的问题
+                    int best = -1;
+                    int bestAmount = Integer.MAX_VALUE;
                     for (int s = 0; s < slotCount; s++) {
+                        if (claimed[s]) continue;
                         ItemStack in = slotItems[s];
-                        if (in != null && in.getAmount() >= need.getAmount()
-                                && !(sfPrune && idCertainlyMismatch(slotSfId[s], recipe.inputSfId(i)))
-                                && SlimefunUtils.isItemSimilar(in, need, true)) {
-                            chosen[i] = s;
-                            matched++;
-                            break;
+                        if (in == null || in.getAmount() < need.getAmount()
+                                || (sfPrune && idCertainlyMismatch(slotSfId[s], recipe.inputSfId(i)))
+                                || !SlimefunUtils.isItemSimilar(in, need, true)) {
+                            continue;
+                        }
+                        if (in.getAmount() < bestAmount) {
+                            best = s;
+                            bestAmount = in.getAmount();
+                            if (bestAmount == need.getAmount()) break; // 完全贴合，不可能更小
                         }
                     }
+                    if (best >= 0) {
+                        chosen[i] = best;
+                        claimed[best] = true;
+                        matched++;
+                    } else { failed = true; break; }
                 }
             }
             if (failed || matched != n) continue;
@@ -422,15 +432,44 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         return true;
     }
 
-    /** 消耗已匹配配方的输入（跳过 noConsume 项与未占用槽位）。 */
+    /** 消耗已匹配配方的输入（跳过 noConsume 项与未占用槽位；damage&gt;0 的工具类输入按耐久损耗）。 */
     protected void consumeMatch(BlockMenu inv, Match m) {
         if (m == null) return;
         ItemStack[] inputs = m.recipe.getInput();
         for (int i = 0; i < inputs.length; i++) {
-            if (!m.recipe.isNoConsume(i) && m.chosen[i] >= 0) {
+            if (m.recipe.isNoConsume(i) || m.chosen[i] < 0) continue;
+            int damage = m.recipe.inputDamage(i);
+            if (damage > 0) {
+                damageTool(inv, inputSlots[m.chosen[i]], damage);
+            } else {
                 inv.consumeItem(inputSlots[m.chosen[i]], inputs[i].getAmount());
             }
         }
+    }
+
+    /**
+     * 工具类输入按耐久消耗：每次合成扣 damage 点耐久而不消耗物品本身（如捕鱼野猎网的各类钓竿）。
+     * 耐久耗尽时工具损坏消失；不可损耗（无耐久上限/无法破坏）的物品既不消耗也不损耗，避免吞工具。
+     * 不可按耐久损耗的物品缺省语义为「不消耗」而非「整件消耗」——工具在机器内是长期驻留的生产资料。
+     */
+    private static void damageTool(BlockMenu inv, int slot, int damage) {
+        ItemStack item = inv.getItemInSlot(slot);
+        if (item == null || item.getType().isAir()) return;
+        org.bukkit.inventory.meta.ItemMeta meta = item.getItemMeta();
+        if (!(meta instanceof org.bukkit.inventory.meta.Damageable damageable)
+                || item.getType().getMaxDurability() <= 0 || meta.isUnbreakable()) {
+            return;
+        }
+        int newDamage = damageable.getDamage() + damage;
+        if (newDamage >= item.getType().getMaxDurability()) {
+            // 耐久耗尽：工具损坏消失
+            inv.replaceExistingItem(slot, null);
+            return;
+        }
+        damageable.setDamage(newDamage);
+        ItemStack updated = item.clone();
+        updated.setItemMeta(damageable);
+        inv.replaceExistingItem(slot, updated);
     }
 
     /** 匹配并消耗输入（tick 路径：操作会在机器内暂存，没电也不会丢输入）。 */

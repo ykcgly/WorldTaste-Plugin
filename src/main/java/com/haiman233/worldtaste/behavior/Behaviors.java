@@ -38,6 +38,9 @@ public final class Behaviors {
         org.bukkit.Bukkit.getPluginManager().registerEvents(BlockDrops.INSTANCE, WT.plugin);
         org.bukkit.Bukkit.getPluginManager().registerEvents(FoodConsumeListener.INSTANCE, WT.plugin);
         org.bukkit.Bukkit.getPluginManager().registerEvents(PlantGuardListener.INSTANCE, WT.plugin);
+        // 紫颂作物定时状态的区块卸载兜底清理（普通作物零状态，无需清理）
+        org.bukkit.Bukkit.getPluginManager().registerEvents(
+                com.haiman233.worldtaste.items.CropBlock.ChorusStateCleanup.INSTANCE, WT.plugin);
         // JEG 大配方菜单（JEG 未安装时静默跳过）
         com.haiman233.worldtaste.jeg.JegGuideListener.register();
     }
@@ -99,7 +102,6 @@ public final class Behaviors {
                 c.material = m != null ? m : Material.WHEAT;
                 c.maxAge = s.getInt("maxAge", 7);
                 c.growMs = s.getLong("growMs", 120000L);
-                c.stages = s.getString("stages", "small");
                 if (s.isList("drops")) {
                     for (Map<?, ?> mm : s.getMapList("drops")) {
                         // 显式校验类型：缺 chance 或非数值曾导致 NPE/CCE 逃出 loadData、

@@ -97,7 +97,7 @@ public final class FishingListener implements Listener {
     /** 按权重随机选 1 个掉落。total 在 load 期预算（消除每次钓获的求和）。 */
     private static Drop select(Bait table) {
         if (table.total <= 0) return null;
-        double r = Math.random() * table.total;
+        double r = java.util.concurrent.ThreadLocalRandom.current().nextDouble() * table.total;
         for (Drop d : table.drops) {
             r -= d.weight;
             if (r <= 0) return d;

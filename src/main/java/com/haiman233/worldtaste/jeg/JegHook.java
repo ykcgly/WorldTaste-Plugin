@@ -1,37 +1,31 @@
 package com.haiman233.worldtaste.jeg;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-
 /**
- * JEG（JustEnoughGuide）集成：为尘世百味的机器注册「配方补全」功能——
- * 玩家在机器 GUI 中可通过 JEG 一键从背包填充输入槽材料。
+ * JEG（JustEnoughGuide）集成：仅负责两件事——
+ * <ul>
+ *   <li>检测 JEG 是否安装（供 {@link JegGuideListener} 决定是否注册指南事件拦截）；</li>
+ *   <li>打开 JEG 指南主菜单（大配方菜单的返回按钮用；反射调用，JEG 未装时静默）。</li>
+ * </ul>
  *
- * <p>全程反射调用，不编译依赖 JEG：JEG 未安装或 API 变更时静默跳过，
- * 不影响本插件任何其他功能。</p>
+ * <p>机器配方补全不集成 JEG 的 RecipeCompletable（曾尝试后弃用）：JEG Build 205 对绑定槽配方
+ * 存在循环左移缺陷（填充顺序与 GUI 布局不一致），其补全按钮也会与自定义补全按钮重复，
+ * 统一走 {@link com.haiman233.worldtaste.guide.RecipeFillMenu} 自定义补全。</p>
  */
 public final class JegHook {
 
-    private static final String REGISTRY_CLASS = "com.balugaq.jeg.api.recipe_complete.RecipeCompletableRegistry";
-
     private JegHook() {}
 
-    /** JEG 是否可用（检测配方补全注册表类是否存在）。 */
+    /** JEG 是否可用（检测其指南事件类是否存在——本插件的 JEG 集成仅依赖事件与指南打开 API）。 */
     public static boolean available() {
         try {
-            Class.forName(REGISTRY_CLASS);
+            Class.forName("com.balugaq.jeg.api.objects.events.GuideEvents");
             return true;
         } catch (Throwable t) {
             return false;
         }
     }
 
-    /**
-     * 注册机器的输入槽为 JEG 配方补全槽位。
-     *
-     * @param item       机器 Slimefun 物品
-     * @param inputSlots 输入槽 GUI 索引（有序填充：绑定槽配方要求精确槽位）
-     */
-    /** 打开 JEG 指南主菜单（大配方菜单返回用；JEG 未安装时静默）。 */
+    /** 打开 JEG 指南主菜单（大配方菜单返回用；JEG 未安装或 API 变更时静默）。 */
     public static void openGuide(org.bukkit.entity.Player p) {
         try {
             Class<?> clazz = Class.forName("com.balugaq.jeg.utils.GuideUtil");
@@ -42,16 +36,6 @@ public final class JegHook {
                     .invoke(null, p, mode, 1);
         } catch (Throwable ignored) {
             // JEG 未安装或 API 变更：静默
-        }
-    }
-
-    public static void registerRecipeCompletable(SlimefunItem item, int[] inputSlots) {
-        try {
-            Class<?> clazz = Class.forName(REGISTRY_CLASS);
-            clazz.getMethod("registerRecipeCompletable", SlimefunItem.class, int[].class, boolean.class)
-                    .invoke(null, item, inputSlots, Boolean.FALSE);
-        } catch (Throwable ignored) {
-            // JEG 未安装或 API 变更：静默跳过
         }
     }
 }

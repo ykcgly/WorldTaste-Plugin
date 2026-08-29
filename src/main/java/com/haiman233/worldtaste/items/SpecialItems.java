@@ -80,11 +80,24 @@ public final class SpecialItems {
                     p.sendMessage("请主手持有相应物品");
                     return;
                 }
-                ItemStack main = p.getInventory().getItemInMainHand();
+                org.bukkit.inventory.PlayerInventory inv = p.getInventory();
+                ItemStack off = inv.getItemInOffHand();
+                if (off != null && SlimefunItem.getByItem(off) != null) {
+                    p.sendMessage("您必须使用主手且副手不能持有粘液科技物品！");
+                    return;
+                }
+                ItemStack main = inv.getItemInMainHand();
                 if (main == null || main.getAmount() <= 0) return;
+                // 先校验瞄准方块再消耗：准星无方块（如望向天空）时不消耗，避免吞物品。
+                // 不用 getTargetBlock(Set,int)：其永不为 null，无目标时返回视野末端空气方块，
+                // 会把巨人凭空生成在半空。
+                Block target = p.getTargetBlockExact(5);
+                if (target == null || target.getType().isAir()) {
+                    p.sendMessage("§c请瞄准 5 格内的方块使用巨人丸！");
+                    return;
+                }
                 // 到 0 必须清空主手槽位，避免 0 数量幽灵物品残留
-                Stacks.consumeOneInMainHand(p.getInventory());
-                Block target = p.getTargetBlock(null, 5);
+                Stacks.consumeOneInMainHand(inv);
                 Location loc = target.getLocation().add(0, 1, 0);
                 loc.getWorld().spawnEntity(loc, EntityType.GIANT);
                 p.getWorld().playSound(p.getLocation(), Sound.ENTITY_STRIDER_EAT, 1f, 1f);

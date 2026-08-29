@@ -73,6 +73,7 @@ public final class RecipeMachineLoader {
                 List<ItemStack> inList = new ArrayList<>();
                 List<Integer> inSlotList = new ArrayList<>();
                 List<Boolean> ncList = new ArrayList<>();
+                List<Integer> dmgList = new ArrayList<>();
                 boolean noConsumeAll = r.getBoolean("noConsume", false);
                 if (inSec != null) {
                     for (String k : inSec.getKeys(false)) {
@@ -83,10 +84,13 @@ public final class RecipeMachineLoader {
                         inList.add(it);
                         inSlotList.add(is.getInt("slot", -1));
                         ncList.add(noConsumeAll || is.getBoolean("noConsume", false));
+                        // damage: 工具类输入（如钓竿）每次合成消耗的耐久点数，缺省 0=整件消耗
+                        dmgList.add(is.getInt("damage", 0));
                     }
                 }
                 ItemStack[] input = inList.toArray(new ItemStack[0]);
                 int[] inSlots = inSlotList.stream().mapToInt(Integer::intValue).toArray();
+                int[] inputDamage = dmgList.stream().mapToInt(Integer::intValue).toArray();
                 boolean[] noConsume = new boolean[ncList.size()];
                 for (int i = 0; i < ncList.size(); i++) noConsume[i] = ncList.get(i);
 
@@ -113,7 +117,7 @@ public final class RecipeMachineLoader {
                     WT.log("配方 " + name + " 输入或输出为空，跳过");
                     continue;
                 }
-                out.add(new WTRecipe(seconds, input, outs.toArray(new ItemStack[0]), ch, chooseOne, noConsume, inSlots, outSlots));
+                out.add(new WTRecipe(seconds, input, outs.toArray(new ItemStack[0]), ch, chooseOne, noConsume, inSlots, outSlots, inputDamage));
             } catch (Exception e) {
                 WT.log("配方 " + name + " 解析失败: " + e);
             }
