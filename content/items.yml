@@ -34444,7 +34444,7 @@ WT_TANGZHI:
 
 WT_YLTISHI:
   item:
-    lore: [§7饮料和陈酿酒不会提供额外的饱和度, §7但是会大幅降低消耗度, §7还可以瞬间回满氧气值, §7请勿和氧气丸同时食用, §7陈酿酒会回复随机饥饿值, §7并给予反胃和伤害吸收效果]
+    lore: [§7饮料和陈酿酒不会提供额外的饱和度, §7但是会大幅降低消耗度, §7还可以瞬间回满氧气值, §7请勿和氧气丸同时食用, §7陈酿酒会回复随机饥饿值, §7并给予反胃和伤害吸收效果, §7酒类饮品含有§b酒精度§7, §7饮用后酒精度会累积, §7达到100将醉酒(联动异域花园)]
     name: §f§l提示
     amount: 1
     material_type: mc
@@ -34742,6 +34742,7 @@ WT_PIJIU:
       material: GLASS_BOTTLE
   placeable: false
   script: yl3
+  alcohol: 12
 WT_BAISHIKL:
   item:
     lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
@@ -34962,6 +34963,7 @@ WT_JLSHPJ:
       amount: 1
   placeable: false
   script: yl4
+  alcohol: 18
 WT_MOZHAO:
   item:
     lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
@@ -35626,6 +35628,7 @@ WT_PINGGUOJIU:
       amount: 1
   placeable: false
   script: yl3
+  alcohol: 15
 
 WT_KEERBISI:
   item:
@@ -35895,6 +35898,7 @@ WT_DAFUPIJIU:
       amount: 1
   placeable: false
   script: yl4
+  alcohol: 12
 WT_HONGNIU:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -36023,6 +36027,7 @@ WT_TAIWANPIJIU:
       amount: 1
   placeable: false
   script: yl4
+  alcohol: 10
 WT_DANNAIJIU:
   item:
     lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
@@ -36071,6 +36076,7 @@ WT_DANNAIJIU:
       material: WATER_BUCKET
   placeable: false
   script: yl3
+  alcohol: 15
 
 WT_CSLJHPZS:
   item:
@@ -36652,6 +36658,7 @@ WT_YIZHAPIJIU:
       material: GLASS_BOTTLE
   placeable: false
   script: yl5
+  alcohol: 15
 WT_YIZHAKUANGQUANSHUI:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37060,6 +37067,7 @@ WT_JIANGSHIJWJ:
       material: GLASS_BOTTLE
   placeable: false
   script: yl4
+  alcohol: 30
 WT_YCJWJ:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37100,6 +37108,7 @@ WT_YCJWJ:
       material: GLASS_BOTTLE
   placeable: false
   script: yl4
+  alcohol: 25
 WT_HONGZHAJIJWJ:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37148,6 +37157,7 @@ WT_HONGZHAJIJWJ:
       material: COCOA_BEANS
   placeable: false
   script: yl4
+  alcohol: 35
 WT_LSLRC:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37188,6 +37198,7 @@ WT_LSLRC:
       material: GLASS_BOTTLE
   placeable: false
   script: yl4
+  alcohol: 30
 WT_LVSEDUYAOJWJ:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37228,6 +37239,7 @@ WT_LVSEDUYAOJWJ:
       material: GLASS_BOTTLE
   placeable: false
   script: yl4
+  alcohol: 35
 WT_XIANGCAIJWJ:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37268,6 +37280,7 @@ WT_XIANGCAIJWJ:
       material: GLASS_BOTTLE
   placeable: false
   script: yl4
+  alcohol: 25
 WT_YELINPIAOXIANGJWJ:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37308,6 +37321,7 @@ WT_YELINPIAOXIANGJWJ:
       material: GLASS_BOTTLE
   placeable: false
   script: yl4
+  alcohol: 28
 WT_NINGMENGJWJ:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37348,6 +37362,7 @@ WT_NINGMENGJWJ:
       material: GLASS_BOTTLE
   placeable: false
   script: yl4
+  alcohol: 25
 WT_YANGLEDUO:
   item:
     lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
@@ -37500,6 +37515,7 @@ WT_KUJING:
       material: GLASS_BOTTLE
   placeable: false
   script: yl4
+  alcohol: 40
 WT_PINGGUONIANG:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37540,6 +37556,7 @@ WT_PINGGUONIANG:
       amount: 1
   placeable: false
   script: yl4
+  alcohol: 18
 WT_QINGRENJIENAICHA:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37740,6 +37757,7 @@ WT_GEWASI:
       material: GLASS_BOTTLE
   placeable: false
   script: yl4
+  alcohol: 10
 WT_YUGUANTOU:
   item:
     lore: ['', §7§o恢复 §b§o5 §7§o点饥饿值]
@@ -37924,6 +37942,7 @@ WT_HAIMANPAIPJ:
       material: ICE
   placeable: false
   script: yl5
+  alcohol: 12
 
 # 甜品 慕斯
 
@@ -79118,6 +79137,7 @@ WT_WULIANGYE:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 55
 WT_GUIZHOUMAOTAI:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79166,6 +79186,7 @@ WT_GUIZHOUMAOTAI:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 60
 WT_SANSHILIHONG:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79214,6 +79235,7 @@ WT_SANSHILIHONG:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 45
 WT_FENJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79262,6 +79284,7 @@ WT_FENJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 50
 WT_GUJINGONGJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79310,6 +79333,7 @@ WT_GUJINGONGJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 50
 WT_GUOJIAO1573:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79358,6 +79382,7 @@ WT_GUOJIAO1573:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 55
 WT_ERGUOTOU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79406,6 +79431,7 @@ WT_ERGUOTOU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 55
 WT_XIFENGJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79454,6 +79480,7 @@ WT_XIFENGJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 50
 WT_FUTEJIA:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79502,6 +79529,7 @@ WT_FUTEJIA:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 60
 WT_QUEJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79550,6 +79578,7 @@ WT_QUEJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 20
 WT_GUANLIYUANLIANG:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79598,6 +79627,7 @@ WT_GUANLIYUANLIANG:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 80
 WT_HAERBINGPIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79646,6 +79676,7 @@ WT_HAERBINGPIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 10
 WT_GUOSUANJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79694,6 +79725,7 @@ WT_GUOSUANJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 15
 WT_BUXIANGZHIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79742,6 +79774,7 @@ WT_BUXIANGZHIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 35
   register:
     conditions:
       - version >= 1.21
@@ -79793,6 +79826,7 @@ WT_HONGJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 25
 WT_PUTAOJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79841,6 +79875,7 @@ WT_PUTAOJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 20
 WT_XIAJIEJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79889,6 +79924,7 @@ WT_XIAJIEJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 40
 WT_YAOJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79937,6 +79973,7 @@ WT_YAOJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 20
 WT_HONGJIUCU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -79985,6 +80022,7 @@ WT_HONGJIUCU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 5
 WT_JINGUOJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80033,6 +80071,7 @@ WT_JINGUOJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 20
 WT_KULOUJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80081,6 +80120,7 @@ WT_KULOUJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 30
 WT_ZAIEJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80129,6 +80169,7 @@ WT_ZAIEJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 55
 WT_XIAJIEHEJINJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80177,6 +80218,7 @@ WT_XIAJIEHEJINJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 65
 WT_MAGELITAJIWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80225,6 +80267,7 @@ WT_MAGELITAJIWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 30
 WT_BUZZBALL:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80273,6 +80316,7 @@ WT_BUZZBALL:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 25
 WT_NAIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80321,6 +80365,7 @@ WT_NAIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 15
 WT_WEISHIJI:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80369,6 +80414,7 @@ WT_WEISHIJI:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 45
 WT_BAIWEIPIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80417,6 +80463,7 @@ WT_BAIWEIPIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 10
 WT_KULIPANAIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80465,6 +80512,7 @@ WT_KULIPANAIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 15
 WT_TAOGUANJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80513,6 +80561,7 @@ WT_TAOGUANJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 30
 WT_JINGYANNIANG:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80561,6 +80610,7 @@ WT_JINGYANNIANG:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 20
 WT_DIANJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80609,6 +80659,7 @@ WT_DIANJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 30
 WT_XINGKONGJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80657,6 +80708,7 @@ WT_XINGKONGJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 35
 WT_BINGJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80705,6 +80757,7 @@ WT_BINGJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 20
 WT_RONGYANJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80753,6 +80806,7 @@ WT_RONGYANJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 45
 WT_MISSINGJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80801,6 +80855,7 @@ WT_MISSINGJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 50
 WT_FAPAOJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80849,6 +80904,7 @@ WT_FAPAOJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 12
 WT_GUOXIANGJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80897,6 +80953,7 @@ WT_GUOXIANGJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 18
 WT_REDAIGUOXIANGJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80945,6 +81002,7 @@ WT_REDAIGUOXIANGJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 18
 WT_MUTONGJINGNIANG:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -80993,6 +81051,7 @@ WT_MUTONGJINGNIANG:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 18
 WT_MOZHIFAPAOJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81041,6 +81100,7 @@ WT_MOZHIFAPAOJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 15
 WT_JIANGXIANGBAIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81089,6 +81149,7 @@ WT_JIANGXIANGBAIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 55
 WT_LONGSHELANLIKOUJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81137,6 +81198,7 @@ WT_LONGSHELANLIKOUJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 40
 WT_HUANGYOUJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81185,6 +81247,7 @@ WT_HUANGYOUJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 20
 WT_JUZIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81233,6 +81296,7 @@ WT_JUZIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 18
 WT_SANZHUANGMAIPI:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81281,6 +81345,7 @@ WT_SANZHUANGMAIPI:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 12
 WT_YENAIJIWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81329,6 +81394,7 @@ WT_YENAIJIWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 25
 WT_QINGJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81377,6 +81443,7 @@ WT_QINGJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 25
 WT_CHUNXIANGGUONIANG:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81425,6 +81492,7 @@ WT_CHUNXIANGGUONIANG:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 20
 WT_DIANLANJIWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81473,6 +81541,7 @@ WT_DIANLANJIWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 25
 WT_CHAXIANGJIWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81521,6 +81590,7 @@ WT_CHAXIANGJIWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 22
 WT_YUMIJIWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81569,6 +81639,7 @@ WT_YUMIJIWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 22
 WT_ZISONGJIWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81617,6 +81688,7 @@ WT_ZISONGJIWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 25
 WT_LAJIAOJIWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81665,6 +81737,7 @@ WT_LAJIAOJIWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 30
 WT_MEIGUIJIWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81713,6 +81786,7 @@ WT_MEIGUIJIWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 22
 WT_AIQINGJIWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81761,6 +81835,7 @@ WT_AIQINGJIWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 25
 WT_BAIJIAOJIWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81809,6 +81884,7 @@ WT_BAIJIAOJIWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 22
 WT_HAIYANGJIWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81857,6 +81933,7 @@ WT_HAIYANGJIWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 25
 WT_LIEJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81905,6 +81982,7 @@ WT_LIEJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 65
 WT_YINGGUANGJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -81953,6 +82031,7 @@ WT_YINGGUANGJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 30
 WT_ERWEIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -82001,6 +82080,7 @@ WT_ERWEIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 40
 WT_JUENIANG:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -82049,6 +82129,7 @@ WT_JUENIANG:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 20
 WT_XIAOCHITANPIJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -82097,6 +82178,7 @@ WT_XIAOCHITANPIJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 10
 WT_JIUGUANJIANIANG:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -82145,6 +82227,7 @@ WT_JIUGUANJIANIANG:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 15
 WT_TUJIAJIU:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -82193,6 +82276,7 @@ WT_TUJIAJIU:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 25
 WT_XIAOMAIJINGNIANG:
   item:
     lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
@@ -82241,6 +82325,7 @@ WT_XIAOMAIJINGNIANG:
       material: WATER_BUCKET
   placeable: false
   script: jiu
+  alcohol: 15
 WT_JIUFENGEBAN:
   item:
     lore: [§7左侧及以上为陈酿酒, §7右侧及以下为果汁]
@@ -98977,9 +99062,8 @@ WT_LUOJISHIPIN_TISHI:
   placeable: false
 WT_MATL114:
   item:
-    lore: ['', §7§o恢复 §b§o9 §7§o点饥饿值和饱和度]
+    lore: ['', §7§o恢复 §b§o9 §7§o点饥饿值和饱和度, '&b据说吃了能学会刷物？']
     name: §d§l马桶乐
-    lore: [&b据说吃了能学会刷物？ ]
     amount: 1
     material_type: skull_hash
     material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNThkOWQ4YTc5MjdmYjg1OWEzMTNmYjAwNjhmMWQzNjhjOWRlZTdkMGFkYWNiYmQzNWZmYTRkOTk4ZmY4OGRlYiJ9fX0=

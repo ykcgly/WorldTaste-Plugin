@@ -3,6 +3,7 @@ package com.haiman233.worldtaste.items;
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.behavior.Behaviors.ConsumableOpts;
 import com.haiman233.worldtaste.behavior.Behaviors.Potion;
+import com.haiman233.worldtaste.hook.ExoticGardenHook;
 import com.haiman233.worldtaste.util.Stacks;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -88,6 +89,9 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
                 if (type != null) p.addPotionEffect(new PotionEffect(type, pt.duration, pt.amplifier, false));
                 else WT.log("未知药水类型: " + pt.type);
             }
+
+            // 异域花园联动：酒类饮品（items.yml alcohol 字段）饮用后累加其酒精度
+            ExoticGardenHook.onDrink(p, this.getId());
 
             if (opts.message != null) p.sendMessage(opts.message);
             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_STRIDER_EAT, 1f, 1f);

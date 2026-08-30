@@ -3,8 +3,10 @@ package com.haiman233.worldtaste.load;
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.behavior.BlockDrops;
 import com.haiman233.worldtaste.guide.DecorativeSubGroup;
+import com.haiman233.worldtaste.hook.ExoticGardenHook;
 import com.haiman233.worldtaste.items.ItemSpec;
 import com.haiman233.worldtaste.items.ScriptItemFactory;
+import com.haiman233.worldtaste.util.Colors;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -99,11 +101,24 @@ public final class ItemsLoader {
             WT.log(effId + ": 无展示物品，跳过");
             return false;
         }
+
+        ItemSpec spec = ItemSpec.from(effId, s);
+        // 酒类饮品（items.yml alcohol 字段）：展示 lore 追加酒精度并登记联动数值。
+        // 修改前先 clone，避免污染 WT.preload 中的共享展示堆（配方引用仍用原堆）。
+        if (spec.alcohol > 0) {
+            display = display.clone();
+            org.bukkit.inventory.meta.ItemMeta meta = display.getItemMeta();
+            java.util.List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
+            lore.add(Colors.c("&7▷▷ &b酒精度: &e" + spec.alcohol));
+            meta.setLore(lore);
+            display.setItemMeta(meta);
+            ExoticGardenHook.register(effId, spec.alcohol);
+        }
+
         SlimefunItemStack sfis = new SlimefunItemStack(effId, display);
         RecipeType rt = RecipeTypes.resolve(s.getString("recipe_type", "NULL"));
         ItemStack[] recipe = Read.recipe(s.getConfigurationSection("recipe"), 9);
 
-        ItemSpec spec = ItemSpec.from(effId, s);
         SlimefunItem item = ScriptItemFactory.create(spec, g, sfis, rt, recipe);
 
         if (spec.vanilla) {

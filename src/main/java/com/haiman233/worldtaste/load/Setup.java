@@ -33,6 +33,8 @@ public final class Setup {
         TemplateLoader.load();
         GeoLoader.load();
         com.haiman233.worldtaste.behavior.Behaviors.registerListeners();
+        // 异域花园酒精度联动：启动期探测并在日志输出联动状态（未装异域花园时降级为风味文本）
+        com.haiman233.worldtaste.hook.ExoticGardenHook.init();
         // R6：所有内容/行为文件加载完毕，释放 Yaml 文件名缓存的解析树（长稳：避免长期持有 ~MB 级解析对象树）。
         // 经核查无 Loader 以字段持久持有 ConfigurationSection，registerListeners 也不再访问 YAML，释放安全。
         Yaml.clearCache();
