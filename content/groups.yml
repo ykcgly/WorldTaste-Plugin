@@ -457,7 +457,7 @@ ws_zwf_2_16:
   lateInit: false
   type: button
   item:
-    material: pink_stained_glass_pane
+    material: yellow_stained_glass_pane
     name: '&a'
   parent: worldtaste
   actions:
@@ -479,6 +479,23 @@ ws_chagongyi:
     name: "&f&k&ld&a&l焙茶工艺&f&k&ld"
     material_type: skull_hash
     material: 2bbfff4d0aafdfe75e6aeedd070e2a487751cf499028670da704ae3aafb5b11b
+# 酿造工艺
+ws_niangzaogongyi:
+  type: sub
+  parent: worldtaste
+  item:
+    name: "&6&k&ld&6&l酿造工艺&6&k&ld"
+    material_type: mc
+    material: CAULDRON
+ws_zwf_2_25:
+  lateInit: false
+  type: button
+  item:
+    material: white_stained_glass_pane
+    name: '&a'
+  parent: worldtaste
+  actions:
+   'none'
 ws_zwf_2_19:
   lateInit: false
   type: button
@@ -520,24 +537,6 @@ ws_zwf_2_23:
   type: button
   item:
     material: white_stained_glass_pane
-    name: '&a'
-  parent: worldtaste
-  actions:
-   'none'
-ws_zwf_2_24:
-  lateInit: false
-  type: button
-  item:
-    material: white_stained_glass_pane
-    name: '&a'
-  parent: worldtaste
-  actions:
-   'none'
-ws_zwf_2_25:
-  lateInit: false
-  type: button
-  item:
-    material: pink_stained_glass_pane
     name: '&a'
   parent: worldtaste
   actions:

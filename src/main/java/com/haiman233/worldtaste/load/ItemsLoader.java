@@ -6,17 +6,21 @@ import com.haiman233.worldtaste.guide.DecorativeSubGroup;
 import com.haiman233.worldtaste.hook.ExoticGardenHook;
 import com.haiman233.worldtaste.items.ItemSpec;
 import com.haiman233.worldtaste.items.ScriptItemFactory;
+import com.haiman233.worldtaste.machines.PowerConsumer;
 import com.haiman233.worldtaste.util.Colors;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * 加载物品类配置。items.yml（消耗品/食材/装饰）与 machines.yml（脚本驱动的可放置物品，多为作物）结构一致，
@@ -121,6 +125,13 @@ public final class ItemsLoader {
 
         SlimefunItem item = ScriptItemFactory.create(spec, g, sfis, rt, recipe);
 
+        // 耗电/储电物品（EnergyNetComponent）：展示 lore 追加储电容量与耗电量。
+        // 数值取自各机器类常量（EnergyNetComponent#getCapacity + PowerConsumer#getConsumption），
+        // 改 Java 常量即自动同步，无需在 yml 里再维护一份（也避免两边写不一致）。
+        if (item instanceof EnergyNetComponent comp) {
+            appendEnergyLore(sfis, comp, item);
+        }
+
         if (spec.vanilla) {
             try { item.setUseableInWorkbench(true); } catch (Throwable ignored) {}
         }
@@ -135,6 +146,26 @@ public final class ItemsLoader {
         }
 
         return true;
+    }
+
+    /**
+     * 给耗电/储电物品追加电量信息 lore。
+     *
+     * <p>必须在 {@code item.register()} 之前调用：注册后 {@link SlimefunItemStack} 会被 locked，
+     * 再 setItemMeta 会抛异常。{@code SlimefunItemStack#setItemMeta} 已重写并会刷新内部
+     * ItemMetaSnapshot，故指南/配方里读到的也是带电量行的新 lore。</p>
+     */
+    private static void appendEnergyLore(SlimefunItemStack sfis, EnergyNetComponent comp, SlimefunItem item) {
+        ItemMeta meta = sfis.getItemMeta();
+        if (meta == null) return;
+        List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
+        lore.add(Colors.c("&7▷▷ &e储电容量: &e" + comp.getCapacity() + " J"));
+        if (comp.getEnergyComponentType() == EnergyNetComponentType.CONSUMER
+                && item instanceof PowerConsumer consumer && consumer.getConsumption() > 0) {
+            lore.add(Colors.c("&7▷▷ &c运行时耗电: &c" + consumer.getConsumption() + " J/刻"));
+        }
+        meta.setLore(lore);
+        sfis.setItemMeta(meta);
     }
 
     /** 解析 drop_amount（支持 "1" 或 "1-3" 区间），返回 {min,max}，由 BlockDrops 每次掉落时掷。 */

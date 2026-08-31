@@ -12,6 +12,8 @@
 - 但是可以保证的是，已经在本地测试服经过一段时间的测试，目前没有遇到其他bug
 - 如果遇到问题，欢迎加我的qq`1424136122`或者提issue反馈，我会尽力解决
 
+jar版本依然保留了原版rsc的yml配置文件，可以将jar后缀改为zip后打开即可看到。继承了rsc的易编辑性！
+
 ## 下载
 
 [![构建状态](https://builds.guizhanss.com/api/badge/ykcgly/WorldTaste-Plugin/master/latest)](https://builds.guizhanss.com/ykcgly/WorldTaste-Plugin/master)
@@ -30,7 +32,7 @@
 
 ```bash
 ./gradlew build
-# 产物：build/libs/WorldTaste-1.8.17-standalone.jar
+# 产物：build/libs/WorldTaste-1.8.18-standalone.jar
 ```
 
 1. 将构建出的 jar放入服务器的 `plugins/` 目录。
@@ -45,6 +47,7 @@
 - **屠宰**：为各类生物添加对应的肉与食材掉落。
 - **其他**：厨房装饰，以及愚人节 / 无尽贪婪主题餐饮。
 - **酒精度联动**：与异域花园（ExoticGarden·复合花园）联动，全部酒类饮品标注酒精度，饮用后累积到异域花园的酒精系统（50 半醉提示、100 醉酒胡言乱语，随时间缓慢醒酒）。未安装异域花园时仅展示数值，不影响游戏。
+- **酿造工艺**：新增主题餐饮--酿造工艺：配方在 juicer.yml 中定义。
 
 ## 致谢
 

@@ -621,24 +621,6 @@ WORLDTASTE_ZWF_2_23:
     material: PAPER
   placeable: false
   recipe_type: 'NULL'
-WORLDTASTE_ZWF_2_24:
-  item_group: ws_zwf_2_24
-  item:
-    name: "&f&l这就是一个占位符而已"
-    lore:
-      - '&6&l这就是一个占位符而已'
-    material: PAPER
-  placeable: false
-  recipe_type: 'NULL'
-WORLDTASTE_ZWF_2_25:
-  item_group: ws_zwf_2_25
-  item:
-    name: "&f&l这就是一个占位符而已"
-    lore:
-      - '&6&l这就是一个占位符而已'
-    material: PAPER
-  placeable: false
-  recipe_type: 'NULL'
 WORLDTASTE_ZWF_2_26:
   item_group: ws_zwf_2_26
   item:
@@ -107925,3 +107907,15 @@ WT_ZHUTOUROU:
       amount: 1
   placeable: false
   script: '15'
+
+# 果渣（榨汁完成后按投入总数掉落，可食用）
+WT_GUOZHA:
+  item:
+    name: '&7果渣'
+    amount: 1
+    material_type: mc
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTFlMWZkYWFjZmUxYTQ2NThmODU2MmY1NDIwYjc4ZWQ5ZjY4YTY3ZGJhMjI2ZmE1MzRmMTkxZDJjZmVmNWI3MiJ9fX0=
+  item_group: ws_niangzaogongyi
+  recipe_type: 'NULL'
+  placeable: false
+  script: "1"

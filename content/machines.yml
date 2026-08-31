@@ -2610,3 +2610,39 @@ WT_SEED_WUJIN:
   register:
     conditions:
        - "hasplugin InfinityExpansion"
+
+# 榨汁盆（合成配方与说明待补）
+WT_ZHAPEN:
+  item:
+    name: '&6&l榨汁盆'
+    amount: 1
+    material_type: mc
+    material: CAULDRON
+  item_group: ws_niangzaogongyi
+  recipe_type: 'NULL'
+  placeable: true
+  script: zhapen
+
+# 酒窖多方块核心（配方待定）
+WT_JIUJIAO:
+  item:
+    name: '&6&l酒窖管理器'
+    amount: 1
+    material_type: mc
+    material: BREWING_STAND
+  item_group: ws_niangzaogongyi
+  recipe_type: 'NULL'
+  placeable: true
+  script: jiujiao
+
+# 温度控制器（酒窖配套，无 UI，配方待定）
+WT_WENDU:
+  item:
+    name: '&b&l温度控制器'
+    amount: 1
+    material_type: mc
+    material: WAXED_COPPER_BLOCK
+  item_group: ws_niangzaogongyi
+  recipe_type: 'NULL'
+  placeable: true
+  script: wendu

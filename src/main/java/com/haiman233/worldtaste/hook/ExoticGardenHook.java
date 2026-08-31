@@ -91,13 +91,21 @@ public final class ExoticGardenHook {
     }
 
     /**
-     * 饮用酒类后累加异域花园酒精度，并按异域花园阈值提示（对齐 CustomWine：50~99 半醉、>=100 醉酒+胡言乱语）。
+     * 饮用酒类后累加异域花园酒精度（按物品 id 查表）。
      * 非酒类物品（无登记数值）或联动不可用时为无副作用空操作。
      */
     public static void onDrink(Player p, String itemId) {
         Integer amount = itemId == null ? null : alcoholValues.get(itemId);
         if (amount == null || amount <= 0) return;
-        if (!available()) return;
+        addAlcoholDirect(p, amount);
+    }
+
+    /**
+     * 直接累加玩家酒精度（酒窖果酒饮用等），并按异域花园阈值提示
+     * （对齐 CustomWine：50~99 半醉、>=100 醉酒+胡言乱语）。
+     */
+    public static void addAlcoholDirect(Player p, int amount) {
+        if (amount <= 0 || !available()) return;
         try {
             Object eg = instanceField.get(null);
             if (eg == null) return;

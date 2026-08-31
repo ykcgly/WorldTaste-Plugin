@@ -1,0 +1,105 @@
+# 榨汁盆配置表（WT_ZHAPEN，机器位于 酿造工艺 分组）
+#
+# ===== 全局设置 =====
+# 是否在踩踏产物的 lore 末尾追加榨汁信息；false = 不追加
+player-names: true
+# 榨汁信息 lore 行格式（player-names: true 时生效，支持 & 颜色代码）
+# 占位符：%playername% = 参与榨汁的玩家名（多人以「、」分隔），%time% = 榨好时间
+player-names-format: '&8[&6榨汁盆&8] &7榨汁师: &f%playername% &7(&b%time%&7)'
+# 是否启用铁砧损耗：false = 铁砧砸落后永不损坏（留在盆顶，可回收再用）
+#                   true  = 每次砸落按下方概率降低铁砧耐久（ANVIL→CHIPPED→DAMAGED→碎裂）
+anvil-damage: true
+# 铁砧损耗概率（1~10，数字越大越容易损坏，实际概率 = 数值/10，每次砸落判定一次）
+anvil-damage-chance: 3
+# 糖分→酒精度转化比率（酒窖酿造：最终酒精度 = 总糖分 × 比率 + 酒曲加成）
+sugar-alcohol-ratio: 0.5
+# 陈化每游戏日（24 分钟）酒精度增长百分比区间，格式 min~max（实际增长 = 当前酒精度 × 随机区间值）
+aging-growth: 0.05~0.15
+# 陈酿果酒 lore 信息行格式（&颜色代码；占位符 %players% 榨汁玩家、%contents% 组成果汁、%alcohol% 酒精度）
+wine-lore-format: '&8[&6酒窖&8] &7榨汁师: &f%players% &7| &b%contents% &7| &c酒精度: &e%alcohol%°' 
+
+# ===== 可混合配置 =====
+# recipes: 可混合材料列表（材质名或粘液物品 id）。配方全部不匹配时，盆内全部为可混合
+#          材料的组合会进入混合榨汁（同样需要踩踏 progress 次），水量恒为 3 份。
+# 瓶子（玻璃瓶）每次接取 1 份，含水等级 -1；桶仅满盆时可一次接取全部并清空，
+# 未满时提示「这个盆不是满的」。混合产物 lore 标注内容物（含数量）；桶装产物禁止倒出。
+mix:
+  recipes:
+    - APPLE
+    - SWEET_BERRIES
+  progress: 10
+  bottle:
+    material: POTION
+    name: '&f&l混合果汁'
+    lore: ['&7多种水果混合榨取']
+  bucket:
+    material: WATER_BUCKET
+    name: '&f&l混合果汁桶'
+    lore: ['&7满满一桶混合果汁']
+
+# ===== 配方（多材料 + 数量）=====
+#   ingredient  投入物列表，每行「id:数量」（id 为材质名或粘液物品 id，数量缺省 1）
+#   type        进度类型：player = 玩家站在盆内跳跃踩踏（每次 +1）；
+#               anvil = 铁砧砸在盆顶（每次 +4）
+#   progress    总进度（动作栏显示 当前/总进度）
+#   yield       配方单份的接取份数（1~3，默认 3；配方按投入数量的整数倍成比例产出：
+#               例「1 苹果 yield 1」→ 投 2 个苹果榨出 2 水位 2 份苹果汁；
+#               非(倍)数匹配且全部可混合时走混合配方）
+#   result      每份产物：与 items.yml 的 item 段同构（material_type/material/name/lore/amount）
+#   bucket      可选：桶装形态产物模板。缺省自动生成「桶装<产物名>」（lore 与瓶装一致，
+#               禁止倒出）；满盆用桶一次接取全部时获得
+#
+# 榨汁完成时按投入材料总数量掉落「果渣」（可食用，+1 饱食度）。
+# 配方在开始榨汁（首次踩踏/砸落）时才锁定，锁定后不可再投入。
+PINGGUO_ZHAPEN:
+  ingredient:
+    - APPLE:1
+  type: player
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l苹果汁'
+    lore: ['&7新鲜的苹果汁']
+    amount: 1
+
+JIANGGUO_ZHAPEN:
+  ingredient:
+    - SWEET_BERRIES:3
+  type: player
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&d&l莓果汁'
+    lore: ['&7酸甜的浆果汁']
+    amount: 1
+
+# 多材料配方示例（取消注释即可启用：2 苹果 + 2 甜浆果）：
+#HUNHE_ZHAPEN:
+#  ingredient:
+#    - APPLE:2
+#    - SWEET_BERRIES:2
+#  type: player
+#  progress: 8
+#  yield: 3
+#  result:
+#    material_type: mc
+#    material: HONEY_BOTTLE
+#    name: '&a&l果园汁'
+#    amount: 1
+
+# 铁砧配方示例（取消注释即可启用）：
+#PUTAOTI_ZHAPEN:
+#  ingredient:
+#    - WT_PUTAOTI:2
+#  type: anvil
+#  progress: 8
+#  yield: 2
+#  result:
+#    material_type: mc
+#    material: HONEY_BOTTLE
+#    name: '&5&l葡萄汁'
+#    amount: 1

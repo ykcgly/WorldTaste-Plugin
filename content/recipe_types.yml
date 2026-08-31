@@ -268,3 +268,10 @@ WUWEI_BUYUNPING:
     - '&7需要使用捕云瓶捕云'
   material_type: skull_hash
   material: e237527b575f7215416749d64b4fcbb0647444721df2a988fca0feb54b8ff924
+
+WUWEI_ZHAPEN:
+  lateInit: false
+  name: '&6&l榨汁盆'
+  lore:
+    - '&7该物品需要在榨汁盆中制作'
+  material: CAULDRON

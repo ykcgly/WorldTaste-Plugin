@@ -25,6 +25,11 @@ public final class Setup {
         com.haiman233.worldtaste.behavior.Behaviors.loadData();
         ItemsLoader.load();
         FoodsLoader.load();
+        // 榨汁盆配方（产物/投入物可引用已注册物品，须在物品注册后加载）
+        JuicerLoader.load();
+        // 糖分值配置（材料 id → 糖分，运行期读取）
+        SugarLoader.load();
+                com.haiman233.worldtaste.machines.WineBottle.register(WT.group("ws_niangzaogongyi"));
         MobDropsLoader.load();
         MenuLoader.load();
         RecipeMachineLoader.load();

@@ -3,6 +3,9 @@ package com.haiman233.worldtaste.items;
 import com.haiman233.worldtaste.behavior.Behaviors;
 import com.haiman233.worldtaste.behavior.Behaviors.ConsumableOpts;
 import com.haiman233.worldtaste.behavior.Behaviors.CropCfg;
+import com.haiman233.worldtaste.machines.JuicerBasin;
+import com.haiman233.worldtaste.machines.TemperatureController;
+import com.haiman233.worldtaste.machines.WineCellarManager;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -35,6 +38,11 @@ public final class ScriptItemFactory {
                 if (rad != null) return new AttributeItems.RadioactiveConsumable(group, sfis, rt, recipe, opts, rad);
                 return new ConsumableItem(group, sfis, rt, recipe, opts);
             }
+            // 榨汁盆（machines.yml script: zhapen）：交互式方块机器
+            if ("zhapen".equals(spec.script)) return new JuicerBasin(group, sfis, rt, recipe);
+            // 酒窖多方块：管理器（核心，带校验交互）+ 温度控制器（无 UI 能源方块）
+            if ("jiujiao".equals(spec.script)) return new WineCellarManager(group, sfis, rt, recipe);
+            if ("wendu".equals(spec.script)) return new TemperatureController(group, sfis, rt, recipe);
             SlimefunItem special = SpecialItems.create(spec.id, group, sfis, rt, recipe, spec.script);
             if (special != null) return special;
         }
