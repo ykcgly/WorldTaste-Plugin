@@ -12,7 +12,6 @@ import java.util.UUID;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /**
@@ -34,27 +33,27 @@ public final class WineCellarState {
 
     public enum Mode { BREW, AGE }
 
-    /** 液体批次：同组成同糖分的单位合并。 */
+    /** 液体批次：同组成同糖分的单位合并（组成支持分数，如混合果汁每单位 2/3 苹果）。 */
     public static final class Liquid {
-        private final Map<String, Integer> contents; // ref -> 数量
+        private final Map<String, Double> contents; // ref → 每单位数量
         private final int sugarPerUnit;
         private int units;
         private final Set<String> players;
 
-        Liquid(Map<String, Integer> contents, int sugarPerUnit, int units, Set<String> players) {
+        Liquid(Map<String, Double> contents, int sugarPerUnit, int units, Set<String> players) {
             this.contents = contents;
             this.sugarPerUnit = sugarPerUnit;
             this.units = units;
             this.players = players;
         }
 
-        public Map<String, Integer> contents() { return contents; }
+        public Map<String, Double> contents() { return contents; }
         public int sugarPerUnit() { return sugarPerUnit; }
         public int units() { return units; }
         public Set<String> players() { return players; }
 
         String key() {
-            return JuicerRecipe.joinContents(contents) + "|" + sugarPerUnit;
+            return JuicerRecipe.joinContentsFractional(contents) + "|" + sugarPerUnit;
         }
     }
 
@@ -68,7 +67,14 @@ public final class WineCellarState {
     private String placerName;
     private UUID placerId;
     private final List<Liquid> liquids = new ArrayList<>();
-    private int units;
+    private int juiceUnits;  // 果汁单位数（不含清水）
+    private int waterUnits;  // 清水单位数（稀释用）
+    private String cellarRecipe; // 锁定的酒窖配方 key（null = 通用酒精流程）
+    private int cellarMultiplier = 1;
+    private boolean autoAge; // 自动陈化：酿造完成后直接进入陈化
+    private String ownerName; // 放置酒窖的玩家（命名权限）
+    private UUID ownerId;
+    private String cellarName; // 玩家设定的酒窖名（颜色代码已翻译，null = 未命名）
 
     // ===== 访问器 =====
     public Phase phase() { return phase; }
@@ -85,10 +91,49 @@ public final class WineCellarState {
     public String yeast() { return yeast; }
     public void yeast(String yeast) { this.yeast = yeast; }
     public UUID placerId() { return placerId; }
-    public int units() { return units; }
+    public int units() { return juiceUnits + waterUnits; }
+    public int juiceUnits() { return juiceUnits; }
+    public int waterUnits() { return waterUnits; }
+    public String cellarRecipe() { return cellarRecipe; }
+    public int cellarMultiplier() { return cellarMultiplier; }
+    public boolean autoAge() { return autoAge; }
+    public void autoAge(boolean v) { autoAge = v; }
+    public String ownerName() { return ownerName; }
+    public UUID ownerId() { return ownerId; }
+    public String cellarName() { return cellarName; }
+    public void cellarName(String v) { cellarName = v; }
+
+    /** 记录酒窖归属（放置者）；已有归属时不覆盖。 */
+    public void setOwner(Player p) {
+        if (ownerId != null || p == null) return;
+        ownerId = p.getUniqueId();
+        ownerName = p.getName();
+    }
+
+    /** 该玩家是否为酒窖归属者（未记录归属时返回 false，由调用方决定回退策略）。 */
+    public boolean isOwner(Player p) {
+        return p != null && ownerId != null && ownerId.equals(p.getUniqueId());
+    }
+
+    /** 锁定酒窖配方（酿造开始时比例匹配）。 */
+    public void setCellarRecipe(String key, int multiplier) {
+        this.cellarRecipe = key;
+        this.cellarMultiplier = multiplier;
+    }
+
+    /** 加入清水（稀释：不增加糖分，摊薄单位糖分；已含酒精时同步摊薄酒精度）。 */
+    public void addWater(int n) {
+        int before = units();
+        waterUnits += n;
+        int after = units();
+        if (alcohol > 0 && before > 0 && after > before) {
+            alcohol = alcohol * before / after;
+        }
+    }
+
     public List<Liquid> liquids() { return liquids; }
     public boolean hasAlcohol() { return alcohol > 0; }
-    public boolean canAccept(int add) { return units + add <= CAPACITY; }
+    public boolean canAccept(int add) { return units() + add <= CAPACITY; }
 
     /** 游戏日时长（陈化增长里程碑）。 */
     public static final long GAME_DAY_MS = 24 * 60_000L;
@@ -108,40 +153,40 @@ public final class WineCellarState {
         this.placerId = p.getUniqueId();
     }
 
-    /** 投入液体（同组成同糖分合并，榨汁师并集）。 */
-    public void addLiquid(Map<String, Integer> contents, int sugarPerUnit, int add, String player) {
-        String key = JuicerRecipe.joinContents(contents) + "|" + sugarPerUnit;
+    /** 投入液体（同组成同糖分合并，榨汁师并集；组成支持分数）。 */
+    public void addLiquid(Map<String, Double> contents, int sugarPerUnit, int add, String player) {
+        String key = JuicerRecipe.joinContentsFractional(contents) + "|" + sugarPerUnit;
         for (Liquid lq : liquids) {
             if (lq.key().equals(key)) {
                 lq.units += add;
                 if (player != null && !player.isEmpty()) lq.players.add(player);
-                units += add;
+                juiceUnits += add;
                 return;
             }
         }
         Set<String> players = new LinkedHashSet<>();
         if (player != null && !player.isEmpty()) players.add(player);
-        liquids.add(new Liquid(new LinkedHashMap<>(contents), sugarPerUnit, add, players));
-        units += add;
+        liquids.add(new Liquid(new LinkedHashMap<>(contents), sugarPerUnit, add, players));        juiceUnits += add;
     }
 
-    /** 出酒消耗 1 单位。 */
+    /** 出酒消耗 1 单位（优先消耗果汁单位，其次清水）。 */
     public void drainUnit() {
         for (Liquid lq : liquids) {
             if (lq.units > 0) {
                 lq.units--;
-                units--;
+                juiceUnits--;
                 return;
             }
         }
+        if (waterUnits > 0) waterUnits--;
     }
 
-    /** 全部液体合并后的组成（ref → 数量）。 */
-    public Map<String, Integer> contentsOfAll() {
-        Map<String, Integer> all = new LinkedHashMap<>();
+    /** 全部液体合并后的组成（ref → 每单位数量之和；支持分数）。 */
+    public Map<String, Double> contentsOfAll() {
+        Map<String, Double> all = new LinkedHashMap<>();
         for (Liquid lq : liquids) {
-            for (Map.Entry<String, Integer> e : lq.contents().entrySet()) {
-                all.merge(e.getKey(), e.getValue(), Integer::sum);
+            for (Map.Entry<String, Double> e : lq.contents().entrySet()) {
+                all.merge(e.getKey(), e.getValue(), Double::sum);
             }
         }
         return all;
@@ -164,7 +209,8 @@ public final class WineCellarState {
     /** 清空液体与酒曲（污染恢复/出酒完毕）。 */
     public void clear() {
         liquids.clear();
-        units = 0;
+        juiceUnits = 0;
+        waterUnits = 0;
         yeast = null;
         alcohol = 0;
         elapsedMs = 0;
@@ -175,11 +221,20 @@ public final class WineCellarState {
         placerId = null;
     }
 
+    /** 彻底重置（多方块结构被破坏）：连归属者与酒窖名一并清除，原位重放不残留。 */
+    public void clearIdentity() {
+        clear();
+        ownerName = null;
+        ownerId = null;
+        cellarName = null;
+    }
+
     /** 酿造中报废。 */
     public void contaminate() {
         phase = Phase.CONTAMINATED;
         liquids.clear();
-        units = 0;
+        juiceUnits = 0;
+        waterUnits = 0;
         yeast = null;
         alcohol = 0;
     }
@@ -201,18 +256,29 @@ public final class WineCellarState {
         STATES.remove(b.getLocation());
     }
 
-    /** 持久化当前状态（每次变更后调用）。 */
+    /**
+     * 持久化当前状态（每次变更后调用）。
+     * V2 格式：版本标记 + 头部 16 字段（到 cellarName）+ 各液体批次 4 字段（units|sugar|players|contents）。
+     */
     public void save(Block b) {
         StringBuilder sb = new StringBuilder();
-        sb.append(phase.name()).append('|').append(mode.name()).append('|').append(elapsedMs)
+        sb.append("V2|")
+          .append(phase.name()).append('|').append(mode.name()).append('|').append(elapsedMs)
           .append('|').append(durationMs).append('|').append(alcohol).append('|').append(nextGrowthAt)
           .append('|').append(yeast == null ? "" : yeast)
           .append('|').append(placerName == null ? "" : placerName)
-          .append('|').append(placerId == null ? "" : placerId);
+          .append('|').append(placerId == null ? "" : placerId)
+          .append('|').append(waterUnits)
+          .append('|').append(cellarRecipe == null ? "" : cellarRecipe)
+          .append('|').append(cellarMultiplier)
+          .append('|').append(autoAge)
+          .append('|').append(ownerName == null ? "" : ownerName)
+          .append('|').append(ownerId == null ? "" : ownerId)
+          .append('|').append(cellarName == null ? "" : cellarName);
         for (Liquid lq : liquids) {
             sb.append(';').append(lq.units).append('|').append(lq.sugarPerUnit).append('|')
               .append(String.join("~", lq.players)).append('|')
-              .append(JuicerRecipe.joinContents(lq.contents));
+              .append(JuicerRecipe.joinContentsFractional(lq.contents));
         }
         BlockStorage.addBlockInfo(b, "wt-cellar-data", sb.toString());
     }
@@ -220,35 +286,86 @@ public final class WineCellarState {
     private static void deserialize(WineCellarState st, String data) {
         if (data == null || data.isEmpty()) return;
         String[] parts = data.split("\\|", -1);
-        if (parts.length < 9) return;
         try {
-            st.phase = Phase.valueOf(parts[0]);
-            st.mode = Mode.valueOf(parts[1]);
-            st.elapsedMs = Long.parseLong(parts[2]);
-            st.durationMs = Long.parseLong(parts[3]);
-            st.alcohol = Double.parseDouble(parts[4]);
-            st.nextGrowthAt = Long.parseLong(parts[5]);
-            st.yeast = parts[6].isEmpty() ? null : parts[6];
-            st.placerName = parts[7].isEmpty() ? null : parts[7];
-            st.placerId = parts[8].isEmpty() ? null : UUID.fromString(parts[8]);
-            int i = 9;
-            while (i + 4 <= parts.length) {
-                Map<String, Integer> contents = JuicerRecipe.parseContents(parts[i + 3]);
-                Set<String> players = new LinkedHashSet<>();
-                for (String n : parts[i + 2].split("~")) {
-                    if (!n.isEmpty()) players.add(n);
-                }
-                st.liquids.add(new Liquid(contents, Integer.parseInt(parts[i + 1]),
-                        Integer.parseInt(parts[i]), players));
-                i += 4;
+            if (parts.length >= 17 && parts[0].equals("V2")) {
+                st.phase = Phase.valueOf(parts[1]);
+                st.mode = Mode.valueOf(parts[2]);
+                st.elapsedMs = Long.parseLong(parts[3]);
+                st.durationMs = Long.parseLong(parts[4]);
+                st.alcohol = Double.parseDouble(parts[5]);
+                st.nextGrowthAt = Long.parseLong(parts[6]);
+                st.yeast = parts[7].isEmpty() ? null : parts[7];
+                st.placerName = parts[8].isEmpty() ? null : parts[8];
+                st.placerId = parts[9].isEmpty() ? null : UUID.fromString(parts[9]);
+                st.waterUnits = Integer.parseInt(parts[10]);
+                st.cellarRecipe = parts[11].isEmpty() ? null : parts[11];
+                st.cellarMultiplier = Integer.parseInt(parts[12]);
+                st.autoAge = Boolean.parseBoolean(parts[13]);
+                st.ownerName = parts[14].isEmpty() ? null : parts[14];
+                st.ownerId = parts[15].isEmpty() ? null : UUID.fromString(parts[15]);
+                st.cellarName = parts[16].isEmpty() ? null : parts[16];
+                parseLiquids(st, parts, 17);
+            } else {
+                parseLegacy(st, parts);
             }
-            st.units = 0;
-            for (Liquid lq : st.liquids) st.units += lq.units;
         } catch (Exception ex) {
             WT.log("酒窖状态解析失败，已重置: " + ex);
             st.phase = Phase.IDLE;
+            st.mode = Mode.BREW;
             st.liquids.clear();
-            st.units = 0;
+            st.juiceUnits = 0;
+            st.waterUnits = 0;
+            st.alcohol = 0;
+            st.yeast = null;
+            st.elapsedMs = 0;
+            st.durationMs = 0;
+            st.nextGrowthAt = 0;
+            st.cellarRecipe = null;
+            st.cellarMultiplier = 1;
         }
+    }
+
+    /** 从 from 下标起按 4 字段一批解析液体批次，并重算果汁单位数。 */
+    private static void parseLiquids(WineCellarState st, String[] parts, int from) {
+        int i = from;
+        while (i + 4 <= parts.length) {
+            Map<String, Double> contents = JuicerRecipe.parseContentsFractional(parts[i + 3]);
+            Set<String> players = new LinkedHashSet<>();
+            for (String n : parts[i + 2].split("~")) {
+                if (!n.isEmpty()) players.add(n);
+            }
+            st.liquids.add(new Liquid(contents, Integer.parseInt(parts[i + 1]),
+                    Integer.parseInt(parts[i]), players));
+            i += 4;
+        }
+        st.juiceUnits = 0;
+        // juiceUnits 由液体批次重新累加；waterUnits 不能清零——新格式已在前面解析出
+        for (Liquid lq : st.liquids) st.juiceUnits += lq.units;
+    }
+
+    /** 旧格式（无版本标记）兼容解析：9 字段头部，12 字段起含水单位/配方锁定，13 字段起含自动陈化。 */
+    private static void parseLegacy(WineCellarState st, String[] parts) {
+        if (parts.length < 9) return;
+        st.phase = Phase.valueOf(parts[0]);
+        st.mode = Mode.valueOf(parts[1]);
+        st.elapsedMs = Long.parseLong(parts[2]);
+        st.durationMs = Long.parseLong(parts[3]);
+        st.alcohol = Double.parseDouble(parts[4]);
+        st.nextGrowthAt = Long.parseLong(parts[5]);
+        st.yeast = parts[6].isEmpty() ? null : parts[6];
+        st.placerName = parts[7].isEmpty() ? null : parts[7];
+        st.placerId = parts[8].isEmpty() ? null : UUID.fromString(parts[8]);
+        int i = 9;
+        if (parts.length >= 12) {
+            st.waterUnits = Integer.parseInt(parts[9]);
+            st.cellarRecipe = parts[10].isEmpty() ? null : parts[10];
+            st.cellarMultiplier = Integer.parseInt(parts[11]);
+            i = 12;
+        }
+        if (parts.length >= 13) {
+            st.autoAge = Boolean.parseBoolean(parts[12]);
+            i = 13;
+        }
+        parseLiquids(st, parts, i);
     }
 }

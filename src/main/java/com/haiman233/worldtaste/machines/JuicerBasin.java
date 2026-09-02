@@ -146,6 +146,8 @@ public class JuicerBasin extends SlimefunItem {
             public void onPlayerBreak(BlockBreakEvent e, ItemStack tool, List<ItemStack> drops) {
                 BasinState st = STATES.remove(e.getBlock().getLocation());
                 unindexState(e.getBlock().getWorld(), e.getBlock().getX(), e.getBlock().getY(), e.getBlock().getZ());
+                // 空盆负缓存一并清除，防止原位重放新盆时状态读取被跳过
+                EMPTY_KNOWN.remove(e.getBlock().getLocation());
                 if (st != null) removeDisplays(st);
             }
 
@@ -745,7 +747,8 @@ public class JuicerBasin extends SlimefunItem {
                 int perDose = st.dosesMax > 0 ? st.totalSugar / st.dosesMax : 0;
                 give(p, st.recipe != null
                         ? st.recipe.buildResult(st.players, st.completedAt, perDose)
-                        : JuicerRecipe.buildMixProduct(false, st.contents, st.players, st.completedAt, perDose));
+                        : JuicerRecipe.buildMixProduct(false, st.contents, st.players, st.completedAt, perDose,
+                                st.dosesMax));
                 consumeOne(p, e.getHand());
                 st.doses--;
                 b.getWorld().playSound(b.getLocation().add(0.5, 0.5, 0.5), Sound.ITEM_BOTTLE_FILL, 1f, 1f);
@@ -767,7 +770,8 @@ public class JuicerBasin extends SlimefunItem {
                     // 桶装形态产物（lore 与瓶装一致，禁止倒出；糖分为整批总量）
                     give(p, st.recipe.buildBucketResult(st.players, st.completedAt, st.totalSugar));
                 } else {
-                    give(p, JuicerRecipe.buildMixProduct(true, st.contents, st.players, st.completedAt, st.totalSugar));
+                    give(p, JuicerRecipe.buildMixProduct(true, st.contents, st.players, st.completedAt,
+                            st.totalSugar, st.dosesMax));
                 }
                 consumeOne(p, e.getHand());
                 b.getWorld().playSound(b.getLocation().add(0.5, 0.5, 0.5), Sound.ITEM_BUCKET_FILL, 1f, 1f);

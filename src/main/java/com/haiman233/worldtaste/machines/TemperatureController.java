@@ -12,7 +12,8 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponen
  * 无 UI。储电 500J，耗电 50J/t。
  *
  * <p>自身无独立 ticker：酒窖运行（酿造/陈化计时推进）时由管理器 ticker 协调双机耗电——
- * 管理器扣 100J/t、本方块扣 50J/t，任一蓄电不足则当轮暂停。电网会自动向其补电。</p>
+ * 管理器扣 100J/t、本方块扣 50J/t，任一蓄电不足则酿造/陈化直接失败产生废液。
+ * 电网会自动向其补电。</p>
  *
  * <p>耗电量经 {@link PowerConsumer} 暴露，注册时自动写入物品 lore。</p>
  */

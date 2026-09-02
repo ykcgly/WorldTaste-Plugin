@@ -28,8 +28,11 @@ public final class Setup {
         // 榨汁盆配方（产物/投入物可引用已注册物品，须在物品注册后加载）
         JuicerLoader.load();
         // 糖分值配置（材料 id → 糖分，运行期读取）
-        SugarLoader.load();
-                com.haiman233.worldtaste.machines.WineBottle.register(WT.group("ws_niangzaogongyi"));
+        SugarLoader.load();
+        // 酒窖配方（cellar.yml：配方表 + 命名功能开关）
+        CellarLoader.load();
+        com.haiman233.worldtaste.machines.WineBottle.register(WT.group("ws_niangzaogongyi"));
+        com.haiman233.worldtaste.machines.SweetnessPaper.register(WT.group("ws_niangzaogongyi"));
         MobDropsLoader.load();
         MenuLoader.load();
         RecipeMachineLoader.load();

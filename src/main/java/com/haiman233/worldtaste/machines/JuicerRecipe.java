@@ -327,15 +327,30 @@ public final class JuicerRecipe {
     }
 
     /**
-     * 构建混合产物（瓶装 = 1 份内容物；桶装 = 全部内容物）。lore 追加榨汁信息行（按
-     * player-names-format 渲染）与内容物清单（含数量，原版物品用翻译键按玩家语言显示）；
-     * 内容物 refs 写入产物 PDC（juice_contents），桶装额外写入 juice_bucket 标记
-     * （交互时禁止倒出）。
+     * 构建混合产物（瓶装 = 1 份；桶装 = 整批，桶内每单位组成相同）。内容物按<b>每单位
+     * 组成</b>记录：批次内容物 ÷ 份数（支持分数，如 2/3），瓶/桶倒入酒窖时按单位数还原
+     * 整批材料，不会凭空增多/减少；lore 内容行整数显示 ×N、分数显示百分比；内容物写入
+     * 产物 PDC（juice_contents），桶装额外带 juice_bucket 标记（交互时禁止倒出）。
      */
     public static ItemStack buildMixProduct(boolean bucket, Map<String, Integer> contents,
-                                            Set<String> players, long completedAt, int sugar) {
+                                            Set<String> players, long completedAt, int sugar, int doses) {
         ItemStack template = bucket ? mix.bucketTemplate : mix.bottleTemplate;
         ItemStack out = template.clone();
+        // 每单位组成 = 批次内容物 ÷ 份数
+        int den = Math.max(1, doses);
+        Map<String, Double> perUnit = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> e : contents.entrySet()) {
+            perUnit.put(e.getKey(), (double) e.getValue() / den);
+        }
+        // lore 展示：桶装 = 整批数量（×2）；瓶装 = 每份组成（分数按百分比）
+        Map<String, Double> display = new LinkedHashMap<>();
+        if (bucket) {
+            for (Map.Entry<String, Integer> e : contents.entrySet()) {
+                display.put(e.getKey(), (double) e.getValue());
+            }
+        } else {
+            display.putAll(perUnit);
+        }
         ItemMeta meta = out.getItemMeta();
         if (meta != null) {
             appendJuiceInfo(meta, players, completedAt);
@@ -347,18 +362,16 @@ public final class JuicerRecipe {
             List<Component> lore = meta.lore() == null ? new ArrayList<>() : new ArrayList<>(meta.lore());
             TextComponent.Builder line = Component.text().append(Component.text("内容: ", NamedTextColor.GRAY));
             boolean first = true;
-            for (Map.Entry<String, Integer> e : contents.entrySet()) {
+            for (Map.Entry<String, Double> e : display.entrySet()) {
                 if (!first) line.append(Component.text("、", NamedTextColor.GRAY));
                 first = false;
                 line.append(nameComponent(e.getKey()));
-                if (e.getValue() > 1) {
-                    line.append(Component.text("×" + e.getValue(), NamedTextColor.GRAY));
-                }
+                line.append(Component.text(quantityText(e.getValue()), NamedTextColor.GRAY));
             }
             lore.add(line.build());
             meta.lore(lore);
             meta.getPersistentDataContainer().set(KEY_ITEM_CONTENTS, PersistentDataType.STRING,
-                    joinContents(contents));
+                    joinContentsFractional(perUnit));
             if (bucket) meta.getPersistentDataContainer().set(KEY_ITEM_BUCKET, PersistentDataType.BYTE, (byte) 1);
             out.setItemMeta(meta);
         }
@@ -371,6 +384,16 @@ public final class JuicerRecipe {
         for (Map.Entry<String, Integer> e : contents.entrySet()) {
             if (sb.length() > 0) sb.append(',');
             sb.append(e.getKey()).append(':').append(e.getValue());
+        }
+        return sb.toString();
+    }
+
+    /** 内容物序列化（支持分数）：整数写 n，非整数写约分后的 a/b（如 2/3）。 */
+    public static String joinContentsFractional(Map<String, Double> contents) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Double> e : contents.entrySet()) {
+            if (sb.length() > 0) sb.append(',');
+            sb.append(e.getKey()).append(':').append(formatFraction(e.getValue()));
         }
         return sb.toString();
     }
@@ -396,6 +419,62 @@ public final class JuicerRecipe {
             if (count > 0) contents.merge(ref, count, Integer::sum);
         }
         return contents;
+    }
+
+    /** 反序列化内容物（支持整数 n 与分数 a/b，用于酒窖吸收与状态解析）。 */
+    public static Map<String, Double> parseContentsFractional(String data) {
+        Map<String, Double> contents = new LinkedHashMap<>();
+        if (data == null || data.isEmpty()) return contents;
+        for (String entry : data.split(",")) {
+            if (entry.isEmpty()) continue;
+            int idx = entry.lastIndexOf(':');
+            if (idx <= 0) {
+                contents.merge(entry, 1.0, Double::sum);
+                continue;
+            }
+            String ref = entry.substring(0, idx);
+            String v = entry.substring(idx + 1);
+            try {
+                double val;
+                int slash = v.indexOf('/');
+                if (slash > 0) {
+                    val = Double.parseDouble(v.substring(0, slash))
+                            / Double.parseDouble(v.substring(slash + 1));
+                } else {
+                    val = Double.parseDouble(v);
+                }
+                if (val > 0) contents.merge(ref, val, Double::sum);
+            } catch (NumberFormatException ignored) {
+                contents.merge(ref, 1.0, Double::sum);
+            }
+        }
+        return contents;
+    }
+
+    /** 数量格式化（PDC/液位）：整数 → "2"，非整数 → 约分分数 "2/3"。 */
+    public static String formatFraction(double v) {
+        if (Math.abs(v - Math.rint(v)) < 1e-9) return String.valueOf((long) Math.rint(v));
+        for (int den = 2; den <= 1000; den++) {
+            double num = v * den;
+            if (Math.abs(num - Math.rint(num)) < 1e-6) {
+                long n = Math.round(num);
+                long g = gcd(Math.abs(n), den);
+                return (n / g) + "/" + (den / g);
+            }
+        }
+        return String.format(java.util.Locale.ROOT, "%.3f", v);
+    }
+
+    /** 数量格式化（lore 展示）：整数 → "×2"，非整数 → 百分比 "×66.7%"（末位 0 舍去）。 */
+    public static String quantityText(double v) {
+        if (Math.abs(v - Math.rint(v)) < 1e-9) return "×" + (long) Math.rint(v);
+        double pct = v * 100;
+        if (Math.abs(pct - Math.rint(pct)) < 0.05) return "×" + (long) Math.rint(pct) + "%";
+        return "×" + String.format(java.util.Locale.ROOT, "%.1f", pct) + "%";
+    }
+
+    private static long gcd(long a, long b) {
+        return b == 0 ? a : gcd(b, a % b);
     }
 
     /** 内容物 ref（mc:APPLE / sf:ID）的本地化名称组件：原版用翻译键，粘液物品用其显示名。 */

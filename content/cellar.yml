@@ -1,0 +1,43 @@
+# 酒窖配方表（酒窖管理器）
+#
+# 匹配为「按材料份数」：每种果汁按投入单位数贡献份数（含某原料的每单位果汁记该原料 1 份），
+# 液体中各原料的份数与 ingredient 数量成整数倍比例（k 倍）时匹配，产出 k × 单位产物：
+#   投入 2 单位苹果汁 + 1 单位甜浆果汁 → 产出 3 单位水果酒；
+#   投入 4 单位苹果汁 + 2 单位甜浆果汁 → 产出 6 单位水果酒（成比例放大）。
+# 产物单位数 = 投入果汁总单位数（清水稀释也计入单位数，但会稀释糖分降低酒精度）。
+#
+#   ingredient  材料份数：每行「材料id:份数」（id 为材质名或粘液物品 id，
+#               即榨汁盆产出的果汁原料 ref，份数 = 该原料果汁需投入的单位数）
+#   aging       是否允许陈酿：true = 产物含酒精，可陈化增长酒精度；
+#               false = 副产物，无酒精度（陈化模式会拒绝启动）
+#   result      每单位产物：与 items.yml 的 item 段同构（material_type/material/name/lore/amount）
+#
+# options  全局选项：
+#   cellar-name 是否开启酒窖命名功能（左下角命名牌按钮；开启后被命名酒窖
+#               灌装出的产物 lore 尾部会附上酒窖名）
+options:
+  cellar-name: true
+SHUIGUOJIU:
+  ingredient:
+    - APPLE:2
+    - SWEET_BERRIES:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l水果酒'
+    lore:
+      - '&7苹果与甜浆果汁混合酿造'
+    amount: 1
+
+# 副产物示例（取消注释即可启用：1 苹果汁 + 1 甜浆果汁 → 2 单位果醋，不可陈酿）：
+#GUOCU:
+#  ingredient:
+#    - APPLE:1
+#    - SWEET_BERRIES:1
+#  aging: false
+#  result:
+#    material_type: mc
+#    material: HONEY_BOTTLE
+#    name: '&f&l果醋'
+#    amount: 1

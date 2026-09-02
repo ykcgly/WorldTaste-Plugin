@@ -43,6 +43,8 @@ public final class Behaviors {
                 com.haiman233.worldtaste.machines.JuicerBasin.Listener.INSTANCE, WT.plugin);
         // 榨汁盆指南入口注入（点击榨汁盆配方页注入配方展示按钮，不依赖 JEG）
         com.haiman233.worldtaste.guide.JuicerGuideListener.register();
+        // 酒窖指南入口（JEG 拦截 / 原版注入双模式，点击酒窖管理器进入配方展示页）
+        com.haiman233.worldtaste.guide.CellarGuideListener.register();
         // 酒窖管理器机器页面（实时刷新任务 + 关闭返还监听）
         com.haiman233.worldtaste.machines.CellarMenu.register();
         // 紫颂作物定时状态的区块卸载兜底清理（普通作物零状态，无需清理）

@@ -316,7 +316,9 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
                     ItemStack in = slotItems[pos];
                     if (in != null && in.getAmount() >= need.getAmount()
                             && !(sfPrune && idCertainlyMismatch(slotSfId[pos], recipe.inputSfId(i)))
-                            && SlimefunUtils.isItemSimilar(in, need, true)) {
+                            && (recipe.inputDamage(i) > 0
+                                    ? toolSimilarIgnoreDamage(in, need)
+                                    : SlimefunUtils.isItemSimilar(in, need, true))) {
                         chosen[i] = pos;
                         claimed[pos] = true;
                         matched++;
@@ -332,7 +334,9 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
                         ItemStack in = slotItems[s];
                         if (in == null || in.getAmount() < need.getAmount()
                                 || (sfPrune && idCertainlyMismatch(slotSfId[s], recipe.inputSfId(i)))
-                                || !SlimefunUtils.isItemSimilar(in, need, true)) {
+                                || !(recipe.inputDamage(i) > 0
+                                        ? toolSimilarIgnoreDamage(in, need)
+                                        : SlimefunUtils.isItemSimilar(in, need, true))) {
                             continue;
                         }
                         if (in.getAmount() < bestAmount) {
@@ -366,7 +370,9 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
                 ItemStack live = inv.getItemInSlot(slots[chosen[i]]);
                 ItemStack need = inputs[i];
                 if (live == null || live.getAmount() < need.getAmount()
-                        || !SlimefunUtils.isItemSimilar(live, need, true)) {
+                        || !(recipe.inputDamage(i) > 0
+                                ? toolSimilarIgnoreDamage(live, need)
+                                : SlimefunUtils.isItemSimilar(live, need, true))) {
                     stillValid = false;
                     break;
                 }
@@ -377,6 +383,26 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         return null;
     }
 
+    /**
+     * 耐久类工具输入比较：忽略损耗值（受损钓竿仍匹配新钓竿模板）。
+     * 同材质（粘液物品按 id 一致）即匹配；模板带显示名时要求名称一致。
+     */
+    private static boolean toolSimilarIgnoreDamage(ItemStack in, ItemStack need) {
+        if (in == null || in.getType() != need.getType()) return false;
+        io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem sfNeed =
+                io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem.getByItem(need);
+        if (sfNeed != null) {
+            io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem sfIn =
+                    io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem.getByItem(in);
+            return sfIn != null && sfIn.getId().equals(sfNeed.getId());
+        }
+        if (need.hasItemMeta() && need.getItemMeta().hasDisplayName()) {
+            org.bukkit.inventory.meta.ItemMeta m = in.getItemMeta();
+            return m != null && m.hasDisplayName()
+                    && m.getDisplayName().equals(need.getItemMeta().getDisplayName());
+        }
+        return true;
+    }
     /** 用本机器的全部配方匹配（不消耗）。 */
     protected Match findMatch(BlockMenu inv) {
         return findMatch(inv, recipes);
