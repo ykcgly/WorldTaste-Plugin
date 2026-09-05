@@ -255,7 +255,8 @@ public class JuicerBasin extends SlimefunItem {
         st.contents.merge(ref, 1, Integer::sum);
         st.total++;
         BlockStorage.addBlockInfo(b, KEY_MIX, JuicerRecipe.joinContents(st.contents));
-        refreshDisplays(b, st);
+        // 展示实体不在此重建：tick 的数量校验（displays.size() != expected）会自动补齐，
+        // 整堆连续投入时合并为一次重建（此前每次投 入都全拆全建，是热点开销）
         b.getWorld().playSound(b.getLocation().add(0.5, 0.5, 0.5), Sound.ENTITY_ITEM_PICKUP, 1f, 1.2f);
     }
 
@@ -603,8 +604,8 @@ public class JuicerBasin extends SlimefunItem {
                     }
                     return;
                 }
-                // 混合榨汁与玩家型配方响应跳跃；铁砧型配方不响应
-                if (st.isMix() || st.recipe == null || !st.recipe.anvil) {
+                // 混合榨汁与允许踩踏的配方响应跳跃；纯铁砧型配方不响应
+                if (st.isMix() || st.recipe == null || st.recipe.playerType) {
                     armed.add(p.getUniqueId());
                 }
                 return;
@@ -614,7 +615,7 @@ public class JuicerBasin extends SlimefunItem {
                 if (target != null && target.doses <= 0 && target.started) {
                     Block below = w.getBlockAt(bx, by - 1, bz);
                     if (BlockStorage.check(below) instanceof JuicerBasin
-                            && (target.isMix() || target.recipe == null || !target.recipe.anvil)) {
+                            && (target.isMix() || target.recipe == null || target.recipe.playerType)) {
                         target.players.add(p.getName());
                         BlockStorage.addBlockInfo(below, KEY_PLAYERS, joinPlayers(target));
                         below.getWorld().playSound(below.getLocation().add(0.5, 0.5, 0.5),
@@ -640,7 +641,7 @@ public class JuicerBasin extends SlimefunItem {
             if (st == null || st.doses > 0) return;
             if (!(BlockStorage.check(basin) instanceof JuicerBasin)) return;
             if (!st.started && !tryStartJuice(st)) return;
-            if (st.recipe == null || !st.recipe.anvil) return;
+            if (st.recipe == null || !st.recipe.anvilType) return;
             // 落点方块在事件回调内改动不安全：下一 tick 处理铁砧损耗
             Block landed = e.getBlock();
             Bukkit.getScheduler().runTask(WT.plugin, () -> {

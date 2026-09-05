@@ -3419,16 +3419,12 @@ WT_LUOTUONAI:
     lore:
       - ''
       - §7§o恢复 §b§o3.0 §7§o点饥饿值和饱和度
+      - '&8用空桶右键骆驼挤取'
     material_type: mc
     material: MILK_BUCKET
     amount: 1
   script: gz2
-  recipe_type: JUICER
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_TUOROU
-      amount: 1
+  recipe_type: 'NULL'
 WT_MANAI:
   lateInit: false
   item_group: ws_yingliao
@@ -3437,16 +3433,12 @@ WT_MANAI:
     lore:
       - ''
       - §7§o恢复 §b§o3.0 §7§o点饥饿值和饱和度
+      - '&8用空桶右键马挤取'
     material_type: mc
     material: MILK_BUCKET
     amount: 1
   script: gz2
-  recipe_type: JUICER
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_MAROU
-      amount: 1
+  recipe_type: 'NULL'
 WT_YANGNAI:
   lateInit: false
   item_group: ws_yingliao
@@ -3455,16 +3447,12 @@ WT_YANGNAI:
     lore:
       - ''
       - §7§o恢复 §b§o3.0 §7§o点饥饿值和饱和度
+      - '&8用空桶右键羊挤取'
     material_type: mc
     material: MILK_BUCKET
     amount: 1
   script: gz2
-  recipe_type: JUICER
-  recipe:
-    '1':
-      material_type: mc
-      material: MUTTON
-      amount: 1
+  recipe_type: 'NULL'
 WT_LVNAI:
   lateInit: false
   item_group: ws_yingliao
@@ -3473,16 +3461,12 @@ WT_LVNAI:
     lore:
       - ''
       - §7§o恢复 §b§o3.0 §7§o点饥饿值和饱和度
+      - '&8用空桶右键驴挤取'
     material_type: mc
     material: MILK_BUCKET
     amount: 1
   script: gz2
-  recipe_type: JUICER
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_LVROU
-      amount: 1
+  recipe_type: 'NULL'
 
 # 肝帝月
 WT_YONGHENGNIUROU:

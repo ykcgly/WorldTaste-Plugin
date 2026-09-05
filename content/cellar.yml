@@ -1,13 +1,14 @@
 # 酒窖配方表（酒窖管理器）
 #
-# 匹配为「按材料份数」：每种果汁按投入单位数贡献份数（含某原料的每单位果汁记该原料 1 份），
-# 液体中各原料的份数与 ingredient 数量成整数倍比例（k 倍）时匹配，产出 k × 单位产物：
-#   投入 2 单位苹果汁 + 1 单位甜浆果汁 → 产出 3 单位水果酒；
+# 匹配为「按材料份数」（原料数量，与液位线显示口径一致）：池内各原料的总份数
+# （每单位果汁按其组成折算材料数，如 1 单位甜浆果汁 = 3 份甜浆果）与 ingredient 数量
+# 成整数倍比例（k 倍）时匹配，优先产出配方产物：
+#   投入 2 单位苹果汁（2 苹果）+ 1 单位甜浆果汁（3 甜浆果）→ 产出 3 单位水果酒；
 #   投入 4 单位苹果汁 + 2 单位甜浆果汁 → 产出 6 单位水果酒（成比例放大）。
-# 产物单位数 = 投入果汁总单位数（清水稀释也计入单位数，但会稀释糖分降低酒精度）。
+# 产出单位数 = 池内果汁总单位数（清水稀释也计入单位数，但会稀释糖分降低酒精度）。
 #
-#   ingredient  材料份数：每行「材料id:份数」（id 为材质名或粘液物品 id，
-#               即榨汁盆产出的果汁原料 ref，份数 = 该原料果汁需投入的单位数）
+#   ingredient  材料份数：每行「材料id:数量」（id 为材质名或粘液物品 id，即果汁原料
+#               ref；数量 = 该原料的总份数，与榨汁盆配方的材料写法一致）
 #   aging       是否允许陈酿：true = 产物含酒精，可陈化增长酒精度；
 #               false = 副产物，无酒精度（陈化模式会拒绝启动）
 #   result      每单位产物：与 items.yml 的 item 段同构（material_type/material/name/lore/amount）
@@ -20,7 +21,7 @@ options:
 SHUIGUOJIU:
   ingredient:
     - APPLE:2
-    - SWEET_BERRIES:1
+    - SWEET_BERRIES:3
   aging: true
   result:
     material_type: mc
@@ -34,7 +35,7 @@ SHUIGUOJIU:
 #GUOCU:
 #  ingredient:
 #    - APPLE:1
-#    - SWEET_BERRIES:1
+#    - SWEET_BERRIES:3
 #  aging: false
 #  result:
 #    material_type: mc

@@ -2611,38 +2611,145 @@ WT_SEED_WUJIN:
     conditions:
        - "hasplugin InfinityExpansion"
 
-# 榨汁盆（合成配方与说明待补）
 WT_ZHAPEN:
   item:
     name: '&6&l榨汁盆'
+    lore:
+      - "&7shift左键点击查看内容物"
+      - "&7shift右键清空内容物"
+      - "&7使用玻璃瓶或者桶来接取产物"
     amount: 1
     material_type: mc
     material: CAULDRON
   item_group: ws_niangzaogongyi
-  recipe_type: 'NULL'
+  recipe_type: ENHANCED_CRAFTING_TABLE
   placeable: true
+  recipe:
+    4:
+      material_type: mc
+      material: OAK_LOG
+      amount: 1
+    5:
+      material_type: mc
+      material: CAULDRON
+      amount: 1
+    6:
+      material_type: mc
+      material: OAK_LOG
+      amount: 1
+    7:
+      material_type: mc
+      material: OAK_LOG
+      amount: 1
+    8:
+      material_type: mc
+      material: OAK_LOG
+      amount: 1
+    9:
+      material_type: mc
+      material: OAK_LOG
+      amount: 1
   script: zhapen
 
 # 酒窖多方块核心（配方待定）
 WT_JIUJIAO:
   item:
     name: '&6&l酒窖管理器'
+    lore:
+      - "&7建造酒窖必不可少的机器"
+      - "&7方便你与酒窖交互"
     amount: 1
     material_type: mc
     material: BREWING_STAND
   item_group: ws_niangzaogongyi
-  recipe_type: 'NULL'
+  recipe_type: ENHANCED_CRAFTING_TABLE
+  recipe:
+    1:
+      material_type: mc
+      material: HAY_BLOCK
+      amount: 1
+    2:
+      material_type: slimefun
+      material: ADVANCED_CIRCUIT_BOARD
+      amount: 1
+    3:
+      material_type: mc
+      material: HAY_BLOCK
+      amount: 1
+    4:
+      material_type: mc
+      material: BUCKET
+      amount: 1
+    5:
+      material_type: mc
+      material: BREWING_STAND
+      amount: 1
+    6:
+      material_type: mc
+      material: BUCKET
+      amount: 1
+    7:
+      material_type: mc
+      material: GOLD_INGOT
+      amount: 1
+    8:
+      material_type: slimefun
+      material: PROGRAMMABLE_ANDROID
+      amount: 1
+    9:
+      material_type: mc
+      material: GOLD_INGOT
+      amount: 1
   placeable: true
   script: jiujiao
 
-# 温度控制器（酒窖配套，无 UI，配方待定）
 WT_WENDU:
   item:
     name: '&b&l温度控制器'
+    lore:
+      - "&7无论外界气温如何变化"
+      - "&7它都能将内部温度稳稳维持在最适合酿造的温度"
     amount: 1
     material_type: mc
     material: WAXED_COPPER_BLOCK
   item_group: ws_niangzaogongyi
-  recipe_type: 'NULL'
+  recipe_type: ENHANCED_CRAFTING_TABLE
+  recipe:
+    1:
+      material_type: slimefun
+      material: SILVER_INGOT
+      amount: 1
+    2:
+      material_type: slimefun
+      material: SILVER_INGOT
+      amount: 1
+    3:
+      material_type: slimefun
+      material: SILVER_INGOT
+      amount: 1
+    4:
+      material_type: slimefun
+      material: COOLING_UNIT
+      amount: 1
+    5:
+      material_type: slimefun
+      material: ADVANCED_CIRCUIT_BOARD
+      amount: 1
+    6:
+      material_type: slimefun
+      material: HEATING_COIL
+      amount: 1
+    7:
+      material_type: slimefun
+      material: HEATING_COIL
+      amount: 1
+    8:
+      material_type: slimefun
+      material: PROGRAMMABLE_ANDROID
+      amount: 1
+    9:
+      material_type: slimefun
+      material: COOLING_UNIT
+      amount: 1
   placeable: true
   script: wendu

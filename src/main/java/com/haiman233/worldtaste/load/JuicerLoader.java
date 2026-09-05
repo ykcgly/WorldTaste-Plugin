@@ -29,7 +29,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  *   ingredient:
  *     - APPLE:3                 # id:数量（id 为材质名或粘液物品 id）
  *     - WT_PUTAOTI:2
- *   type: player|anvil
+ *   type: player,anvil          # 逗号分隔多值：踩踏与铁砧砸击均可
  *   progress: 10
  *   yield: 3                    # 榨好后的接取份数（1~3，默认 3）
  *   result: {...}
@@ -138,7 +138,15 @@ public final class JuicerLoader {
         ItemStack ingredientDisplay = resolveDisplay(firstRef, key);
         if (ingredientDisplay == null) return false;
 
-        boolean anvil = "anvil".equalsIgnoreCase(s.getString("type", "player").trim());
+        // 压榨方式：支持逗号分隔多值「player,anvil」——踩踏与铁砧砸击均可榨汁
+        boolean playerType = false;
+        boolean anvilType = false;
+        for (String t : s.getString("type", "player").toLowerCase(java.util.Locale.ROOT).split("[,，]")) {
+            String v = t.trim();
+            if (v.equals("player")) playerType = true;
+            else if (v.equals("anvil")) anvilType = true;
+        }
+        if (!playerType && !anvilType) playerType = true; // 无有效值时回退玩家型
         int progress = Math.max(1, s.getInt("progress", 10));
         // 榨好后的接取份数（= 榨汁盆含水等级，1~3；瓶子每次 1 份，桶满时一次接完）
         int yield = Math.max(1, Math.min(3, s.getInt("yield", 3)));
@@ -150,7 +158,7 @@ public final class JuicerLoader {
         }
 
         JuicerRecipe recipe = new JuicerRecipe(key, ingredientRefs, ingredientDisplay,
-                anvil, progress, yield, result);
+                playerType, anvilType, progress, yield, result);
         // 可选 bucket 段：自定义桶装形态（缺省自动生成「桶装<产物名>」，lore 与瓶装一致）
         ItemStack bucketForm = Read.item(s.getConfigurationSection("bucket"), false);
         if (bucketForm != null) recipe.bucketForm = bucketForm;

@@ -12,11 +12,11 @@ anvil-damage: true
 # 铁砧损耗概率（1~10，数字越大越容易损坏，实际概率 = 数值/10，每次砸落判定一次）
 anvil-damage-chance: 3
 # 糖分→酒精度转化比率（酒窖酿造：最终酒精度 = 总糖分 × 比率 + 酒曲加成）
-sugar-alcohol-ratio: 0.5
+sugar-alcohol-ratio: 0.3
 # 陈化每游戏日（24 分钟）酒精度增长百分比区间，格式 min~max（实际增长 = 当前酒精度 × 随机区间值）
 aging-growth: 0.05~0.15
 # 陈酿果酒 lore 信息行格式（&颜色代码；占位符 %players% 榨汁玩家、%contents% 组成果汁、%alcohol% 酒精度）
-wine-lore-format: '&8[&6酒窖&8] &7榨汁师: &f%players% &7| &b%contents% &7| &c酒精度: &e%alcohol%°' 
+wine-lore-format: '&7| &b%contents% &7| &c酒精度: &e%alcohol%°' 
 
 # ===== 可混合配置 =====
 # recipes: 可混合材料列表（材质名或粘液物品 id）。配方全部不匹配时，盆内全部为可混合
@@ -27,6 +27,7 @@ mix:
   recipes:
     - APPLE
     - SWEET_BERRIES
+    - WT_ZSHULUOBO
   progress: 10
   bottle:
     material: POTION
@@ -39,8 +40,8 @@ mix:
 
 # ===== 配方（多材料 + 数量）=====
 #   ingredient  投入物列表，每行「id:数量」（id 为材质名或粘液物品 id，数量缺省 1）
-#   type        进度类型：player = 玩家站在盆内跳跃踩踏（每次 +1）；
-#               anvil = 铁砧砸在盆顶（每次 +4）
+#   type        压榨方式（支持逗号分隔多值）：player = 玩家站在盆内跳跃踩踏（每次 +1）；
+#               anvil = 铁砧砸在盆顶（每次 +4）；player,anvil = 两种方式均可
 #   progress    总进度（动作栏显示 当前/总进度）
 #   yield       配方单份的接取份数（1~3，默认 3；配方按投入数量的整数倍成比例产出：
 #               例「1 苹果 yield 1」→ 投 2 个苹果榨出 2 水位 2 份苹果汁；

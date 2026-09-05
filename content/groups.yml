@@ -457,7 +457,7 @@ ws_zwf_2_16:
   lateInit: false
   type: button
   item:
-    material: yellow_stained_glass_pane
+    material: pink_stained_glass_pane
     name: '&a'
   parent: worldtaste
   actions:
@@ -536,7 +536,7 @@ ws_zwf_2_23:
   lateInit: false
   type: button
   item:
-    material: white_stained_glass_pane
+    material: pink_stained_glass_pane
     name: '&a'
   parent: worldtaste
   actions:

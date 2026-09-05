@@ -1,14 +1,8 @@
 package com.haiman233.worldtaste.machines;
 
 import com.haiman233.worldtaste.WT;
-import com.haiman233.worldtaste.util.Colors;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import java.util.List;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,43 +11,32 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 /**
- * 甜度试纸：主手拿果汁/饮品（带糖分 PDC），副手持试纸，右键空气/方块后
- * 副手消耗一张试纸，在聊天栏输出当前手持饮品的糖分值。
+ * 甜度试纸（items.yml 定义物品本体与配方，本类只挂载检测行为）：
+ * 主手拿果汁/饮品（带糖分 PDC），副手持试纸，右键空气/方块后副手消耗一张试纸，
+ * 在聊天栏输出当前手持饮品的糖分值。
  *
  * <p>判定依据为 {@link JuicerRecipe#KEY_ITEM_SUGAR}——榨汁盆瓶装/桶装产物与酒窖
  * 成品均写入该 PDC；无糖分数据的物品不触发检测（不消耗试纸）。右键时取消事件，
- * 避免药水果汁被原版饮用流程吞掉。</p>
+ * 避免药水果汁被原版饮用流程吞掉。物品识别按 Slimefun id
+ * （{@link #ID}，items.yml 注册），不依赖物品类。</p>
  */
-public final class SweetnessPaper extends SlimefunItem {
+public final class SweetnessPaper {
 
+    /** 物品 id（items.yml 中的键，检测行为绑定与此）。 */
     public static final String ID = "WT_SWEET_PAPER";
 
-    private SweetnessPaper(ItemGroup group, SlimefunItemStack item, RecipeType rt,
-                           ItemStack[] recipe) {
-        super(group, item, rt, recipe);
-    }
+    private SweetnessPaper() {}
 
-    /** 注册内部物品与检测监听（Setup 调用；无配方，配方待补）。 */
-    public static void register(ItemGroup group) {
-        if (group == null) {
-            WT.log("甜度试纸注册失败：物品组缺失");
+    /** 挂载检测监听（Setup 调用；物品本体由 items.yml 注册，配方在 items.yml 中配置）。 */
+    public static void register() {
+        SlimefunItem item = SlimefunItem.getById(ID);
+        if (item == null) {
+            WT.log("甜度试纸 " + ID + " 未在 items.yml 中注册，检测功能未启用");
             return;
         }
-        ItemStack template = new ItemStack(Material.PAPER);
-        ItemMeta meta = template.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(Colors.c("&e&l甜度试纸"));
-            meta.setLore(List.of(
-                    Colors.c("&7可以用它来检测饮品的甜度"),
-                    Colors.c("&8主手持果汁，副手持试纸，右键空气检测")));
-            template.setItemMeta(meta);
-        }
-        SlimefunItemStack stack = new SlimefunItemStack(ID, template);
-        new SweetnessPaper(group, stack, RecipeType.NULL, new ItemStack[0]).register(WT.plugin);
         Bukkit.getPluginManager().registerEvents(new DetectListener(), WT.plugin);
     }
 
@@ -76,7 +59,8 @@ public final class SweetnessPaper extends SlimefunItem {
             if (sugar == null) return;
             Player p = e.getPlayer();
             ItemStack off = p.getInventory().getItemInOffHand();
-            if (!(SlimefunItem.getByItem(off) instanceof SweetnessPaper)) return;
+            SlimefunItem paper = SlimefunItem.getByItem(off);
+            if (paper == null || !ID.equals(paper.getId())) return;
             // 取消原版交互（果汁多为药水材质，防止右键时被喝掉）
             e.setCancelled(true);
             if (off.getAmount() > 1) off.setAmount(off.getAmount() - 1);

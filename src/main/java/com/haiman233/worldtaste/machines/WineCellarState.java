@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -75,6 +75,7 @@ public final class WineCellarState {
     private String ownerName; // 放置酒窖的玩家（命名权限）
     private UUID ownerId;
     private String cellarName; // 玩家设定的酒窖名（颜色代码已翻译，null = 未命名）
+    private long lastSaveMs; // 上次落盘时间（运行计时 5 分钟节流用，不持久化）
 
     // ===== 访问器 =====
     public Phase phase() { return phase; }
@@ -98,6 +99,7 @@ public final class WineCellarState {
     public int cellarMultiplier() { return cellarMultiplier; }
     public boolean autoAge() { return autoAge; }
     public void autoAge(boolean v) { autoAge = v; }
+    public long lastSaveMs() { return lastSaveMs; }
     public String ownerName() { return ownerName; }
     public UUID ownerId() { return ownerId; }
     public String cellarName() { return cellarName; }
@@ -240,20 +242,32 @@ public final class WineCellarState {
     }
 
     // ===== 注册表与持久化 =====
-    private static final Map<Location, WineCellarState> STATES = new HashMap<>();
+    // 世界 → (打包坐标 → 状态)：热路径（管理器逐 tick 计时）零分配查询，
+    // 规避 Location 哈希（CraftWorld#hashCode 走世界 UUID）的开销
+    private static final Map<World, Map<Long, WineCellarState>> INDEX = new HashMap<>();
+
+    /** 方块坐标打包为 long（x/z 26 位 + y 12 位）。 */
+    private static long key(int x, int y, int z) {
+        return ((long) (x & 0x3FFFFFF) << 38) | ((long) (z & 0x3FFFFFF) << 12) | (y & 0xFFF);
+    }
 
     public static WineCellarState get(Block b) {
-        Location l = b.getLocation();
-        WineCellarState st = STATES.get(l);
-        if (st != null) return st;
-        st = new WineCellarState();
-        deserialize(st, BlockStorage.getLocationInfo(l, "wt-cellar-data"));
-        STATES.put(l, st);
+        World w = b.getWorld();
+        long k = key(b.getX(), b.getY(), b.getZ());
+        Map<Long, WineCellarState> m = INDEX.get(w);
+        if (m != null) {
+            WineCellarState st = m.get(k);
+            if (st != null) return st;
+        }
+        WineCellarState st = new WineCellarState();
+        deserialize(st, BlockStorage.getLocationInfo(b.getLocation(), "wt-cellar-data"));
+        INDEX.computeIfAbsent(w, x -> new HashMap<>()).put(k, st);
         return st;
     }
 
     public static void remove(Block b) {
-        STATES.remove(b.getLocation());
+        Map<Long, WineCellarState> m = INDEX.get(b.getWorld());
+        if (m != null) m.remove(key(b.getX(), b.getY(), b.getZ()));
     }
 
     /**
@@ -261,6 +275,7 @@ public final class WineCellarState {
      * V2 格式：版本标记 + 头部 16 字段（到 cellarName）+ 各液体批次 4 字段（units|sugar|players|contents）。
      */
     public void save(Block b) {
+        lastSaveMs = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder();
         sb.append("V2|")
           .append(phase.name()).append('|').append(mode.name()).append('|').append(elapsedMs)
@@ -276,7 +291,9 @@ public final class WineCellarState {
           .append('|').append(ownerId == null ? "" : ownerId)
           .append('|').append(cellarName == null ? "" : cellarName);
         for (Liquid lq : liquids) {
-            sb.append(';').append(lq.units).append('|').append(lq.sugarPerUnit).append('|')
+            // 液体批次与头部一样用 '|' 分隔（整个串按 '|' 统一切分后按 4 字段一组解析；
+            // 不能用 ';'——';' 不参与切分，首个批次的单位数会粘连到酒窖名字上）
+            sb.append('|').append(lq.units).append('|').append(lq.sugarPerUnit).append('|')
               .append(String.join("~", lq.players)).append('|')
               .append(JuicerRecipe.joinContentsFractional(lq.contents));
         }
@@ -303,8 +320,13 @@ public final class WineCellarState {
                 st.autoAge = Boolean.parseBoolean(parts[13]);
                 st.ownerName = parts[14].isEmpty() ? null : parts[14];
                 st.ownerId = parts[15].isEmpty() ? null : UUID.fromString(parts[15]);
-                st.cellarName = parts[16].isEmpty() ? null : parts[16];
-                parseLiquids(st, parts, 17);
+                // 旧版用 ';' 分隔液体段——';' 不参与切分，首个批次的单位数会粘连在名字后
+                // （如「名字;2」）。检测到粘连时丢弃液体段（旧数据无法无损还原），保住命名信息
+                String nameField = parts[16];
+                boolean glued = nameField.indexOf(';') >= 0;
+                if (glued) nameField = nameField.substring(0, nameField.indexOf(';'));
+                st.cellarName = nameField.isEmpty() ? null : nameField;
+                if (parts.length > 17 && !glued) parseLiquids(st, parts, 17);
             } else {
                 parseLegacy(st, parts);
             }
@@ -366,6 +388,8 @@ public final class WineCellarState {
             st.autoAge = Boolean.parseBoolean(parts[12]);
             i = 13;
         }
+        // 旧版 ';' 粘连缺陷：液体段单位数粘连在最后一个头部字段上时，丢弃液体段保住头部
+        if (i > 9 && i < parts.length && parts[i - 1].indexOf(';') >= 0) return;
         parseLiquids(st, parts, i);
     }
 }

@@ -135,7 +135,8 @@ public final class JuicerMenu {
         // 右侧产出：标注产出份数
         menu.addItem(SLOT_OUTPUT, describeOutput(r), ChestMenuUtils.getEmptyClickHandler());
         // 榨汁方式 + 所需次数
-        menu.addItem(SLOT_TYPE, r.anvil ? typeAnvil() : typeStomp(), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(SLOT_TYPE, r.playerType && r.anvilType ? typeBoth()
+                : r.anvilType ? typeAnvil() : typeStomp(), ChestMenuUtils.getEmptyClickHandler());
         menu.addItem(SLOT_COUNT, countItem(r.progress), ChestMenuUtils.getEmptyClickHandler());
         // 混合材料页入口（未配置 mix 段时不显示）+ 返回指南 + 翻页
         if (JuicerRecipe.mix != null) {
@@ -327,6 +328,21 @@ public final class JuicerMenu {
             meta.setDisplayName(ChatColor.RED + "榨汁方式: 铁砧砸击");
             List<String> lore = new ArrayList<>();
             lore.add(ChatColor.GRAY + "铁砧砸在盆顶（每次 +4）");
+            meta.setLore(lore);
+            it.setItemMeta(meta);
+        }
+        return it;
+    }
+
+    /** 双压榨方式：踩踏与铁砧砸击均可（铁砧图标 + 双行说明）。 */
+    private static ItemStack typeBoth() {
+        ItemStack it = new ItemStack(Material.ANVIL);
+        ItemMeta meta = it.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(ChatColor.GOLD + "榨汁方式: 踩踏 / 铁砧砸击");
+            List<String> lore = new ArrayList<>();
+            lore.add(ChatColor.GRAY + "站在盆内跳跃踩踏（每次 +1）");
+            lore.add(ChatColor.GRAY + "或铁砧砸在盆顶（每次 +4）");
             meta.setLore(lore);
             it.setItemMeta(meta);
         }

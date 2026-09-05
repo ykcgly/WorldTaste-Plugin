@@ -18,7 +18,8 @@ import org.bukkit.inventory.ItemStack;
  *   cellar-name: true   # 酒窖命名功能开关
  * KEY:
  *   ingredient:
- *     - APPLE:2          # 材料id:份数（id 为材质名或粘液物品 id；份数 = 该原料果汁的单位数）
+ *     - APPLE:2          # 材料id:数量（id 为材质名或粘液物品 id；数量 = 该原料的总份数，
+ *                        # 即榨汁盆配方的材料写法，如 1 单位甜浆果汁 = 3 份甜浆果）
  *     - SWEET_BERRIES:1
  *   aging: true          # 是否允许陈酿（true=产物含酒精可陈化；false=副产物无酒精度）
  *   result:              # 每单位产物（item 段同构）

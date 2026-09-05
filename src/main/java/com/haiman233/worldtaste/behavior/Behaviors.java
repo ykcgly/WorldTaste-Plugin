@@ -41,6 +41,9 @@ public final class Behaviors {
         // 榨汁盆（跳跃踩踏/铁砧砸落进度 + 容器领取）
         org.bukkit.Bukkit.getPluginManager().registerEvents(
                 com.haiman233.worldtaste.machines.JuicerBasin.Listener.INSTANCE, WT.plugin);
+        // 动物奶桶挤取（空桶右键骆驼/马/羊/驴）
+        org.bukkit.Bukkit.getPluginManager().registerEvents(
+                com.haiman233.worldtaste.items.MilkBucketListener.INSTANCE, WT.plugin);
         // 榨汁盆指南入口注入（点击榨汁盆配方页注入配方展示按钮，不依赖 JEG）
         com.haiman233.worldtaste.guide.JuicerGuideListener.register();
         // 酒窖指南入口（JEG 拦截 / 原版注入双模式，点击酒窖管理器进入配方展示页）

@@ -113,8 +113,10 @@ public final class JuicerRecipe {
     public final int totalInput;
     /** 投入物展示堆（第一个投入物，榨汁中展示实体用）。 */
     public final ItemStack ingredientDisplay;
-    /** true=铁砧配方（每次砸落 +4），false=玩家配方（每次跳跃 +1）。混合榨汁固定为玩家型。 */
-    public final boolean anvil;
+    /** true=允许玩家踩踏榨汁（每次跳跃 +1）。混合榨汁固定为玩家型。 */
+    public final boolean playerType;
+    /** true=允许铁砧砸击榨汁（每次砸落 +4）。 */
+    public final boolean anvilType;
     /** 总进度（player 按次计 1，anvil 按次计 4）。 */
     public final int progress;
     /** 榨好后的接取份数（= 榨汁盆含水等级，1~3；瓶子每次接 1 份，桶满时一次接完）。 */
@@ -125,12 +127,13 @@ public final class JuicerRecipe {
     public ItemStack bucketForm;
 
     public JuicerRecipe(String key, Map<String, Integer> ingredientRefs, ItemStack ingredientDisplay,
-                        boolean anvil, int progress, int yield, ItemStack result) {
+                        boolean playerType, boolean anvilType, int progress, int yield, ItemStack result) {
         this.key = key;
         this.ingredientRefs = ingredientRefs;
         this.totalInput = sum(ingredientRefs);
         this.ingredientDisplay = ingredientDisplay;
-        this.anvil = anvil;
+        this.playerType = playerType;
+        this.anvilType = anvilType;
         this.progress = progress;
         this.yield = yield;
         this.result = result;

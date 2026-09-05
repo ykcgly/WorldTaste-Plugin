@@ -10,10 +10,10 @@ import java.util.Map;
 /**
  * 酒窖配方（cellar.yml 定义，CellarLoader 加载）。
  *
- * <p>匹配为<b>按材料份数</b>：每种果汁按其单位数贡献「份数」（含某原料的每单位果汁记该
- * 原料 1 份），液体中各原料的份数与配方 ingredient 的数量成<b>整数倍比例</b>（k 倍）时匹配，
- * 酿造产出 k × 单位产物。产物可为酒水（aging=true，可进入陈化模式增长酒精度）
- * 或副产物（aging=false，无酒精度）。</p>
+ * <p>匹配为<b>按材料份数</b>（原料数量）：池内各原料的总份数（每单位果汁按其组成折算材料数，
+ * 如 1 单位甜浆果汁 = 3 份甜浆果）与配方 ingredient 数量成<b>整数倍比例</b>（k 倍）时匹配，
+ * 产出池内全部果汁单位数（= 配方投入果汁单位数 × k）。产物可为酒水（aging=true，可进入
+ * 陈化模式增长酒精度）或副产物（aging=false，无酒精度）。</p>
  */
 public final class CellarRecipe {
 
@@ -31,7 +31,7 @@ public final class CellarRecipe {
     }
 
     public final String key;
-    /** 投入物：ref(mc:XXX/sf:XXX) → 该原料果汁的份数。 */
+    /** 投入物：ref(mc:XXX/sf:XXX) → 该原料的总份数（材料数量）。 */
     public final Map<String, Integer> ingredientRefs;
     /** 投入总单位数。 */
     public final int totalInput;
@@ -67,20 +67,23 @@ public final class CellarRecipe {
     }
 
     /**
-     * 按材料份数匹配：portions 为各原料的果汁份数（ref → 份数，由液体单位数按所含原料汇总）。
-     * 各原料份数与配方 ingredient 数量成整数倍（k≥1）比例时匹配；多个候选取倍率最小者。
+     * 按材料份数匹配：portions 为池内各原料的总份数（ref → 每单位果汁组成 × 单位数，
+     * 支持分数），与配方 ingredient 数量成整数倍（k≥1）比例时匹配；多个候选取倍率最小者。
      * 清水不参与（无原料 ref）。
      */
-    public static MatchResult match(Map<String, Integer> portions) {
+    public static MatchResult match(Map<String, Double> portions) {
         MatchResult best = null;
-        int total = 0;
-        for (int n : portions.values()) total += n;
+        double total = 0;
+        for (double n : portions.values()) total += n;
         for (CellarRecipe r : RECIPES.values()) {
-            if (r.totalInput == 0 || total % r.totalInput != 0) continue;
-            int k = total / r.totalInput;
+            if (r.totalInput == 0 || total < r.totalInput) continue;
+            double kd = total / r.totalInput;
+            int k = (int) Math.round(kd);
+            if (k < 1 || Math.abs(kd - k) > 1e-6) continue;
             boolean ok = true;
-            for (Map.Entry<String, Integer> e : portions.entrySet()) {
-                if (e.getValue() != r.ingredientRefs.getOrDefault(e.getKey(), 0) * k) {
+            for (Map.Entry<String, Double> e : portions.entrySet()) {
+                double expect = r.ingredientRefs.getOrDefault(e.getKey(), 0) * (double) k;
+                if (Math.abs(e.getValue() - expect) > 1e-6) {
                     ok = false;
                     break;
                 }

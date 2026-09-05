@@ -1,27 +1,33 @@
 package com.haiman233.worldtaste.machines;
 
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import com.haiman233.worldtaste.WT;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
-import org.bukkit.Bukkit;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 酒窖管理器（machines.yml 中 script: jiujiao，材质酿造台）：酒窖多方块核心。
  *
  * <p>储电 500J，耗电 100J/t（仅多方块结构完整且蓄电充足时自 charge 扣除，
- * 电网会自动向其补电）。右键始终打开 {@link CellarMenu} 机器页面（结构不完整时
- * 提示但不拦截，方便玩家查看页面内的多方块结构展示）。
+ * 电网会自动向其补电）。右键经 {@link BlockMenuPreset} 原生打开机器页面
+ * （{@link CellarMenu}，结构与本体机器一致；结构不完整时页面内可查看多方块结构展示）。
  * 运行中双机（管理器/温控器）任一蓄电不足 → 酿造/陈化直接失败产生废液。</p>
  *
  * <p>耗电量经 {@link PowerConsumer} 暴露，注册时自动写入物品 lore。</p>
@@ -30,6 +36,38 @@ public class WineCellarManager extends SlimefunItem implements EnergyNetComponen
 
     public static final int CAPACITY = 500;
     public static final int CONSUMPTION = 100;
+
+    /** 结构校验缓存：partner() 一次调用替代逐 tick 的 matches()+partner() 双重 3×3×3 扫描。 */
+    private record StructureCheck(long expireAtTick, Block partner, TemperatureController ctrl) {}
+
+    private static final Map<World, Map<Long, StructureCheck>> CHECKS = new HashMap<>();
+
+    private static long key(Block b) {
+        return ((long) (b.getX() & 0x3FFFFFF) << 38) | ((long) (b.getZ() & 0x3FFFFFF) << 12) | (b.getY() & 0xFFF);
+    }
+
+    /** 结构被破坏时失效该位置的校验缓存（防止缓存窗口内向已拆除方块写电）。 */
+    public static void invalidateStructureCheck(Block b) {
+        Map<Long, StructureCheck> m = CHECKS.get(b.getWorld());
+        if (m != null) m.remove(key(b));
+    }
+
+    /** 缓存式结构校验：结构完整缓存 20 tick，不完整缓存 10 tick（补建后尽快恢复计时）。 */
+    private static StructureCheck structureCheck(Block b) {
+        World w = b.getWorld();
+        long now = w.getGameTime();
+        Map<Long, StructureCheck> m = CHECKS.get(w);
+        StructureCheck v = m == null ? null : m.get(key(b));
+        if (v == null || v.expireAtTick() <= now) {
+            Block partner = CellarStructure.partner(b, false);
+            TemperatureController ctrl = partner != null
+                    && me.mrCookieSlime.Slimefun.api.BlockStorage.check(partner) instanceof TemperatureController c
+                    ? c : null;
+            v = new StructureCheck(now + (ctrl != null ? 20 : 10), ctrl != null ? partner : null, ctrl);
+            CHECKS.computeIfAbsent(w, x -> new HashMap<>()).put(key(b), v);
+        }
+        return v;
+    }
 
     public WineCellarManager(ItemGroup group, SlimefunItemStack item, RecipeType rt,
                              org.bukkit.inventory.ItemStack[] recipe) {
@@ -43,12 +81,10 @@ public class WineCellarManager extends SlimefunItem implements EnergyNetComponen
             public void tick(Block b, SlimefunItem sf, Config data) {
                 WineCellarState st = WineCellarState.get(b);
                 if (st.phase() != WineCellarState.Phase.RUNNING) return;
-                if (!CellarStructure.matches(b, false)) return;
-                Block partner = CellarStructure.partner(b, false);
-                if (partner == null) return;
-                // 伙伴方块必须是已注册的温度控制器
-                if (!(me.mrCookieSlime.Slimefun.api.BlockStorage.check(partner)
-                        instanceof TemperatureController ctrl)) return;
+                StructureCheck check = structureCheck(b);
+                if (check.ctrl() == null) return;
+                Block partner = check.partner();
+                TemperatureController ctrl = check.ctrl();
                 // 断电：酿造/陈化直接失败，液体报废（结构被拆仍为暂停，破坏事件本身会清数据）
                 if (getCharge(b.getLocation()) < CONSUMPTION
                         || ctrl.getCharge(partner.getLocation())
@@ -71,20 +107,29 @@ public class WineCellarManager extends SlimefunItem implements EnergyNetComponen
             }
         });
 
-        addItemHandler(new BlockUseHandler() {
+        // 机器页面（粘液原生 BlockMenuPreset：右键打开、界面内容随方块持久化、多玩家共享查看）。
+        // 本分支 BlockMenuPreset 构造即自注册进注册表（不经过 addItemHandler）
+        new BlockMenuPreset(item.getItemId(), ChatColor.GOLD + "酒窖管理器") {
             @Override
-            public void onRightClick(PlayerRightClickEvent e) {
-                e.getClickedBlock().ifPresent(b -> {
-                    e.cancel();
-                    // 结构不完整也允许打开机器页面：玩家可在页面内通过「多方块结构」按钮查看搭建方式
-                    // （计时推进仍要求结构完整 + 双机供电，不完整时只是提示，不拦截查看）
-                    if (!CellarStructure.matches(b, false)) {
-                        e.getPlayer().sendMessage("§c多方块结构不完整，机器无法运行！");
-                    }
-                    CellarMenu.open(e.getPlayer(), b);
-                });
+            public void init() {
+                CellarMenu.setupMenu(this);
             }
-        });
+
+            @Override
+            public boolean canOpen(Block b, Player p) {
+                return true;
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                return new int[0];
+            }
+
+            @Override
+            public void newInstance(BlockMenu menu, Block b) {
+                CellarMenu.onNewInstance(menu, b);
+            }
+        };
     }
 
     @Override

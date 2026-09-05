@@ -93,7 +93,7 @@ WT_ZTF3:
     lore:
       - '&e尘世百味附属维护者'
       - '&a承担了将尘世百味从rsc转味jar的部分'
-      - '&7纯大蛇😋'
+      - '&7&m赤石继承人'
   placeable: false
   recipe_type: "null"
 
@@ -85879,7 +85879,7 @@ WT_KULIPADAN_DANHUANGJIANG:
 # 河豚钓鱼佬
 WT_HETUNDIAOYULAO_TISHI:
   item:
-    lore: [§7此分类添加了各式各样的河豚, §7这些河豚可以作为装饰品放在地上(海鲜区的钻石河豚除外), §7也可用于合成收藏品, §7PS:这类河豚不产鱼籽！！]
+    lore: [§7此分类添加了各式各样的河豚, §7也可用于合成收藏品, §7PS:这类河豚不产鱼籽！！]
     name: §f§l说明
     amount: 1
     material_type: mc
@@ -107908,7 +107908,55 @@ WT_ZHUTOUROU:
   placeable: false
   script: '15'
 
-# 果渣（榨汁完成后按投入总数掉落，可食用）
+WT_NIANZAO_INFO:
+  item:
+    lore: 
+      - "&e全新分类--酿造工艺"
+      - "&e为尘百添加了近乎无限种类的饮品"
+      - "&7&m灵感来源于一天晚上做梦梦到酒狐踩葡萄酒"
+    name: "&e酿造工艺介绍"
+    amount: 1
+    material_type: mc
+    material: PAPER
+  item_group: ws_niangzaogongyi
+  recipe_type: "NULL"
+
+WT_NIANZAO_JIESAO:
+  item:
+    lore: 
+      - "&b这个分类主要添加了两种机器"
+      - "&b榨汁盆与酒窖管理器"
+      - "&b可以在榨汁盆中投入食材进行榨汁"
+      - "&b具体配方可以查看粘液指南界面"
+      - "&b获取的汁水可以直接食用，或者放入酒窖中进一步酿造来获得酒水"
+    name: "&b说明"
+    amount: 1
+    material_type: mc
+    material: PAPER
+  item_group: ws_niangzaogongyi
+  recipe_type: "NULL"
+
+WT_NIANZAO_TEXING :
+  item:
+    lore: 
+      - "&b榨汁盆一次最多能放入10种物品，物品总数量上限10个"
+      - "&7可以理解为容量为10的收纳袋"
+      - "&b产出的物品都会有你放入的物品"
+      - "&b也就是说你可以在一瓶的汁水里面见到10种食材"
+      - "&b你还能将其倒入酒窖进行陈酿"
+      - "&b陈酿后的果汁会带上酒精度"
+      - "&b酒精度取决于放入的汁水的总糖分*转化率（默认0.3）+酒曲加成"
+      - "&7初级酒曲+0 酒曲+3 中级酒曲+6 高级酒曲+15 特级酒曲+30"
+      - "&b在酿造完成后可以直接进行陈酿"
+      - "&b酿造不限时间&m越老越香醇"
+      - "&b默认酒精度每日增长5%~15%"
+    name: "&e新的特性"
+    amount: 1
+    material_type: mc
+    material: NETHER_STAR
+  item_group: ws_niangzaogongyi
+  recipe_type: "NULL"
+
 WT_GUOZHA:
   item:
     name: '&7果渣'
@@ -107919,3 +107967,17 @@ WT_GUOZHA:
   recipe_type: 'NULL'
   placeable: false
   script: "1"
+
+WT_SWEET_PAPER:
+  item:
+    name: '&e&l甜度试纸'
+    amount: 1
+    material_type: mc
+    material: PAPER
+    lore:
+      - '&7可以用它来检测饮品的甜度'
+      - '&8主手持果汁，副手持试纸，右键空气检测'
+  item_group: ws_niangzaogongyi
+  recipe_type: 'NULL'
+  placeable: false
+

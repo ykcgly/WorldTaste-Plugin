@@ -32,7 +32,7 @@ public final class Setup {
         // 酒窖配方（cellar.yml：配方表 + 命名功能开关）
         CellarLoader.load();
         com.haiman233.worldtaste.machines.WineBottle.register(WT.group("ws_niangzaogongyi"));
-        com.haiman233.worldtaste.machines.SweetnessPaper.register(WT.group("ws_niangzaogongyi"));
+        com.haiman233.worldtaste.machines.SweetnessPaper.register();
         MobDropsLoader.load();
         MenuLoader.load();
         RecipeMachineLoader.load();
