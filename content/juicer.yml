@@ -5,7 +5,7 @@
 player-names: true
 # 榨汁信息 lore 行格式（player-names: true 时生效，支持 & 颜色代码）
 # 占位符：%playername% = 参与榨汁的玩家名（多人以「、」分隔），%time% = 榨好时间
-player-names-format: '&8[&6榨汁盆&8] &7榨汁师: &f%playername% &7(&b%time%&7)'
+player-names-format: '&7里面有 &b%playername% 的味道'
 # 是否启用铁砧损耗：false = 铁砧砸落后永不损坏（留在盆顶，可回收再用）
 #                   true  = 每次砸落按下方概率降低铁砧耐久（ANVIL→CHIPPED→DAMAGED→碎裂）
 anvil-damage: true
@@ -17,6 +17,10 @@ sugar-alcohol-ratio: 0.3
 aging-growth: 0.05~0.15
 # 陈酿果酒 lore 信息行格式（&颜色代码；占位符 %players% 榨汁玩家、%contents% 组成果汁、%alcohol% 酒精度）
 wine-lore-format: '&7| &b%contents% &7| &c酒精度: &e%alcohol%°' 
+# 成品酒（通用陈酿果酒 + 所有配方酒）的组成物品是否显示在 lore 中
+wine-show-contents: true
+# 组成物品显示方向：true = 竖向（每个材料单独一行，前置 • 列表符）；false = 横向（顿号分隔一行）
+wine-contents-vertical: true
 
 # ===== 可混合配置 =====
 # recipes: 可混合材料列表（材质名或粘液物品 id）。配方全部不匹配时，盆内全部为可混合
@@ -36,8 +40,69 @@ mix:
     - ENCHANTED_GOLDEN_APPLE
     - MELON_SLICE
     - POTATO
-    - SWEET_BERRIES
     - POISONOUS_POTATO
+    - WT_CZL
+    - WT_MGL
+    - WT_MHT
+    - WT_MEIZI
+    - WT_HONGZAO
+    - WT_SANGSHEN
+    - WT_CULI
+    - WT_LANCULI
+    - WT_HEICULI
+    - WT_QINGTI
+    - WT_GANXIA
+    - WT_SHILIU
+    - WT_PIPA
+    - WT_WENBOGUO
+    - WT_XSCZ
+    - WT_SHIZI
+    - WT_PANTAO
+    - WT_DONGQINGGUO
+    - WT_YEYINGMEI
+    - WT_HEIXINGUO
+    - WT_SHANZHA
+    - WT_BOLUOMEI
+    - WT_BAITAO
+    - WT_DENGLONGGUO
+    - WT_TIANSHIGUO
+    - WT_KUCHENG
+    - WT_SHATANGJU
+    - WT_YUNMEI
+    - WT_TIANMEI
+    - WT_HUANGJINGGUO
+    - WT_YANGTAO
+    - WT_QINGYANGTAO
+    - WT_QINGNING
+    - WT_MAMEIGUO
+    - WT_QINGXIANGJIAO
+    - WT_KEKEGUO
+    - WT_SHEPIGUO
+    - WT_FEIZHOULI
+    - WT_MANGGUO
+    - WT_SUANJIAO
+    - WT_LIULIAN
+    - WT_QINGNILIULIAN
+    - WT_MIYOU
+    - WT_HEIGANLAN
+    - WT_FANSHILIU
+    - WT_XUECHENG
+    - WT_WUHUAGUO
+    - WT_MIANBAOGUO
+    - WT_BOLUOMI
+    - WT_HAMIGUA
+    - WT_MUGUA
+    - WT_RENXINGUO
+    - WT_SHUFANQIE
+    - WT_HUANGLONGGUO
+    - WT_QINGLONGGUO
+    - WT_TIANLONGGUO
+    - WT_XIAOXIGUA
+    - WT_TIANGUA
+    - WT_QIGUA
+    - WT_SHANZHU
+    - WT_BAIXIANGGUO
+    - WT_XIANRENZHANG
   progress: 10
   bottle:
     material: POTION
@@ -215,6 +280,800 @@ WT_PIPA_ZHAPEN:
     name: '&e&l枇杷汁'
     lore: ['&7新鲜的枇杷汁']
     amount: 1
+
+WT_CZL_ZHAPEN:
+  ingredient:
+    - WT_CZL:1
+  type: player,anvil
+  progress: 9
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l车厘子汁'
+    lore: ['&7车厘子鲜榨汁']
+    amount: 1
+
+WT_MGL_ZHAPEN:
+  ingredient:
+    - WT_MGL:3
+  type: player,anvil
+  progress: 7
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&d&l玫瑰梨汁'
+    lore: ['&7玫瑰梨鲜榨汁']
+    amount: 1
+
+WT_MHT_ZHAPEN:
+  ingredient:
+    - WT_MHT:1
+  type: player,anvil
+  progress: 7
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&a&l猕猴桃汁'
+    lore: ['&7猕猴桃鲜榨汁']
+    amount: 1
+
+WT_MEIZI_ZHAPEN:
+  ingredient:
+    - WT_MEIZI:2
+  type: player,anvil
+  progress: 9
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&5&l西梅汁'
+    lore: ['&7西梅鲜榨汁']
+    amount: 1
+
+WT_HONGZAO_ZHAPEN:
+  ingredient:
+    - WT_HONGZAO:3
+  type: player,anvil
+  progress: 9
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l红枣汁'
+    lore: ['&7红枣鲜榨汁']
+    amount: 1
+
+WT_SANGSHEN_ZHAPEN:
+  ingredient:
+    - WT_SANGSHEN:1
+  type: player,anvil
+  progress: 8
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&d&l桑葚汁'
+    lore: ['&7桑葚鲜榨汁']
+    amount: 1
+
+WT_CULI_ZHAPEN:
+  ingredient:
+    - WT_CULI:1
+  type: player,anvil
+  progress: 10
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l醋栗汁'
+    lore: ['&7醋栗鲜榨汁']
+    amount: 1
+
+WT_LANCULI_ZHAPEN:
+  ingredient:
+    - WT_LANCULI:3
+  type: player,anvil
+  progress: 7
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&b&l蓝醋栗汁'
+    lore: ['&7蓝醋栗鲜榨汁']
+    amount: 1
+
+WT_HEICULI_ZHAPEN:
+  ingredient:
+    - WT_HEICULI:1
+  type: player,anvil
+  progress: 7
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&8&l黑醋栗汁'
+    lore: ['&7黑醋栗鲜榨汁']
+    amount: 1
+
+WT_QINGTI_ZHAPEN:
+  ingredient:
+    - WT_QINGTI:2
+  type: player,anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&a&l青提汁'
+    lore: ['&7青提鲜榨汁']
+    amount: 1
+
+WT_GANXIA_ZHAPEN:
+  ingredient:
+    - WT_GANXIA:1
+  type: player,anvil
+  progress: 9
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l甘夏汁'
+    lore: ['&7甘夏鲜榨汁']
+    amount: 1
+
+WT_SHILIU_ZHAPEN:
+  ingredient:
+    - WT_SHILIU:2
+  type: player,anvil
+  progress: 7
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&4&l石榴汁'
+    lore: ['&7石榴鲜榨汁']
+    amount: 1
+
+WT_WENBOGUO_ZHAPEN:
+  ingredient:
+    - WT_WENBOGUO:2
+  type: player,anvil
+  progress: 7
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l榅桲汁'
+    lore: ['&7榅桲鲜榨汁']
+    amount: 1
+
+WT_XSCZ_ZHAPEN:
+  ingredient:
+    - WT_XSCZ:3
+  type: player,anvil
+  progress: 7
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l像素橙子汁'
+    lore: ['&7像素橙子鲜榨汁']
+    amount: 1
+
+WT_SHIZI_ZHAPEN:
+  ingredient:
+    - WT_SHIZI:2
+  type: player,anvil
+  progress: 7
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l柿子汁'
+    lore: ['&7柿子鲜榨汁']
+    amount: 1
+
+WT_PANTAO_ZHAPEN:
+  ingredient:
+    - WT_PANTAO:1
+  type: player,anvil
+  progress: 7
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&d&l蟠桃汁'
+    lore: ['&7蟠桃鲜榨汁']
+    amount: 1
+
+WT_DONGQINGGUO_ZHAPEN:
+  ingredient:
+    - WT_DONGQINGGUO:2
+  type: player,anvil
+  progress: 7
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&b&l冬青果汁'
+    lore: ['&7冬青果鲜榨汁']
+    amount: 1
+
+WT_YEYINGMEI_ZHAPEN:
+  ingredient:
+    - WT_YEYINGMEI:3
+  type: player,anvil
+  progress: 8
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&5&l野樱莓汁'
+    lore: ['&7野樱莓鲜榨汁']
+    amount: 1
+
+WT_HEIXINGUO_ZHAPEN:
+  ingredient:
+    - WT_HEIXINGUO:2
+  type: player,anvil
+  progress: 7
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&8&l黑心果汁'
+    lore: ['&7黑心果鲜榨汁']
+    amount: 1
+
+WT_SHANZHA_ZHAPEN:
+  ingredient:
+    - WT_SHANZHA:2
+  type: player,anvil
+  progress: 10
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&c&l山楂汁'
+    lore: ['&7山楂鲜榨汁']
+    amount: 1
+
+WT_BOLUOMEI_ZHAPEN:
+  ingredient:
+    - WT_BOLUOMEI:2
+  type: player,anvil
+  progress: 9
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&f&l菠萝莓汁'
+    lore: ['&7菠萝莓鲜榨汁']
+    amount: 1
+
+WT_BAITAO_ZHAPEN:
+  ingredient:
+    - WT_BAITAO:2
+  type: player,anvil
+  progress: 8
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&f&l白桃汁'
+    lore: ['&7白桃鲜榨汁']
+    amount: 1
+
+WT_DENGLONGGUO_ZHAPEN:
+  ingredient:
+    - WT_DENGLONGGUO:2
+  type: player,anvil
+  progress: 8
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l灯笼果汁'
+    lore: ['&7灯笼果鲜榨汁']
+    amount: 1
+
+WT_TIANSHIGUO_ZHAPEN:
+  ingredient:
+    - WT_TIANSHIGUO:3
+  type: player,anvil
+  progress: 7
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&f&l天使果汁'
+    lore: ['&7天使果鲜榨汁']
+    amount: 1
+
+WT_KUCHENG_ZHAPEN:
+  ingredient:
+    - WT_KUCHENG:1
+  type: player,anvil
+  progress: 9
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l苦橙汁'
+    lore: ['&7苦橙鲜榨汁']
+    amount: 1
+
+WT_SHATANGJU_ZHAPEN:
+  ingredient:
+    - WT_SHATANGJU:1
+  type: player,anvil
+  progress: 8
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l砂糖橘汁'
+    lore: ['&7砂糖橘鲜榨汁']
+    amount: 1
+
+WT_YUNMEI_ZHAPEN:
+  ingredient:
+    - WT_YUNMEI:2
+  type: player,anvil
+  progress: 7
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l云莓汁'
+    lore: ['&7云莓鲜榨汁']
+    amount: 1
+
+WT_TIANMEI_ZHAPEN:
+  ingredient:
+    - WT_TIANMEI:3
+  type: player,anvil
+  progress: 10
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&b&l天莓汁'
+    lore: ['&7天莓鲜榨汁']
+    amount: 1
+
+WT_HUANGJINGGUO_ZHAPEN:
+  ingredient:
+    - WT_HUANGJINGGUO:2
+  type: player,anvil
+  progress: 9
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l黄晶果汁'
+    lore: ['&7黄晶果鲜榨汁']
+    amount: 1
+
+WT_YANGTAO_ZHAPEN:
+  ingredient:
+    - WT_YANGTAO:1
+  type: player,anvil
+  progress: 8
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l杨桃汁'
+    lore: ['&7杨桃鲜榨汁']
+    amount: 1
+
+WT_QINGYANGTAO_ZHAPEN:
+  ingredient:
+    - WT_QINGYANGTAO:1
+  type: player,anvil
+  progress: 8
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&a&l青杨桃汁'
+    lore: ['&7青杨桃鲜榨汁']
+    amount: 1
+
+WT_QINGNING_ZHAPEN:
+  ingredient:
+    - WT_QINGNING:3
+  type: player,anvil
+  progress: 8
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&a&l青柠汁'
+    lore: ['&7青柠鲜榨汁']
+    amount: 1
+
+WT_MAMEIGUO_ZHAPEN:
+  ingredient:
+    - WT_MAMEIGUO:1
+  type: player,anvil
+  progress: 7
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l马梅果汁'
+    lore: ['&7马梅果鲜榨汁']
+    amount: 1
+
+WT_QINGXIANGJIAO_ZHAPEN:
+  ingredient:
+    - WT_QINGXIANGJIAO:1
+  type: player,anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&a&l芭蕉汁'
+    lore: ['&7芭蕉鲜榨汁']
+    amount: 1
+
+WT_KEKEGUO_ZHAPEN:
+  ingredient:
+    - WT_KEKEGUO:3
+  type: player,anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&8&l可可果汁'
+    lore: ['&7可可果鲜榨汁']
+    amount: 1
+
+WT_SHEPIGUO_ZHAPEN:
+  ingredient:
+    - WT_SHEPIGUO:2
+  type: player,anvil
+  progress: 8
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l蛇皮果汁'
+    lore: ['&7蛇皮果鲜榨汁']
+    amount: 1
+
+WT_FEIZHOULI_ZHAPEN:
+  ingredient:
+    - WT_FEIZHOULI:1
+  type: player,anvil
+  progress: 7
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&5&l非洲梨汁'
+    lore: ['&7非洲梨鲜榨汁']
+    amount: 1
+
+WT_MANGGUO_ZHAPEN:
+  ingredient:
+    - WT_MANGGUO:3
+  type: player,anvil
+  progress: 7
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l芒果汁'
+    lore: ['&7芒果鲜榨汁']
+    amount: 1
+
+WT_SUANJIAO_ZHAPEN:
+  ingredient:
+    - WT_SUANJIAO:1
+  type: player,anvil
+  progress: 7
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&a&l刺果番荔枝汁'
+    lore: ['&7刺果番荔枝鲜榨汁']
+    amount: 1
+
+WT_LIULIAN_ZHAPEN:
+  ingredient:
+    - WT_LIULIAN:3
+  type: player,anvil
+  progress: 9
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l榴莲汁'
+    lore: ['&7榴莲鲜榨汁']
+    amount: 1
+
+WT_QINGNILIULIAN_ZHAPEN:
+  ingredient:
+    - WT_QINGNILIULIAN:3
+  type: player,anvil
+  progress: 9
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&a&l青尼榴莲汁'
+    lore: ['&7青尼榴莲鲜榨汁']
+    amount: 1
+
+WT_MIYOU_ZHAPEN:
+  ingredient:
+    - WT_MIYOU:2
+  type: player,anvil
+  progress: 8
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l蜜柚汁'
+    lore: ['&7蜜柚鲜榨汁']
+    amount: 1
+
+WT_HEIGANLAN_ZHAPEN:
+  ingredient:
+    - WT_HEIGANLAN:1
+  type: player,anvil
+  progress: 10
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&8&l黑橄榄汁'
+    lore: ['&7黑橄榄鲜榨汁']
+    amount: 1
+
+WT_FANSHILIU_ZHAPEN:
+  ingredient:
+    - WT_FANSHILIU:3
+  type: player,anvil
+  progress: 7
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&a&l番石榴汁'
+    lore: ['&7番石榴鲜榨汁']
+    amount: 1
+
+WT_XUECHENG_ZHAPEN:
+  ingredient:
+    - WT_XUECHENG:2
+  type: player,anvil
+  progress: 8
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&c&l血橙汁'
+    lore: ['&7血橙鲜榨汁']
+    amount: 1
+
+WT_WUHUAGUO_ZHAPEN:
+  ingredient:
+    - WT_WUHUAGUO:3
+  type: player,anvil
+  progress: 10
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&5&l无花果汁'
+    lore: ['&7无花果鲜榨汁']
+    amount: 1
+
+WT_MIANBAOGUO_ZHAPEN:
+  ingredient:
+    - WT_MIANBAOGUO:2
+  type: player,anvil
+  progress: 8
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&8&l面包果汁'
+    lore: ['&7面包果鲜榨汁']
+    amount: 1
+
+WT_BOLUOMI_ZHAPEN:
+  ingredient:
+    - WT_BOLUOMI:1
+  type: player,anvil
+  progress: 10
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l菠萝蜜汁'
+    lore: ['&7菠萝蜜鲜榨汁']
+    amount: 1
+
+WT_HAMIGUA_ZHAPEN:
+  ingredient:
+    - WT_HAMIGUA:1
+  type: player,anvil
+  progress: 9
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l哈密瓜汁'
+    lore: ['&7哈密瓜鲜榨汁']
+    amount: 1
+
+WT_MUGUA_ZHAPEN:
+  ingredient:
+    - WT_MUGUA:1
+  type: player,anvil
+  progress: 9
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l木瓜汁'
+    lore: ['&7木瓜鲜榨汁']
+    amount: 1
+
+WT_RENXINGUO_ZHAPEN:
+  ingredient:
+    - WT_RENXINGUO:1
+  type: player,anvil
+  progress: 10
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l人心果汁'
+    lore: ['&7人心果鲜榨汁']
+    amount: 1
+
+WT_SHUFANQIE_ZHAPEN:
+  ingredient:
+    - WT_SHUFANQIE:3
+  type: player,anvil
+  progress: 10
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&c&l树番茄汁'
+    lore: ['&7树番茄鲜榨汁']
+    amount: 1
+
+WT_HUANGLONGGUO_ZHAPEN:
+  ingredient:
+    - WT_HUANGLONGGUO:3
+  type: player,anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l黄龙果汁'
+    lore: ['&7黄龙果鲜榨汁']
+    amount: 1
+
+WT_QINGLONGGUO_ZHAPEN:
+  ingredient:
+    - WT_QINGLONGGUO:1
+  type: player,anvil
+  progress: 7
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&a&l青龙果汁'
+    lore: ['&7青龙果鲜榨汁']
+    amount: 1
+
+WT_TIANLONGGUO_ZHAPEN:
+  ingredient:
+    - WT_TIANLONGGUO:1
+  type: player,anvil
+  progress: 9
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&f&l天龙果汁'
+    lore: ['&7天龙果鲜榨汁']
+    amount: 1
+
+WT_XIAOXIGUA_ZHAPEN:
+  ingredient:
+    - WT_XIAOXIGUA:3
+  type: player,anvil
+  progress: 8
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&c&l小西瓜汁'
+    lore: ['&7小西瓜鲜榨汁']
+    amount: 1
+
+WT_TIANGUA_ZHAPEN:
+  ingredient:
+    - WT_TIANGUA:2
+  type: player,anvil
+  progress: 9
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l甜瓜汁'
+    lore: ['&7甜瓜鲜榨汁']
+    amount: 1
+
+WT_QIGUA_ZHAPEN:
+  ingredient:
+    - WT_QIGUA:1
+  type: player,anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&f&l齐瓜汁'
+    lore: ['&7齐瓜鲜榨汁']
+    amount: 1
+
+WT_SHANZHU_ZHAPEN:
+  ingredient:
+    - WT_SHANZHU:1
+  type: player,anvil
+  progress: 8
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&5&l山竹汁'
+    lore: ['&7山竹鲜榨汁']
+    amount: 1
+
+WT_BAIXIANGGUO_ZHAPEN:
+  ingredient:
+    - WT_BAIXIANGGUO:2
+  type: player,anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l百香果汁'
+    lore: ['&7百香果鲜榨汁']
+    amount: 1
+
+WT_XIANRENZHANG_ZHAPEN:
+  ingredient:
+    - WT_XIANRENZHANG:3
+  type: player,anvil
+  progress: 10
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&2&l仙人掌果汁'
+    lore: ['&7仙人掌果鲜榨汁']
+    amount: 1
+
 # 多材料配方示例（取消注释即可启用：2 苹果 + 2 甜浆果）：
 #HUNHE_ZHAPEN:
 #  ingredient:

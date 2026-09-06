@@ -34,6 +34,1674 @@ SHUIGUOJIU:
       - '&7苹果与甜浆果汁混合酿造'
     amount: 1
 
+
+# ============================================================
+#  A. 单品果酒系列（65 款，每种水果单独酿造）
+# ============================================================
+
+JIU_WT_CZL:
+  ingredient:
+    - WT_CZL:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&4&l车厘子酒'
+    lore:
+      - '&7车厘子汁单独酿造'
+    amount: 1
+
+JIU_WT_MGL:
+  ingredient:
+    - WT_MGL:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&d&l玫瑰梨酒'
+    lore:
+      - '&7玫瑰梨汁单独酿造'
+    amount: 1
+
+JIU_WT_MHT:
+  ingredient:
+    - WT_MHT:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l猕猴桃酒'
+    lore:
+      - '&7猕猴桃汁单独酿造'
+    amount: 1
+
+JIU_WT_MEIZI:
+  ingredient:
+    - WT_MEIZI:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l西梅酒'
+    lore:
+      - '&7西梅汁单独酿造'
+    amount: 1
+
+JIU_WT_HONGZAO:
+  ingredient:
+    - WT_HONGZAO:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l红枣酒'
+    lore:
+      - '&7红枣汁单独酿造'
+    amount: 1
+
+JIU_WT_SANGSHEN:
+  ingredient:
+    - WT_SANGSHEN:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&d&l桑葚酒'
+    lore:
+      - '&7桑葚汁单独酿造'
+    amount: 1
+
+JIU_WT_CULI:
+  ingredient:
+    - WT_CULI:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l醋栗酒'
+    lore:
+      - '&7醋栗汁单独酿造'
+    amount: 1
+
+JIU_WT_LANCULI:
+  ingredient:
+    - WT_LANCULI:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&b&l蓝醋栗酒'
+    lore:
+      - '&7蓝醋栗汁单独酿造'
+    amount: 1
+
+JIU_WT_HEICULI:
+  ingredient:
+    - WT_HEICULI:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&8&l黑醋栗酒'
+    lore:
+      - '&7黑醋栗汁单独酿造'
+    amount: 1
+
+JIU_WT_QINGTI:
+  ingredient:
+    - WT_QINGTI:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l青提酒'
+    lore:
+      - '&7青提汁单独酿造'
+    amount: 1
+
+JIU_WT_GANXIA:
+  ingredient:
+    - WT_GANXIA:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l甘夏酒'
+    lore:
+      - '&7甘夏汁单独酿造'
+    amount: 1
+
+JIU_WT_SHILIU:
+  ingredient:
+    - WT_SHILIU:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&4&l石榴酒'
+    lore:
+      - '&7石榴汁单独酿造'
+    amount: 1
+
+JIU_WT_PIPA:
+  ingredient:
+    - WT_PIPA:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l枇杷酒'
+    lore:
+      - '&7枇杷汁单独酿造'
+    amount: 1
+
+JIU_WT_WENBOGUO:
+  ingredient:
+    - WT_WENBOGUO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l榅桲酒'
+    lore:
+      - '&7榅桲汁单独酿造'
+    amount: 1
+
+JIU_WT_XSCZ:
+  ingredient:
+    - WT_XSCZ:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l像素橙酒'
+    lore:
+      - '&7像素橙汁单独酿造'
+    amount: 1
+
+JIU_WT_SHIZI:
+  ingredient:
+    - WT_SHIZI:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l柿子酒'
+    lore:
+      - '&7柿子汁单独酿造'
+    amount: 1
+
+JIU_WT_PANTAO:
+  ingredient:
+    - WT_PANTAO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&d&l蟠桃酒'
+    lore:
+      - '&7蟠桃汁单独酿造'
+    amount: 1
+
+JIU_WT_DONGQINGGUO:
+  ingredient:
+    - WT_DONGQINGGUO:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&b&l冬青果酒'
+    lore:
+      - '&7冬青果汁单独酿造'
+    amount: 1
+
+JIU_WT_YEYINGMEI:
+  ingredient:
+    - WT_YEYINGMEI:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l野樱莓酒'
+    lore:
+      - '&7野樱莓汁单独酿造'
+    amount: 1
+
+JIU_WT_HEIXINGUO:
+  ingredient:
+    - WT_HEIXINGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&8&l黑心果酒'
+    lore:
+      - '&7黑心果汁单独酿造'
+    amount: 1
+
+JIU_WT_SHANZHA:
+  ingredient:
+    - WT_SHANZHA:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&c&l山楂酒'
+    lore:
+      - '&7山楂汁单独酿造'
+    amount: 1
+
+JIU_WT_BOLUOMEI:
+  ingredient:
+    - WT_BOLUOMEI:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&f&l菠萝莓酒'
+    lore:
+      - '&7菠萝莓汁单独酿造'
+    amount: 1
+
+JIU_WT_BAITAO:
+  ingredient:
+    - WT_BAITAO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&f&l白桃酒'
+    lore:
+      - '&7白桃汁单独酿造'
+    amount: 1
+
+JIU_WT_DENGLONGGUO:
+  ingredient:
+    - WT_DENGLONGGUO:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l灯笼果酒'
+    lore:
+      - '&7灯笼果汁单独酿造'
+    amount: 1
+
+JIU_WT_TIANSHIGUO:
+  ingredient:
+    - WT_TIANSHIGUO:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&f&l天使果酒'
+    lore:
+      - '&7天使果汁单独酿造'
+    amount: 1
+
+JIU_WT_KUCHENG:
+  ingredient:
+    - WT_KUCHENG:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l苦橙酒'
+    lore:
+      - '&7苦橙汁单独酿造'
+    amount: 1
+
+JIU_WT_SHATANGJU:
+  ingredient:
+    - WT_SHATANGJU:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l砂糖橘酒'
+    lore:
+      - '&7砂糖橘汁单独酿造'
+    amount: 1
+
+JIU_WT_YUNMEI:
+  ingredient:
+    - WT_YUNMEI:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l云莓酒'
+    lore:
+      - '&7云莓汁单独酿造'
+    amount: 1
+
+JIU_WT_TIANMEI:
+  ingredient:
+    - WT_TIANMEI:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&b&l天莓酒'
+    lore:
+      - '&7天莓汁单独酿造'
+    amount: 1
+
+JIU_WT_HUANGJINGGUO:
+  ingredient:
+    - WT_HUANGJINGGUO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l黄晶果酒'
+    lore:
+      - '&7黄晶果汁单独酿造'
+    amount: 1
+
+JIU_WT_YANGTAO:
+  ingredient:
+    - WT_YANGTAO:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l杨桃酒'
+    lore:
+      - '&7杨桃汁单独酿造'
+    amount: 1
+
+JIU_WT_QINGYANGTAO:
+  ingredient:
+    - WT_QINGYANGTAO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l青杨桃酒'
+    lore:
+      - '&7青杨桃汁单独酿造'
+    amount: 1
+
+JIU_WT_QINGNING:
+  ingredient:
+    - WT_QINGNING:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l青柠酒'
+    lore:
+      - '&7青柠汁单独酿造'
+    amount: 1
+
+JIU_WT_MAMEIGUO:
+  ingredient:
+    - WT_MAMEIGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l马梅果酒'
+    lore:
+      - '&7马梅果汁单独酿造'
+    amount: 1
+
+JIU_WT_QINGXIANGJIAO:
+  ingredient:
+    - WT_QINGXIANGJIAO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l芭蕉酒'
+    lore:
+      - '&7芭蕉汁单独酿造'
+    amount: 1
+
+JIU_WT_KEKEGUO:
+  ingredient:
+    - WT_KEKEGUO:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&8&l可可果酒'
+    lore:
+      - '&7可可果汁单独酿造'
+    amount: 1
+
+JIU_WT_SHEPIGUO:
+  ingredient:
+    - WT_SHEPIGUO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l蛇皮果酒'
+    lore:
+      - '&7蛇皮果汁单独酿造'
+    amount: 1
+
+JIU_WT_FEIZHOULI:
+  ingredient:
+    - WT_FEIZHOULI:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l非洲梨酒'
+    lore:
+      - '&7非洲梨汁单独酿造'
+    amount: 1
+
+JIU_WT_MANGGUO:
+  ingredient:
+    - WT_MANGGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l芒果酒'
+    lore:
+      - '&7芒果汁单独酿造'
+    amount: 1
+
+JIU_WT_SUANJIAO:
+  ingredient:
+    - WT_SUANJIAO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l刺果番荔枝酒'
+    lore:
+      - '&7刺果番荔枝汁单独酿造'
+    amount: 1
+
+JIU_WT_LIULIAN:
+  ingredient:
+    - WT_LIULIAN:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l榴莲酒'
+    lore:
+      - '&7榴莲汁单独酿造'
+    amount: 1
+
+JIU_WT_QINGNILIULIAN:
+  ingredient:
+    - WT_QINGNILIULIAN:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l青尼榴莲酒'
+    lore:
+      - '&7青尼榴莲汁单独酿造'
+    amount: 1
+
+JIU_WT_MIYOU:
+  ingredient:
+    - WT_MIYOU:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l蜜柚酒'
+    lore:
+      - '&7蜜柚汁单独酿造'
+    amount: 1
+
+JIU_WT_HEIGANLAN:
+  ingredient:
+    - WT_HEIGANLAN:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&8&l黑橄榄酒'
+    lore:
+      - '&7黑橄榄汁单独酿造'
+    amount: 1
+
+JIU_WT_FANSHILIU:
+  ingredient:
+    - WT_FANSHILIU:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l番石榴酒'
+    lore:
+      - '&7番石榴汁单独酿造'
+    amount: 1
+
+JIU_WT_XUECHENG:
+  ingredient:
+    - WT_XUECHENG:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&c&l血橙酒'
+    lore:
+      - '&7血橙汁单独酿造'
+    amount: 1
+
+JIU_WT_WUHUAGUO:
+  ingredient:
+    - WT_WUHUAGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l无花果酒'
+    lore:
+      - '&7无花果汁单独酿造'
+    amount: 1
+
+JIU_WT_MIANBAOGUO:
+  ingredient:
+    - WT_MIANBAOGUO:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&8&l面包果酒'
+    lore:
+      - '&7面包果汁单独酿造'
+    amount: 1
+
+JIU_WT_BOLUOMI:
+  ingredient:
+    - WT_BOLUOMI:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l菠萝蜜酒'
+    lore:
+      - '&7菠萝蜜汁单独酿造'
+    amount: 1
+
+JIU_WT_HAMIGUA:
+  ingredient:
+    - WT_HAMIGUA:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l哈密瓜酒'
+    lore:
+      - '&7哈密瓜汁单独酿造'
+    amount: 1
+
+JIU_WT_MUGUA:
+  ingredient:
+    - WT_MUGUA:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l木瓜酒'
+    lore:
+      - '&7木瓜汁单独酿造'
+    amount: 1
+
+JIU_WT_RENXINGUO:
+  ingredient:
+    - WT_RENXINGUO:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l人心果酒'
+    lore:
+      - '&7人心果汁单独酿造'
+    amount: 1
+
+JIU_WT_SHUFANQIE:
+  ingredient:
+    - WT_SHUFANQIE:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&c&l树番茄酒'
+    lore:
+      - '&7树番茄汁单独酿造'
+    amount: 1
+
+JIU_WT_HUANGLONGGUO:
+  ingredient:
+    - WT_HUANGLONGGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l黄龙果酒'
+    lore:
+      - '&7黄龙果汁单独酿造'
+    amount: 1
+
+JIU_WT_QINGLONGGUO:
+  ingredient:
+    - WT_QINGLONGGUO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l青龙果酒'
+    lore:
+      - '&7青龙果汁单独酿造'
+    amount: 1
+
+JIU_WT_TIANLONGGUO:
+  ingredient:
+    - WT_TIANLONGGUO:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&f&l天龙果酒'
+    lore:
+      - '&7天龙果汁单独酿造'
+    amount: 1
+
+JIU_WT_XIAOXIGUA:
+  ingredient:
+    - WT_XIAOXIGUA:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&c&l小西瓜酒'
+    lore:
+      - '&7小西瓜汁单独酿造'
+    amount: 1
+
+JIU_WT_TIANGUA:
+  ingredient:
+    - WT_TIANGUA:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l甜瓜酒'
+    lore:
+      - '&7甜瓜汁单独酿造'
+    amount: 1
+
+JIU_WT_QIGUA:
+  ingredient:
+    - WT_QIGUA:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&f&l齐瓜酒'
+    lore:
+      - '&7齐瓜汁单独酿造'
+    amount: 1
+
+JIU_WT_SHANZHU:
+  ingredient:
+    - WT_SHANZHU:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l山竹酒'
+    lore:
+      - '&7山竹汁单独酿造'
+    amount: 1
+
+JIU_WT_BAIXIANGGUO:
+  ingredient:
+    - WT_BAIXIANGGUO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l百香果酒'
+    lore:
+      - '&7百香果汁单独酿造'
+    amount: 1
+
+JIU_WT_XIANRENZHANG:
+  ingredient:
+    - WT_XIANRENZHANG:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l仙人掌果酒'
+    lore:
+      - '&7仙人掌果汁单独酿造'
+    amount: 1
+
+JIU_APPLE:
+  ingredient:
+    - APPLE:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l苹果酿造酒'
+    lore:
+      - '&7苹果汁单独酿造'
+    amount: 1
+
+JIU_SWEET_BERRIES:
+  ingredient:
+    - SWEET_BERRIES:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&d&l甜浆果酒'
+    lore:
+      - '&7甜浆果汁单独酿造'
+    amount: 1
+
+JIU_GLOW_BERRIES:
+  ingredient:
+    - GLOW_BERRIES:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&b&l荧光果酒'
+    lore:
+      - '&7荧光果汁单独酿造'
+    amount: 1
+
+JIU_MELON_SLICE:
+  ingredient:
+    - MELON_SLICE:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l西瓜片酒'
+    lore:
+      - '&7西瓜片汁单独酿造'
+    amount: 1
+
+JIU_GOLDEN_APPLE:
+  ingredient:
+    - GOLDEN_APPLE:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l金苹果酒'
+    lore:
+      - '&7金苹果汁单独酿造'
+    amount: 1
+
+JIU_CHORUS_FRUIT:
+  ingredient:
+    - CHORUS_FRUIT:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l紫颂果酒'
+    lore:
+      - '&7紫颂果汁单独酿造'
+    amount: 1
+
+JIU_CARROT:
+  ingredient:
+    - CARROT:5
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l胡萝卜酒'
+    lore:
+      - '&7胡萝卜汁单独酿造'
+    amount: 1
+
+JIU_BEETROOT:
+  ingredient:
+    - BEETROOT:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&c&l甜菜根酒'
+    lore:
+      - '&7甜菜根汁单独酿造'
+    amount: 1
+
+JIU_POTATO:
+  ingredient:
+    - POTATO:4
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&f&l土豆酒'
+    lore:
+      - '&7土豆汁单独酿造'
+    amount: 1
+
+# ============================================================
+#  B. 双果合酿系列（38 款，经典现实风格搭配）
+# ============================================================
+
+HEJIU_WT_CZL_WT_SANGSHEN:
+  ingredient:
+    - WT_CZL:3
+    - WT_SANGSHEN:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&c&l车桑双莓酒'
+    lore:
+      - '&7车厘子 + 桑葚 合酿'
+    amount: 1
+
+HEJIU_WT_MGL_WT_SHATANGJU:
+  ingredient:
+    - WT_MGL:2
+    - WT_SHATANGJU:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l梨橘果酒'
+    lore:
+      - '&7玫瑰梨 + 砂糖橘 合酿'
+    amount: 1
+
+HEJIU_WT_MHT_WT_XSCZ:
+  ingredient:
+    - WT_MHT:2
+    - WT_XSCZ:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l奇异橙酒'
+    lore:
+      - '&7猕猴桃 + 像素橙 合酿'
+    amount: 1
+
+HEJIU_WT_MEIZI_WT_WUHUAGUO:
+  ingredient:
+    - WT_MEIZI:1
+    - WT_WUHUAGUO:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l梅果合酿酒'
+    lore:
+      - '&7西梅 + 无花果 合酿'
+    amount: 1
+
+HEJIU_WT_HONGZAO_WT_GANXIA:
+  ingredient:
+    - WT_HONGZAO:1
+    - WT_GANXIA:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l枣橙甜酒'
+    lore:
+      - '&7红枣 + 甘夏 合酿'
+    amount: 1
+
+HEJIU_WT_QINGTI_WT_SHILIU:
+  ingredient:
+    - WT_QINGTI:3
+    - WT_SHILIU:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&d&l提子石榴酒'
+    lore:
+      - '&7青提 + 石榴 合酿'
+    amount: 1
+
+HEJIU_WT_PIPA_WT_WENBOGUO:
+  ingredient:
+    - WT_PIPA:2
+    - WT_WENBOGUO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l榅枇古酿'
+    lore:
+      - '&7枇杷 + 榅桲 合酿'
+    amount: 1
+
+HEJIU_WT_SHIZI_WT_PANTAO:
+  ingredient:
+    - WT_SHIZI:1
+    - WT_PANTAO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l桃柿甜酿'
+    lore:
+      - '&7柿子 + 蟠桃 合酿'
+    amount: 1
+
+HEJIU_WT_DONGQINGGUO_WT_SHANZHA:
+  ingredient:
+    - WT_DONGQINGGUO:1
+    - WT_SHANZHA:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&4&l冬楂开胃酒'
+    lore:
+      - '&7冬青果 + 山楂 合酿'
+    amount: 1
+
+HEJIU_WT_YEYINGMEI_WT_HEIXINGUO:
+  ingredient:
+    - WT_YEYINGMEI:3
+    - WT_HEIXINGUO:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l樱心黑果酒'
+    lore:
+      - '&7野樱莓 + 黑心果 合酿'
+    amount: 1
+
+HEJIU_WT_BOLUOMEI_WT_YUNMEI:
+  ingredient:
+    - WT_BOLUOMEI:3
+    - WT_YUNMEI:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&f&l菠萝云莓酒'
+    lore:
+      - '&7菠萝莓 + 云莓 合酿'
+    amount: 1
+
+HEJIU_WT_BAITAO_WT_TIANSHIGUO:
+  ingredient:
+    - WT_BAITAO:1
+    - WT_TIANSHIGUO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&f&l桃夭白神酿'
+    lore:
+      - '&7白桃 + 天使果 合酿'
+    amount: 1
+
+HEJIU_WT_DENGLONGGUO_WT_CULI:
+  ingredient:
+    - WT_DENGLONGGUO:1
+    - WT_CULI:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l灯醋酸果酒'
+    lore:
+      - '&7灯笼果 + 醋栗 合酿'
+    amount: 1
+
+HEJIU_WT_KUCHENG_WT_MAMEIGUO:
+  ingredient:
+    - WT_KUCHENG:1
+    - WT_MAMEIGUO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l苦橙马梅酒'
+    lore:
+      - '&7苦橙 + 马梅果 合酿'
+    amount: 1
+
+HEJIU_WT_TIANMEI_WT_LANCULI:
+  ingredient:
+    - WT_TIANMEI:2
+    - WT_LANCULI:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&b&l蓝莓天露酒'
+    lore:
+      - '&7天莓 + 蓝醋栗 合酿'
+    amount: 1
+
+HEJIU_WT_HUANGJINGGUO_WT_LIULIAN:
+  ingredient:
+    - WT_HUANGJINGGUO:2
+    - WT_LIULIAN:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l金晶榴莲酿'
+    lore:
+      - '&7黄晶果 + 榴莲 合酿'
+    amount: 1
+
+HEJIU_WT_YANGTAO_WT_QINGYANGTAO:
+  ingredient:
+    - WT_YANGTAO:3
+    - WT_QINGYANGTAO:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l杨桃双酿'
+    lore:
+      - '&7杨桃 + 青杨桃 合酿'
+    amount: 1
+
+HEJIU_WT_QINGNING_WT_BAIXIANGGUO:
+  ingredient:
+    - WT_QINGNING:3
+    - WT_BAIXIANGGUO:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l柠香百香果酒'
+    lore:
+      - '&7青柠 + 百香果 合酿'
+    amount: 1
+
+HEJIU_WT_QINGXIANGJIAO_WT_MANGGUO:
+  ingredient:
+    - WT_QINGXIANGJIAO:1
+    - WT_MANGGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l芒蕉热带酒'
+    lore:
+      - '&7芭蕉 + 芒果 合酿'
+    amount: 1
+
+HEJIU_WT_KEKEGUO_WT_LIULIAN:
+  ingredient:
+    - WT_KEKEGUO:2
+    - WT_LIULIAN:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&8&l巧榴浓郁酒'
+    lore:
+      - '&7可可果 + 榴莲 合酿'
+    amount: 1
+
+HEJIU_WT_SHEPIGUO_WT_SUANJIAO:
+  ingredient:
+    - WT_SHEPIGUO:2
+    - WT_SUANJIAO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&4&l刺蛇异果酒'
+    lore:
+      - '&7蛇皮果 + 刺果番荔枝 合酿'
+    amount: 1
+
+HEJIU_WT_FEIZHOULI_WT_MIANBAOGUO:
+  ingredient:
+    - WT_FEIZHOULI:2
+    - WT_MIANBAOGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l非梨面包酒'
+    lore:
+      - '&7非洲梨 + 面包果 合酿'
+    amount: 1
+
+HEJIU_WT_QINGNILIULIAN_WT_HEIGANLAN:
+  ingredient:
+    - WT_QINGNILIULIAN:1
+    - WT_HEIGANLAN:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l青橄特色酒'
+    lore:
+      - '&7青尼榴莲 + 黑橄榄 合酿'
+    amount: 1
+
+HEJIU_WT_MIYOU_WT_FANSHILIU:
+  ingredient:
+    - WT_MIYOU:3
+    - WT_FANSHILIU:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l柚番清香酒'
+    lore:
+      - '&7蜜柚 + 番石榴 合酿'
+    amount: 1
+
+HEJIU_WT_XUECHENG_WT_SHUFANQIE:
+  ingredient:
+    - WT_XUECHENG:3
+    - WT_SHUFANQIE:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&c&l双红血腥酒'
+    lore:
+      - '&7血橙 + 树番茄 合酿'
+    amount: 1
+
+HEJIU_WT_BOLUOMI_WT_RENXINGUO:
+  ingredient:
+    - WT_BOLUOMI:3
+    - WT_RENXINGUO:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l菠萝蜜心酒'
+    lore:
+      - '&7菠萝蜜 + 人心果 合酿'
+    amount: 1
+
+HEJIU_WT_HAMIGUA_WT_XIAOXIGUA:
+  ingredient:
+    - WT_HAMIGUA:1
+    - WT_XIAOXIGUA:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l双瓜清爽酒'
+    lore:
+      - '&7哈密瓜 + 小西瓜 合酿'
+    amount: 1
+
+HEJIU_WT_MUGUA_WT_TIANGUA:
+  ingredient:
+    - WT_MUGUA:3
+    - WT_TIANGUA:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l瓜类双合酒'
+    lore:
+      - '&7木瓜 + 甜瓜 合酿'
+    amount: 1
+
+HEJIU_WT_HUANGLONGGUO_WT_QINGLONGGUO:
+  ingredient:
+    - WT_HUANGLONGGUO:1
+    - WT_QINGLONGGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l双龙果汁酒'
+    lore:
+      - '&7黄龙果 + 青龙果 合酿'
+    amount: 1
+
+HEJIU_WT_TIANLONGGUO_WT_QIGUA:
+  ingredient:
+    - WT_TIANLONGGUO:2
+    - WT_QIGUA:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&f&l天齐白神酒'
+    lore:
+      - '&7天龙果 + 齐瓜 合酿'
+    amount: 1
+
+HEJIU_WT_SHANZHU_WT_XIANRENZHANG:
+  ingredient:
+    - WT_SHANZHU:1
+    - WT_XIANRENZHANG:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&4&l山竹仙人掌酒'
+    lore:
+      - '&7山竹 + 仙人掌果 合酿'
+    amount: 1
+
+HEJIU_APPLE_SWEET_BERRIES:
+  ingredient:
+    - APPLE:2
+    - SWEET_BERRIES:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&c&l甜美苹果酒'
+    lore:
+      - '&7苹果 + 甜浆果 合酿'
+    amount: 1
+
+HEJIU_APPLE_MELON_SLICE:
+  ingredient:
+    - APPLE:2
+    - MELON_SLICE:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l苹果瓜酒'
+    lore:
+      - '&7苹果 + 西瓜片 合酿'
+    amount: 1
+
+HEJIU_GOLDEN_APPLE_CHORUS_FRUIT:
+  ingredient:
+    - GOLDEN_APPLE:3
+    - CHORUS_FRUIT:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l金颂紫酿'
+    lore:
+      - '&7金苹果 + 紫颂果 合酿'
+    amount: 1
+
+HEJIU_GLOW_BERRIES_BEETROOT:
+  ingredient:
+    - GLOW_BERRIES:3
+    - BEETROOT:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&d&l荧光甜菜酒'
+    lore:
+      - '&7荧光果 + 甜菜根 合酿'
+    amount: 1
+
+HEJIU_CARROT_POTATO:
+  ingredient:
+    - CARROT:3
+    - POTATO:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l薯胡萝卜酒'
+    lore:
+      - '&7胡萝卜 + 土豆 合酿'
+    amount: 1
+
+HEJIU_WT_SHATANGJU_WT_QINGNING:
+  ingredient:
+    - WT_SHATANGJU:1
+    - WT_QINGNING:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l柑橘柠香酒'
+    lore:
+      - '&7砂糖橘 + 青柠 合酿'
+    amount: 1
+
+HEJIU_WT_MANGGUO_WT_BAIXIANGGUO:
+  ingredient:
+    - WT_MANGGUO:2
+    - WT_BAIXIANGGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l芒百阳光酒'
+    lore:
+      - '&7芒果 + 百香果 合酿'
+    amount: 1
+
+# ============================================================
+#  C. 三味合酿系列（22 款，复杂风味）
+# ============================================================
+
+SAN_WT_CZL_WT_QINGTI_WT_SANGSHEN:
+  ingredient:
+    - WT_CZL:3
+    - WT_QINGTI:2
+    - WT_SANGSHEN:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&c&l三色果酒'
+    lore:
+      - '&7车厘子 + 青提 + 桑葚 三味合酿'
+    amount: 1
+
+SAN_WT_SHATANGJU_WT_XSCZ_WT_GANXIA:
+  ingredient:
+    - WT_SHATANGJU:2
+    - WT_XSCZ:1
+    - WT_GANXIA:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l三橘浓香酒'
+    lore:
+      - '&7砂糖橘 + 像素橙 + 甘夏 三味合酿'
+    amount: 1
+
+SAN_WT_HONGZAO_WT_SHANZHA_WT_WENBOGUO:
+  ingredient:
+    - WT_HONGZAO:3
+    - WT_SHANZHA:2
+    - WT_WENBOGUO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l滋补三酿'
+    lore:
+      - '&7红枣 + 山楂 + 榅桲 三味合酿'
+    amount: 1
+
+SAN_WT_YANGTAO_WT_HAMIGUA_WT_MANGGUO:
+  ingredient:
+    - WT_YANGTAO:2
+    - WT_HAMIGUA:1
+    - WT_MANGGUO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l热带风暴酒'
+    lore:
+      - '&7杨桃 + 哈密瓜 + 芒果 三味合酿'
+    amount: 1
+
+SAN_WT_MUGUA_WT_QINGXIANGJIAO_WT_XIAOXIGUA:
+  ingredient:
+    - WT_MUGUA:1
+    - WT_QINGXIANGJIAO:3
+    - WT_XIAOXIGUA:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l热带水果酒'
+    lore:
+      - '&7木瓜 + 芭蕉 + 小西瓜 三味合酿'
+    amount: 1
+
+SAN_WT_DENGLONGGUO_WT_CULI_WT_QINGNING:
+  ingredient:
+    - WT_DENGLONGGUO:1
+    - WT_CULI:2
+    - WT_QINGNING:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&a&l酸浆三联酒'
+    lore:
+      - '&7灯笼果 + 醋栗 + 青柠 三味合酿'
+    amount: 1
+
+SAN_WT_YUNMEI_WT_YEYINGMEI_WT_TIANMEI:
+  ingredient:
+    - WT_YUNMEI:1
+    - WT_YEYINGMEI:1
+    - WT_TIANMEI:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&d&l三色莓露酒'
+    lore:
+      - '&7云莓 + 野樱莓 + 天莓 三味合酿'
+    amount: 1
+
+SAN_WT_LANCULI_WT_HEICULI_WT_BOLUOMEI:
+  ingredient:
+    - WT_LANCULI:3
+    - WT_HEICULI:1
+    - WT_BOLUOMEI:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&b&l醋栗三兄弟酒'
+    lore:
+      - '&7蓝醋栗 + 黑醋栗 + 菠萝莓 三味合酿'
+    amount: 1
+
+SAN_WT_SHANZHA_WT_DONGQINGGUO_WT_HEIXINGUO:
+  ingredient:
+    - WT_SHANZHA:1
+    - WT_DONGQINGGUO:2
+    - WT_HEIXINGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&c&l山冬黑三酿'
+    lore:
+      - '&7山楂 + 冬青果 + 黑心果 三味合酿'
+    amount: 1
+
+SAN_WT_PIPA_WT_SHIZI_WT_PANTAO:
+  ingredient:
+    - WT_PIPA:3
+    - WT_SHIZI:2
+    - WT_PANTAO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&d&l枇柿桃三甜酒'
+    lore:
+      - '&7枇杷 + 柿子 + 蟠桃 三味合酿'
+    amount: 1
+
+SAN_WT_WUHUAGUO_WT_FANSHILIU_WT_RENXINGUO:
+  ingredient:
+    - WT_WUHUAGUO:1
+    - WT_FANSHILIU:2
+    - WT_RENXINGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l三果安神酒'
+    lore:
+      - '&7无花果 + 番石榴 + 人心果 三味合酿'
+    amount: 1
+
+SAN_WT_MIYOU_WT_BOLUOMI_WT_LIULIAN:
+  ingredient:
+    - WT_MIYOU:3
+    - WT_BOLUOMI:1
+    - WT_LIULIAN:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l南洋三宝酒'
+    lore:
+      - '&7蜜柚 + 菠萝蜜 + 榴莲 三味合酿'
+    amount: 1
+
+SAN_WT_HUANGLONGGUO_WT_QINGLONGGUO_WT_TIANLONGGUO:
+  ingredient:
+    - WT_HUANGLONGGUO:3
+    - WT_QINGLONGGUO:3
+    - WT_TIANLONGGUO:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&f&l三色龙酒'
+    lore:
+      - '&7黄龙果 + 青龙果 + 天龙果 三味合酿'
+    amount: 1
+
+SAN_WT_TIANSHIGUO_WT_XIANRENZHANG_WT_SHANZHU:
+  ingredient:
+    - WT_TIANSHIGUO:1
+    - WT_XIANRENZHANG:3
+    - WT_SHANZHU:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&5&l异域珍酿'
+    lore:
+      - '&7天使果 + 仙人掌果 + 山竹 三味合酿'
+    amount: 1
+
+SAN_WT_KEKEGUO_WT_BOLUOMI_WT_BAIXIANGGUO:
+  ingredient:
+    - WT_KEKEGUO:1
+    - WT_BOLUOMI:1
+    - WT_BAIXIANGGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l巧蜜百香甜酒'
+    lore:
+      - '&7可可果 + 菠萝蜜 + 百香果 三味合酿'
+    amount: 1
+
+SAN_WT_KUCHENG_WT_SUANJIAO_WT_SHEPIGUO:
+  ingredient:
+    - WT_KUCHENG:1
+    - WT_SUANJIAO:1
+    - WT_SHEPIGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l苦刺异蛇酒'
+    lore:
+      - '&7苦橙 + 刺果番荔枝 + 蛇皮果 三味合酿'
+    amount: 1
+
+SAN_APPLE_SWEET_BERRIES_GLOW_BERRIES:
+  ingredient:
+    - APPLE:3
+    - SWEET_BERRIES:2
+    - GLOW_BERRIES:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&d&l三色果园酒'
+    lore:
+      - '&7苹果 + 甜浆果 + 荧光果 三味合酿'
+    amount: 1
+
+SAN_GOLDEN_APPLE_WT_WENBOGUO_WT_HONGZAO:
+  ingredient:
+    - GOLDEN_APPLE:1
+    - WT_WENBOGUO:1
+    - WT_HONGZAO:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&6&l皇家三甜酒'
+    lore:
+      - '&7金苹果 + 榅桲 + 红枣 三味合酿'
+    amount: 1
+
+SAN_CARROT_BEETROOT_POTATO:
+  ingredient:
+    - CARROT:2
+    - BEETROOT:1
+    - POTATO:1
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&c&l田园三蔬酒'
+    lore:
+      - '&7胡萝卜 + 甜菜根 + 土豆 三味合酿'
+    amount: 1
+
+SAN_CHORUS_FRUIT_MELON_SLICE_WT_HEICULI:
+  ingredient:
+    - CHORUS_FRUIT:3
+    - MELON_SLICE:2
+    - WT_HEICULI:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&8&l紫夏黑酿'
+    lore:
+      - '&7紫颂果 + 西瓜片 + 黑醋栗 三味合酿'
+    amount: 1
+
+SAN_WT_MANGGUO_WT_LIULIAN_WT_MIANBAOGUO:
+  ingredient:
+    - WT_MANGGUO:1
+    - WT_LIULIAN:3
+    - WT_MIANBAOGUO:3
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&e&l南洋三味酒'
+    lore:
+      - '&7芒果 + 榴莲 + 面包果 三味合酿'
+    amount: 1
+
+SAN_WT_XUECHENG_WT_SHUFANQIE_WT_SHANZHA:
+  ingredient:
+    - WT_XUECHENG:3
+    - WT_SHUFANQIE:1
+    - WT_SHANZHA:2
+  aging: true
+  result:
+    material_type: mc
+    material: POTION
+    name: '&4&l红赤三酸酒'
+    lore:
+      - '&7血橙 + 树番茄 + 山楂 三味合酿'
+    amount: 1
+
+
 # 副产物示例（取消注释即可启用：1 苹果汁 + 1 甜浆果汁 → 2 单位果醋，不可陈酿）：
 #GUOCU:
 #  ingredient:

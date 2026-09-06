@@ -14,6 +14,7 @@ import java.util.Set;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -74,6 +75,10 @@ public final class JuicerRecipe {
     /** 陈酿果酒 lore 信息行格式（%players% 榨汁玩家、%contents% 组成果汁、%alcohol% 酒精度）。 */
     public static String wineLoreFormat =
             "&8[&6酒窖&8] &7榨汁师: &f%players% &7| &b%contents% &7| &c酒精度: &e%alcohol%°";
+    /** 成品酒是否显示组成物品（%contents% 占位符渲染的内容）。 */
+    public static boolean wineShowContents = true;
+    /** 组成物品显示方向：true = 竖向（每个材料一行），false = 横向（顿号分隔一行）。 */
+    public static boolean wineContentsVertical = false;
 
     private static final java.text.SimpleDateFormat TIME_FORMAT =
             new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -474,6 +479,59 @@ public final class JuicerRecipe {
         double pct = v * 100;
         if (Math.abs(pct - Math.rint(pct)) < 0.05) return "×" + (long) Math.rint(pct) + "%";
         return "×" + String.format(java.util.Locale.ROOT, "%.1f", pct) + "%";
+    }
+
+    /**
+     * 组成物品的单行文本（横向模式）或多行文本（竖向模式）。
+     * 当 wineShowContents=false 时，内容全部隐藏（返回 "•••" 之类占位符）。
+     * 返回的每一行都是包含前缀（如 "  • &b材料&7×1"）的完整字符串，无 Colors.c 翻译。
+     */
+    public static List<String> contentsLegacyList(Map<String, Double> contents) {
+        List<String> out = new ArrayList<>();
+        if (!wineShowContents) {
+            out.add("§8[组成已隐藏]");
+            return out;
+        }
+        if (contents == null || contents.isEmpty()) {
+            out.add("§7无");
+            return out;
+        }
+        if (!wineContentsVertical) {
+            out.add(contentsLegacy(contents));
+            return out;
+        }
+        for (Map.Entry<String, Double> en : contents.entrySet()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("  §8• ");
+            ItemStack it = refToItem(en.getKey());
+            if (it.hasItemMeta() && it.getItemMeta().hasDisplayName()) {
+                sb.append(it.getItemMeta().getDisplayName());
+            } else {
+                sb.append(LegacyComponentSerializer.legacySection()
+                        .serialize(nameComponent(en.getKey())));
+            }
+            sb.append("§7").append(quantityText(en.getValue()));
+            out.add(sb.toString());
+        }
+        return out;
+    }
+
+    /** 组成果汁名（横向顿号分隔；粘液显示名保留自身颜色码；原版翻译组件再转旧式文本）。 */
+    public static String contentsLegacy(Map<String, Double> contents) {
+        if (contents == null || contents.isEmpty()) return "无";
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Double> en : contents.entrySet()) {
+            if (sb.length() > 0) sb.append("、");
+            ItemStack it = refToItem(en.getKey());
+            if (it.hasItemMeta() && it.getItemMeta().hasDisplayName()) {
+                sb.append(it.getItemMeta().getDisplayName());
+            } else {
+                sb.append(LegacyComponentSerializer.legacySection()
+                        .serialize(nameComponent(en.getKey())));
+            }
+            sb.append(quantityText(en.getValue()));
+        }
+        return sb.toString();
     }
 
     private static long gcd(long a, long b) {

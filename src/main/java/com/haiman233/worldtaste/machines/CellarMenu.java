@@ -530,7 +530,8 @@ public final class CellarMenu {
     }
 
     /**
-     * 出酒产物：锁定了酒窖配方时输出该配方的单位产物（带 PDC 数据），否则输出通用陈酿果酒。
+     * 出酒产物：锁定了酒窖配方时输出该配方的单位产物（带 PDC 数据，并附加
+     * wine-lore-format 渲染的信息行 + 竖向组成），否则输出通用陈酿果酒。
      */
     private static ItemStack productItem(WineCellarState st, int perBottleSugar) {
         CellarRecipe cr = st.cellarRecipe() != null ? CellarRecipe.byKey(st.cellarRecipe()) : null;
@@ -553,10 +554,44 @@ public final class CellarMenu {
                 if (cr.aging) {
                     pdc.set(JuicerRecipe.KEY_ITEM_ALCOHOL, PersistentDataType.DOUBLE, st.alcohol());
                 }
+                // 统一附加 wine-lore-format 渲染的信息行（组成物品开关 + 竖向显示同时作用于配方酒）
+                List<String> lore = meta.getLore() != null
+                        ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
+                // 渲染 info：非陈酿型（aging=false）用 0 酒精度占位，避免副产物无格式行
+                double alcForLore = cr.aging ? st.alcohol() : 0.0;
+                List<String> infoLines = renderWineInfo(JuicerRecipe.wineLoreFormat,
+                        st.allPlayers(), st.contentsOfAll(), alcForLore);
+                lore.addAll(infoLines);
+                meta.setLore(lore);
                 out.setItemMeta(meta);
             }
         }
         return appendCellarName(st, out);
+    }
+
+    /** 按 wine-lore-format 渲染成品酒信息行（竖向/横向/隐藏三态由 JuicerRecipe 开关控制）。 */
+    private static List<String> renderWineInfo(String format, java.util.Set<String> players,
+                                               Map<String, Double> contents, double alcohol) {
+        String playersText = players == null || players.isEmpty() ? "无" : String.join("、", players);
+        List<String> contentsLines = JuicerRecipe.contentsLegacyList(contents);
+        List<String> out = new ArrayList<>();
+        if (JuicerRecipe.wineContentsVertical && contentsLines.size() >= 1
+                && !contentsLines.get(0).equals("§7无")
+                && !contentsLines.get(0).equals("§8[组成已隐藏]")) {
+            String firstLine = format
+                    .replace("%players%", playersText)
+                    .replace("%contents%", "§b组成：")
+                    .replace("%alcohol%", String.format("%.1f", alcohol));
+            out.add(com.haiman233.worldtaste.util.Colors.c(firstLine));
+            out.addAll(contentsLines);
+        } else {
+            String line = format
+                    .replace("%players%", playersText)
+                    .replace("%contents%", contentsLines.get(0))
+                    .replace("%alcohol%", String.format("%.1f", alcohol));
+            out.add(com.haiman233.worldtaste.util.Colors.c(line));
+        }
+        return out;
     }
 
     /** 命名的酒窖灌装产物：在 lore 尾部追加酒窖名。 */

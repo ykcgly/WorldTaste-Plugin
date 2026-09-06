@@ -105,40 +105,47 @@ public final class WineBottle extends SlimefunItem {
             // PotionMeta.lore(Component) 不会翻译 juicer.yml 里的 & 码，会原样显示。
             List<String> lore = new ArrayList<>();
             lore.add(Colors.c("&7酒窖陈酿的果酒，右键饮用"));
-            lore.add(renderInfo(JuicerRecipe.wineLoreFormat, players, contents, alcohol));
+            lore.addAll(renderInfo(JuicerRecipe.wineLoreFormat, players, contents, alcohol));
             pm.setLore(lore);
             out.setItemMeta(meta);
         }
         return out;
     }
 
-    /** 按 wine-lore-format 渲染果酒信息行（占位符：%players%/%contents%/%alcohol%）。 */
-    private static String renderInfo(String format, Set<String> players,
-                                     Map<String, Double> contents, double alcohol) {
+    /**
+     * 按 wine-lore-format 渲染果酒信息行（占位符：%players%/%contents%/%alcohol%）。
+     * 当 wine-contents-vertical=true 时，%contents% 会独占一行且每材料一行，
+     * 因此返回多行（List），调用方须全部加入 lore。
+     */
+    private static List<String> renderInfo(String format, Set<String> players,
+                                           Map<String, Double> contents, double alcohol) {
         String playersText = players == null || players.isEmpty() ? "无" : String.join("、", players);
-        String line = format
-                .replace("%players%", playersText)
-                .replace("%contents%", contentsLegacy(contents))
-                .replace("%alcohol%", String.format("%.1f", alcohol));
-        return Colors.c(line);
+        List<String> contentsLines = JuicerRecipe.contentsLegacyList(contents);
+        List<String> out = new ArrayList<>();
+        if (JuicerRecipe.wineContentsVertical && contentsLines.size() >= 1
+                && !contentsLines.get(0).equals("§7无")
+                && !contentsLines.get(0).equals("§8[组成已隐藏]")) {
+            // 竖向模式：format 中 %contents% 替换为「组成」一行，然后每材料各自一行
+            String firstLine = format
+                    .replace("%players%", playersText)
+                    .replace("%contents%", "§b组成：")
+                    .replace("%alcohol%", String.format("%.1f", alcohol));
+            out.add(Colors.c(firstLine));
+            out.addAll(contentsLines);
+        } else {
+            // 横向模式：保持原行为，%contents% 一次性替换为顿号分隔的一整行
+            String line = format
+                    .replace("%players%", playersText)
+                    .replace("%contents%", contentsLines.get(0))
+                    .replace("%alcohol%", String.format("%.1f", alcohol));
+            out.add(Colors.c(line));
+        }
+        return out;
     }
 
     /** 组成果汁名（粘液显示名保留自身颜色码；原版用翻译组件再转旧式文本；分数显示百分比）。 */
     private static String contentsLegacy(Map<String, Double> contents) {
-        if (contents == null || contents.isEmpty()) return "无";
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, Double> en : contents.entrySet()) {
-            if (sb.length() > 0) sb.append("、");
-            ItemStack it = JuicerRecipe.refToItem(en.getKey());
-            if (it.hasItemMeta() && it.getItemMeta().hasDisplayName()) {
-                sb.append(it.getItemMeta().getDisplayName());
-            } else {
-                sb.append(LegacyComponentSerializer.legacySection()
-                        .serialize(JuicerRecipe.nameComponent(en.getKey())));
-            }
-            sb.append(JuicerRecipe.quantityText(en.getValue()));
-        }
-        return sb.toString();
+        return JuicerRecipe.contentsLegacy(contents);
     }
 
     /** 饮用监听：喝下果酒时按酒精度累加玩家酒精度（联动异域花园）。 */

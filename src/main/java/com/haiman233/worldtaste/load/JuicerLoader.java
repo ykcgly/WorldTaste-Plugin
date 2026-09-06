@@ -80,6 +80,8 @@ public final class JuicerLoader {
             JuicerRecipe.agingGrowthMax = 0.15;
         }
         JuicerRecipe.wineLoreFormat = y.getString("wine-lore-format", JuicerRecipe.wineLoreFormat);
+        JuicerRecipe.wineShowContents = y.getBoolean("wine-show-contents", JuicerRecipe.wineShowContents);
+        JuicerRecipe.wineContentsVertical = y.getBoolean("wine-contents-vertical", JuicerRecipe.wineContentsVertical);
     }
 
     /** 解析头部 mix 段（可混合材料列表 + 榨汁进度 + 瓶/桶产物模板），放在配方注册之前。 */
