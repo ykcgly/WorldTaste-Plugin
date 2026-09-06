@@ -28,6 +28,16 @@ mix:
     - APPLE
     - SWEET_BERRIES
     - WT_ZSHULUOBO
+    - BEETROOT
+    - CARROT
+    - CHORUS_FRUIT
+    - GLOW_BERRIES
+    - GOLDEN_APPLE
+    - ENCHANTED_GOLDEN_APPLE
+    - MELON_SLICE
+    - POTATO
+    - SWEET_BERRIES
+    - POISONOUS_POTATO
   progress: 10
   bottle:
     material: POTION
@@ -47,8 +57,6 @@ mix:
 #               例「1 苹果 yield 1」→ 投 2 个苹果榨出 2 水位 2 份苹果汁；
 #               非(倍)数匹配且全部可混合时走混合配方）
 #   result      每份产物：与 items.yml 的 item 段同构（material_type/material/name/lore/amount）
-#   bucket      可选：桶装形态产物模板。缺省自动生成「桶装<产物名>」（lore 与瓶装一致，
-#               禁止倒出）；满盆用桶一次接取全部时获得
 #
 # 榨汁完成时按投入材料总数量掉落「果渣」（可食用，+1 饱食度）。
 # 配方在开始榨汁（首次踩踏/砸落）时才锁定，锁定后不可再投入。
@@ -78,6 +86,135 @@ JIANGGUO_ZHAPEN:
     lore: ['&7酸甜的浆果汁']
     amount: 1
 
+BEETROOT_ZHAPEN:
+  ingredient:
+    - BEETROOT:1
+  type: anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&c&l甜菜汁'
+    lore: ['&7新鲜的甜菜汁']
+    amount: 1
+
+CARROT_ZHAPEN:
+  ingredient:
+    - CARROT:1
+  type: anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l胡萝卜汁'
+    lore: ['&7新鲜的胡萝卜汁']
+    amount: 1
+
+CHORUS_FRUIT_ZHAPEN:
+  ingredient:
+    - CHORUS_FRUIT:2
+  type: anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&5&l紫果汁'
+    lore: ['&7新鲜的紫色果汁']
+    amount: 1
+
+GLOW_BERRIES_ZHAPEN:
+  ingredient:
+    - GLOW_BERRIES:3
+  type: player,anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&b&l荧光果汁'
+    lore: ['&7新鲜的荧光果汁']
+    amount: 1
+
+GOLDEN_APPLE_ZHAPEN:
+  ingredient:
+    - GOLDEN_APPLE:1
+  type: anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l金苹果汁'
+    lore: ['&7新鲜的金苹果汁']
+    amount: 1
+
+ENCHANTED_GOLDEN_APPLE_ZHAPEN:
+  ingredient:
+    - ENCHANTED_GOLDEN_APPLE:1
+  type: anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&6&l附魔金苹果汁'
+    lore: ['&7昂贵的饮料']
+    amount: 1
+
+MELON_SLICE_ZHAPEN:
+  ingredient:
+    - MELON_SLICE:2
+  type: player,anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&a&l西瓜汁'
+    lore: ['&7甜美的西瓜汁']
+    amount: 1
+
+POTATO_ZHAPEN:
+  ingredient:
+    - POTATO:1
+  type: anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&f&l土豆泥'
+    lore: ['&7美味的土豆泥']
+    amount: 1
+
+POISONOUS_POTATO_ZHAPEN:
+  ingredient:
+    - POISONOUS_POTATO:1
+  type: anvil
+  progress: 10
+  yield: 1
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&f&l毒马铃薯汁'
+    lore: ['&7这可不好喝']
+    amount: 1
+
+WT_PIPA_ZHAPEN:
+  ingredient:
+    - WT_PIPA:2
+  type: player,anvil
+  progress: 8
+  yield: 2
+  result:
+    material_type: mc
+    material: HONEY_BOTTLE
+    name: '&e&l枇杷汁'
+    lore: ['&7新鲜的枇杷汁']
+    amount: 1
 # 多材料配方示例（取消注释即可启用：2 苹果 + 2 甜浆果）：
 #HUNHE_ZHAPEN:
 #  ingredient:

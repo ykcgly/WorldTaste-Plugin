@@ -311,8 +311,9 @@ WORLDTASTE_GAILV5:
 WORLDTASTE_ZWF2:
   item_group: ws_tieshi
   item:
-    name: "&f&l不完整的配方"
+    name: "&f&l大型配方"
     lore:
+      - "&a请在对应机器页面查看！"
     material: BARRIER
   placeable: false
   recipe_type: 'NULL'
@@ -1975,6 +1976,20 @@ WT_QINGCAI: #rgb(140,196,110)
     5:
       material_type: slimefun
       material: WT_SEED_QINGCAI
+      amount: 1
+WT_LAHUAJIAO:
+  item_group: ws_zuowu
+  item:
+    name: "&f&l花椒"
+    material_type: skull_hash
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI0NzE1YTNlYjBkOTUxMjU4NDM1ZWY1MWQ2ZDIzMjBmNjM0NmNhYmExNmYzNjA5ZWRmYzBjMGM5NWYwZWUzYSJ9fX0=
+  placeable: false
+  script: 1
+  recipe_type: WUWEI_SHOUHUOZUOWU
+  recipe:
+    5:
+      material_type: slimefun
+      material: WT_SEED_HUAJIAO
       amount: 1
 # 玉米
 WT_YMHFJ: #rgb(165,165,168)
@@ -34434,7 +34449,4062 @@ WT_YLTISHI:
   item_group: ws_yingliao
   recipe_type: 'NULL'
   placeable: false
-# 饮品 椰子水
+# 饮品 酒水
+WT_PIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
+    name: §e§l啤酒
+    amount: 1
+    material_type: skull_hash
+    material: f6fbc7fcbc773a99e49a3e8c2526c2da6cbf20ac65aa65780af9f01dc6ba24af
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '4':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '5':
+      amount: 1
+      material_type: slimefun
+      material: WT_PIJIUHUA
+    '6':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+  placeable: false
+  script: yl3
+  alcohol: 12
+WT_JLSHPJ:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §8§l健力士黑啤酒
+    amount: 1
+    material_type: skull_hash
+    material: e0d2d4390ec5af8e65f03c022a809f6b2eec0dad6acd87d9f24fef49ba0f2693
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_RYE
+      amount: 1
+    '2':
+      amount: 1
+      material_type: slimefun
+      material: WT_PIJIUHUA
+    '3':
+      material_type: slimefun
+      material: GN_RYE
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_RYE
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_RYE
+      amount: 1
+    '8':
+      material_type: slimefun
+      material: CAN
+      amount: 1
+  placeable: false
+  script: yl4
+  alcohol: 18
+WT_PINGGUOJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
+    name: §e§l苹果酒
+    amount: 1
+    material_type: skull_hash
+    material: 5c0cb4208282a5578d6d82e115a394ecb58e457125a6fed059568dfd7ddde4f0
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: SUGAR
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      amount: 1
+      material_type: mc
+      material: SUGAR
+    '4':
+      material_type: slimefun
+      material: OAK_APPLE
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: OAK_APPLE
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: OAK_APPLE
+      amount: 1
+    '8':
+      material_type: slimefun
+      material: CAN
+      amount: 1
+  placeable: false
+  script: yl3
+  alcohol: 15
+
+WT_DAFUPIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §4§l达夫啤酒
+    amount: 1
+    material_type: skull_hash
+    material: c5f1ff975b971c256c3c7df5a3be4c8ab713818c4f02661bac0ae475f728cef
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_RICE
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_VANILLA_BEANS
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_RICE
+      amount: 1
+    '8':
+      material_type: slimefun
+      material: CAN
+      amount: 1
+  placeable: false
+  script: yl4
+  alcohol: 12
+WT_TAIWANPIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §2§l台湾啤酒
+    amount: 1
+    material_type: skull_hash
+    material: 7cb9da9f58154e52d8d89819c617281659dc7a682220c1d6e2c51ee89e97ca
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '4':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '8':
+      material_type: slimefun
+      material: CAN
+      amount: 1
+  placeable: false
+  script: yl4
+  alcohol: 10
+WT_DANNAIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
+    name: §6§l蛋奶酒
+    amount: 1
+    material_type: skull_hash
+    material: c5d902187518ce66d977b765168ca02ff975762cca5a4ae7d97ac233b982b2ab
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: EGG
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      amount: 1
+      material_type: mc
+      material: EGG
+    '4':
+      amount: 1
+      material_type: mc
+      material: EGG
+    '5':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: EGG
+    '7':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '8':
+      material_type: slimefun
+      material: CAN
+      amount: 1
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: yl3
+  alcohol: 15
+
+WT_YIZHAPIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o5 §7§o点饥饿值]
+    name: §2§l一扎啤酒
+    amount: 1
+    material_type: skull_hash
+    material: 63ae17c9efcbfdd87718ac080ac815cd8009c87f82c474444082a4d87eef7062
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '5':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '6':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+  placeable: false
+  script: yl5
+  alcohol: 15
+WT_JIANGSHIJWJ:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §4§l僵尸鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: 1ddf6fe02e5cb36b158ae4c1f443a43f3a16be179aa208b5611737f357bee87
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: STRAWBERRY
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: REDSTONE
+    '3':
+      material_type: slimefun
+      material: TOMATO
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: STRAWBERRY
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: TOMATO
+      amount: 1
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+  placeable: false
+  script: yl4
+  alcohol: 30
+WT_YCJWJ:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §b§l泳池鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: 3bab6761c546268c3f04ff6b29c3881c7b47f5fde9f425d62d95958419d2
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: CURRY_LEAF
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '3':
+      amount: 1
+      material_type: mc
+      material: LIGHT_BLUE_DYE
+    '4':
+      material_type: slimefun
+      material: BLUEBERRY
+      amount: 1
+    '5':
+      amount: 1
+      material_type: mc
+      material: ICE
+    '6':
+      amount: 1
+      material_type: mc
+      material: SUGAR
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+  placeable: false
+  script: yl4
+  alcohol: 25
+WT_HONGZHAJIJWJ:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §6§l轰炸机鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: 5a5d92d4262788c96088e44e01570dce938184bf47f5311df296c3d9b78da5
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: RED_BELL_PEPPER
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: RED_BELL_PEPPER
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: RED_BELL_PEPPER
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '5':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '6':
+      material_type: slimefun
+      material: GN_CHILI_PEPPER
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: COCOA_BEANS
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: COCOA_BEANS
+  placeable: false
+  script: yl4
+  alcohol: 35
+WT_LSLRC:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §e§l龙舌兰日出
+    amount: 1
+    material_type: skull_hash
+    material: 41b8b442af156d654f45255f3fd36e8ad6c61ae55ef41e80412e7fa6cd283e2
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: CORN
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_AVOCADO
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: PINEAPPLE
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: PINEAPPLE
+      amount: 1
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+  placeable: false
+  script: yl4
+  alcohol: 30
+WT_LVSEDUYAOJWJ:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §a§l绿色毒药鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: 71a722b6b359abfb828219851f192481cdbbc17d386f16b6793097c7df8e126d
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: FERMENTED_SPIDER_EYE
+    '2':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: GLISTERING_MELON_SLICE
+    '5':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_MOCHA
+      amount: 1
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+  placeable: false
+  script: yl4
+  alcohol: 35
+WT_XIANGCAIJWJ:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §f§l香草鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: ec3ab1569c8f8552ec846aa796aee97c7ef4c85aa093ef5e1ad87ba514
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_AVOCADO
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_RED_BEANS
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_VANILLA_BEANS
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: GN_VANILLA_BEANS
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_VANILLA_BEANS
+      amount: 1
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+  placeable: false
+  script: yl4
+  alcohol: 25
+WT_YELINPIAOXIANGJWJ:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §6§l椰林飘香鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: cc96bc8c5786bbbf9fb89ebbd57e91d903cfb551ba8688f1aefdfd33deabe9
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '2':
+      material_type: slimefun
+      material: MOLASSES
+      amount: 1
+    '3':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '4':
+      material_type: slimefun
+      material: COCONUT
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: COCONUT
+      amount: 1
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+  placeable: false
+  script: yl4
+  alcohol: 28
+WT_NINGMENGJWJ:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §e§l柠檬鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: f2a21f4dff518eb5e1460497812b240d159b634d04e27545bfa3ea7fd3dd48
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_HONEYDEW_MELON
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_SESAME_SEEDS
+      amount: 1
+    '3':
+      amount: 1
+      material_type: mc
+      material: ICE
+    '4':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+  placeable: false
+  script: yl4
+  alcohol: 25
+WT_KUJING:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §b§l苦精
+    amount: 1
+    material_type: skull_hash
+    material: 56bbc5f44811e676a8a0c915b217e70136608fe5bb09fb3869f6be17b9a2a8de
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: ONION
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: RED_BELL_PEPPER
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: CURRY_LEAF
+      amount: 1
+    '5':
+      amount: 1
+      material_type: mc
+      material: ICE
+    '6':
+      material_type: slimefun
+      material: GARLIC
+      amount: 1
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+  placeable: false
+  script: yl4
+  alcohol: 40
+WT_PINGGUONIANG:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §6§l苹果酿
+    amount: 1
+    material_type: skull_hash
+    material: 655aa5da994906370dfde54d54be647ec7df189aad22eb858465845e1eb67495
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: SUGAR
+    '2':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '3':
+      amount: 1
+      material_type: mc
+      material: SUGAR
+    '4':
+      material_type: slimefun
+      material: OAK_APPLE
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: OAK_APPLE
+      amount: 1
+    '8':
+      material_type: slimefun
+      material: CAN
+      amount: 1
+  placeable: false
+  script: yl4
+  alcohol: 18
+WT_GEWASI:
+  item:
+    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
+    name: §6§l格瓦斯
+    amount: 1
+    material_type: skull_hash
+    material: 42cf32b25cacd8c8329eab772de01182626cc0ecd337ecf7cc51779fe215eedf
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: SUGAR
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+  placeable: false
+  script: yl4
+  alcohol: 10
+WT_HAIMANPAIPJ:
+  item:
+    lore: ['', §7§o恢复 §b§o5 §7§o点饥饿值]
+    name: §b§l海曼牌啤酒
+    amount: 1
+    material_type: skull_hash
+    material: f7427b5cd73e6b7461f5f709abaa231efdab0a5f5b3758db842cbb96f9d6db5
+  item_group: ws_yingliao
+  recipe_type: WUWEI_YINGLIAOJI
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_CAIGOU
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_MIANBAOGUO
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WT_CAIGOU
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_RAW_EEL
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_RAW_EEL
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: ICE
+    '8':
+      material_type: slimefun
+      material: CAN
+      amount: 1
+    '9':
+      amount: 1
+      material_type: mc
+      material: ICE
+  placeable: false
+  script: yl5
+  alcohol: 12
+
+# 甜品 慕斯
+
+WT_WULIANGYE:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§l五粮液
+    amount: 1
+    material_type: skull_hash
+    material: 11769f30a40a7ba23f9e12b743253297075801e5a98659a91659adbc0be520fd
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_OATS
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_QUINOA
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_RICE
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 55
+WT_GUIZHOUMAOTAI:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§l贵州茅台
+    amount: 1
+    material_type: skull_hash
+    material: 9ff382e9470d93a8a4bca5d2f09d0db80e96a013a796e0db15326f432ad338e6
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_VANILLA_BEANS
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 60
+WT_SANSHILIHONG:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §4§l三十里红
+    amount: 1
+    material_type: skull_hash
+    material: d8f1d107d63660362a386fb47be14454d410ae898e30a1abc06e7fcdbaacaa8e
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 45
+WT_FENJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §b§l汾酒
+    amount: 1
+    material_type: skull_hash
+    material: 8526cb52ea1868deb4a900b87a1774e8caa7d501d4c9d2e307565d550bad1d4e
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_PEAS
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 50
+WT_GUJINGONGJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §c§l古井贡酒
+    amount: 1
+    material_type: skull_hash
+    material: 59e98b39926e19515e2a8572ce2d23f593d08e6be1b77bec63a8b740929fb795
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_XIAOMI
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 50
+WT_GUOJIAO1573:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l国窖1573
+    amount: 1
+    material_type: skull_hash
+    material: ebf9245bbcfc8432f490d3371fc2879c34439bb907be79c9f1f3eb514dc57200
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 55
+WT_ERGUOTOU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §a§l二锅头
+    amount: 1
+    material_type: skull_hash
+    material: 813900d9238b4b37aa64dfa41b3752ef96262355357f47bc9a0d36299012f50
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_YZYM
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_YZYM
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 55
+WT_XIFENGJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§l西凤酒
+    amount: 1
+    material_type: skull_hash
+    material: 7548eb2fd78266211cca51caf3d1cc4e31ea469dae661b4fdc127fdfc6b95bf1
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_PEAS
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_PEAS
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 50
+WT_FUTEJIA:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §6§l伏特加
+    amount: 1
+    material_type: skull_hash
+    material: ca623c74087f74fe4f8ea86a863a24007125cb4ce4e77c856f48558537e3bf64
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_HYM
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '3':
+      material_type: slimefun
+      material: WT_HYM
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: POTATO
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: POTATO
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 60
+WT_QUEJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l雀酒
+    amount: 1
+    material_type: skull_hash
+    material: 7260fd9f729b0ac774ec83f91cde146c25f6e301ed8768d49b79c7a855b01b37
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: BAMBOO
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 20
+WT_GUANLIYUANLIANG:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l管理员酿
+    amount: 1
+    material_type: skull_hash
+    material: e786e1287e42f4fa2112d506be10ac1d2c8e6a7090cf32fa713cddeb6b1d0dab
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_ZUANSHIXRZ
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: COPPER_BLOCK
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 80
+WT_HAERBINGPIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l哈尔滨啤酒
+    amount: 1
+    material_type: skull_hash
+    material: 5af81c676583934d51b7142c87edae6c49c6f67aff163db457297f033c5964f2
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: ICE_CUBE
+      amount: 1
+    '2':
+      amount: 1
+      material_type: slimefun
+      material: WT_PIJIUHUA
+    '3':
+      material_type: slimefun
+      material: ICE_CUBE
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 10
+WT_GUOSUANJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §a§l果酸酒
+    amount: 1
+    material_type: skull_hash
+    material: 899cf60911bdffcd7f52c9b88aa1e938247b051a9d5f9002bf86307f50f65e0e
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_KUCHENG
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: LIME
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: LIME
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 15
+WT_BUXIANGZHIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§l不祥之酒
+    amount: 1
+    material_type: skull_hash
+    material: c137a09778703e5007ac0cb6a33ccf95259cdcaee4613021d9ac60de0dce8feb
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: OMINOUS_BOTTLE
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 35
+  register:
+    conditions:
+      - version >= 1.21
+WT_HONGJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §4§l红酒
+    amount: 1
+    material_type: skull_hash
+    material: b75584e6fd54ca01df4effd5f746b2d83a589de677755756bb58d9ea284516
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GRAPE
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GRAPE
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 25
+WT_PUTAOJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §c§l葡萄酒
+    amount: 1
+    material_type: skull_hash
+    material: 20c8aa13e12af615cb362f8af94dd5ea278183907fe0abd84d65a079992da4
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_QINGTI
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GRAPE
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GRAPE
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 20
+WT_XIAJIEJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §c§l下界酒
+    amount: 1
+    material_type: skull_hash
+    material: ac1b17cc6c9c760d78619253ba4f6ccff41524aec105b1d2641a74f356967831
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_WASIMAI
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_LONGSHELAN
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WT_WASIMAI
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_WASIMAI
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_WASIMAI
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 40
+WT_YAOJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §a§l药酒
+    amount: 1
+    material_type: skull_hash
+    material: bd2b65b79b4904514a0fc7232ea89a9e8c6ac60ee3dba1b5975b7755127338a4
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '3':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_YAOCAO
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_YAOCAO
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 20
+WT_HONGJIUCU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §4§l红酒醋
+    amount: 1
+    material_type: skull_hash
+    material: b264fecc058dedb4d17d50b758286d20a29708c0f3b1d760a4798695933c2cfe
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: SUGAR
+    '2':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WUWEI_GEOYAN
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GRAPE
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GRAPE
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 5
+WT_JINGUOJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l金果酒
+    amount: 1
+    material_type: skull_hash
+    material: 706e8003b209f9ba0acf1d31cd55ad9a22b89b54f01e3ff00c45abe252fddbf
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: GLISTERING_MELON_SLICE
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_HUANGJINGGUO
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_HUANGJINGGUO
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 20
+WT_KULOUJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§l骷髅酒
+    amount: 1
+    material_type: skull_hash
+    material: c94cf8f103cd4b14c41b4865b7c11aacbfd6121df0d655b1f51fde15e3ff9a59
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_KEKEGUO
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_KEKEGUO
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: SKELETON_SKULL
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 30
+WT_ZAIEJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §d§l灾厄酒
+    amount: 1
+    material_type: skull_hash
+    material: cbc7a7b6da631d1bf89caf2ff90089046c1b7dfc68cb6cfa934d94e4cd26bcdd
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_TUZAI_DLFBCX
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 55
+WT_XIAJIEHEJINJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §c§l下界合金酒
+    amount: 1
+    material_type: skull_hash
+    material: d6b61602482881b84a4a1de807c48654fdaad76919da8120139f121ee2b8d053
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: NETHERITE_SCRAP
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 65
+WT_MAGELITAJIWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §a§l玛格丽塔鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: 2cd514cf58e3887b5dc93e0cff1684fac2e56d58366604da311f5af309889e86
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: LIME
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 30
+WT_BUZZBALL:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§lBuzzball
+    amount: 1
+    material_type: skull_hash
+    material: 36dfd00bc535e2f878c5fd19d8a76feb86286814bf116ad9c5ab7ae1930184c7
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '4':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      material_type: slimefun
+      material: CAN
+      amount: 1
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 25
+WT_NAIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§l奶酒
+    amount: 1
+    material_type: skull_hash
+    material: d8f7d5680f4e8420e933475457088185bee99206b1cef11a61e2409b39d77e52
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: HEAVY_CREAM
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 15
+WT_WEISHIJI:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §c§l威士忌
+    amount: 1
+    material_type: skull_hash
+    material: c4527d2e2e57f957e2951cf95d607632248471fb7e26597e8075f89d8d987474
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '2':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WT_HEIYUMI
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_RYE
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 45
+WT_BAIWEIPIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §b§l百威啤酒
+    amount: 1
+    material_type: skull_hash
+    material: 67a93ae4ac3151560381528fc84585181e7e1460713d0a6b3c1a20367aeceada
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: ICE_CUBE
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: ICE_CUBE
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 10
+WT_KULIPANAIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §a§l苦力怕奶酒
+    amount: 1
+    material_type: skull_hash
+    material: 4a0a9aed0dc9e4cf117c4a3f6e0ab027736e1f61e9cd561bd8da6eaf9b40deb0
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: HEAVY_CREAM
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: CREEPER_HEAD
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 15
+WT_TAOGUANJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §c§l陶罐酒
+    amount: 1
+    material_type: skull_hash
+    material: a6257e5a054262a8193c06a87f609f401c01e21bb80209698cbedef486821a9b
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_SHENGJIANG
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: DECORATED_POT
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 30
+WT_JINGYANNIANG:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §d§l经验酿
+    amount: 1
+    material_type: skull_hash
+    material: 549148d8f6140533eccb914f36a3599b6ffb70af217c0c7994b3f29d8528eb98
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: EXPERIENCE_BOTTLE
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: EXPERIENCE_BOTTLE
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 20
+WT_DIANJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l电酒
+    amount: 1
+    material_type: skull_hash
+    material: f0f2185c51b6d7cee7e17042de2ddf8a448552af7b4af1804986fbdd09e9bc08
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_YANGTAO
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_YANGTAO
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 30
+WT_XINGKONGJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §b§l星空酒
+    amount: 1
+    material_type: skull_hash
+    material: 72a7dcbf7eca6b6f6386591d237991ca1b888a4f0c753ff9a3202cf0e92229e3
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_DENGLONGGUO
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_QINGYANGTAO
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 35
+WT_BINGJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §b§l冰酒
+    amount: 1
+    material_type: skull_hash
+    material: 71601db71203c3b57b00cd53c97a4527addd8833bbffd7f6f97fc08a14747a0c
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: BLUE_ICE
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: BLUE_ICE
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 20
+WT_RONGYANJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §4§l熔岩酒
+    amount: 1
+    material_type: skull_hash
+    material: 5c7452e1c163ec21bf29d46f3d9bb6357e1c0500034181393c8427621f313fc7
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_WASIMAI
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: LAVA_BUCKET
+    '3':
+      material_type: slimefun
+      material: WT_WASIMAI
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: MAGMA_CREAM
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: MAGMA_CREAM
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 45
+WT_MISSINGJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §d§lMissing!酒
+    amount: 1
+    material_type: skull_hash
+    material: eadd309ecefdb1df18eef6f8d4083b47b3ee227286c0f375f45369d83fb30bd
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: CHORUS_FLOWER
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_ZIGANLAN
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: INK_SAC
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 50
+WT_FAPAOJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l发泡酒
+    amount: 1
+    material_type: skull_hash
+    material: de99a406150048fa2673160409ca686662ce0f1c7a4ee54c20ecc901c9d0bd6f
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_RYE
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_CASSAVA
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_RYE
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 12
+WT_GUOXIANGJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §a§l果香酒
+    amount: 1
+    material_type: skull_hash
+    material: 7ca99b2b1538b18f4f05f935ae68baa855db5931ec863fcd974b1a22d593ca0
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_SUANJIAO
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_MIYOU
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_MIYOU
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 18
+WT_REDAIGUOXIANGJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§l热带果香酒
+    amount: 1
+    material_type: skull_hash
+    material: dc31651fc321ab201433fa8630b7f3771aaf34e68e9aa7d32f3f358fabe7c31f
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_XIAOXIGUA
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_HAMIGUA
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_HAMIGUA
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 18
+WT_MUTONGJINGNIANG:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §6§l木桶精酿
+    amount: 1
+    material_type: skull_hash
+    material: b2b0a1ca399f35dc54519c4c996f9629a510c49938151f759ec8f07041e78566
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_RYE
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_CASSAVA
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_CASSAVA
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: BARREL
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 18
+WT_MOZHIFAPAOJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§l墨汁发泡酒
+    amount: 1
+    material_type: skull_hash
+    material: 5ab546c1228dfafca6b2126849f333c45b896c71a4c378cb856f202d0476e0ff
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: INK_SAC
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: INK_SAC
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 15
+WT_JIANGXIANGBAIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §c§l酱香白酒
+    amount: 1
+    material_type: skull_hash
+    material: a218c4a00047bbfd7f35a74ca3d948982ccaecd28c2708c2dac070d3ebf1e4ac
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_SOY_SAUCE
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 55
+WT_LONGSHELANLIKOUJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l龙舌兰利口酒
+    amount: 1
+    material_type: skull_hash
+    material: 7fde193b0af5f07b4d1eefc554ef6ca129803a4e94c33222d50e73b1fea85d1f
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_LONGSHELAN
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WT_LONGSHELAN
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 40
+WT_HUANGYOUJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l黄油酒
+    amount: 1
+    material_type: skull_hash
+    material: 8cfe55182d77af184798e22b8f3672b36a4c021a15273af1eae0e08980d7ac66
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: BUTTER
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: BUTTER
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 20
+WT_JUZIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §6§l橘子酒
+    amount: 1
+    material_type: skull_hash
+    material: 5ea7858ddb53f3fc13be9d7147df408ff7f843dd21af19c39b3dd58b5241695d
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_SHATANGJU
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_SHATANGJU
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 18
+WT_SANZHUANGMAIPI:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §c§l散装麦啤
+    amount: 1
+    material_type: skull_hash
+    material: 21f26fce875006a46090be4d0cb2d355a2dc5926def8be1901d619948f2
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 12
+WT_YENAIJIWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§l椰奶鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: bdafa7d31c6346e37b64818a548343cfb77ce670ce1d50a665fbe8a14c5549
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: COCONUT
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: MILK_BUCKET
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 25
+WT_QINGJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §a§l清酒
+    amount: 1
+    material_type: skull_hash
+    material: 06d8e65ad95ddba3471b52c1399354622bb0342f16e88c9dcfcb4b8795e
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_XIAOMI
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_XIAOMI
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 25
+WT_CHUNXIANGGUONIANG:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §6§l醇香果酿
+    amount: 1
+    material_type: skull_hash
+    material: d9858adf6861e40bdeb7020b692f2e5e21aad9fef4180c411dbfd96f112df3d
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_FANSHILIU
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WT_FANSHILIU
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_HUANGLONGGUO
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_HUANGLONGGUO
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 20
+WT_DIANLANJIWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §b§l靛蓝鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: c52afa6798f1a4b98164f37301f890ce1d5be3b689e0dd24b450927ce9982b
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_DIEDOUHUA
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_LANCULI
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WT_DIEDOUHUA
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 25
+WT_CHAXIANGJIWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §a§l茶香鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: 815d5bf493dc64e79c29a52c090e4c3b774dcbe1f9da7a1a05cf73e97f77a86
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: TEA_LEAF
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 22
+WT_YUMIJIWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l玉米鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: 7f806752de76439c0cfde926b4b7692fb9715beada6932f5d42cfd4c349a6
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: CORN
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: CORN
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 22
+WT_ZISONGJIWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §d§l紫颂鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: 6ac3a72bde6a78aa0a0b0e57491d0d82aa1b644553155ac14043b317f67f99
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_MODIGUO
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: POPPED_CHORUS_FRUIT
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: POPPED_CHORUS_FRUIT
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 25
+WT_LAJIAOJIWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §4§l辣椒鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: ba6a6789a850b6643de9d9c72107965633f571fa99c3cf7c47afb7e3093d9e
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_HWNLJ
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_HWNLJ
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 30
+WT_MEIGUIJIWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§l玫瑰鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: cdf9aa7ac18296707fbe4b3f60dd7d5fdc2367d358c5c83c2c41a8c9c9178f2
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_MINT
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: ROSE_BUSH
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: ROSE_BUSH
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 22
+WT_AIQINGJIWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §d§l爱情鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: 142f5362dd2aab28af4eb41389e28f20c5e6d56cba9a50115b28eda59bceef
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_ZHANHUAJIANGGUO
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_AIQINGUO
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_AIQINGUO
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 25
+WT_BAIJIAOJIWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l芭蕉鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: b642fe1d555c57d393ac5e7157f5798d6b69f76e5d2ba12d538b3dabd866418
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_CARAMEL
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_QINGXIANGJIAO
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_QINGXIANGJIAO
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 22
+WT_HAIYANGJIWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §b§l海洋鸡尾酒
+    amount: 1
+    material_type: skull_hash
+    material: 5baacdd38986a6cae0d01e4f62ba4feb1bde34bfbb4dc5e7ccd854f6623b
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_LONGSHELAN
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_DIANLANGU
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_DIANLANGU
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 25
+WT_LIEJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §c§l烈酒
+    amount: 1
+    material_type: skull_hash
+    material: 74d9d11ae2be126f42c909ef19d81e994ba1fe6fe8ed029f52c187dd94a5194
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_XUECHENG
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_XUECHENG
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 65
+WT_YINGGUANGJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l荧光酒
+    amount: 1
+    material_type: skull_hash
+    material: 887a4cafb5b0b49be5840b162661789ed6de0ec9487d0859968fa1dba206fe0
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      amount: 1
+      material_type: mc
+      material: GLOW_BERRIES
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_DENGLONGGUO
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_DENGLONGGUO
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 30
+WT_ERWEIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §6§l二维酒
+    amount: 1
+    material_type: skull_hash
+    material: 3172bfe7a9ea129d8d6560fd7d2708541081a07727f6c9970b91d7c0376349fe
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: WT_XSCZ
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: WT_XSCZ
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 40
+WT_JUENIANG:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §a§l蕨酿
+    amount: 1
+    material_type: skull_hash
+    material: 267acd697f65ef8daefc53a17e4f82d646149e4a7bb1842f62847ae4b3225
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_VANILLA_BEANS
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_VANILLA_BEANS
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: FERN
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: FERN
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 20
+WT_XIAOCHITANPIJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §f§l小吃摊啤酒
+    amount: 1
+    material_type: skull_hash
+    material: 5802c4472adaff1deae300335110e4798d90d29d09ece72bde8cb3a7caf959fb
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: WT_PIJIUHUA
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_BARLEY
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 10
+WT_JIUGUANJIANIANG:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §6§l酒馆佳酿
+    amount: 1
+    material_type: skull_hash
+    material: f34992386ecf1eac85e1989578c722f8d55fe36915c9396f43337cdd14c912
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: GN_PEANUTS
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: YEAST
+      amount: 1
+    '4':
+      material_type: slimefun
+      material: GN_QUINOA
+      amount: 1
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      material_type: slimefun
+      material: GN_QUINOA
+      amount: 1
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: BARREL
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 15
+WT_TUJIAJIU:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §c§l土家酒
+    amount: 1
+    material_type: skull_hash
+    material: b8ce8a802031ad53dee7a05b94f2f118d383495228070437aa7dced6cf9aadfa
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '2':
+      material_type: slimefun
+      material: WT_KEKEGUO
+      amount: 1
+    '3':
+      material_type: slimefun
+      material: GN_SORGHUM
+      amount: 1
+    '4':
+      amount: 1
+      material_type: mc
+      material: HANGING_ROOTS
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: HANGING_ROOTS
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 25
+WT_XIAOMAIJINGNIANG:
+  item:
+    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
+    name: §e§l小麦精酿
+    amount: 1
+    material_type: skull_hash
+    material: 9338262757d63e42d44a6f1599b12d827740d7f3ab9a2e6ddb161fda8c3eef
+  item_group: ws_yingliao
+  recipe_type: WUWEI_CHENNIANGMIN
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '2':
+      material_type: slimefun
+      material: LEMON
+      amount: 1
+    '3':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '4':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '5':
+      material_type: slimefun
+      material: WT_JIUQU
+      amount: 1
+    '6':
+      amount: 1
+      material_type: mc
+      material: WHEAT
+    '7':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '8':
+      amount: 1
+      material_type: mc
+      material: GLASS_BOTTLE
+    '9':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+  placeable: false
+  script: jiu
+  alcohol: 15
+# 饮品分隔符（酒类饮品 | 常规饮品）
+WT_YINGLIAO_SEP:
+  item:
+    name: '&r恭喜你发现我了'
+    amount: 1
+    lore:
+      - "&7恭喜你"
+      - "&7发现了一个占位符"
+    material_type: mc
+    material: PINK_STAINED_GLASS_PANE
+  item_group: ws_yingliao
+  recipe_type: 'NULL'
+  placeable: false
+  separator: true
 WT_YEZIZHI:
   item:
     lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
@@ -34696,35 +38766,6 @@ WT_MEIGUIYEZIZHI:
   placeable: false
   script: yl5
 # 饮品
-WT_PIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
-    name: §e§l啤酒
-    amount: 1
-    material_type: skull_hash
-    material: f6fbc7fcbc773a99e49a3e8c2526c2da6cbf20ac65aa65780af9f01dc6ba24af
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '4':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '5':
-      amount: 1
-      material_type: slimefun
-      material: WT_PIJIUHUA
-    '6':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-  placeable: false
-  script: yl3
-  alcohol: 12
 WT_BAISHIKL:
   item:
     lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
@@ -34905,47 +38946,6 @@ WT_XUEBI:
       amount: 1
   placeable: false
   script: yl3
-WT_JLSHPJ:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §8§l健力士黑啤酒
-    amount: 1
-    material_type: skull_hash
-    material: e0d2d4390ec5af8e65f03c022a809f6b2eec0dad6acd87d9f24fef49ba0f2693
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_RYE
-      amount: 1
-    '2':
-      amount: 1
-      material_type: slimefun
-      material: WT_PIJIUHUA
-    '3':
-      material_type: slimefun
-      material: GN_RYE
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_RYE
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_RYE
-      amount: 1
-    '8':
-      material_type: slimefun
-      material: CAN
-      amount: 1
-  placeable: false
-  script: yl4
-  alcohol: 18
 WT_MOZHAO:
   item:
     lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
@@ -35570,48 +39570,6 @@ WT_YALISANGNABC:
       amount: 1
   placeable: false
   script: yl4
-WT_PINGGUOJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
-    name: §e§l苹果酒
-    amount: 1
-    material_type: skull_hash
-    material: 5c0cb4208282a5578d6d82e115a394ecb58e457125a6fed059568dfd7ddde4f0
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      amount: 1
-      material_type: mc
-      material: SUGAR
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      amount: 1
-      material_type: mc
-      material: SUGAR
-    '4':
-      material_type: slimefun
-      material: OAK_APPLE
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: OAK_APPLE
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: OAK_APPLE
-      amount: 1
-    '8':
-      material_type: slimefun
-      material: CAN
-      amount: 1
-  placeable: false
-  script: yl3
-  alcohol: 15
-
 WT_KEERBISI:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -35840,47 +39798,6 @@ WT_MEILEYZ:
       amount: 1
   placeable: false
   script: yl3
-WT_DAFUPIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §4§l达夫啤酒
-    amount: 1
-    material_type: skull_hash
-    material: c5f1ff975b971c256c3c7df5a3be4c8ab713818c4f02661bac0ae475f728cef
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_RICE
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_VANILLA_BEANS
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_RICE
-      amount: 1
-    '8':
-      material_type: slimefun
-      material: CAN
-      amount: 1
-  placeable: false
-  script: yl4
-  alcohol: 12
 WT_HONGNIU:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -35969,97 +39886,6 @@ WT_YINHEYINGLIAO:
       amount: 1
   placeable: false
   script: yl4
-WT_TAIWANPIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §2§l台湾啤酒
-    amount: 1
-    material_type: skull_hash
-    material: 7cb9da9f58154e52d8d89819c617281659dc7a682220c1d6e2c51ee89e97ca
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '4':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '8':
-      material_type: slimefun
-      material: CAN
-      amount: 1
-  placeable: false
-  script: yl4
-  alcohol: 10
-WT_DANNAIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
-    name: §6§l蛋奶酒
-    amount: 1
-    material_type: skull_hash
-    material: c5d902187518ce66d977b765168ca02ff975762cca5a4ae7d97ac233b982b2ab
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      amount: 1
-      material_type: mc
-      material: EGG
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      amount: 1
-      material_type: mc
-      material: EGG
-    '4':
-      amount: 1
-      material_type: mc
-      material: EGG
-    '5':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: EGG
-    '7':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '8':
-      material_type: slimefun
-      material: CAN
-      amount: 1
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: yl3
-  alcohol: 15
-
 WT_CSLJHPZS:
   item:
     lore: ['', §7§o恢复 §b§o2 §7§o点饥饿值]
@@ -36592,55 +40418,6 @@ WT_NANGUANATIE:
       amount: 1
   placeable: false
   script: yl4
-WT_YIZHAPIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o5 §7§o点饥饿值]
-    name: §2§l一扎啤酒
-    amount: 1
-    material_type: skull_hash
-    material: 63ae17c9efcbfdd87718ac080ac815cd8009c87f82c474444082a4d87eef7062
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '5':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '6':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-  placeable: false
-  script: yl5
-  alcohol: 15
 WT_YIZHAKUANGQUANSHUI:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37009,342 +40786,6 @@ WT_BDBJZQS:
       amount: 1
   placeable: false
   script: yl4
-WT_JIANGSHIJWJ:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §4§l僵尸鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: 1ddf6fe02e5cb36b158ae4c1f443a43f3a16be179aa208b5611737f357bee87
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: STRAWBERRY
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: REDSTONE
-    '3':
-      material_type: slimefun
-      material: TOMATO
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: STRAWBERRY
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: TOMATO
-      amount: 1
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-  placeable: false
-  script: yl4
-  alcohol: 30
-WT_YCJWJ:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §b§l泳池鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: 3bab6761c546268c3f04ff6b29c3881c7b47f5fde9f425d62d95958419d2
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: CURRY_LEAF
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '3':
-      amount: 1
-      material_type: mc
-      material: LIGHT_BLUE_DYE
-    '4':
-      material_type: slimefun
-      material: BLUEBERRY
-      amount: 1
-    '5':
-      amount: 1
-      material_type: mc
-      material: ICE
-    '6':
-      amount: 1
-      material_type: mc
-      material: SUGAR
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-  placeable: false
-  script: yl4
-  alcohol: 25
-WT_HONGZHAJIJWJ:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §6§l轰炸机鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: 5a5d92d4262788c96088e44e01570dce938184bf47f5311df296c3d9b78da5
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: RED_BELL_PEPPER
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: RED_BELL_PEPPER
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: RED_BELL_PEPPER
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '5':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '6':
-      material_type: slimefun
-      material: GN_CHILI_PEPPER
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: COCOA_BEANS
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: COCOA_BEANS
-  placeable: false
-  script: yl4
-  alcohol: 35
-WT_LSLRC:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §e§l龙舌兰日出
-    amount: 1
-    material_type: skull_hash
-    material: 41b8b442af156d654f45255f3fd36e8ad6c61ae55ef41e80412e7fa6cd283e2
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: CORN
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_AVOCADO
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: PINEAPPLE
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: PINEAPPLE
-      amount: 1
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-  placeable: false
-  script: yl4
-  alcohol: 30
-WT_LVSEDUYAOJWJ:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §a§l绿色毒药鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: 71a722b6b359abfb828219851f192481cdbbc17d386f16b6793097c7df8e126d
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      amount: 1
-      material_type: mc
-      material: FERMENTED_SPIDER_EYE
-    '2':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: GLISTERING_MELON_SLICE
-    '5':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_MOCHA
-      amount: 1
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-  placeable: false
-  script: yl4
-  alcohol: 35
-WT_XIANGCAIJWJ:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §f§l香草鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: ec3ab1569c8f8552ec846aa796aee97c7ef4c85aa093ef5e1ad87ba514
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_AVOCADO
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_RED_BEANS
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_VANILLA_BEANS
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: GN_VANILLA_BEANS
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_VANILLA_BEANS
-      amount: 1
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-  placeable: false
-  script: yl4
-  alcohol: 25
-WT_YELINPIAOXIANGJWJ:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §6§l椰林飘香鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: cc96bc8c5786bbbf9fb89ebbd57e91d903cfb551ba8688f1aefdfd33deabe9
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '2':
-      material_type: slimefun
-      material: MOLASSES
-      amount: 1
-    '3':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '4':
-      material_type: slimefun
-      material: COCONUT
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: COCONUT
-      amount: 1
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-  placeable: false
-  script: yl4
-  alcohol: 28
-WT_NINGMENGJWJ:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §e§l柠檬鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: f2a21f4dff518eb5e1460497812b240d159b634d04e27545bfa3ea7fd3dd48
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_HONEYDEW_MELON
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_SESAME_SEEDS
-      amount: 1
-    '3':
-      amount: 1
-      material_type: mc
-      material: ICE
-    '4':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-  placeable: false
-  script: yl4
-  alcohol: 25
 WT_YANGLEDUO:
   item:
     lore: ['', §7§o恢复 §b§o3 §7§o点饥饿值]
@@ -37457,88 +40898,6 @@ WT_YINGHUANAIYOUSUDA:
       amount: 1
   placeable: false
   script: yl4
-WT_KUJING:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §b§l苦精
-    amount: 1
-    material_type: skull_hash
-    material: 56bbc5f44811e676a8a0c915b217e70136608fe5bb09fb3869f6be17b9a2a8de
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: ONION
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: RED_BELL_PEPPER
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: CURRY_LEAF
-      amount: 1
-    '5':
-      amount: 1
-      material_type: mc
-      material: ICE
-    '6':
-      material_type: slimefun
-      material: GARLIC
-      amount: 1
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-  placeable: false
-  script: yl4
-  alcohol: 40
-WT_PINGGUONIANG:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §6§l苹果酿
-    amount: 1
-    material_type: skull_hash
-    material: 655aa5da994906370dfde54d54be647ec7df189aad22eb858465845e1eb67495
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      amount: 1
-      material_type: mc
-      material: SUGAR
-    '2':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '3':
-      amount: 1
-      material_type: mc
-      material: SUGAR
-    '4':
-      material_type: slimefun
-      material: OAK_APPLE
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: OAK_APPLE
-      amount: 1
-    '8':
-      material_type: slimefun
-      material: CAN
-      amount: 1
-  placeable: false
-  script: yl4
-  alcohol: 18
 WT_QINGRENJIENAICHA:
   item:
     lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
@@ -37699,47 +41058,6 @@ WT_TAIXIANCHA:
       material: GLASS_BOTTLE
   placeable: false
   script: yl3
-WT_GEWASI:
-  item:
-    lore: ['', §7§o恢复 §b§o4 §7§o点饥饿值]
-    name: §6§l格瓦斯
-    amount: 1
-    material_type: skull_hash
-    material: 42cf32b25cacd8c8329eab772de01182626cc0ecd337ecf7cc51779fe215eedf
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: SUGAR
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-  placeable: false
-  script: yl4
-  alcohol: 10
 WT_YUGUANTOU:
   item:
     lore: ['', §7§o恢复 §b§o5 §7§o点饥饿值]
@@ -37876,58 +41194,6 @@ WT_XUEYING:
       material: SKELETON_SKULL
   placeable: false
   script: yl4
-WT_HAIMANPAIPJ:
-  item:
-    lore: ['', §7§o恢复 §b§o5 §7§o点饥饿值]
-    name: §b§l海曼牌啤酒
-    amount: 1
-    material_type: skull_hash
-    material: f7427b5cd73e6b7461f5f709abaa231efdab0a5f5b3758db842cbb96f9d6db5
-  item_group: ws_yingliao
-  recipe_type: WUWEI_YINGLIAOJI
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_CAIGOU
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_MIANBAOGUO
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WT_CAIGOU
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_RAW_EEL
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_RAW_EEL
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: ICE
-    '8':
-      material_type: slimefun
-      material: CAN
-      amount: 1
-    '9':
-      amount: 1
-      material_type: mc
-      material: ICE
-  placeable: false
-  script: yl5
-  alcohol: 12
-
-# 甜品 慕斯
-
 WT_SANSEMUSI:
   item:
     lore:
@@ -79071,3243 +82337,6 @@ WT_YINGLIAOFENGEBAN:
   item_group: ws_yingliao
   recipe_type: 'NULL'
   placeable: false
-WT_WULIANGYE:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§l五粮液
-    amount: 1
-    material_type: skull_hash
-    material: 11769f30a40a7ba23f9e12b743253297075801e5a98659a91659adbc0be520fd
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_OATS
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_QUINOA
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_RICE
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 55
-WT_GUIZHOUMAOTAI:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§l贵州茅台
-    amount: 1
-    material_type: skull_hash
-    material: 9ff382e9470d93a8a4bca5d2f09d0db80e96a013a796e0db15326f432ad338e6
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_VANILLA_BEANS
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 60
-WT_SANSHILIHONG:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §4§l三十里红
-    amount: 1
-    material_type: skull_hash
-    material: d8f1d107d63660362a386fb47be14454d410ae898e30a1abc06e7fcdbaacaa8e
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 45
-WT_FENJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §b§l汾酒
-    amount: 1
-    material_type: skull_hash
-    material: 8526cb52ea1868deb4a900b87a1774e8caa7d501d4c9d2e307565d550bad1d4e
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_PEAS
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 50
-WT_GUJINGONGJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §c§l古井贡酒
-    amount: 1
-    material_type: skull_hash
-    material: 59e98b39926e19515e2a8572ce2d23f593d08e6be1b77bec63a8b740929fb795
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_XIAOMI
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 50
-WT_GUOJIAO1573:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l国窖1573
-    amount: 1
-    material_type: skull_hash
-    material: ebf9245bbcfc8432f490d3371fc2879c34439bb907be79c9f1f3eb514dc57200
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 55
-WT_ERGUOTOU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §a§l二锅头
-    amount: 1
-    material_type: skull_hash
-    material: 813900d9238b4b37aa64dfa41b3752ef96262355357f47bc9a0d36299012f50
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_YZYM
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_YZYM
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 55
-WT_XIFENGJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§l西凤酒
-    amount: 1
-    material_type: skull_hash
-    material: 7548eb2fd78266211cca51caf3d1cc4e31ea469dae661b4fdc127fdfc6b95bf1
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_PEAS
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_PEAS
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 50
-WT_FUTEJIA:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §6§l伏特加
-    amount: 1
-    material_type: skull_hash
-    material: ca623c74087f74fe4f8ea86a863a24007125cb4ce4e77c856f48558537e3bf64
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_HYM
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '3':
-      material_type: slimefun
-      material: WT_HYM
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: POTATO
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: POTATO
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 60
-WT_QUEJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l雀酒
-    amount: 1
-    material_type: skull_hash
-    material: 7260fd9f729b0ac774ec83f91cde146c25f6e301ed8768d49b79c7a855b01b37
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: BAMBOO
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 20
-WT_GUANLIYUANLIANG:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l管理员酿
-    amount: 1
-    material_type: skull_hash
-    material: e786e1287e42f4fa2112d506be10ac1d2c8e6a7090cf32fa713cddeb6b1d0dab
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_ZUANSHIXRZ
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: COPPER_BLOCK
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 80
-WT_HAERBINGPIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l哈尔滨啤酒
-    amount: 1
-    material_type: skull_hash
-    material: 5af81c676583934d51b7142c87edae6c49c6f67aff163db457297f033c5964f2
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: ICE_CUBE
-      amount: 1
-    '2':
-      amount: 1
-      material_type: slimefun
-      material: WT_PIJIUHUA
-    '3':
-      material_type: slimefun
-      material: ICE_CUBE
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 10
-WT_GUOSUANJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §a§l果酸酒
-    amount: 1
-    material_type: skull_hash
-    material: 899cf60911bdffcd7f52c9b88aa1e938247b051a9d5f9002bf86307f50f65e0e
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_KUCHENG
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: LIME
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: LIME
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 15
-WT_BUXIANGZHIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§l不祥之酒
-    amount: 1
-    material_type: skull_hash
-    material: c137a09778703e5007ac0cb6a33ccf95259cdcaee4613021d9ac60de0dce8feb
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: OMINOUS_BOTTLE
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 35
-  register:
-    conditions:
-      - version >= 1.21
-WT_HONGJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §4§l红酒
-    amount: 1
-    material_type: skull_hash
-    material: b75584e6fd54ca01df4effd5f746b2d83a589de677755756bb58d9ea284516
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GRAPE
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GRAPE
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 25
-WT_PUTAOJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §c§l葡萄酒
-    amount: 1
-    material_type: skull_hash
-    material: 20c8aa13e12af615cb362f8af94dd5ea278183907fe0abd84d65a079992da4
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_QINGTI
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GRAPE
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GRAPE
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 20
-WT_XIAJIEJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §c§l下界酒
-    amount: 1
-    material_type: skull_hash
-    material: ac1b17cc6c9c760d78619253ba4f6ccff41524aec105b1d2641a74f356967831
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_WASIMAI
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_LONGSHELAN
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WT_WASIMAI
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_WASIMAI
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_WASIMAI
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 40
-WT_YAOJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §a§l药酒
-    amount: 1
-    material_type: skull_hash
-    material: bd2b65b79b4904514a0fc7232ea89a9e8c6ac60ee3dba1b5975b7755127338a4
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '3':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_YAOCAO
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_YAOCAO
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 20
-WT_HONGJIUCU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §4§l红酒醋
-    amount: 1
-    material_type: skull_hash
-    material: b264fecc058dedb4d17d50b758286d20a29708c0f3b1d760a4798695933c2cfe
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      amount: 1
-      material_type: mc
-      material: SUGAR
-    '2':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WUWEI_GEOYAN
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GRAPE
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GRAPE
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 5
-WT_JINGUOJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l金果酒
-    amount: 1
-    material_type: skull_hash
-    material: 706e8003b209f9ba0acf1d31cd55ad9a22b89b54f01e3ff00c45abe252fddbf
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: GLISTERING_MELON_SLICE
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_HUANGJINGGUO
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_HUANGJINGGUO
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 20
-WT_KULOUJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§l骷髅酒
-    amount: 1
-    material_type: skull_hash
-    material: c94cf8f103cd4b14c41b4865b7c11aacbfd6121df0d655b1f51fde15e3ff9a59
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_KEKEGUO
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_KEKEGUO
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: SKELETON_SKULL
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 30
-WT_ZAIEJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §d§l灾厄酒
-    amount: 1
-    material_type: skull_hash
-    material: cbc7a7b6da631d1bf89caf2ff90089046c1b7dfc68cb6cfa934d94e4cd26bcdd
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_TUZAI_DLFBCX
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 55
-WT_XIAJIEHEJINJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §c§l下界合金酒
-    amount: 1
-    material_type: skull_hash
-    material: d6b61602482881b84a4a1de807c48654fdaad76919da8120139f121ee2b8d053
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: NETHERITE_SCRAP
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 65
-WT_MAGELITAJIWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §a§l玛格丽塔鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: 2cd514cf58e3887b5dc93e0cff1684fac2e56d58366604da311f5af309889e86
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: LIME
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 30
-WT_BUZZBALL:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§lBuzzball
-    amount: 1
-    material_type: skull_hash
-    material: 36dfd00bc535e2f878c5fd19d8a76feb86286814bf116ad9c5ab7ae1930184c7
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '4':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      material_type: slimefun
-      material: CAN
-      amount: 1
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 25
-WT_NAIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§l奶酒
-    amount: 1
-    material_type: skull_hash
-    material: d8f7d5680f4e8420e933475457088185bee99206b1cef11a61e2409b39d77e52
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: HEAVY_CREAM
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 15
-WT_WEISHIJI:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §c§l威士忌
-    amount: 1
-    material_type: skull_hash
-    material: c4527d2e2e57f957e2951cf95d607632248471fb7e26597e8075f89d8d987474
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '2':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WT_HEIYUMI
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_RYE
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 45
-WT_BAIWEIPIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §b§l百威啤酒
-    amount: 1
-    material_type: skull_hash
-    material: 67a93ae4ac3151560381528fc84585181e7e1460713d0a6b3c1a20367aeceada
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: ICE_CUBE
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: ICE_CUBE
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 10
-WT_KULIPANAIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §a§l苦力怕奶酒
-    amount: 1
-    material_type: skull_hash
-    material: 4a0a9aed0dc9e4cf117c4a3f6e0ab027736e1f61e9cd561bd8da6eaf9b40deb0
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: HEAVY_CREAM
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: CREEPER_HEAD
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 15
-WT_TAOGUANJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §c§l陶罐酒
-    amount: 1
-    material_type: skull_hash
-    material: a6257e5a054262a8193c06a87f609f401c01e21bb80209698cbedef486821a9b
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_SHENGJIANG
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: DECORATED_POT
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 30
-WT_JINGYANNIANG:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §d§l经验酿
-    amount: 1
-    material_type: skull_hash
-    material: 549148d8f6140533eccb914f36a3599b6ffb70af217c0c7994b3f29d8528eb98
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: EXPERIENCE_BOTTLE
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: EXPERIENCE_BOTTLE
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 20
-WT_DIANJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l电酒
-    amount: 1
-    material_type: skull_hash
-    material: f0f2185c51b6d7cee7e17042de2ddf8a448552af7b4af1804986fbdd09e9bc08
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_YANGTAO
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_YANGTAO
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 30
-WT_XINGKONGJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §b§l星空酒
-    amount: 1
-    material_type: skull_hash
-    material: 72a7dcbf7eca6b6f6386591d237991ca1b888a4f0c753ff9a3202cf0e92229e3
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_DENGLONGGUO
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_QINGYANGTAO
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 35
-WT_BINGJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §b§l冰酒
-    amount: 1
-    material_type: skull_hash
-    material: 71601db71203c3b57b00cd53c97a4527addd8833bbffd7f6f97fc08a14747a0c
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: BLUE_ICE
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: BLUE_ICE
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 20
-WT_RONGYANJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §4§l熔岩酒
-    amount: 1
-    material_type: skull_hash
-    material: 5c7452e1c163ec21bf29d46f3d9bb6357e1c0500034181393c8427621f313fc7
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_WASIMAI
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: LAVA_BUCKET
-    '3':
-      material_type: slimefun
-      material: WT_WASIMAI
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: MAGMA_CREAM
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: MAGMA_CREAM
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 45
-WT_MISSINGJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §d§lMissing!酒
-    amount: 1
-    material_type: skull_hash
-    material: eadd309ecefdb1df18eef6f8d4083b47b3ee227286c0f375f45369d83fb30bd
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: CHORUS_FLOWER
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_ZIGANLAN
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: INK_SAC
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 50
-WT_FAPAOJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l发泡酒
-    amount: 1
-    material_type: skull_hash
-    material: de99a406150048fa2673160409ca686662ce0f1c7a4ee54c20ecc901c9d0bd6f
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_RYE
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_CASSAVA
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_RYE
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 12
-WT_GUOXIANGJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §a§l果香酒
-    amount: 1
-    material_type: skull_hash
-    material: 7ca99b2b1538b18f4f05f935ae68baa855db5931ec863fcd974b1a22d593ca0
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_SUANJIAO
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_MIYOU
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_MIYOU
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 18
-WT_REDAIGUOXIANGJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§l热带果香酒
-    amount: 1
-    material_type: skull_hash
-    material: dc31651fc321ab201433fa8630b7f3771aaf34e68e9aa7d32f3f358fabe7c31f
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_XIAOXIGUA
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_HAMIGUA
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_HAMIGUA
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 18
-WT_MUTONGJINGNIANG:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §6§l木桶精酿
-    amount: 1
-    material_type: skull_hash
-    material: b2b0a1ca399f35dc54519c4c996f9629a510c49938151f759ec8f07041e78566
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_RYE
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_CASSAVA
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_CASSAVA
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: BARREL
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 18
-WT_MOZHIFAPAOJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§l墨汁发泡酒
-    amount: 1
-    material_type: skull_hash
-    material: 5ab546c1228dfafca6b2126849f333c45b896c71a4c378cb856f202d0476e0ff
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: INK_SAC
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: INK_SAC
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 15
-WT_JIANGXIANGBAIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §c§l酱香白酒
-    amount: 1
-    material_type: skull_hash
-    material: a218c4a00047bbfd7f35a74ca3d948982ccaecd28c2708c2dac070d3ebf1e4ac
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_SOY_SAUCE
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 55
-WT_LONGSHELANLIKOUJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l龙舌兰利口酒
-    amount: 1
-    material_type: skull_hash
-    material: 7fde193b0af5f07b4d1eefc554ef6ca129803a4e94c33222d50e73b1fea85d1f
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_LONGSHELAN
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WT_LONGSHELAN
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 40
-WT_HUANGYOUJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l黄油酒
-    amount: 1
-    material_type: skull_hash
-    material: 8cfe55182d77af184798e22b8f3672b36a4c021a15273af1eae0e08980d7ac66
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: BUTTER
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: BUTTER
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 20
-WT_JUZIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §6§l橘子酒
-    amount: 1
-    material_type: skull_hash
-    material: 5ea7858ddb53f3fc13be9d7147df408ff7f843dd21af19c39b3dd58b5241695d
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_SHATANGJU
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_SHATANGJU
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 18
-WT_SANZHUANGMAIPI:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §c§l散装麦啤
-    amount: 1
-    material_type: skull_hash
-    material: 21f26fce875006a46090be4d0cb2d355a2dc5926def8be1901d619948f2
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 12
-WT_YENAIJIWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§l椰奶鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: bdafa7d31c6346e37b64818a548343cfb77ce670ce1d50a665fbe8a14c5549
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: COCONUT
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: MILK_BUCKET
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 25
-WT_QINGJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §a§l清酒
-    amount: 1
-    material_type: skull_hash
-    material: 06d8e65ad95ddba3471b52c1399354622bb0342f16e88c9dcfcb4b8795e
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_XIAOMI
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_XIAOMI
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 25
-WT_CHUNXIANGGUONIANG:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §6§l醇香果酿
-    amount: 1
-    material_type: skull_hash
-    material: d9858adf6861e40bdeb7020b692f2e5e21aad9fef4180c411dbfd96f112df3d
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_FANSHILIU
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WT_FANSHILIU
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_HUANGLONGGUO
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_HUANGLONGGUO
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 20
-WT_DIANLANJIWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §b§l靛蓝鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: c52afa6798f1a4b98164f37301f890ce1d5be3b689e0dd24b450927ce9982b
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_DIEDOUHUA
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_LANCULI
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WT_DIEDOUHUA
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 25
-WT_CHAXIANGJIWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §a§l茶香鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: 815d5bf493dc64e79c29a52c090e4c3b774dcbe1f9da7a1a05cf73e97f77a86
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: TEA_LEAF
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 22
-WT_YUMIJIWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l玉米鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: 7f806752de76439c0cfde926b4b7692fb9715beada6932f5d42cfd4c349a6
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: CORN
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: CORN
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 22
-WT_ZISONGJIWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §d§l紫颂鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: 6ac3a72bde6a78aa0a0b0e57491d0d82aa1b644553155ac14043b317f67f99
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_MODIGUO
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: POPPED_CHORUS_FRUIT
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: POPPED_CHORUS_FRUIT
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 25
-WT_LAJIAOJIWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §4§l辣椒鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: ba6a6789a850b6643de9d9c72107965633f571fa99c3cf7c47afb7e3093d9e
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_HWNLJ
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_HWNLJ
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 30
-WT_MEIGUIJIWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§l玫瑰鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: cdf9aa7ac18296707fbe4b3f60dd7d5fdc2367d358c5c83c2c41a8c9c9178f2
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_MINT
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: ROSE_BUSH
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: ROSE_BUSH
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 22
-WT_AIQINGJIWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §d§l爱情鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: 142f5362dd2aab28af4eb41389e28f20c5e6d56cba9a50115b28eda59bceef
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_ZHANHUAJIANGGUO
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_AIQINGUO
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_AIQINGUO
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 25
-WT_BAIJIAOJIWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l芭蕉鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: b642fe1d555c57d393ac5e7157f5798d6b69f76e5d2ba12d538b3dabd866418
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_CARAMEL
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_QINGXIANGJIAO
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_QINGXIANGJIAO
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 22
-WT_HAIYANGJIWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §b§l海洋鸡尾酒
-    amount: 1
-    material_type: skull_hash
-    material: 5baacdd38986a6cae0d01e4f62ba4feb1bde34bfbb4dc5e7ccd854f6623b
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_LONGSHELAN
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_DIANLANGU
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_DIANLANGU
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 25
-WT_LIEJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §c§l烈酒
-    amount: 1
-    material_type: skull_hash
-    material: 74d9d11ae2be126f42c909ef19d81e994ba1fe6fe8ed029f52c187dd94a5194
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_XUECHENG
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_XUECHENG
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 65
-WT_YINGGUANGJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l荧光酒
-    amount: 1
-    material_type: skull_hash
-    material: 887a4cafb5b0b49be5840b162661789ed6de0ec9487d0859968fa1dba206fe0
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      amount: 1
-      material_type: mc
-      material: GLOW_BERRIES
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_DENGLONGGUO
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_DENGLONGGUO
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 30
-WT_ERWEIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §6§l二维酒
-    amount: 1
-    material_type: skull_hash
-    material: 3172bfe7a9ea129d8d6560fd7d2708541081a07727f6c9970b91d7c0376349fe
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: WT_XSCZ
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: WT_XSCZ
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 40
-WT_JUENIANG:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §a§l蕨酿
-    amount: 1
-    material_type: skull_hash
-    material: 267acd697f65ef8daefc53a17e4f82d646149e4a7bb1842f62847ae4b3225
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_VANILLA_BEANS
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_VANILLA_BEANS
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: FERN
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: FERN
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 20
-WT_XIAOCHITANPIJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §f§l小吃摊啤酒
-    amount: 1
-    material_type: skull_hash
-    material: 5802c4472adaff1deae300335110e4798d90d29d09ece72bde8cb3a7caf959fb
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: WT_PIJIUHUA
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_BARLEY
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 10
-WT_JIUGUANJIANIANG:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §6§l酒馆佳酿
-    amount: 1
-    material_type: skull_hash
-    material: f34992386ecf1eac85e1989578c722f8d55fe36915c9396f43337cdd14c912
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: GN_PEANUTS
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: YEAST
-      amount: 1
-    '4':
-      material_type: slimefun
-      material: GN_QUINOA
-      amount: 1
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      material_type: slimefun
-      material: GN_QUINOA
-      amount: 1
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: BARREL
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 15
-WT_TUJIAJIU:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §c§l土家酒
-    amount: 1
-    material_type: skull_hash
-    material: b8ce8a802031ad53dee7a05b94f2f118d383495228070437aa7dced6cf9aadfa
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '2':
-      material_type: slimefun
-      material: WT_KEKEGUO
-      amount: 1
-    '3':
-      material_type: slimefun
-      material: GN_SORGHUM
-      amount: 1
-    '4':
-      amount: 1
-      material_type: mc
-      material: HANGING_ROOTS
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: HANGING_ROOTS
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 25
-WT_XIAOMAIJINGNIANG:
-  item:
-    lore: ['', §7§o恢复 §b§o随机 §7§o点饥饿值]
-    name: §e§l小麦精酿
-    amount: 1
-    material_type: skull_hash
-    material: 9338262757d63e42d44a6f1599b12d827740d7f3ab9a2e6ddb161fda8c3eef
-  item_group: ws_yingliao
-  recipe_type: WUWEI_CHENNIANGMIN
-  recipe:
-    '1':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '2':
-      material_type: slimefun
-      material: LEMON
-      amount: 1
-    '3':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '4':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '5':
-      material_type: slimefun
-      material: WT_JIUQU
-      amount: 1
-    '6':
-      amount: 1
-      material_type: mc
-      material: WHEAT
-    '7':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-    '8':
-      amount: 1
-      material_type: mc
-      material: GLASS_BOTTLE
-    '9':
-      amount: 1
-      material_type: mc
-      material: WATER_BUCKET
-  placeable: false
-  script: jiu
-  alcohol: 15
 WT_JIUFENGEBAN:
   item:
     lore: [§7左侧及以上为陈酿酒, §7右侧及以下为果汁]
@@ -107971,13 +108000,22 @@ WT_GUOZHA:
 WT_SWEET_PAPER:
   item:
     name: '&e&l甜度试纸'
-    amount: 1
+    amount: 4
     material_type: mc
     material: PAPER
     lore:
-      - '&7可以用它来检测饮品的甜度'
-      - '&8主手持果汁，副手持试纸，右键空气检测'
+      - '&a可以用它来检测饮品的甜度'
+      - '&7主手持果汁，副手持试纸，右键空气检测'
   item_group: ws_niangzaogongyi
-  recipe_type: 'NULL'
+  recipe_type: ENHANCED_CRAFTING_TABLE
+  recipe:
+    1:
+      material_type: slimefun
+      material: WT_ZIGANLAN
+      amount: 1
+    2:
+      material_type: mc
+      material: PAPER
+      amount: 1
   placeable: false
 

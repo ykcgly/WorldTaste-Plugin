@@ -83,7 +83,9 @@ public final class ItemsLoader {
         if (itemSec != null) {
             String mat = itemSec.getString("material", "");
             String rt = s.getString("recipe_type", "NULL");
-            if (mat.endsWith("_STAINED_GLASS_PANE") && ("NULL".equalsIgnoreCase(rt) || rt.isEmpty())) {
+            // separator: true 的玻璃板为分组页内装饰分隔符，正常注册显示
+            if (mat.endsWith("_STAINED_GLASS_PANE") && ("NULL".equalsIgnoreCase(rt) || rt.isEmpty())
+                    && !s.getBoolean("separator", false)) {
                 return false;
             }
         }

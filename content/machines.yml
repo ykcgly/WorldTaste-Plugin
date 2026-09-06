@@ -8,7 +8,6 @@ WT_SEED_XHLB:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -26,7 +25,6 @@ WT_SEED_TQ:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -44,7 +42,6 @@ WT_SEED_JC:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -62,7 +59,6 @@ WT_SEED_XHL:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -80,7 +76,6 @@ WT_SEED_BLB:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -98,7 +93,6 @@ WT_SEED_SHENGJIANG:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -116,7 +110,6 @@ WT_SEED_DOUYA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -134,7 +127,6 @@ WT_SEED_YANGJI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -152,7 +144,6 @@ WT_SEED_XIANGGU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -170,7 +161,6 @@ WT_SEED_YUTOU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -188,7 +178,6 @@ WT_SEED_DASUAN:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -206,7 +195,6 @@ WT_SEED_ZIGANLAN:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -224,7 +212,6 @@ WT_SEED_QIEZI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -242,7 +229,6 @@ WT_SEED_CAIGOU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -260,7 +246,6 @@ WT_SEED_SHENGCAI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -278,7 +263,6 @@ WT_SEED_XIHONGSHI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -296,7 +280,6 @@ WT_SEED_YANGCONG:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -314,7 +297,6 @@ WT_SEED_RIBENNANGUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -323,6 +305,23 @@ WT_SEED_RIBENNANGUA:
       amount: 1
   recipe_type: WUWEI_ZZJDY
   script: seed/ribennangua
+WT_SEED_HUAJIAO:
+  item_group: ws_zhongzi
+  item:
+    name: "&f&l花椒种子"
+    material_type: skull_hash
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjU3YjdiOWZhZGQxNjBmOGQ0MmJjNmFhNzYxMjc3Y2EyZjc4N2NiYjM0MzFmOTdlZjE3NWI4MjAxNTZkYWQwNCJ9fX0=
+    lore: 
+      - ""
+      - "&7需种植在耕地上"
+    glow: false
+  recipe: 
+    5:
+      material_type: slimefun
+      material: WT_SCZZ
+      amount: 1
+  recipe_type: WUWEI_ZZJDY
+  script: seed/huajiao
 
 # 玉米
 WT_SEED_YMHFJ:
@@ -334,7 +333,6 @@ WT_SEED_YMHFJ:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -352,7 +350,6 @@ WT_SEED_YZYM:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -370,7 +367,6 @@ WT_SEED_LYM:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -388,7 +384,6 @@ WT_SEED_HYM:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -406,7 +401,6 @@ WT_SEED_QYM:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -426,7 +420,6 @@ WT_SEED_QINGJIAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -444,7 +437,6 @@ WT_SEED_HWNLJ:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -462,7 +454,6 @@ WT_SEED_KLLNSSLJ:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -480,7 +471,6 @@ WT_SEED_QJJ:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -498,7 +488,6 @@ WT_SEED_MXGLJ:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -516,7 +505,6 @@ WT_SEED_HLPNALJ:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -534,7 +522,6 @@ WT_SEED_TGLJ:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -552,7 +539,6 @@ WT_SEED_DLJ:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -572,7 +558,6 @@ WT_SEED_CLZ:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -590,7 +575,6 @@ WT_SEED_MGL:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -608,7 +592,6 @@ WT_SEED_MHT:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -626,7 +609,6 @@ WT_SEED_MEIZI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -644,7 +626,6 @@ WT_SEED_HONGZAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -662,7 +643,6 @@ WT_SEED_SANGSHEN:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -680,7 +660,6 @@ WT_SEED_CULI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -698,7 +677,6 @@ WT_SEED_QINGTI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -716,7 +694,6 @@ WT_SEED_GANXIA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -734,7 +711,6 @@ WT_SEED_SHILIU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -752,7 +728,6 @@ WT_SEED_PIPA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -770,7 +745,6 @@ WT_SEED_WENBOGUO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -788,7 +762,6 @@ WT_SEED_XIANGSU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -806,7 +779,6 @@ WT_SEED_MIANHUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -824,7 +796,6 @@ WT_SEED_PIJIUHUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约3分钟"
     glow: false
   recipe: 
     5:
@@ -842,7 +813,6 @@ WT_SEED_MOCHA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约3分钟"
     glow: false
   recipe: 
     5:
@@ -860,7 +830,6 @@ WT_SEED_YANCAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约4分钟"
     glow: false
   recipe: 
     5:
@@ -878,7 +847,6 @@ WT_SEED_SHIZI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -898,7 +866,6 @@ WT_SEED_HUANGJINGGUO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -916,7 +883,6 @@ WT_SEED_YANGTAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -934,7 +900,6 @@ WT_SEED_QINGNING:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -952,7 +917,6 @@ WT_SEED_MAMEIGUO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -970,7 +934,6 @@ WT_SEED_QINGXIANGJIAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -988,7 +951,6 @@ WT_SEED_KEKEGUO:
     lore: 
       - ""
       - "&7需附着在丛林木上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1006,7 +968,6 @@ WT_SEED_SHEPIGUO:
     lore: 
       - ""
       - "&7需附着在丛林木上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1024,7 +985,6 @@ WT_SEED_FEIZHOULI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1042,7 +1002,6 @@ WT_SEED_MANGGUO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1060,7 +1019,6 @@ WT_SEED_SUANJIAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1078,7 +1036,6 @@ WT_SEED_LIULIAN:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1096,7 +1053,6 @@ WT_SEED_MIYOU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1114,7 +1070,6 @@ WT_SEED_HEIGANLAN:
     lore: 
       - ""
       - "&7需附着在丛林木上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1132,7 +1087,6 @@ WT_SEED_FANSHILIU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1150,7 +1104,6 @@ WT_SEED_XUECHENG:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1168,7 +1121,6 @@ WT_SEED_WUHUAGUO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1186,7 +1138,6 @@ WT_SEED_KAFEIDOU:
     lore: 
       - ""
       - "&7需附着在丛林木上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1204,7 +1155,6 @@ WT_SEED_MIANBAOGUO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1222,7 +1172,6 @@ WT_SEED_BOLUOMI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1240,7 +1189,6 @@ WT_SEED_HAMIGUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1258,7 +1206,6 @@ WT_SEED_MUGUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1276,7 +1223,6 @@ WT_SEED_RENXINGUO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1294,7 +1240,6 @@ WT_SEED_SHUFANQIE:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1312,7 +1257,6 @@ WT_SEED_FENGGUNCAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
     glow: false
   recipe: 
     5:
@@ -1332,7 +1276,6 @@ WT_SEED_JIANGUO:
     lore: 
       - ""
       - "&7需附着在丛林木上"
-      - "&6生长时间: &7约3分钟"
     glow: false
   recipe: 
     5:
@@ -1352,7 +1295,6 @@ WT_SEED_WASIMAI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1370,7 +1312,6 @@ WT_SEED_EMOGUOSHI:
     lore: 
       - ""
       - "&7需种植在灵魂沙上"
-      - "&6生长时间: &7约2分半钟"
     glow: false
   recipe: 
     5:
@@ -1388,7 +1329,6 @@ WT_SEED_GUIJIAO:
     lore: 
       - ""
       - "&7需种植在灵魂沙上"
-      - "&6生长时间: &7约2分半钟"
     glow: false
   recipe: 
     5:
@@ -1406,7 +1346,6 @@ WT_SEED_GUIYIGUO:
     lore: 
       - ""
       - "&7需种植在灵魂沙上"
-      - "&6生长时间: &7约2分半钟"
     glow: false
   recipe: 
     5:
@@ -1427,7 +1366,6 @@ WT_SEED_ZISONGYE:
       - ""
       - "&7需种植在末地石上"
       - "&7四周不能有方块"
-      - "&6生长时间: &7约2分半钟"
     glow: false
   recipe: 
     5:
@@ -1446,7 +1384,6 @@ WT_SEED_MODIGUO:
       - ""
       - "&7需种植在末地石上"
       - "&7四周不能有方块"
-      - "&6生长时间: &7约2分半钟"
     glow: false
   recipe: 
     5:
@@ -1464,7 +1401,6 @@ WT_SEED_MANDELACAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约4分钟"
     glow: false
   recipe: 
     5:
@@ -1482,7 +1418,6 @@ WT_SEED_RENSHEN:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约4分钟"
     glow: false
   recipe: 
     5:
@@ -1502,7 +1437,6 @@ WT_SEED_ZUANSHIHULUOBO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约5分钟"
     glow: false
   recipe: 
     5:
@@ -1520,7 +1454,6 @@ WT_SEED_TIEHULUOBO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约3分钟"
     glow: false
   recipe: 
     5:
@@ -1538,7 +1471,6 @@ WT_SEED_NAMITUDOU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约4分钟"
     glow: false
   recipe: 
     5:
@@ -1556,7 +1488,6 @@ WT_SEED_ZUANSHINANGUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约5分钟"
     glow: false
   recipe: 
     5:
@@ -1574,7 +1505,6 @@ WT_SEED_QJSXJ:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分半钟"
     glow: false
   recipe: 
     5:
@@ -1593,7 +1523,6 @@ WT_SEED_YAOQIANSHU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约5分钟"
     glow: false
   recipe: 
     5:
@@ -1611,7 +1540,6 @@ WT_SEED_MATONG:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约3分半钟"
     glow: false
   recipe: 
     5:
@@ -1629,7 +1557,6 @@ WT_SEED_TONGNIAN:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约4分钟"
     glow: false
   recipe: 
     5:
@@ -1647,7 +1574,6 @@ WT_SEED_ZONGYE:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1665,7 +1591,6 @@ WT_SEED_AICAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1683,7 +1608,6 @@ WT_SEED_GUIYIYOU:
     lore: 
       - ""
       - "&7需种植在灵魂沙上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1701,7 +1625,6 @@ WT_SEED_LONGSHELAN:
     lore: 
       - ""
       - "&7需种植在灵魂沙上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1719,7 +1642,6 @@ WT_SEED_BIANBIANYUMI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1737,7 +1659,6 @@ WT_SEED_HEIYUMI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1755,7 +1676,6 @@ WT_SEED_SHUGU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1773,7 +1693,6 @@ WT_SEED_DIANLANGU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1791,7 +1710,6 @@ WT_SEED_SHUIJINGGU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1810,7 +1728,6 @@ WT_SEED_DPTT:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
       - ""
       - "&e你说我要是把它倒在田里会如何？"
     glow: false
@@ -1834,7 +1751,6 @@ WT_SEED_JUDUGUO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约1分半钟"
       - ""
       - "&e到底是神秘还是不神秘"
       - "&e还有，你这是在给毒马铃薯提纯吗？"
@@ -1859,7 +1775,6 @@ WT_SEED_BAINUOYUMI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1878,7 +1793,6 @@ WT_SEED_QINGGANLAN:
     lore: 
       - ""
       - "&7需附着在丛林木上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1896,7 +1810,6 @@ WT_SEED_HUANGLONGGUO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1914,7 +1827,6 @@ WT_SEED_XIAOXIGUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1933,7 +1845,6 @@ WT_SEED_SHANGGUSHUIGUO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1952,7 +1863,6 @@ WT_SEED_SHANYAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1970,7 +1880,6 @@ WT_SEED_DATOUCAI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -1988,7 +1897,6 @@ WT_SEED_XIANGYU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2006,7 +1914,6 @@ WT_SEED_MACAI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2024,7 +1931,6 @@ WT_SEED_DONGGUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2042,7 +1948,6 @@ WT_SEED_XILANHUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2060,7 +1965,6 @@ WT_SEED_LVDOUJIA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2078,7 +1982,6 @@ WT_SEED_HONGYUANLUOBO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2096,7 +1999,6 @@ WT_SEED_SHUIGUOLUOBO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2115,7 +2017,6 @@ WT_SEED_YAOCAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2133,7 +2034,6 @@ WT_SEED_XIAOMI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2151,7 +2051,6 @@ WT_SEED_PANTAO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2170,7 +2069,6 @@ WT_SEED_NANGUA1:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2188,7 +2086,6 @@ WT_SEED_NANGUA2:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约3分钟"
     glow: false
   recipe: 
     5:
@@ -2206,7 +2103,6 @@ WT_SEED_NANGUA3:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约4分钟"
     glow: false
   recipe: 
     5:
@@ -2227,7 +2123,6 @@ WT_SEED_JIUCAI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2245,7 +2140,6 @@ WT_SEED_QINGCAI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2264,7 +2158,6 @@ WT_SEED_XUEJIAYANYE:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约3分钟"
     glow: false
   recipe: 
     5:
@@ -2282,7 +2175,6 @@ WT_SEED_KUGUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2300,7 +2192,6 @@ WT_SEED_SIGUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2318,7 +2209,6 @@ WT_SEED_DIEDOUHUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2336,7 +2226,6 @@ WT_SEED_YEGUO:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2354,7 +2243,6 @@ WT_SEED_YEGUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2372,7 +2260,6 @@ WT_SEED_DOUJIA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2390,7 +2277,6 @@ WT_SEED_SHIRUN:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2409,7 +2295,6 @@ WT_SEED_LINGZHI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约5分钟"
     glow: false
   recipe: 
     5:
@@ -2428,7 +2313,6 @@ WT_SEED_TIANGUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2446,7 +2330,6 @@ WT_SEED_ROUGUI:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2464,7 +2347,6 @@ WT_SEED_ROUDOUKOU:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2482,7 +2364,6 @@ WT_SEED_BINGLANG:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2500,7 +2381,6 @@ WT_SEED_GANHAN:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2519,7 +2399,6 @@ WT_SEED_DIAOLINGGUA:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2537,7 +2416,6 @@ WT_SEED_FEIHONGMOGUIJIAO:
     lore: 
       - ""
       - "&7需种植在灵魂沙上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2555,7 +2433,6 @@ WT_SEED_XINGHONG:
     lore: 
       - ""
       - "&7需种植在灵魂沙上"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2575,7 +2452,6 @@ WT_SEED_QIYI:
       - ""
       - "&7需种植在末地石上"
       - "&7四周不能有方块"
-      - "&6生长时间: &7约2分钟"
     glow: false
   recipe: 
     5:
@@ -2594,7 +2470,6 @@ WT_SEED_WUJIN:
     lore: 
       - ""
       - "&7需种植在耕地上"
-      - "&6生长时间: &7约5分钟"
     glow: false
   recipe: 
     2:

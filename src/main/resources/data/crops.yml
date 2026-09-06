@@ -1,7 +1,6 @@
 "seed/aicao":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_AICAO", "chance": 1.0}
@@ -10,7 +9,6 @@
 "seed/bainuoyumi":
   "material": "TORCHFLOWER_CROP"
   "maxAge": 1
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_BAINUOYUMI", "chance": 1.0}
@@ -19,7 +17,6 @@
 "seed/bianbianyumi":
   "material": "TORCHFLOWER_CROP"
   "maxAge": 1
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_BIANBIANYUMI", "chance": 1.0}
@@ -28,7 +25,6 @@
 "seed/blb":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_BLB", "chance": 1.0}
@@ -37,7 +33,6 @@
 "seed/boluomi":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_BOLUOMI", "chance": 1.0}
@@ -46,7 +41,6 @@
 "seed/caigou":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_CAIGOU", "chance": 1.0}
@@ -55,7 +49,6 @@
 "seed/clz":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_CZL", "chance": 1.0}
@@ -64,7 +57,6 @@
 "seed/culi":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_CULI", "weight": 0.7}
@@ -74,7 +66,6 @@
 "seed/dasuan":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 60000
   "stages": "small"
   "drops":
     - {"id": "WT_DASUAN", "chance": 1.0}
@@ -83,7 +74,6 @@
 "seed/datoucai":
   "material": "BEETROOTS"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_DATOUCAI", "chance": 1.0}
@@ -92,7 +82,6 @@
 "seed/dianlangu":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_DIANLANGU", "chance": 1.0}
@@ -101,7 +90,6 @@
 "seed/dlj":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_DLJ", "weight": 0.7}
@@ -112,7 +100,6 @@
 "seed/donggua":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_DONGGUA", "chance": 1.0}
@@ -121,7 +108,6 @@
 "seed/douya":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_DOUYA", "chance": 1.0}
@@ -130,7 +116,6 @@
 "seed/emoguoshi":
   "material": "NETHER_WART"
   "maxAge": 3
-  "growMs": 150000
   "stages": "small"
   "drops":
     - {"id": "WT_EMOGUOSHI", "chance": 1.0}
@@ -139,7 +124,6 @@
 "seed/fanshiliu":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_FANSHILIU", "chance": 1.0}
@@ -148,7 +132,6 @@
 "seed/feizhouli":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_FEIZHOULI", "chance": 1.0}
@@ -157,7 +140,6 @@
 "seed/fengguncao":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_FENGGUNCAO", "chance": 1.0}
@@ -166,7 +148,6 @@
 "seed/ganxia":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_GANXIA", "chance": 1.0}
@@ -175,7 +156,6 @@
 "seed/guijiao":
   "material": "NETHER_WART"
   "maxAge": 3
-  "growMs": 150000
   "stages": "small"
   "drops":
     - {"id": "WT_GUIJIAO", "chance": 1.0}
@@ -184,7 +164,6 @@
 "seed/guiyiguo":
   "material": "NETHER_WART"
   "maxAge": 3
-  "growMs": 150000
   "stages": "small"
   "drops":
     - {"id": "WT_GUIYIGUO", "chance": 1.0}
@@ -193,7 +172,6 @@
 "seed/guiyiyou":
   "material": "NETHER_WART"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_GUIYIYOU", "chance": 1.0}
@@ -202,7 +180,6 @@
 "seed/hamigua":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_HAMIGUA", "chance": 1.0}
@@ -211,7 +188,6 @@
 "seed/heiganlan":
   "material": "COCOA"
   "maxAge": 2
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_HEIGANLAN", "chance": 1.0}
@@ -220,7 +196,6 @@
 "seed/heiyumi":
   "material": "TORCHFLOWER_CROP"
   "maxAge": 1
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_HEIYUMI", "chance": 1.0}
@@ -229,7 +204,6 @@
 "seed/hlpnalj":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_MXGLJ", "chance": 1.0}
@@ -238,7 +212,6 @@
 "seed/hongyuanluobo":
   "material": "BEETROOTS"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_HONGYUANLUOBO", "chance": 1.0}
@@ -247,7 +220,6 @@
 "seed/hongzao":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_HONGZAO", "chance": 1.0}
@@ -256,7 +228,6 @@
 "seed/huangjingguo":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_HUANGJINGGUO", "chance": 1.0}
@@ -265,7 +236,6 @@
 "seed/huanglongguo":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_HUANGLONGGUO", "weight": 0.8}
@@ -276,7 +246,6 @@
 "seed/hwnlj":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_HWNLJ", "chance": 1.0}
@@ -285,7 +254,6 @@
 "seed/hym":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_HYM", "chance": 1.0}
@@ -294,7 +262,6 @@
 "seed/jc":
   "material": "BEETROOTS"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_JC", "chance": 1.0}
@@ -303,7 +270,6 @@
 "seed/jianguo":
   "material": "COCOA"
   "maxAge": 2
-  "growMs": 180000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_SONGGUO", "weight": 0.8}
@@ -323,7 +289,6 @@
 "seed/kafeidou":
   "material": "COCOA"
   "maxAge": 2
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_KAFEIDOU", "chance": 1.0}
@@ -332,7 +297,6 @@
 "seed/kekeguo":
   "material": "COCOA"
   "maxAge": 2
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_KEKEGUO", "chance": 1.0}
@@ -341,7 +305,6 @@
 "seed/kllnsslj":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_KLLNSSLJ", "chance": 1.0}
@@ -350,7 +313,6 @@
 "seed/liulian":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_LIULIAN", "weight": 0.9}
@@ -360,7 +322,6 @@
 "seed/longshelan":
   "material": "NETHER_WART"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_LONGSHELAN", "chance": 1.0}
@@ -369,7 +330,6 @@
 "seed/lvdoujia":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_LVDOUJIA", "chance": 1.0}
@@ -378,7 +338,6 @@
 "seed/lym":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_LYM", "chance": 1.0}
@@ -387,7 +346,6 @@
 "seed/macai":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_MACAI", "chance": 1.0}
@@ -396,7 +354,6 @@
 "seed/mameiguo":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_MAMEIGUO", "chance": 1.0}
@@ -405,7 +362,6 @@
 "seed/mandelacao":
   "material": "CARROTS"
   "maxAge": 7
-  "growMs": 240000
   "stages": "small"
   "drops":
     - {"id": "WT_MANDELACAO", "chance": 1.0}
@@ -414,7 +370,6 @@
 "seed/mangguo":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_MANGGUO", "chance": 1.0}
@@ -423,7 +378,6 @@
 "seed/matong":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 210000
   "stages": "small"
   "drops":
     - {"id": "WT_MATONG", "chance": 1.0}
@@ -432,7 +386,6 @@
 "seed/meizi":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_MEIZI", "chance": 1.0}
@@ -441,7 +394,6 @@
 "seed/mgl":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_MGL", "chance": 1.0}
@@ -450,7 +402,6 @@
 "seed/mht":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_MHT", "chance": 1.0}
@@ -459,7 +410,6 @@
 "seed/mianbaoguo":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_MIANBAOGUO", "chance": 1.0}
@@ -468,7 +418,6 @@
 "seed/mianhua":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_MIANHUA", "chance": 1.0}
@@ -477,7 +426,6 @@
 "seed/miyou":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_MIYOU", "chance": 1.0}
@@ -486,7 +434,6 @@
 "seed/mochachaye":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 180000
   "stages": "small"
   "drops":
     - {"id": "WT_MOCHA", "chance": 1.0}
@@ -495,7 +442,6 @@
 "seed/modiguo":
   "material": "CHORUS_FLOWER"
   "maxAge": 5
-  "growMs": 150000
   "stages": "small"
   "plantOn": ["END_STONE"]
   "drops":
@@ -505,7 +451,6 @@
 "seed/mugua":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_MUGUA", "chance": 1.0}
@@ -514,7 +459,6 @@
 "seed/mxglj":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_HLPNALJ", "chance": 1.0}
@@ -523,7 +467,6 @@
 "seed/namitudou":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 240000
   "stages": "small"
   "drops":
     - {"id": "WT_NAMITUDOU", "chance": 1.0}
@@ -532,7 +475,6 @@
 "seed/nangua1":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_SHENGNANGUA", "weight": 0.6}
@@ -546,7 +488,6 @@
 "seed/nangua2":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 180000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_NANGUA2", "weight": 0.4}
@@ -559,7 +500,6 @@
 "seed/nangua3":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 240000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_FUHUANANGUA", "weight": 0.35}
@@ -572,7 +512,6 @@
 "seed/new/binglang":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_SHENGBINGLANG", "chance": 1.0}
@@ -581,7 +520,6 @@
 "seed/new/diedouhua":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_DIEDOUHUA", "chance": 1.0}
@@ -590,7 +528,6 @@
 "seed/new/doujia":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_HONGDOU", "weight": 0.5}
@@ -603,7 +540,6 @@
 "seed/new/feihongmoguijiao":
   "material": "NETHER_WART"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_FEIHONGMOGUIJIAO", "chance": 1.0}
@@ -612,7 +548,6 @@
 "seed/new/ganhan":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_DUOROUZHIWU", "weight": 0.5}
@@ -627,7 +562,6 @@
 "seed/new/jiucai":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_JIUCAI", "chance": 1.0}
@@ -636,7 +570,6 @@
 "seed/new/kugua":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_KUGUA", "chance": 1.0}
@@ -645,7 +578,6 @@
 "seed/new/lingzhi":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 300000
   "stages": "small"
   "drops":
     - {"id": "WT_LINGZHI", "chance": 1.0}
@@ -654,7 +586,6 @@
 "seed/new/qingcai":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_QINGCAI", "chance": 1.0}
@@ -663,7 +594,6 @@
 "seed/new/qiyi":
   "material": "CHORUS_FLOWER"
   "maxAge": 5
-  "growMs": 30000
   "stages": "small"
   "plantOn": ["END_STONE"]
   "weightedDrops":
@@ -678,7 +608,6 @@
 "seed/new/roudoukou":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_ROUDOUKOU", "chance": 1.0}
@@ -687,7 +616,6 @@
 "seed/new/rougui":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_ROUGUI", "chance": 1.0}
@@ -696,7 +624,6 @@
 "seed/new/shirun":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_XIANGPUTOU", "weight": 0.5}
@@ -709,7 +636,6 @@
 "seed/new/sigua":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_SIGUA", "chance": 1.0}
@@ -718,7 +644,6 @@
 "seed/new/tiangua":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_TIANGUA", "chance": 1.0}
@@ -728,7 +653,6 @@
 "seed/new/xinghong":
   "material": "NETHER_WART"
   "maxAge": 3
-  "growMs": 30000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_XUETENG", "weight": 0.5}
@@ -739,7 +663,6 @@
 "seed/new/xuejiayanye":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 180000
   "stages": "small"
   "drops":
     - {"id": "WT_XUEJIAYANYE", "chance": 1.0}
@@ -748,7 +671,6 @@
 "seed/new/yegua":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_QINGPITIANGUA", "weight": 0.6}
@@ -761,7 +683,6 @@
 "seed/new/yeguo":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_DONGQINGGUO", "weight": 0.5}
@@ -779,7 +700,6 @@
 "seed/pantao":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_PANTAO", "chance": 1.0}
@@ -788,7 +708,6 @@
 "seed/pijiuhua":
   "material": "TORCHFLOWER_CROP"
   "maxAge": 1
-  "growMs": 180000
   "stages": "small"
   "drops":
     - {"id": "WT_PIJIUHUA", "chance": 1.0}
@@ -797,7 +716,6 @@
 "seed/pipa":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_PIPA", "chance": 1.0}
@@ -806,7 +724,6 @@
 "seed/qiezi":
   "material": "CARROTS"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_QIEZI", "chance": 1.0}
@@ -815,7 +732,6 @@
 "seed/qingganlan":
   "material": "COCOA"
   "maxAge": 2
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_QINGGANLAN", "chance": 1.0}
@@ -824,7 +740,6 @@
 "seed/qingjiao":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_QINGJIAO", "weight": 0.6}
@@ -834,7 +749,6 @@
 "seed/qingning":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_QINGNING", "chance": 1.0}
@@ -843,7 +757,6 @@
 "seed/qingti":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_QINGTI", "chance": 1.0}
@@ -852,7 +765,6 @@
 "seed/qingxiangjiao":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_QINGXIANGJIAO", "chance": 1.0}
@@ -861,7 +773,6 @@
 "seed/qjj":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_QJJ", "chance": 1.0}
@@ -870,7 +781,6 @@
 "seed/qjsxj":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 150000
   "stages": "small"
   "drops":
     - {"id": "WT_QJSXJ", "chance": 1.0}
@@ -879,7 +789,6 @@
 "seed/qym":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_QYM", "chance": 1.0}
@@ -888,7 +797,6 @@
 "seed/renshen":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 240000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_RENSHEN", "weight": 0.95}
@@ -897,7 +805,6 @@
 "seed/renxinguo":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_RENXINGUO", "chance": 1.0}
@@ -906,7 +813,6 @@
 "seed/ribennangua":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_RIBENNANGUA", "chance": 1.0}
@@ -915,7 +821,6 @@
 "seed/sangshen":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_SANGSHEN", "chance": 1.0}
@@ -924,7 +829,6 @@
 "seed/shanggushuiguo":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_SHANGGUSHUIGUO", "chance": 1.0}
@@ -933,7 +837,6 @@
 "seed/shanyao":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_SHANYAO", "chance": 1.0}
@@ -942,7 +845,6 @@
 "seed/shengjiang":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_SHENGJIANG", "chance": 1.0}
@@ -951,7 +853,6 @@
 "seed/shepiguo":
   "material": "COCOA"
   "maxAge": 2
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_SHEPIGUO", "chance": 1.0}
@@ -960,7 +861,6 @@
 "seed/shiliu":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_SHILIU", "chance": 1.0}
@@ -969,7 +869,6 @@
 "seed/shizi":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_SHIZI", "chance": 1.0}
@@ -978,7 +877,6 @@
 "seed/shufanqie":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_SHUFANQIE", "chance": 1.0}
@@ -987,7 +885,6 @@
 "seed/shugu":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_SHUGU", "chance": 1.0}
@@ -996,7 +893,6 @@
 "seed/shuiguoluobo":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_SHUIGUOLUOBO", "chance": 1.0}
@@ -1005,7 +901,6 @@
 "seed/shuijinggu":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_SHUIJINGGU", "chance": 1.0}
@@ -1014,7 +909,6 @@
 "seed/suanjiao":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_SUANJIAO", "chance": 1.0}
@@ -1023,7 +917,6 @@
 "seed/tglj":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_TGLJ", "chance": 1.0}
@@ -1032,7 +925,6 @@
 "seed/tiehuluobo":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 180000
   "stages": "small"
   "drops":
     - {"id": "WT_TIEHULUOBO", "chance": 1.0}
@@ -1041,7 +933,6 @@
 "seed/tongnian":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 240000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_WANDOUSHESHOU", "weight": 0.2}
@@ -1053,7 +944,6 @@
 "seed/tq":
   "material": "BEETROOTS"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_TQ", "chance": 1.0}
@@ -1062,7 +952,6 @@
 "seed/wasimai":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_WASIMAI", "chance": 1.0}
@@ -1071,7 +960,6 @@
 "seed/wenboguo":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_WENBOGUO", "chance": 1.0}
@@ -1080,7 +968,6 @@
 "seed/wuhuaguo":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_WUHUAGUO", "chance": 1.0}
@@ -1089,7 +976,6 @@
 "seed/xhl":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_XHL", "chance": 1.0}
@@ -1098,7 +984,6 @@
 "seed/xhlb":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_XHLB", "chance": 1.0}
@@ -1107,7 +992,6 @@
 "seed/xianggu":
   "material": "TORCHFLOWER_CROP"
   "maxAge": 1
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_XIANGGU", "chance": 1.0}
@@ -1116,7 +1000,6 @@
 "seed/xiangsu":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_XSCZ", "chance": 1.0}
@@ -1125,7 +1008,6 @@
 "seed/xiangyu":
   "material": "BEETROOTS"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_XIANGYU", "chance": 1.0}
@@ -1134,7 +1016,6 @@
 "seed/xiaomi":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_XIAOMI", "chance": 1.0}
@@ -1143,7 +1024,6 @@
 "seed/xiaoxigua":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_YANCAO", "chance": 1.0}
@@ -1152,7 +1032,6 @@
 "seed/xihongshi":
   "material": "SWEET_BERRY_BUSH"
   "maxAge": 3
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_XIHONGSHI", "chance": 1.0}
@@ -1161,7 +1040,6 @@
 "seed/xilanhua":
   "material": "TORCHFLOWER_CROP"
   "maxAge": 1
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_XILANHUA", "chance": 1.0}
@@ -1170,7 +1048,6 @@
 "seed/xuechen":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_XUECHENG", "chance": 1.0}
@@ -1179,7 +1056,6 @@
 "seed/yancao":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 240000
   "stages": "small"
   "drops":
     - {"id": "WT_YANCAO", "chance": 1.0}
@@ -1188,7 +1064,6 @@
 "seed/yangcong":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_HUANGPIYANGCONG", "chance": 1.0}
@@ -1197,7 +1072,6 @@
 "seed/yangji":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_YANGJI", "chance": 1.0}
@@ -1206,7 +1080,6 @@
 "seed/yangtao":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_YANGTAO", "weight": 0.85}
@@ -1216,7 +1089,6 @@
 "seed/yaocao":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_YAOCAO", "chance": 1.0}
@@ -1225,7 +1097,6 @@
 "seed/yaoqianshu":
   "material": "TORCHFLOWER_CROP"
   "maxAge": 1
-  "growMs": 300000
   "stages": "small"
   "drops":
     - {"id": "WT_JINBI", "chance": 1.0}
@@ -1234,7 +1105,6 @@
 "seed/ymhfj":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_YMHFJ", "chance": 1.0}
@@ -1243,7 +1113,6 @@
 "seed/yutou":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_YUTOU", "weight": 0.8}
@@ -1253,7 +1122,6 @@
 "seed/yzym":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_YZYM", "chance": 1.0}
@@ -1262,7 +1130,6 @@
 "seed/ziganlan":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_ZIGANLAN", "chance": 1.0}
@@ -1271,7 +1138,6 @@
 "seed/zisongye":
   "material": "CHORUS_FLOWER"
   "maxAge": 5
-  "growMs": 150000
   "stages": "small"
   "plantOn": ["END_STONE"]
   "drops":
@@ -1281,7 +1147,6 @@
 "seed/zongye":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 120000
   "stages": "small"
   "drops":
     - {"id": "WT_ZONGYE", "chance": 1.0}
@@ -1290,7 +1155,6 @@
 "seed/zuanshihuluobo":
   "material": "PITCHER_CROP"
   "maxAge": 4
-  "growMs": 300000
   "stages": "small"
   "drops":
     - {"id": "WT_ZSHULUOBO", "chance": 1.0}
@@ -1299,7 +1163,6 @@
 "seed/zuanshinangua":
   "material": "PUMPKIN_STEM"
   "maxAge": 6
-  "growMs": 300000
   "stages": "small"
   "drops":
     - {"id": "WT_ZUANSHINANGUA", "chance": 1.0}
@@ -1308,7 +1171,6 @@
 "gandi/wujinzuowu":
   "material": "WHEAT"
   "maxAge": 7
-  "growMs": 300000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_WJYDG", "weight": 0.5}
@@ -1320,7 +1182,6 @@
 "yurenjie/dptt":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 90000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_DUPUTUITOU", "weight": 0.85}
@@ -1330,7 +1191,6 @@
 "yurenjie/juduguo":
   "material": "POTATOES"
   "maxAge": 7
-  "growMs": 90000
   "stages": "small"
   "drops":
     - {"id": "WT_JUDUGUO", "chance": 1.0}
@@ -1339,7 +1199,6 @@
 "seed/new/diaolinggua":
   "material": "MELON_STEM"
   "maxAge": 6
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_DIAOLINGGUA", "weight": 0.7}
@@ -1349,10 +1208,17 @@
 "seed/shengcai":
   "material": "TORCHFLOWER_CROP"
   "maxAge": 1
-  "growMs": 120000
   "stages": "small"
   "weightedDrops":
     - {"id": "WT_JIEQIUSHENGCAI", "weight": 0.9}
     - {"id": "WT_XINGYUNZSDK", "weight": 0.08}
     - {"id": "WT_SEED_SHENGCAI", "weight": 0.4}
   "cropId": "WT_SEED_SHENGCAI"
+"seed/huajiao":
+  "material": "BEETROOTS"
+  "maxAge": 1
+  "stages": "small"
+  "weightedDrops":
+    - {"id": "WT_JIEQIUSHENGCAI", "weight": 1.0}
+    - {"id": "WT_SEED_LAHUAJIAO", "weight": 1.0}
+  "cropId": "WT_SEED_LAHUAJIAO"

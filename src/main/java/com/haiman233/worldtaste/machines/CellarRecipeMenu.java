@@ -35,6 +35,11 @@ public final class CellarRecipeMenu {
     private static final int SLOT_BACK = 52;     // 门：返回
     private static final int SLOT_PAGE = 53;     // 箭矢：翻页
 
+    /** 配方列表页槽位：0~44 成品、45 返回指南、53 翻页。 */
+    private static final int SLOT_LIST_BACK = 45;
+    private static final int SLOT_LIST_PAGE = 53;
+    private static final int LIST_PAGE_SIZE = 45;
+
     private CellarRecipeMenu() {}
 
     /** 酒窖管理器自身配方概览页（指南/机器入口），右下角书本按钮进入配方展示页。 */
@@ -63,7 +68,7 @@ public final class CellarRecipeMenu {
             return false;
         });
         menu.addItem(53, entryButton(), (pl, s, cursor, action) -> {
-            openRecipes(pl, 0, null);
+            openRecipeList(pl, 0, null);
             return false;
         });
         menu.open(p);
@@ -78,6 +83,56 @@ public final class CellarRecipeMenu {
             meta.getPersistentDataContainer().set(
                     com.haiman233.worldtaste.guide.CellarGuideListener.KEY_ENTRY,
                     org.bukkit.persistence.PersistentDataType.BYTE, (byte) 1);
+            it.setItemMeta(meta);
+        }
+        return it;
+    }
+
+    /**
+     * 配方列表页：0~44 展示全部配方成品（45 个/页），点击成品进入对应配方详情；
+     * 45 返回指南，53 翻页（左键下一页/右键上一页）。
+     * cellar 为来源酒窖管理器方块（详情页返回键回到该页面；null = 从指南进入）。
+     */
+    public static void openRecipeList(Player p, int page, Block cellar) {
+        List<CellarRecipe> recipes = CellarRecipe.all();
+        if (recipes.isEmpty()) {
+            p.sendMessage("§c暂无酒窖配方（cellar.yml）。");
+            return;
+        }
+        int pages = (recipes.size() + LIST_PAGE_SIZE - 1) / LIST_PAGE_SIZE;
+        int idx = ((page % pages) + pages) % pages;
+
+        ChestMenu menu = baseMenu(ChatColor.GOLD + "酒窖管理器 " + ChatColor.GRAY
+                + "· 配方列表 " + (idx + 1) + "/" + pages);
+        int start = idx * LIST_PAGE_SIZE;
+        for (int i = start; i < recipes.size() && i < start + LIST_PAGE_SIZE; i++) {
+            CellarRecipe r = recipes.get(i);
+            int recipeIndex = i;
+            menu.addItem(i - start, listEntry(r), (pl, s, cursor, action) -> {
+                openRecipes(pl, recipeIndex, cellar);
+                return false;
+            });
+        }
+        menu.addItem(SLOT_LIST_BACK, backToGuideItem(), (pl, s, cursor, action) -> {
+            JegHook.openGuide(pl);
+            return false;
+        });
+        menu.addItem(SLOT_LIST_PAGE, pageItem(), (pl, s, cursor, action) -> {
+            openRecipeList(pl, action.isRightClicked() ? idx - 1 : idx + 1, cellar);
+            return false;
+        });
+        menu.open(p);
+    }
+
+    /** 配方列表条目：成品 + 点击提示。 */
+    private static ItemStack listEntry(CellarRecipe r) {
+        ItemStack it = r.result.clone();
+        ItemMeta meta = it.getItemMeta();
+        if (meta != null) {
+            List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
+            lore.add("");
+            lore.add(ChatColor.YELLOW + "点击查看配方详情");
+            meta.setLore(lore);
             it.setItemMeta(meta);
         }
         return it;
@@ -114,15 +169,9 @@ public final class CellarRecipeMenu {
         menu.addItem(SLOT_TYPE, typeItem(), ChestMenuUtils.getEmptyClickHandler());
         menu.addItem(SLOT_DURATION, durationItem(), ChestMenuUtils.getEmptyClickHandler());
         menu.addItem(SLOT_AGING, agingIcon(r.aging), ChestMenuUtils.getEmptyClickHandler());
-        // 返回：从酒窖页面进入时返回酒窖，否则返回指南（子页面打开时酒窖会话已结束，
-        // 用打开时捕获的方块而不是会话表反查）；翻页
-        menu.addItem(SLOT_BACK, backItem(cellar != null), (pl, s, cursor, action) -> {
-            if (cellar != null && me.mrCookieSlime.Slimefun.api.BlockStorage.check(cellar)
-                    instanceof WineCellarManager) {
-                CellarMenu.open(pl, cellar);
-            } else {
-                JegHook.openGuide(pl);
-            }
+        // 返回配方列表；翻页
+        menu.addItem(SLOT_BACK, backItem(), (pl, s, cursor, action) -> {
+            openRecipeList(pl, 0, cellar);
             return false;
         });
         menu.addItem(SLOT_PAGE, pageItem(), (pl, s, cursor, action) -> {
@@ -286,12 +335,12 @@ public final class CellarRecipeMenu {
         return it;
     }
 
-    /** 门：从酒窖页面进入时返回酒窖（文案随场景），否则返回指南。 */
-    private static ItemStack backItem(boolean fromCellar) {
+    /** 门：返回配方列表。 */
+    private static ItemStack backItem() {
         ItemStack it = new ItemStack(Material.OAK_DOOR);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + (fromCellar ? "返回酒窖" : "返回指南"));
+            meta.setDisplayName(ChatColor.YELLOW + "返回配方列表");
             it.setItemMeta(meta);
         }
         return it;

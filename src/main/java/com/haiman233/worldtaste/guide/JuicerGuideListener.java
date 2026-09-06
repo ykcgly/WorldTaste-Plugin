@@ -93,7 +93,7 @@ public final class JuicerGuideListener implements Listener {
         if (cur == null || !isEntry(cur)) return;
         e.setCancelled(true);
         if (e.getWhoClicked() instanceof Player p) {
-            JuicerMenu.openRecipes(p, 0);
+            JuicerMenu.openRecipeList(p, 0);
         }
     }
 

@@ -32,9 +32,14 @@ public final class JuicerMenu {
     private static final int SLOT_OUTPUT = 34;   // 右侧产出
     private static final int SLOT_TYPE = 47;     // 榨汁方式（踩踏/铁砧）
     private static final int SLOT_COUNT = 49;    // 重锤：所需次数
-    private static final int SLOT_MIX = 51;      // 混合材料页入口
-    private static final int SLOT_BACK = 52;     // 门：返回指南
+    private static final int SLOT_BACK = 52;     // 门：返回配方列表
     private static final int SLOT_PAGE = 53;     // 箭矢：翻页
+
+    /** 配方列表页槽位：0~44 成品、45 返回指南、49 混合材料入口、53 翻页。 */
+    private static final int SLOT_LIST_BACK = 45;
+    private static final int SLOT_LIST_MIX = 49;
+    private static final int SLOT_LIST_PAGE = 53;
+    private static final int LIST_PAGE_SIZE = 45;
 
     /** 混合材料页槽位。 */
     private static final int SLOT_MIX_LABEL = 4;  // 首排中间标签（顶排上移一格，替换粉玻璃板）
@@ -85,13 +90,13 @@ public final class JuicerMenu {
             icon.setItemMeta(im);
         }
         menu.addItem(16, icon, ChestMenuUtils.getEmptyClickHandler());
-        // 返回指南 / 右下角金苹果进入配方展示
+        // 返回指南 / 右下角书本进入配方列表
         menu.addItem(35, backItem(), (pl, s, cursor, action) -> {
             JegHook.openGuide(pl);
             return false;
         });
         menu.addItem(53, entryButton(), (pl, s, cursor, action) -> {
-            openRecipes(pl, 0);
+            openRecipeList(pl, 0);
             return false;
         });
         menu.open(p);
@@ -105,6 +110,61 @@ public final class JuicerMenu {
             meta.setDisplayName(ChatColor.GOLD + "榨汁盆配方");
             meta.getPersistentDataContainer().set(JuicerGuideListener.KEY_ENTRY,
                     org.bukkit.persistence.PersistentDataType.BYTE, (byte) 1);
+            it.setItemMeta(meta);
+        }
+        return it;
+    }
+
+    /**
+     * 配方列表页：0~44 展示全部配方成品（45 个/页），点击成品进入对应配方详情；
+     * 45 返回指南，49 混合材料页入口（配置了 mix 段时），53 翻页（左键下一页/右键上一页）。
+     */
+    public static void openRecipeList(Player p, int page) {
+        List<JuicerRecipe> recipes = JuicerRecipe.all();
+        if (recipes.isEmpty()) {
+            openMix(p, 0);
+            return;
+        }
+        int pages = (recipes.size() + LIST_PAGE_SIZE - 1) / LIST_PAGE_SIZE;
+        int idx = ((page % pages) + pages) % pages;
+
+        ChestMenu menu = baseMenu(ChatColor.GOLD + "榨汁盆 " + ChatColor.GRAY
+                + "· 配方列表 " + (idx + 1) + "/" + pages);
+        int start = idx * LIST_PAGE_SIZE;
+        for (int i = start; i < recipes.size() && i < start + LIST_PAGE_SIZE; i++) {
+            JuicerRecipe r = recipes.get(i);
+            int recipeIndex = i;
+            menu.addItem(i - start, listEntry(r), (pl, s, cursor, action) -> {
+                openRecipes(pl, recipeIndex);
+                return false;
+            });
+        }
+        menu.addItem(SLOT_LIST_BACK, backItem(), (pl, s, cursor, action) -> {
+            JegHook.openGuide(pl);
+            return false;
+        });
+        if (JuicerRecipe.mix != null) {
+            menu.addItem(SLOT_LIST_MIX, mixEntry(), (pl, s, cursor, action) -> {
+                openMix(pl, 0);
+                return false;
+            });
+        }
+        menu.addItem(SLOT_LIST_PAGE, pageItem(), (pl, s, cursor, action) -> {
+            openRecipeList(pl, action.isRightClicked() ? idx - 1 : idx + 1);
+            return false;
+        });
+        menu.open(p);
+    }
+
+    /** 配方列表条目：成品 + 点击提示。 */
+    private static ItemStack listEntry(JuicerRecipe r) {
+        ItemStack it = r.result.clone();
+        ItemMeta meta = it.getItemMeta();
+        if (meta != null) {
+            List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
+            lore.add("");
+            lore.add(ChatColor.YELLOW + "点击查看配方详情");
+            meta.setLore(lore);
             it.setItemMeta(meta);
         }
         return it;
@@ -138,15 +198,9 @@ public final class JuicerMenu {
         menu.addItem(SLOT_TYPE, r.playerType && r.anvilType ? typeBoth()
                 : r.anvilType ? typeAnvil() : typeStomp(), ChestMenuUtils.getEmptyClickHandler());
         menu.addItem(SLOT_COUNT, countItem(r.progress), ChestMenuUtils.getEmptyClickHandler());
-        // 混合材料页入口（未配置 mix 段时不显示）+ 返回指南 + 翻页
-        if (JuicerRecipe.mix != null) {
-            menu.addItem(SLOT_MIX, mixEntry(), (pl, s, cursor, action) -> {
-                openMix(pl, 0);
-                return false;
-            });
-        }
-        menu.addItem(SLOT_BACK, backItem(), (pl, s, cursor, action) -> {
-            JegHook.openGuide(pl);
+        // 返回配方列表 + 翻页
+        menu.addItem(SLOT_BACK, backToListItem(), (pl, s, cursor, action) -> {
+            openRecipeList(pl, 0);
             return false;
         });
         menu.addItem(SLOT_PAGE, pageItem(), (pl, s, cursor, action) -> {
@@ -197,8 +251,8 @@ public final class JuicerMenu {
             menu.addItem(slots[i], mats.get(pageIdx), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(SLOT_BACK, backItem(), (pl, s, cursor, action) -> {
-            JegHook.openGuide(pl);
+        menu.addItem(SLOT_BACK, backToListItem(), (pl, s, cursor, action) -> {
+            openRecipeList(pl, 0);
             return false;
         });
         menu.addItem(SLOT_PAGE, pageItem(), (pl, s, cursor, action) -> {
@@ -384,6 +438,17 @@ public final class JuicerMenu {
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(ChatColor.YELLOW + "返回指南");
+            it.setItemMeta(meta);
+        }
+        return it;
+    }
+
+    /** 门：返回配方列表（详情页/混合材料页用）。 */
+    private static ItemStack backToListItem() {
+        ItemStack it = new ItemStack(Material.OAK_DOOR);
+        ItemMeta meta = it.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(ChatColor.YELLOW + "返回配方列表");
             it.setItemMeta(meta);
         }
         return it;

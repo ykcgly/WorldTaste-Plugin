@@ -35,9 +35,13 @@ public final class CellarLoader {
     /** 酒窖命名功能开关（cellar.yml 的 options.cellar-name，缺省开启）。 */
     public static boolean cellarNameEnabled = true;
 
+    /** 测试模式开关（cellar.yml 的 options.test-mode，缺省开启）：酿造立即完成。 */
+    public static boolean testMode = true;
+
     public static void load() {
         YamlConfiguration y = Yaml.loadResource(WT.plugin, "cellar.yml");
         cellarNameEnabled = y.getBoolean("options.cellar-name", true);
+        testMode = y.getBoolean("options.test-mode", true);
         int ok = 0, skip = 0;
         for (String key : y.getKeys(false)) {
             if (key.equalsIgnoreCase("options")) continue;

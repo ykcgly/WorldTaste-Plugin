@@ -108,7 +108,7 @@ public final class CellarMenu {
         menu.addItem(1, pane(Material.BOOK, "§e酒窖配方",
                 List.of(leg("§7查看酒窖可酿造的配方一览"), leg(""), leg(ChatColor.YELLOW + "点击打开"))),
                 handler((pl, bm, cur) -> {
-                    CellarRecipeMenu.openRecipes(pl, 0, bm.getBlock());
+                    CellarRecipeMenu.openRecipeList(pl, 0, bm.getBlock());
                     return false;
                 }));
         // 时钟：Shift+右键切换自动陈化；普通点击切换模式
@@ -1166,12 +1166,18 @@ public final class CellarMenu {
             p.sendMessage("§c液位不足 8 单位，无法启动！");
             return;
         }
-        // 【临时测试】酿造时长占位符已移除：启动后下一个机器 tick 即酿造完成
-        // （正式版恢复：st.startRun(p, (20 + ThreadLocalRandom.current().nextInt(21)) * 60_000L);）
-        st.startRun(p, 0L);
+        // 酿造时长：测试模式（cellar.yml options.test-mode）启动后立即完成；
+        // 正式时长 20~40 分钟随机
+        long duration = com.haiman233.worldtaste.load.CellarLoader.testMode
+                ? 0L
+                : (20 + ThreadLocalRandom.current().nextInt(21)) * 60_000L;
+        st.startRun(p, duration);
         st.setCellarRecipe(cm != null ? cm.recipe.key : null, cm != null ? cm.multiplier : 0);
         st.save(manager);
-        p.sendMessage("§a酿造开始！（测试模式：立即完成）"
+        p.sendMessage("§a酿造开始！"
+                + (com.haiman233.worldtaste.load.CellarLoader.testMode
+                        ? "§7（测试模式：立即完成）"
+                        : "§7预计 " + fmt(duration) + " 完成")
                 + (cm != null ? " §7配方: §e" + cm.recipe.key
                         + " §7(×" + cm.multiplier + "，产出 §e" + st.juiceUnits() + " 单位§7)"
                         : ""));

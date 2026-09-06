@@ -94,7 +94,7 @@ public final class CellarGuideListener implements Listener {
         if (cur == null || !isEntry(cur)) return;
         e.setCancelled(true);
         if (e.getWhoClicked() instanceof Player p) {
-            CellarRecipeMenu.openRecipes(p, 0, null);
+            CellarRecipeMenu.openRecipeList(p, 0, null);
         }
     }
 

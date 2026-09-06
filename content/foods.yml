@@ -3497,7 +3497,7 @@ WT_YONGHENGNIUPAI:
     material_type: mc
     material: COOKED_BEEF
     glow: true
-  script: gandi/yhniupai
+  script: gandi/wujin
   recipe_type: WUWEI_JYKRL
   recipe:
     1:
