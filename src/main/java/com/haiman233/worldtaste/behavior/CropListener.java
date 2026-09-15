@@ -16,6 +16,7 @@ import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockGrowEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
@@ -53,13 +54,18 @@ public final class CropListener implements Listener {
         // 且 2 格高作物的上格不含粘液数据，故它既不可能是作物的上格残留也不可能是支撑方块，
         // 跳过下方/上方两次数据查询（粘液方块破坏高频路径）
         if (sf != null) return;
-        // 2 格高作物：破坏上格 → 联动破坏主格
+        // 2 格高作物：破坏上格 → 联动破坏主格。
+        // 必须校验「被破坏方块与下方作物同材质」：该分支只服务 2 格高作物（上下同材质，如瓶子草）。
+        // 否则玩家在单格作物（紫颂花/小麦等）上方放的装饰方块被破坏时，会把下方作物误判为
+        // 「2 格高作物的上格」而整株误杀。
         Block below = b.getRelative(BlockFace.DOWN);
-        SlimefunItem belowSf = BlockStorage.check(below);
-        if (belowSf instanceof CropBlock cropBelow) {
-            e.setDropItems(false);
-            breakCrop(below, cropBelow);
-            return;
+        if (below.getType() == b.getType()) {
+            SlimefunItem belowSf = BlockStorage.check(below);
+            if (belowSf instanceof CropBlock cropBelow) {
+                e.setDropItems(false);
+                breakCrop(below, cropBelow);
+                return;
+            }
         }
         // 支撑方块被破坏 → 联动破坏上方作物（保留支撑方块自身的原版掉落）
         Block above = b.getRelative(BlockFace.UP);
@@ -159,6 +165,15 @@ public final class CropListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onGrow(BlockGrowEvent e) {
         Block b = e.getBlock();
+        // 紫颂作物：原版随机刻的枯萎分支（无法生长时原地变 age=5 枯花）走 BlockGrowEvent，
+        // 一律取消——紫颂生长/枯萎完全由插件定时推进控制（生成分支走 BlockSpreadEvent，见 onSpread）。
+        if (b.getType() == Material.CHORUS_FLOWER) {
+            SlimefunItem sf0 = BlockStorage.check(b);
+            if (sf0 instanceof CropBlock) {
+                e.setCancelled(true);
+                return;
+            }
+        }
         if (CropBlock.isClampedMaterial(b.getType())) {
             SlimefunItem sf = BlockStorage.check(b);
             if (sf instanceof CropBlock crop) {
@@ -202,9 +217,28 @@ public final class CropListener implements Listener {
 
     private static void cleanupAdjacent(Block exploded) {
         cleanupCrop(exploded.getRelative(BlockFace.UP));    // 支撑被炸
-        cleanupCrop(exploded.getRelative(BlockFace.DOWN));  // 2 格高上格被炸
+        // 2 格高上格被炸（上下同材质才联动；爆炸波及作物上方普通方块时不误杀下方作物）
+        Block down = exploded.getRelative(BlockFace.DOWN);
+        if (down.getType() == exploded.getType()) {
+            cleanupCrop(down);
+        }
     }
 
+    /**
+     * 原版紫颂生长源头拦截（性能与视觉双收益）：紫颂花随机刻的移动式生长（上方/水平生成新花）
+     * 走 BlockSpreadEvent（CraftBukkit 补丁 handleBlockSpreadEvent），且基座「变梗」的 setBlock
+     * 只在事件未被取消时才执行——在此取消即让原版什么都不做，杜绝「原版生长 → 插件 tick 还原」
+     * 的闪回与每株两轮的方块更新开销。注意 BlockGrowEvent 拦不住该分支（它不是 Grow 事件）。
+     */
+    @EventHandler(ignoreCancelled = true)
+    public void onSpread(BlockSpreadEvent e) {
+        Block src = e.getSource();
+        if (src.getType() != Material.CHORUS_FLOWER && src.getType() != Material.CHORUS_PLANT) return;
+        SlimefunItem sf = BlockStorage.check(src);
+        if (sf instanceof CropBlock) {
+            e.setCancelled(true);
+        }
+    }
     private static void cleanupCrop(Block b) {
         SlimefunItem sf = BlockStorage.check(b);
         if (sf instanceof CropBlock crop) {

@@ -22,7 +22,7 @@ WORLDTASTE_VERSINO:
     material: PAPER
     lore:
       - '&f当前版本:'
-      - '&bRelease-1.8.16'
+      - '&bRelease-1.9.1'
       - '&7您在提issues的时候需要展示这个'
       - '&7如果尘世百味加载不完全，请先检查服务器是否安装了美食家和异域花园附属'
       - '&7尘世百味附属始于2025年1月12日'
@@ -90202,6 +90202,52 @@ WT_YANHUIGANG:
       material: IRON_INGOT
   placeable: true
 
+WT_YUGANG:
+  item:
+    name: "&b鱼缸"
+    amount: 1
+    material_type: skull_hash
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGMyOWY0ODQ3ZTRjNzFjNjZiODRiZDMxYTllMjRjZTU1NmRjZmM1NDkxMDQ1OTMzMmM2YzAwZTYxM2Y5YmUyNSJ9fX0=
+  item_group: ws_cfzs
+  recipe_type: ENHANCED_CRAFTING_TABLE
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: GLASS
+    '2':
+      amount: 1
+      material_type: mc
+      material: GLASS
+    '3':
+      amount: 1
+      material_type: mc
+      material: GLASS
+    '4':
+      amount: 1
+      material_type: mc
+      material: WATER_BUCKET
+    '5':
+      amount: 1
+      material_type: mc
+      material: TROPICAL_FISH
+    '6':
+      amount: 1
+      material_type: mc
+      material: SEAGRASS
+    '7':
+      amount: 1
+      material_type: mc
+      material: SAND
+    '8':
+      amount: 1
+      material_type: mc
+      material: SAND
+    '9':
+      amount: 1
+      material_type: mc
+      material: SAND
+  placeable: true
 
 # 烘焙 part-3
 WT_KLPBG:

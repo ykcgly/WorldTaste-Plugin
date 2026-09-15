@@ -5,6 +5,7 @@ import com.haiman233.worldtaste.util.Colors;
 import com.haiman233.worldtaste.util.Stacks;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
 import java.util.HashMap;
@@ -98,13 +99,19 @@ public final class Read {
             }
             case "slimefun": {
                 String id = material.toUpperCase(java.util.Locale.ROOT);
-                // 优先使用已注册物品（带 slimefun id PDC）：展示物品仅作加载期兜底——
-                // preload 里的展示物品只有外观（名称/纹理），缺 id 数据，
-                // 若直接作为配方输出发放会成为"有样子无功能"的非粘液物品（多方块机器输出 bug）。
+                // 优先使用已注册物品（带 slimefun id PDC）。
                 SlimefunItem sf = SlimefunItem.getById(id);
                 if (sf != null) return sf.getItem().clone();
                 ItemStack pre = WT.preload.get(id);
-                if (pre != null) return pre.clone();
+                if (pre != null) {
+                    // 前向引用（目标物品此刻尚未注册，如 items.yml/foods.yml 引用 mob_drops.yml
+                    // 的掉落物）：用 SlimefunItemStack 包一层补上 id PDC。裸展示堆缺 id 会导致：
+                    // ① 指南配方页点击该材料 SlimefunItem.getByItem 查不到 → 不能跳转到对应
+                    // 材料页；② 机器匹配 isItemSimilar 的两端 id 比较失败；③ 作为配方产物发放
+                    // 是"有样子无功能"的非粘液物品（多方块机器输出 bug）。补 id 后与注册后的堆
+                    // 按 id 等价（meta 细节差异不影响 id 比较与指南导航）。
+                    return new SlimefunItemStack(id, pre);
+                }
                 WT.log("未找到粘液物品: " + id + "，回退为 STONE");
                 return new ItemStack(Material.STONE);
             }

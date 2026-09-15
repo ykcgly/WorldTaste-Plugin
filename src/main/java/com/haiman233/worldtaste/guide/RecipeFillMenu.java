@@ -289,7 +289,7 @@ public final class RecipeFillMenu {
         if (stack.hasItemMeta() && stack.getItemMeta().hasDisplayName()) {
             return ChatColor.stripColor(stack.getItemMeta().getDisplayName());
         }
-        return stack.getType().name().toLowerCase(java.util.Locale.ROOT).replace('_', ' ');
+        return com.haiman233.worldtaste.util.ZhNames.orEnglish(stack.getType());
     }
 
     private static ItemStack pageItem(String name) {

@@ -74,6 +74,16 @@ public final class ItemsLoader {
 
     /** 通用物品注册（items/machines/foods/mob_drops/geo 复用）。成功返回 true。 */
     static boolean register(String id, ConfigurationSection s) {
+        return register(id, s, null, null);
+    }
+
+    /**
+     * 带展示覆盖的注册重载（mob_drops 用）：掉落来源展示（自定义生物掉落类型 + 居中生物刷蛋）
+     * 不是标准 recipe/recipe_type 字段，且 R6 缓存的配置只读（不得向共享 section 写入），
+     * 故由 MobDropsLoader 解析 entity/chance 后经覆盖参数注入；覆盖为 null 时行为不变。
+     */
+    static boolean register(String id, ConfigurationSection s, RecipeType recipeTypeOverride,
+                            ItemStack[] recipeOverride) {
         // 注册条件
         if (!RegisterConditions.pass(s)) return false;
 
@@ -122,8 +132,11 @@ public final class ItemsLoader {
         }
 
         SlimefunItemStack sfis = new SlimefunItemStack(effId, display);
-        RecipeType rt = RecipeTypes.resolve(s.getString("recipe_type", "NULL"));
-        ItemStack[] recipe = Read.recipe(s.getConfigurationSection("recipe"), 9);
+        // 展示覆盖（mob_drops：自定义掉落类型 + 居中生物刷怪蛋；覆盖为 null 时沿用 yml 原解析）
+        RecipeType rt = recipeTypeOverride != null
+                ? recipeTypeOverride : RecipeTypes.resolve(s.getString("recipe_type", "NULL"));
+        ItemStack[] recipe = recipeOverride != null
+                ? recipeOverride : Read.recipe(s.getConfigurationSection("recipe"), 9);
 
         SlimefunItem item = ScriptItemFactory.create(spec, g, sfis, rt, recipe);
 

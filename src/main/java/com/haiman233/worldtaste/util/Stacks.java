@@ -68,4 +68,31 @@ public final class Stacks {
         if (left <= 0) inv.setItemInOffHand(null);
         else it.setAmount(left);
     }
+    /**
+     * 对副手工具施加耐久损耗（玩家右键消耗型物品时调用）：有耐久上限且非无敌的物品扣
+     * {@code amount} 点耐久并写回副手；耐久耗尽时工具损坏消失（清空副手槽位，防止 0 数量
+     * 幽灵物品残留被 getType() 校验无限复用）；无敌（Unbreakable）工具不损耗也不消耗。
+     *
+     * @return true = 已按耐久处理（含损坏消失与无敌豁免）；false = 物品不可损耗
+     *         （无耐久上限），调用方可回退整件消耗。
+     */
+    public static boolean damageToolInOffHand(PlayerInventory inv, int amount) {
+        if (inv == null) return false;
+        ItemStack it = inv.getItemInOffHand();
+        if (it == null || it.getType().isAir()) return false;
+        if (!(it.getItemMeta() instanceof org.bukkit.inventory.meta.Damageable damageable)) return false;
+        int max = it.getType().getMaxDurability();
+        if (max <= 0) return false;
+        if (damageable.isUnbreakable()) return true;
+        int newDamage = damageable.getDamage() + Math.max(1, amount);
+        if (newDamage >= max) {
+            inv.setItemInOffHand(null);
+            return true;
+        }
+        damageable.setDamage(newDamage);
+        ItemStack updated = it.clone();
+        updated.setItemMeta(damageable);
+        inv.setItemInOffHand(updated);
+        return true;
+    }
 }

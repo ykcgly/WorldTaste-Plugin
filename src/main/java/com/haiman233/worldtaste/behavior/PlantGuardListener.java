@@ -99,7 +99,7 @@ public final class PlantGuardListener implements Listener {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             if (i > 0) sb.append(" / ");
-            sb.append(list.get(i).name().toLowerCase(java.util.Locale.ROOT).replace('_', ' '));
+            sb.append(com.haiman233.worldtaste.util.ZhNames.orEnglish(list.get(i)));
         }
         return sb.toString();
     }

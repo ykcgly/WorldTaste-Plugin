@@ -17,7 +17,7 @@ public final class FoodHelper {
     /**
      * 应用 FoodComponent。返回是否成功（应用失败时返回 false，便于上层统计升级告警）。
      *
-     * <p>对齐 RSC {@code FoodReader}（[FoodReader.java:76-109](../../../../../../../../../../REF/RykenSlimeCustomizer-1.21.11/src/main/java/org/lins/mmmjjkx/rykenslimefuncustomizer/objects/yaml/item/FoodReader.java)）：
+     * <p>对齐 RSC {@code FoodReader} 的取值语义：
      * <ul>
      *   <li>{@code nutrition<1} → 提升为 1（WorldTaste 多数饮品/汁 gz1/gz2/fmjpgz 等 {@code kind:eat} 脚本
      *       在 foods.yml 无 nutrition，缺省 0；RSC 将 &lt;1 一律提升为 1 使其可食，恢复值主体由 onEat

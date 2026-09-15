@@ -45,7 +45,7 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
 
             if (opts.offhandTool != null) {
                 if (off == null || off.getType() != opts.offhandTool) {
-                    p.sendMessage("您必须使用主手且副手持有 " + opts.offhandTool.name().toLowerCase(java.util.Locale.ROOT).replace('_', ' ') + "！");
+                    p.sendMessage("您必须使用主手且副手持有 " + com.haiman233.worldtaste.util.ZhNames.orEnglish(opts.offhandTool) + "！");
                     return;
                 }
             } else if (off != null && SlimefunItem.getByItem(off) != null) {
@@ -58,9 +58,13 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             // 到 0 必须清空主手槽位，避免 0 数量幽灵物品残留（否则下次右键仍被识别/显示）
             Stacks.consumeOneInMainHand(inv);
             if (opts.offhandTool != null && opts.consumeOffhand) {
-                // 副手工具为整件消耗（对齐原 yan.js 打火石 / xuejia.js 剪刀的 setAmount-1）：
-                // 到 0 必须清空副手，否则 0 数量工具仍能通过 getType() 校验导致无限使用。
-                Stacks.consumeOneInOffHand(inv);
+                // 工具类副手（打火石/剪刀等有耐久物品）按 1 点耐久损耗，与原版使用工具一致；
+                // 原 yan.js/xuejia.js 的 setAmount-1 整件消耗属移植保真遗留（玩家反馈不合理）。
+                // 不可损耗工具（无耐久上限）回退整件消耗；无敌工具不损耗也不消耗；
+                // 耐久耗尽由 Stacks 清空副手槽位，防止 0 数量幽灵物品被 getType() 校验无限复用。
+                if (!Stacks.damageToolInOffHand(inv, 1)) {
+                    Stacks.consumeOneInOffHand(inv);
+                }
             }
 
             int food = opts.randomFood != null ? (ThreadLocalRandom.current().nextInt(opts.randomFood) + 1)

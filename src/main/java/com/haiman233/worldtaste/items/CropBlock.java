@@ -36,9 +36,11 @@ import org.bukkit.inventory.ItemStack;
  * 推进生长阶段。</p>
  *
  * <p>唯一例外是紫颂花（CHORUS_FLOWER）：原版紫颂只会"移动式"生长——每次生长把原位变成梗、
- * 在新格生成 age+1 的花，而本插件为保护收获流程会删除上格延伸并把基座还原为花，原版机制
- * 无法让紫颂花原地加龄。故对紫颂作物保留按 growMs 的定时推进（含成熟标记持久化与内存缓存，
- * 区块卸载时兜底清理）。</p>
+ * 在新格生成 age+1 的花，原版机制无法让紫颂花原地加龄。故对紫颂作物保留按 growMs 的定时
+ * 推进（含成熟标记持久化与内存缓存，区块卸载时兜底清理）。原版随机刻的移动式生长与枯萎
+ * 由 {@code CropListener} 在事件源头取消（BlockSpreadEvent / BlockGrowEvent），本类每 8 tick
+ * 的上方扫描仅作兜底清理历史遗留，不再承担拦截职责（此前「原版生长 → tick 还原」会造成
+ * 视觉闪回与每株两轮的方块更新开销）。</p>
  */
 public class CropBlock extends SlimefunItem {
 
@@ -62,10 +64,6 @@ public class CropBlock extends SlimefunItem {
     private static final Set<Location> grown = new HashSet<>();
     /** 方块当前阶段缓存：仅阶段变化时才写方块，避免每 tick getState()/setBlockData() 的对象开销（spark 热点优化）。 */
     private static final Map<Location, Integer> stage = new HashMap<>();
-    /** 紫颂上方清理节拍：每 2 tick 一次（原版随机刻频率远低于此，节流不影响拦截效果）。 */
-    private int chorusCheck;
-    /** 紫颂外部催熟检测节拍：每 8 tick 一次。 */
-    private int matureCheck;
     /** 原版生长年龄上限压回值：仅当配置 maxAge 低于原版上限时 ≥0（如瓜茎 maxAge=6 < 原版 7）。
      *  此类作物长到该年龄后由 {@code CropListener} 取消原版生长事件（随机刻/骨粉均走 BlockGrowEvent），
      *  使其停留在成熟阶段、不再触发原版满龄行为（茎结果实）；
@@ -196,16 +194,7 @@ public class CropBlock extends SlimefunItem {
 
     /** 紫颂作物定时生长（原版无法让紫颂花原地加龄，见类注释）。 */
     private void tickChorus(Block b) {
-        // 阻止原版紫颂类随机生长：CHORUS_FLOWER 种在末地石上会被原版随机刻
-        // 在上方长出 CHORUS_PLANT（紫颂树），替换/延伸作物并破坏 Slimefun 收获流程；
-        // 节流后（每 2 tick）仍远快于原版随机刻频率，紫颂生长完全由本插件控制。
-        if ((++chorusCheck & 1) == 0) {
-            Block above = b.getRelative(BlockFace.UP);
-            Material upType = above.getType();
-            if (upType == Material.CHORUS_PLANT || upType == Material.CHORUS_FLOWER) {
-                above.setType(Material.AIR);
-            }
-        }
+        // 原版生长已在 CropListener 事件源头取消（Spread/Grow），tick 无需任何兜底扫描。
         Location l = b.getLocation();
         if (grown.contains(l)) return;
         long now = System.currentTimeMillis();
@@ -229,13 +218,6 @@ public class CropBlock extends SlimefunItem {
             }
             lastUse.put(l, last);
         }
-        // 外部催熟兜底（节流每 8 tick；骨粉等常规路径破坏时按 age 判定）：
-        // 原版 age 已达最大则补记成熟并持久化
-        if ((++matureCheck & 7) == 0 && isNaturallyMature(b)) {
-            grown.add(l);
-            BlockStorage.addBlockInfo(b, KEY_GROWN, "1");
-            return;
-        }
         long elapsed = now - last;
         int target = cfg.maxAge;
         for (int i = 0; i < growMsSteps.length; i++) {
@@ -249,6 +231,9 @@ public class CropBlock extends SlimefunItem {
             if (target == cfg.maxAge) {
                 grown.add(l);
                 BlockStorage.addBlockInfo(b, KEY_GROWN, "1");
+                // 成熟外观 = 原版枯萎紫颂花（CHORUS_FLOWER age=5 贴图即枯萎态）：
+                // 强制写一次（stage 缓存可能在重放/恢复时与方块实际 age 脱节）
+                setStage(b, cfg.maxAge);
             }
         }
     }

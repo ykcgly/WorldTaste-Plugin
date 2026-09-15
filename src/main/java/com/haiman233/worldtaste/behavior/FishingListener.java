@@ -116,7 +116,7 @@ public final class FishingListener implements Listener {
         if (stack.hasItemMeta() && stack.getItemMeta().hasDisplayName()) {
             return stack.getItemMeta().getDisplayName();
         }
-        return stack.getType().name().toLowerCase().replace('_', ' ');
+        return com.haiman233.worldtaste.util.ZhNames.orEnglish(stack.getType());
     }
 
     private static final class Drop {
