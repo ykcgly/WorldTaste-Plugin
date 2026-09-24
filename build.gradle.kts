@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.haiman233"
-version = "1.9.1-standalone"
+version = "1.9.2-standalone"
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
@@ -38,7 +38,7 @@ val contentYaml = listOf(
     "groups.yml", "recipe_types.yml", "items.yml", "foods.yml", "machines.yml",
     "recipe_machines.yml", "mb_machines.yml", "linked_recipe_machines.yml",
     "template_machines.yml", "workbenches.yml", "mob_drops.yml", "geo_resources.yml", "menus.yml",
-    "juicer.yml", "sugar.yml", "cellar.yml"
+    "juicer.yml", "sugar.yml", "cellar.yml", "config.yml"
 )
 
 tasks.processResources {

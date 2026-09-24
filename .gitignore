@@ -1,4 +1,5 @@
 # ── Gradle 构建输出 ───────────────────────────────
+# （含本机会话的产物 jar：build/libs/WorldTaste-*.jar）
 build/
 bin/
 out/
@@ -30,3 +31,7 @@ Desktop.ini
 
 # ── 本地工具缓存 ─────────────────────────────────
 .openclaw/
+
+# ── AI 助手会话产物（非工程源码，勿入库）──────────
+# WorkBuddy：会话记录 / 项目记忆 / 每日工作日志
+.workbuddy/

@@ -106,6 +106,10 @@ public final class ItemsLoader {
             WT.log(effId + ": 物品组 " + s.getString("item_group") + " 缺失，跳过");
             return false;
         }
+        // 酿造工艺总开关关闭：该玩法分组下的物品一律不注册（分组按钮保留，名称标注「已禁用」）
+        if (WTConfig.blockItem(s.getString("item_group"), effId)) return false;
+        // 反向：酿造「已禁用」占位说明页只在关闭时注册，玩法开启时不能混进指南
+        if (WTConfig.BREWING_DISABLED_NOTICE.equalsIgnoreCase(effId) && WTConfig.brewingEnabled) return false;
         // 装饰分隔板组（groups.yml type: button，如 ws_zwf_*）内挂载的占位物品
         //（PAPER「这就是一个占位符而已」）一律不注册——任何指南里都不出现
         if (g instanceof DecorativeSubGroup) {

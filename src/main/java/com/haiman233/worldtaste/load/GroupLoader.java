@@ -51,7 +51,7 @@ public final class GroupLoader {
     }
 
     private static void registerNested(String key, ConfigurationSection s) {
-        ItemStack display = Read.item(s.getConfigurationSection("item"), false);
+        ItemStack display = WTConfig.applyDisabledSuffix(key, Read.item(s.getConfigurationSection("item"), false));
         if (display == null) {
             WT.log("groups " + key + ": 无展示物品");
             return;
@@ -63,7 +63,8 @@ public final class GroupLoader {
     }
 
     private static void registerChild(String key, ConfigurationSection s, String type) {
-        ItemStack display = Read.item(s.getConfigurationSection("item"), false);
+        // 玩法关闭的分组（如酿造工艺）按钮保留，仅在名称后追加「已禁用」
+        ItemStack display = WTConfig.applyDisabledSuffix(key, Read.item(s.getConfigurationSection("item"), false));
         if (display == null) {
             WT.log("groups " + key + ": 无展示物品");
             return;

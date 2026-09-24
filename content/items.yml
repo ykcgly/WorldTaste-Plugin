@@ -22,7 +22,7 @@ WORLDTASTE_VERSINO:
     material: PAPER
     lore:
       - '&f当前版本:'
-      - '&bRelease-1.9.1'
+      - '&bRelease-1.9.2'
       - '&7您在提issues的时候需要展示这个'
       - '&7如果尘世百味加载不完全，请先检查服务器是否安装了美食家和异域花园附属'
       - '&7尘世百味附属始于2025年1月12日'
@@ -108063,5 +108063,24 @@ WT_SWEET_PAPER:
       material_type: mc
       material: PAPER
       amount: 1
+  placeable: false
+
+# 酿造工艺「已禁用」占位说明页
+# 仅在 config.yml 的 brewing.enabled=false 时注册：Slimefun 的 ItemGroup#isVisible 对
+# 空分组一律判 false，若把酿造内容全部屏蔽后分组空无一物，指南会把按钮整个过滤掉，
+# 玩家就看不到「已禁用」标注了。留一个可见占位页即可让分组按钮正常显示。
+# enabled=true 时本条会被跳过（不出现在指南里）。
+WT_NIANZAO_DISABLED:
+  item:
+    name: '&c&l酿造工艺'
+    amount: 1
+    material_type: mc
+    material: BARRIER
+    lore:
+      - '&7当前服务器已关闭酿造工艺玩法'
+      - '&7榨汁盆、酒窖管理器等相关机器暂不可用'
+      - '&8如需开启，请将 config.yml 中的 brewing.enabled 设为 true'
+  item_group: ws_niangzaogongyi
+  recipe_type: 'NULL'
   placeable: false
 

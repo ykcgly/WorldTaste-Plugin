@@ -19,20 +19,26 @@ public final class Setup {
 
     public static void loadAll() {
         long t = System.currentTimeMillis();
+        // 全局配置（config.yml）须最先加载：分组名是否追加「已禁用」、酿造内容是否注册都取决于它
+        WTConfig.load();
         GroupLoader.load();
         RecipeTypes.load();
         preloadDisplays();
         com.haiman233.worldtaste.behavior.Behaviors.loadData();
         ItemsLoader.load();
         FoodsLoader.load();
-        // 榨汁盆配方（产物/投入物可引用已注册物品，须在物品注册后加载）
-        JuicerLoader.load();
-        // 糖分值配置（材料 id → 糖分，运行期读取）
-        SugarLoader.load();
-        // 酒窖配方（cellar.yml：配方表 + 命名功能开关）
-        CellarLoader.load();
-        com.haiman233.worldtaste.machines.WineBottle.register(WT.group("ws_niangzaogongyi"));
-        com.haiman233.worldtaste.machines.SweetnessPaper.register();
+        // 酿造工艺总开关（config.yml brewing.enabled）：关闭时整条酿造玩法不加载——
+        // 榨汁/酒窖配方、糖分表、果酒与甜度试纸物品全部跳过，分组按钮保留并标注「已禁用」
+        if (WTConfig.brewingEnabled) {
+            // 榨汁盆配方（产物/投入物可引用已注册物品，须在物品注册后加载）
+            JuicerLoader.load();
+            // 糖分值配置（材料 id → 糖分，运行期读取）
+            SugarLoader.load();
+            // 酒窖配方（cellar.yml：配方表 + 命名功能开关）
+            CellarLoader.load();
+            com.haiman233.worldtaste.machines.WineBottle.register(WT.group("ws_niangzaogongyi"));
+            com.haiman233.worldtaste.machines.SweetnessPaper.register();
+        }
         MobDropsLoader.load();
         MenuLoader.load();
         RecipeMachineLoader.load();
