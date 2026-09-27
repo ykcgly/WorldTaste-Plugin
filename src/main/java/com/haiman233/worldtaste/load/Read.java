@@ -112,13 +112,15 @@ public final class Read {
                     // 按 id 等价（meta 细节差异不影响 id 比较与指南导航）。
                     return new SlimefunItemStack(id, pre);
                 }
-                WT.log("未找到粘液物品: " + id + "，回退为 STONE");
+                // 未找到：折叠上报（特殊物品立即告警，普通物品计数、加载结束汇总为一行），
+                // 不再逐条刷屏——未装对应附属时此类引用可达数千处
+                MissingItems.record(id);
                 return new ItemStack(Material.STONE);
             }
             default: {
                 Material m = matchMaterial(material);
                 if (m == null) {
-                    WT.log("未知材质: " + material + "，回退为 STONE");
+                    MissingItems.record("材质 " + material);
                     return new ItemStack(Material.STONE);
                 }
                 return new ItemStack(m);
@@ -130,10 +132,25 @@ public final class Read {
         if (name == null) return null;
         Material m = Material.matchMaterial(name);
         if (m != null) return m;
-        // 别名（1.21 改名）
-        if (name.equalsIgnoreCase("GRASS")) return Material.matchMaterial("SHORT_GRASS");
-        if (name.equalsIgnoreCase("SCUTE")) return Material.matchMaterial("TURTLE_SCUTE");
-        return Material.matchMaterial(name.replace('-', '_'));
+        // 版本感知别名：材质改名/新增时，缺哪边就用哪边的等价物（老版本近似替代仅影响展示），
+        // 别名目标也找不到时返回 null，由调用方按缺失物品处理（STONE 兜底 + 折叠上报）
+        switch (name.toUpperCase(java.util.Locale.ROOT)) {
+            case "GRASS": return Material.matchMaterial("SHORT_GRASS");           // 1.20.3 改名
+            case "SHORT_GRASS": return Material.matchMaterial("GRASS");           // <1.20.3 旧名
+            case "SCUTE": return Material.matchMaterial("TURTLE_SCUTE");          // 1.20.5 改名
+            case "TURTLE_SCUTE": return Material.matchMaterial("SCUTE");          // <1.20.5 旧名
+            case "ARMADILLO_SCUTE": return Material.matchMaterial("RABBIT_HIDE"); // 1.20.5 新增，老版近似
+            case "BREEZE_ROD": return Material.matchMaterial("BLAZE_ROD");        // 1.21 新增，老版近似
+            case "WIND_CHARGE": return Material.matchMaterial("SNOWBALL");        // 1.21 新增，老版近似
+            case "OMINOUS_BOTTLE": return Material.matchMaterial("GLASS_BOTTLE"); // 1.21 新增，老版近似
+            case "CHAIN":
+            case "IRON_CHAIN": {  // 1.21.4 改名：CHAIN→IRON_CHAIN，双向兜底（内容写哪个都行）
+                Material chain = Material.matchMaterial("IRON_CHAIN");
+                if (chain != null) return chain;
+                return Material.matchMaterial("CHAIN");
+            }
+            default: return Material.matchMaterial(name.replace('-', '_'));
+        }
     }
 
     /** 加载完成后释放头颅贴图缓存（{@link Setup#loadAll()} 末尾调用；Read 仅加载期使用）。 */

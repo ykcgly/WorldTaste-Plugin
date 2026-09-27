@@ -5,7 +5,7 @@
 尘世百味为 Slimefun（粘液科技）添加来自世界各地的美食、作物、钓鱼与屠宰等内容。
 
 ## 尘百jar插件版
-- 原作者为海曼（初代rsc插件），后由hershate改为jar版本
+- 原作者为[海曼](https://github.com/haiman233)（初代rsc插件），后由hershate改为jar版本
 - 由养坤场管理员提修复了大量bug以及一些优化
 - jar版本相较rsc的脚本驱动拥有更好的性能！
 - 以上操作均为ai操作，本人几乎没有编程基础，不喜勿喷。
@@ -28,11 +28,22 @@ jar版本依然保留了原版rsc的yml配置文件，可以将jar后缀改为zi
 
 > 提示：若 Gastronomicon 的捕鱼网拉低 TPS，可在其配置中禁用捕鱼网（粘液 ID `GN_FISHING_NET_I/II/III`），或改用本附属性能更优的捕鱼器。
 
+### 启动依赖检查
+
+- **硬依赖缺失**（Slimefun / Gastronomicon / ExoticGarden 任一未安装）：控制台输出
+  `缺少 xxx，WorldTaste已自动卸载！`，插件自动卸载、不参与加载。
+- **软依赖缺失**（Cultivation / InfinityExpansion / LogiTech）：控制台输出
+  `缺少 xxx，部分玩法可能无法加载`，插件继续加载。
+  JEG（JustEnoughGuide）缺失已有完整降级，不做提示。
+- 启动时的「物品未找到」警告已折叠：普通引用缺失（如未装附属导致的 `GN_*`、`YEAST`）
+  汇总为一行（含数量与示例）；仅**特殊物品**（榨汁盆、酒窖管理器、温度控制器、果渣、
+  甜度试纸、果酒、酒曲等核心物品）缺失时单独告警。
+
 ## 构建与安装
 
 ```bash
 ./gradlew build
-# 产物：build/libs/WorldTaste-1.9.2-standalone.jar
+# 产物：build/libs/WorldTaste-1.9.3-standalone.jar
 ```
 
 1. 将构建出的 jar放入服务器的 `plugins/` 目录。
@@ -47,7 +58,7 @@ jar版本依然保留了原版rsc的yml配置文件，可以将jar后缀改为zi
 - **屠宰**：为各类生物添加对应的肉与食材掉落。
 - **其他**：厨房装饰，以及愚人节 / 无尽贪婪主题餐饮。
 - **酒精度联动**：与异域花园（ExoticGarden·复合花园）联动，全部酒类饮品标注酒精度，饮用后累积到异域花园的酒精系统（50 半醉提示、100 醉酒胡言乱语，随时间缓慢醒酒）。未安装异域花园时仅展示数值，不影响游戏。
-- **酿造工艺**：新增主题餐饮--酿造工艺：配方在 juicer.yml 中定义。**默认关闭**，需在下方的 config.yml 中开启。
+- **酿造工艺**：新增主题餐饮--酿造工艺：配方在 juicer.yml 中定义。**默认开启**，如需关闭可在 config.yml 中将 brewing.enabled 设为 false。
 
 ## 全局配置（config.yml）
 

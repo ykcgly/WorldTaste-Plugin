@@ -15,6 +15,22 @@ public final class FoodHelper {
     private FoodHelper() {}
 
     /**
+     * 1.20.5+ 才有 {@code ItemMeta#getFood}/FoodComponent（已核对 1.20.4 javadoc 完全不存在）。
+     * 启动时探测一次；低版本整体跳过，避免每个食物在 catch(Throwable) 里逐条刷 NoSuchMethodError。
+     */
+    private static final boolean HAS_FOOD_API = detectFoodApi();
+    private static boolean lowVersionLogged = false;
+
+    private static boolean detectFoodApi() {
+        try {
+            org.bukkit.inventory.meta.ItemMeta.class.getMethod("getFood");
+            return true;
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
+    }
+
+    /**
      * 应用 FoodComponent。返回是否成功（应用失败时返回 false，便于上层统计升级告警）。
      *
      * <p>对齐 RSC {@code FoodReader} 的取值语义：
@@ -33,6 +49,13 @@ public final class FoodHelper {
      */
     public static boolean apply(ItemStack stack, int nutrition, float saturation, boolean canAlwaysEat, float eatSeconds) {
         if (stack == null) return true;
+        if (!HAS_FOOD_API) {
+            if (!lowVersionLogged) {
+                lowVersionLogged = true;
+                WT.log("当前服务端低于 1.20.5，无 FoodComponent API，foods.yml 的营养/饱食度组件不生效（脚本食物效果不受影响）");
+            }
+            return true;
+        }
         if (nutrition < 1) nutrition = 1;
         if (saturation < 0f) saturation = 0f;
         final int fFood = nutrition;

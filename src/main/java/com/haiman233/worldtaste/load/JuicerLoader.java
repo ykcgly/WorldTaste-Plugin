@@ -240,12 +240,13 @@ public final class JuicerLoader {
         return "mc:" + m.name();
     }
 
-    /** 投入物展示堆：粘液物品取其注册物品（未注册则报错跳过），原版材质直接构建。 */
+    /** 投入物展示堆：粘液物品取其注册物品（未注册则折叠上报并跳过），原版材质直接构建。 */
     private static ItemStack resolveDisplay(String ref, String key) {
         if (ref.startsWith("sf:")) {
             SlimefunItem sf = SlimefunItem.getById(ref.substring(3));
             if (sf == null) {
-                WT.log("juicer.yml " + key + ": 引用的粘液物品 " + ref.substring(3) + " 未注册，跳过");
+                // 与 Read.resolve 同口径：折叠上报，不逐条刷屏
+                MissingItems.record(ref.substring(3));
                 return null;
             }
             return sf.getItem().clone();

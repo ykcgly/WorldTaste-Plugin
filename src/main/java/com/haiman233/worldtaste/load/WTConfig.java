@@ -40,10 +40,10 @@ public final class WTConfig {
     /**
      * 酿造工艺总开关（brewing.enabled）。
      *
-     * <p>缺省值与 config.yml 默认保持一致——**默认 false（默认关闭酿造玩法）**，
-     * 需要该玩法的服主自行在 plugins/WorldTaste/config.yml 里改为 true。</p>
+     * <p>缺省值与 config.yml 默认保持一致——**默认 true（默认开启酿造玩法）**，
+     * 不需要该玩法的服主可在 plugins/WorldTaste/config.yml 里改为 false。</p>
      */
-    public static boolean brewingEnabled = false;
+    public static boolean brewingEnabled = true;
 
     /** 关闭时追加在分组名后的字样（brewing.disabled-suffix）。 */
     public static String disabledSuffix = "&r&c&l已禁用";
@@ -72,7 +72,7 @@ public final class WTConfig {
         }
         if (y == null) y = Yaml.loadResource(WT.plugin, FILE);
 
-        brewingEnabled = y.getBoolean("brewing.enabled", false);
+        brewingEnabled = y.getBoolean("brewing.enabled", true);
         disabledSuffix = y.getString("brewing.disabled-suffix", "&r&c&l已禁用");
         if (disabledSuffix == null) disabledSuffix = "";
 

@@ -1,6 +1,7 @@
 package com.haiman233.worldtaste.machines;
 
 import com.haiman233.worldtaste.WT;
+import com.haiman233.worldtaste.util.Views;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -163,8 +164,10 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         if (fillSlot >= 0) {
             preset.addItem(fillSlot, fillButton(), (player, s, cursor, action) -> {
                 me.mrCookieSlime.Slimefun.api.inventory.BlockMenu bm = null;
-                if (player.getOpenInventory() != null && player.getOpenInventory().getTopInventory() != null) {
-                    org.bukkit.inventory.InventoryHolder holder = player.getOpenInventory().getTopInventory().getHolder();
+                // InventoryView 在 1.21 由类改为接口，不能直接调用其方法，经反射工具取顶部容器
+                org.bukkit.inventory.Inventory openTop = Views.top(player.getOpenInventory());
+                if (openTop != null) {
+                    org.bukkit.inventory.InventoryHolder holder = openTop.getHolder();
                     if (holder instanceof me.mrCookieSlime.Slimefun.api.inventory.BlockMenu blockMenu) {
                         bm = blockMenu;
                     }

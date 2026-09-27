@@ -3,6 +3,7 @@ package com.haiman233.worldtaste.guide;
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.machines.JuicerBasin;
 import com.haiman233.worldtaste.jeg.JegHook;
+import com.haiman233.worldtaste.util.Views;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import org.bukkit.Bukkit;
@@ -38,9 +39,6 @@ public final class JuicerGuideListener implements Listener {
         Bukkit.getPluginManager().registerEvents(new JuicerGuideListener(), WT.plugin);
         if (JegHook.available()) {
             Bukkit.getPluginManager().registerEvents(new JuicerJegEntryListener(), WT.plugin);
-            WT.plugin.getLogger().info("榨汁盆指南入口：JEG 拦截模式");
-        } else {
-            WT.plugin.getLogger().info("榨汁盆指南入口：原版注入模式");
         }
     }
 
@@ -51,7 +49,7 @@ public final class JuicerGuideListener implements Listener {
     public void onBasinClick(InventoryClickEvent e) {
         if (JegHook.available()) return; // JEG 模式由 JuicerJegEntryListener 处理
         if (!(e.getWhoClicked() instanceof Player)) return;
-        if (e.getClickedInventory() != e.getView().getTopInventory()) return;
+        if (e.getClickedInventory() != e.getInventory()) return;
         ItemStack clicked = e.getCurrentItem();
         if (clicked == null) return;
         SlimefunItem sf = SlimefunItem.getByItem(clicked);
@@ -63,7 +61,7 @@ public final class JuicerGuideListener implements Listener {
     /** 在榨汁盆配方页右下角注入金苹果入口（已有的 slot 依次向前寻找空位）。 */
     private void injectEntry(Player p) {
         if (!p.isOnline()) return;
-        Inventory top = p.getOpenInventory().getTopInventory();
+        Inventory top = Views.top(p.getOpenInventory());
         if (top.getSize() < 54) return;
         boolean isBasinPage = false;
         for (ItemStack it : top) {

@@ -45,6 +45,10 @@ public final class JuicerMenu {
     private static final int SLOT_MIX_LABEL = 4;  // 首排中间标签（顶排上移一格，替换粉玻璃板）
     private static final int MIX_PAGE_SIZE = 28;  // 每页材料数（内部空位）
 
+    /** 重锤图标：MACE 为 1.21+ 新增材质，旧版本服务端无此材质，回退铁砧（榨汁方式之一为铁砧砸击）。 */
+    private static final Material COUNT_ICON =
+            Material.matchMaterial("MACE") != null ? Material.matchMaterial("MACE") : Material.ANVIL;
+
     private JuicerMenu() {}
 
     /**
@@ -405,7 +409,7 @@ public final class JuicerMenu {
 
     /** 重锤：数量即所需榨汁次数。 */
     private static ItemStack countItem(int progress) {
-        ItemStack it = new ItemStack(Material.MACE);
+        ItemStack it = new ItemStack(COUNT_ICON);
         it.setAmount(Math.min(64, Math.max(1, progress)));
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {

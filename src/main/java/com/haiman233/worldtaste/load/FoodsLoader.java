@@ -32,9 +32,9 @@ public final class FoodsLoader {
                 if (!RegisterConditions.pass(s)) { skip++; continue; }
                 String effId = s.getString("id_alias", id);
                 ItemGroup g = WT.group(s.getString("item_group"));
-                if (g == null) { WT.log(effId + ": 物品组缺失"); skip++; continue; }
+                if (g == null) { MissingItems.record("物品组缺失:" + s.getString("item_group")); skip++; continue; }
                 ItemStack display = WT.preload.get(effId.toUpperCase(java.util.Locale.ROOT));
-                if (display == null) { WT.log(effId + ": 无展示物品"); skip++; continue; }
+                if (display == null) { MissingItems.record("无展示物品:" + effId); skip++; continue; }
                 display = display.clone();
                 float eatSeconds = (float) s.getDouble("eatseconds", s.getDouble("eat_seconds", 0));
                 boolean foodOk = FoodHelper.apply(display, s.getInt("nutrition", 0), (float) s.getDouble("saturation", 0),

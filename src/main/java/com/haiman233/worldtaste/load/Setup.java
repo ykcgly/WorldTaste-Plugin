@@ -19,6 +19,8 @@ public final class Setup {
 
     public static void loadAll() {
         long t = System.currentTimeMillis();
+        // 「物品未找到」折叠上报：加载开始清零、结尾汇总（未装对应附属时引用可达数千处，不逐条刷屏）
+        MissingItems.reset();
         // 全局配置（config.yml）须最先加载：分组名是否追加「已禁用」、酿造内容是否注册都取决于它
         WTConfig.load();
         GroupLoader.load();
@@ -58,6 +60,8 @@ public final class Setup {
         // material_type:slimefun 回退、RegisterConditions 的 itemexist、各 Loader 的展示堆获取）
         // 均在本次 loadAll 流程内，运行期无引用，可安全释放（长稳省内存）。
         WT.preload.clear();
+        // 「物品未找到」汇总：普通缺失折叠为一行（特殊物品已在发现时单独告警）
+        MissingItems.report();
         WT.plugin.getLogger().info("基础内容加载完成，耗时 " + (System.currentTimeMillis() - t) + "ms");
     }
 

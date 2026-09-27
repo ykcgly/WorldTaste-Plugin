@@ -103,7 +103,8 @@ public final class ItemsLoader {
         String effId = s.getString("id_alias", id);
         ItemGroup g = WT.group(s.getString("item_group"));
         if (g == null) {
-            WT.log(effId + ": 物品组 " + s.getString("item_group") + " 缺失，跳过");
+            // 折叠上报（按缺失的组 id 归并计数），加载结束汇总为一行
+            MissingItems.record("物品组缺失:" + s.getString("item_group"));
             return false;
         }
         // 酿造工艺总开关关闭：该玩法分组下的物品一律不注册（分组按钮保留，名称标注「已禁用」）
@@ -118,7 +119,8 @@ public final class ItemsLoader {
         ItemStack display = WT.preload.get(effId.toUpperCase(java.util.Locale.ROOT));
         if (display == null) display = WT.preload.get(id.toUpperCase(java.util.Locale.ROOT));
         if (display == null) {
-            WT.log(effId + ": 无展示物品，跳过");
+            // 折叠上报（按物品 id 归并计数），加载结束汇总为一行
+            MissingItems.record("无展示物品:" + effId);
             return false;
         }
 

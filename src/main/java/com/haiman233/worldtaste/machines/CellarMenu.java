@@ -1,6 +1,7 @@
 package com.haiman233.worldtaste.machines;
 
 import com.haiman233.worldtaste.WT;
+import com.haiman233.worldtaste.util.Views;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,7 +117,7 @@ public final class CellarMenu {
             @Override
             public boolean onClick(InventoryClickEvent e, Player pl, int s, ItemStack cursor,
                                    ClickAction action) {
-                if (!(e.getView().getTopInventory().getHolder() instanceof BlockMenu bm)) return false;
+                if (!(e.getInventory().getHolder() instanceof BlockMenu bm)) return false;
                 Block manager = bm.getBlock();
                 if (e.isShiftClick() && e.isRightClick()) toggleAutoAge(pl, manager);
                 else toggleMode(pl, manager);
@@ -257,7 +258,7 @@ public final class CellarMenu {
             @Override
             public boolean onClick(InventoryClickEvent e, Player pl, int s, ItemStack cursor,
                                    ClickAction action) {
-                return e.getView().getTopInventory().getHolder() instanceof BlockMenu menu
+                return e.getInventory().getHolder() instanceof BlockMenu menu
                         && click.run(pl, menu, cursor);
             }
 
@@ -306,7 +307,48 @@ public final class CellarMenu {
     private static boolean isWaterBottle(ItemStack it) {
         if (it == null || it.getType() != Material.POTION || !it.hasItemMeta()) return false;
         return it.getItemMeta() instanceof org.bukkit.inventory.meta.PotionMeta pm
-                && pm.getBasePotionType() == org.bukkit.potion.PotionType.WATER;
+                && org.bukkit.potion.PotionType.WATER == basePotionType(pm);
+    }
+
+    // --- 基础药水类型读取（跨版本二进制兼容） ---
+    // getBasePotionType 为 1.20.2+ API（1.20.0/1.20.1 调用会 NoSuchMethodError），
+    // getBasePotionData 为 1.20.4- API（1.20.5+ 已移除，编译期不可引用），两条路径全部走反射。
+    private static final java.lang.reflect.Method M_BASE_POTION_TYPE =
+            findMethod(org.bukkit.inventory.meta.PotionMeta.class, "getBasePotionType");
+    private static final java.lang.reflect.Method M_BASE_POTION_DATA =
+            findMethod(org.bukkit.inventory.meta.PotionMeta.class, "getBasePotionData");
+    private static final java.lang.reflect.Method M_POTION_DATA_TYPE = findDataGetType();
+
+    private static java.lang.reflect.Method findMethod(Class<?> cls, String name) {
+        try {
+            return cls.getMethod(name);
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
+    }
+
+    private static java.lang.reflect.Method findDataGetType() {
+        try {
+            return Class.forName("org.bukkit.potion.PotionData").getMethod("getType");
+        } catch (Throwable e) {
+            return null; // 1.20.5+ 已移除 PotionData
+        }
+    }
+
+    /** 读取药水基础药水类型（跨版本；未设置时返回 null）。 */
+    private static org.bukkit.potion.PotionType basePotionType(org.bukkit.inventory.meta.PotionMeta pm) {
+        try {
+            if (M_BASE_POTION_TYPE != null) {
+                return (org.bukkit.potion.PotionType) M_BASE_POTION_TYPE.invoke(pm);
+            }
+            if (M_BASE_POTION_DATA != null && M_POTION_DATA_TYPE != null) {
+                Object data = M_BASE_POTION_DATA.invoke(pm);
+                return data == null ? null : (org.bukkit.potion.PotionType) M_POTION_DATA_TYPE.invoke(data);
+            }
+        } catch (Throwable ignored) {
+            // 反射失败按非水瓶处理
+        }
+        return null;
     }
 
     /** 启动前电力校验：管理器与温控器双机蓄电均需 ≥ 各自每 tick 消耗。 */
@@ -647,8 +689,11 @@ public final class CellarMenu {
         // 下个 tick 再开铁砧：当前正在处理酒窖页面的点击事件，立即切换界面可能被吞
         Bukkit.getScheduler().runTask(WT.plugin, () -> {
             if (!p.isOnline()) return;
-            org.bukkit.inventory.InventoryView view = p.openAnvil(null, true);
-            if (view == null || !(view.getTopInventory() instanceof org.bukkit.inventory.AnvilInventory ai)) {
+            // InventoryView 在 1.21 由类改为接口，直接调用其方法跨版本会抛 IncompatibleClassChangeError，
+            // 经反射工具（Views.top）取顶部容器
+            org.bukkit.inventory.AnvilInventory ai = Views.top(p.openAnvil(null, true))
+                    instanceof org.bukkit.inventory.AnvilInventory a ? a : null;
+            if (ai == null) {
                 PENDING_CELLAR.remove(p.getUniqueId());
                 p.sendMessage("§c无法打开命名界面！");
                 return;
@@ -679,7 +724,7 @@ public final class CellarMenu {
             BukkitTask[] holder = new BukkitTask[1];
             holder[0] = Bukkit.getScheduler().runTaskTimer(WT.plugin, () -> {
                 if (!p.isOnline() || NAMING.get(p.getUniqueId()) != ai
-                        || p.getOpenInventory().getTopInventory() != ai) {
+                        || Views.top(p.getOpenInventory()) != ai) {
                     holder[0].cancel();
                     return;
                 }
@@ -926,7 +971,7 @@ public final class CellarMenu {
         public void onAnvilClick(InventoryClickEvent e) {
             if (!(e.getWhoClicked() instanceof Player p)) return;
             org.bukkit.inventory.Inventory anvil = NAMING.get(p.getUniqueId());
-            if (anvil == null || e.getView().getTopInventory() != anvil) return;
+            if (anvil == null || e.getInventory() != anvil) return;
             e.setCancelled(true);
             e.setCursor(null); // 防止结果物品被客户端预测带入光标
             if (e.getRawSlot() == 0) { // 取消命名
@@ -958,12 +1003,12 @@ public final class CellarMenu {
         @EventHandler(ignoreCancelled = false)
         public void onClick(InventoryClickEvent e) {
             if (!(e.getWhoClicked() instanceof Player p)) return;
-            if (!(e.getView().getTopInventory().getHolder() instanceof BlockMenu menu)) return;
+            if (!(e.getInventory().getHolder() instanceof BlockMenu menu)) return;
             Block manager = menu.getBlock();
             if (!(me.mrCookieSlime.Slimefun.api.BlockStorage.check(manager) instanceof WineCellarManager)) {
                 return;
             }
-            Inventory top = e.getView().getTopInventory();
+            Inventory top = e.getInventory();
 
             if (e.getClickedInventory() == top && e.getRawSlot() == SLOT_CLEAR
                     && e.isShiftClick() && e.isRightClick()) {
@@ -1048,7 +1093,7 @@ public final class CellarMenu {
         @EventHandler
         public void onDrag(org.bukkit.event.inventory.InventoryDragEvent e) {
             if (!(e.getWhoClicked() instanceof Player p)) return;
-            if (!(e.getView().getTopInventory().getHolder() instanceof BlockMenu menu)) return;
+            if (!(e.getInventory().getHolder() instanceof BlockMenu menu)) return;
             if (!(me.mrCookieSlime.Slimefun.api.BlockStorage.check(menu.getBlock())
                     instanceof WineCellarManager)) return;
             ItemStack cursor = e.getOldCursor();

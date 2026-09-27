@@ -25,10 +25,10 @@ public final class MultiBlockLoader {
             if (s == null) continue;
             try {
                 ItemGroup g = WT.group(s.getString("item_group"));
-                if (g == null) { WT.log(id + ": 物品组缺失"); skip++; continue; }
+                if (g == null) { MissingItems.record("物品组缺失:" + s.getString("item_group")); skip++; continue; }
                 if (WTConfig.blockItem(s.getString("item_group"), id)) { skip++; continue; }
                 ItemStack display = WT.preload.get(id.toUpperCase(java.util.Locale.ROOT));
-                if (display == null) { WT.log(id + ": 无展示物品"); skip++; continue; }
+                if (display == null) { MissingItems.record("无展示物品:" + id); skip++; continue; }
                 SlimefunItemStack sfis = new SlimefunItemStack(id, display);
                 RecipeType rt = RecipeTypes.resolve(s.getString("recipe_type", "NULL"));
                 ItemStack[] structure = Read.recipe(s.getConfigurationSection("recipe"), 9);
