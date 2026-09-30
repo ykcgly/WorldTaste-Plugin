@@ -98,7 +98,11 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             ExoticGardenHook.onDrink(p, this.getId());
 
             if (opts.message != null) p.sendMessage(opts.message);
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_STRIDER_EAT, 1f, 1f);
+            // 音效：silent=不播；自定义 sound（喝汤播喝音/香烟打火石音等）；默认吃音效
+            if (!opts.silent) {
+                p.getWorld().playSound(p.getLocation(),
+                        opts.sound != null ? opts.sound : Sound.ENTITY_STRIDER_EAT, 1f, 1f);
+            }
         };
     }
 }

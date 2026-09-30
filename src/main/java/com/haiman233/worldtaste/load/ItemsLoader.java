@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,6 +152,16 @@ public final class ItemsLoader {
         // 改 Java 常量即自动同步，无需在 yml 里再维护一份（也避免两边写不一致）。
         if (item instanceof EnergyNetComponent comp) {
             appendEnergyLore(sfis, comp, item);
+        } else if (item instanceof Rechargeable rech) {
+            // 可充电手持电池（Rechargeable，如生日蛋糕电池）：追加容量 + 用途提示
+            ItemMeta meta = sfis.getItemMeta();
+            if (meta != null) {
+                List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
+                lore.add(Colors.c("&7▷▷ &e可储存: &e" + (int) rech.getMaxItemCharge(sfis) + " J"));
+                lore.add(Colors.c("&7▷▷ &7可在充电站充电后右键食用"));
+                meta.setLore(lore);
+                sfis.setItemMeta(meta);
+            }
         }
 
         if (spec.vanilla) {

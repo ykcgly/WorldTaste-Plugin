@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -100,9 +101,34 @@ public final class Behaviors {
                 }
             }
             o.message = s.getString("message");
+            // 自定义进食/使用音效（原版点分资源键，如 entity.generic.drink）：
+            // null=默认吃音效；"NONE"=不播放；其余解析为 Sound 常量（解析失败回退默认并告警）
+            String snd = s.getString("sound");
+            if (snd != null && !snd.isEmpty()) {
+                if (snd.equalsIgnoreCase("NONE")) {
+                    o.silent = true;
+                } else {
+                    o.sound = resolveSound(snd, name);
+                }
+            }
             consumables.put(name, o);
         }
         WT.plugin.getLogger().info("行为数据: consumables=" + consumables.size());
+    }
+
+    /**
+     * 原版点分资源键（entity.generic.drink）→ Sound 常量。
+     * 经反射读 Sound 静态字段：兼容 Sound 为枚举（≤1.21.2）与接口（1.21.3+）两种运行形态，
+     * 两侧常量均为 public static 字段，GETSTATIC 字节码跨版本一致。
+     */
+    private static Sound resolveSound(String key, String script) {
+        String name = key.trim().toUpperCase(java.util.Locale.ROOT).replace('.', '_');
+        try {
+            return (Sound) Sound.class.getField(name).get(null);
+        } catch (Exception e) {
+            WT.log("consumable " + script + " 的 sound 无效: " + key + "（将使用默认吃音效）");
+            return null;
+        }
     }
 
     private static void loadCrops() {
@@ -193,6 +219,10 @@ public final class Behaviors {
         public boolean consumeOffhand;
         public final List<Potion> potions = new ArrayList<>();
         public String message;
+        /** 自定义使用音效（已解析）；null 表示默认吃音效。 */
+        public Sound sound;
+        /** sound=NONE：完全不播放音效。 */
+        public boolean silent;
     }
 
     public static final class Potion {

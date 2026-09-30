@@ -23,8 +23,14 @@ public final class ScriptItemFactory {
 
     public static SlimefunItem create(ItemSpec spec, ItemGroup group, SlimefunItemStack sfis,
                                       RecipeType rt, ItemStack[] recipe) {
-        // energy 分支（忽略 script），对齐 RSC
+        // energy 分支：对齐 RSC CustomEnergyItem = Rechargeable 手持电池 + NotPlaceable（不再误译为
+        // 可放置电容方块）。带可食用脚本时为可充电食物（右键耗电换饥饿，如生日蛋糕电池），
+        // 否则为惰性电池（无使用行为）。
         if (spec.energyCapacity != null) {
+            ConsumableOpts eopts = spec.script != null ? Behaviors.consumables.get(spec.script) : null;
+            if (eopts != null && eopts.use) {
+                return new AttributeItems.EnergyConsumableItem(group, sfis, rt, recipe, spec.energyCapacity);
+            }
             return new AttributeItems.EnergyItem(group, sfis, rt, recipe, spec.energyCapacity);
         }
 

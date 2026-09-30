@@ -79,11 +79,6 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
     /** 全部配方（供大配方菜单展示）。 */
     public List<WTRecipe> getRecipes() { return recipes; }
 
-    /** 校验当前机器输入能否匹配任一配方（配方补全后的验证，不消耗）。 */
-    public boolean canMatch(BlockMenu inv) {
-        return findMatch(inv) != null;
-    }
-
     @Override
     public int[] getOutputSlots() { return outputSlots; }
 

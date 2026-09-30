@@ -487,15 +487,13 @@ ws_niangzaogongyi:
     name: "&6&k&ld&6&l酿造工艺&6&k&ld"
     material_type: mc
     material: CAULDRON
-ws_zwf_2_25:
-  lateInit: false
-  type: button
-  item:
-    material: white_stained_glass_pane
-    name: '&a'
+ws_story_food:
+  type: sub
   parent: worldtaste
-  actions:
-   'none'
+  item:
+    name: "&6&k&ld&6&l故事食物&6&k&ld"
+    material_type: mc
+    material: BOOK
 ws_zwf_2_19:
   lateInit: false
   type: button

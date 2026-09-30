@@ -2502,6 +2502,7 @@ WT_FUGUAZHI:
     lore:
       - ''
       - §7§o恢复 §b§o3.0 §7§o点饥饿值和饱和度
+      - '☢ 辐射等级: 高'
     material_type: mc
     material: POTION
     color: "90,100,66"

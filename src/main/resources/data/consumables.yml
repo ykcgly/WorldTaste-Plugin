@@ -151,6 +151,7 @@
     - {"type": "ABSORPTION", "duration": 5000, "amplifier": 6}
     - {"type": "REGENERATION", "duration": 5000, "amplifier": 6}
     - {"type": "FIRE_RESISTANCE", "duration": 5000, "amplifier": 6}
+  "sound": "NONE"
 "fushi":
   "kind": "use"
   "requireHungry": true
@@ -188,6 +189,7 @@
     - {"type": "NAUSEA", "duration": 1000, "amplifier": 1}
     - {"type": "ABSORPTION", "duration": 1200, "amplifier": 2}
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "kangxing":
   "kind": "use"
   "absorption": 45
@@ -215,6 +217,7 @@
   "exhaustion": 0.2
   "freezeTicks": 0
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "tang_4":
   "kind": "use"
   "food": 8
@@ -222,6 +225,7 @@
   "exhaustion": 0.8
   "freezeTicks": 0
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "tang_5":
   "kind": "use"
   "food": 10
@@ -229,6 +233,7 @@
   "exhaustion": 1
   "freezeTicks": 0
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "tang_6":
   "kind": "use"
   "food": 12
@@ -236,6 +241,7 @@
   "exhaustion": 1.2
   "freezeTicks": 0
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "tang_7":
   "kind": "use"
   "food": 14
@@ -243,6 +249,7 @@
   "exhaustion": 1.4
   "freezeTicks": 0
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "tang_8":
   "kind": "use"
   "food": 16
@@ -250,6 +257,7 @@
   "exhaustion": 1.6
   "freezeTicks": 0
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "xuejia":
   "kind": "use"
   "potions":
@@ -260,6 +268,7 @@
     - {"type": "HUNGER", "duration": 800, "amplifier": 1}
   "offhandTool": "SHEARS"
   "consumeOffhand": true
+  "sound": "item.flintandsteel.use"
 "yan":
   "kind": "use"
   "potions":
@@ -268,6 +277,7 @@
     - {"type": "HUNGER", "duration": 800, "amplifier": 1}
   "offhandTool": "FLINT_AND_STEEL"
   "consumeOffhand": true
+  "sound": "item.flintandsteel.use"
 "yangqi":
   "kind": "use"
   "remainingAir": 8000
@@ -275,48 +285,56 @@
 "yangqiguan":
   "kind": "use"
   "remainingAirAdd": 300
+  "sound": "entity.generic.drink"
 "yl1":
   "kind": "use"
   "food": 2
   "exhaustion": 2.1
   "remainingAir": 300
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "yl2":
   "kind": "use"
   "food": 4
   "exhaustion": 2.4
   "remainingAir": 300
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "yl3":
   "kind": "use"
   "food": 6
   "exhaustion": 2.6
   "remainingAir": 300
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "yl4":
   "kind": "use"
   "food": 8
   "exhaustion": 2.8
   "remainingAir": 300
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "yl5":
   "kind": "use"
   "food": 10
   "exhaustion": 3.2
   "remainingAir": 300
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "yl6":
   "kind": "use"
   "food": 12
   "exhaustion": 3.8
   "remainingAir": 300
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "yl7":
   "kind": "use"
   "food": 14
   "exhaustion": 4
   "remainingAir": 300
   "requireHungry": true
+  "sound": "entity.generic.drink"
 "zhongdu":
   "kind": "use"
   "food": 17
@@ -458,6 +476,7 @@
     - {"type": "POISON", "duration": 280, "amplifier": 0}
     - {"type": "WITHER", "duration": 50, "amplifier": 2}
   "requireHungry": true
+  "sound": "entity.spider.ambient"
 "yurenjie/zhaohuo":
   "kind": "use"
   "food": 5

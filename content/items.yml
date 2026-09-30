@@ -22,7 +22,7 @@ WORLDTASTE_VERSINO:
     material: PAPER
     lore:
       - '&f当前版本:'
-      - '&bRelease-1.9.3'
+      - '&bRelease-1.9.4'
       - '&7您在提issues的时候需要展示这个'
       - '&7如果尘世百味加载不完全，请先检查服务器是否安装了美食家和异域花园附属'
       - '&7尘世百味附属始于2025年1月12日'
@@ -4616,6 +4616,7 @@ WT_FUGUA: #rgb(90,100,66)
   item_group: ws_zuowu
   item:
     name: "&f&l辐瓜"
+    lore:/n      - '☢ 辐射等级: 极高'
     material_type: skull_hash
     material: eb83610f367832ce0280007f816d864dd5a43a2f928107a7fac22b124cd84c11
   placeable: false
@@ -22482,7 +22483,7 @@ WT_TIANYUXHB:
   script: '17'
 WT_FUSHEXHB:
   item:
-    lore: ['', §7§o恢复 §b§o8.5 §7§o点饥饿值和饱和度]
+    lore: ['', §7§o恢复 §b§o8.5 §7§o点饥饿值和饱和度, '☢ 辐射等级: 极高']
     name: §a§l辐射蟹黄堡
     amount: 1
     material_type: skull_hash
@@ -27194,6 +27195,7 @@ WT_FUSHEBAO:
     - §7§o恢复 §b§o8.5 §7§o点饥饿值和饱和度
     - ''
     - '§6特殊效果: §a中毒'
+    - '☢ 辐射等级: 致死'
     name: §d§l辐射汉堡
     amount: 1
     material_type: skull_hash
@@ -28152,7 +28154,7 @@ WT_LJTT:
   script: '6'
 WT_YOUTT:
   item:
-    lore: ['', §7§o恢复 §b§o3.5 §7§o点饥饿值和饱和度]
+    lore: ['', §7§o恢复 §b§o3.5 §7§o点饥饿值和饱和度, '☢ 辐射等级: 高']
     name: §2§l铀甜筒
     amount: 1
     material_type: skull_hash
@@ -50335,7 +50337,7 @@ WT_LHBDSRDG:
   soulbound: true
 WT_FUSHESRDG:
   item:
-    lore: ['', §7需穿着防化服出炉]
+    lore: ['', §7需穿着防化服出炉, '☢ 辐射等级: 致死']
     name: §a§l辐射生日蛋糕
     amount: 1
     material_type: mc
@@ -77073,7 +77075,7 @@ WT_LIANGCHA:
 
 WT_YOUQISHUI:
   item:
-    lore: ['', §7§o恢复 §b§o6 §7§o点饥饿值]
+    lore: ['', §7§o恢复 §b§o6 §7§o点饥饿值, '☢ 辐射等级: 高']
     name: §a§l铀汽水
     amount: 1
     material_type: skull_hash
