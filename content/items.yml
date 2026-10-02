@@ -108086,3 +108086,15 @@ WT_NIANZAO_DISABLED:
   recipe_type: 'NULL'
   placeable: false
 
+WT_STORY:
+  item:
+    name: '故事分类'
+    amount: 1
+    material_type: mc
+    material: BOOK
+    lore:
+      - '&7这只是一个占位符'
+      - '&7相关物品正在编写ing'
+  item_group: ws_story_food
+  recipe_type: 'NULL'
+  placeable: false
