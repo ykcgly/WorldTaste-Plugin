@@ -51,6 +51,9 @@ public final class Setup {
         com.haiman233.worldtaste.behavior.Behaviors.registerListeners();
         // 异域花园酒精度联动：启动期探测并在日志输出联动状态（未装异域花园时降级为风味文本）
         com.haiman233.worldtaste.hook.ExoticGardenHook.init();
+        // 外观反查索引：所有物品（含 lateInit/机器/多方块）注册完毕后构建一次，供运行期
+        // findRegisteredByAppearance 按材质分桶 O(1) 查询，避免放置事件等高频路径全量扫描
+        com.haiman233.worldtaste.util.Stacks.buildAppearanceIndex();
         // R6：所有内容/行为文件加载完毕，释放 Yaml 文件名缓存的解析树（长稳：避免长期持有 ~MB 级解析对象树）。
         // 经核查无 Loader 以字段持久持有 ConfigurationSection，registerListeners 也不再访问 YAML，释放安全。
         Yaml.clearCache();
