@@ -76,6 +76,8 @@ public final class WineCellarState {
     private UUID ownerId;
     private String cellarName; // 玩家设定的酒窖名（颜色代码已翻译，null = 未命名）
     private long lastSaveMs; // 上次落盘时间（运行计时 5 分钟节流用，不持久化）
+    /** 界面重绘脏检查（不持久化）：上次 paint 渲染内容的指纹，null = 尚未绘制过。 */
+    public transient Integer lastPaintHash;
 
     // ===== 访问器 =====
     public Phase phase() { return phase; }

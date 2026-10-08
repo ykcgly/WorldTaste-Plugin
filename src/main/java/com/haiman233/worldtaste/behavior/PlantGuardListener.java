@@ -1,7 +1,9 @@
 package com.haiman233.worldtaste.behavior;
 
+import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.items.ConsumableItem;
 import com.haiman233.worldtaste.items.CropBlock;
+import com.haiman233.worldtaste.load.WTConfig;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import java.util.List;
@@ -24,9 +26,12 @@ import org.bukkit.inventory.ItemStack;
  *       （耕地/灵魂沙/丛林原木/末地石等原版机制），不满足则取消放置并提示。
  *       方向性作物（COCOA 等需侧面附着的）必须以侧面附着方式放置且附着方块符合要求，
  *       地面式放置（如点在原木顶面）无效。</li>
- *   <li>食物（{@link ConsumableItem}）：普通右键=食用（此时取消放置，避免"吃+放"双消耗），
- *       潜行右键=放置——放置时登记进 {@link BlockStorage}，挖掘时 Slimefun 掉落带粘液数据的物品
- *       （持久化于 Slimefun 数据库，爆炸/活塞/水流等破坏路径也由 Slimefun 统一处理）。</li>
+ *   <li>食物（{@link ConsumableItem}）：食用与放置的分流已在 ConsumableItem 的右键处理器内判定——
+ *       潜行右键可放置表面时插件<b>完全不干涉</b>，由服务端走原版放置（正确的落点/朝向/方块数据/
+ *       替换判定/音效）。放置事件上另有两级处理（见 {@link #onPlaceUncancel} 与 {@link #onPlaceFinalize}）：
+ *       实测服内多个附属插件会在 BlockPlaceEvent 上否决这类自定义头颅食物（权限/领地均无关），
+ *       默认按 {@code food.ignore-place-veto} 强制放行，保证潜行右键必定能放置；登记粘液数据
+ *       统一在 MONITOR 阶段按事件最终状态执行。</li>
  *   <li>其他 NotPlaceable 装饰：直接允许放置并登记（不限制潜行）。</li>
  * </ol>
  */
@@ -45,11 +50,7 @@ public final class PlantGuardListener implements Listener {
             e.setCancelled(true);
             return;
         }
-        SlimefunItem sf = SlimefunItem.getByItem(item);
-        if (sf == null) {
-            // 兜底：无 id 展示物品（如未注册物品的机器/多方块产物）按外观反查注册物品
-            sf = com.haiman233.worldtaste.util.Stacks.findRegisteredByAppearance(item);
-        }
+        SlimefunItem sf = resolve(item);
         if (sf == null) return;
 
         // 作物种子：种植要求校验（全部种子类生效）
@@ -77,22 +78,93 @@ public final class PlantGuardListener implements Listener {
             return;
         }
 
-        // 不可放置类物品
-        if (sf instanceof NotPlaceable) {
-            // 食物（头颅材质可放置方块）：普通右键（非潜行）已被食用逻辑消费，
-            // 取消放置避免"吃+放"双消耗与头颅残留；潜行右键=明确放置意图，放行并登记
-            // Slimefun 方块（挖掘保留粘液数据）
-            if (sf instanceof ConsumableItem) {
-                if (!e.getPlayer().isSneaking()) {
-                    e.setCancelled(true);
-                    return;
-                }
-                BlockStorage.store(e.getBlock(), sf.getId());
-                return;
-            }
-            // 其他不可放置装饰：允许放置并登记
+        // 其他不可放置装饰（非食物）：允许放置并登记
+        if (sf instanceof NotPlaceable && !(sf instanceof ConsumableItem)) {
             BlockStorage.store(e.getBlock(), sf.getId());
         }
+        // 食物的登记统一在 onPlaceFinalize（MONITOR，按事件最终状态执行）
+    }
+
+    /**
+     * 强制放行（HIGHEST，先于 MONITOR 终态判定），带探针判定：
+     * 实测服内某个附属插件会在 {@code BlockPlaceEvent} 上专项否决尘世百味的自定义头颅食物
+     * （症状：潜行右键永远放不出来，与权限/领地无关）。按 {@code config.yml: food.ignore-place-veto}
+     * （默认 true）放行这类否决，放置继续走原版管线（手感不变）。
+     *
+     * <p>为避免误伤领地等保护插件，放行前先发一个「探针」合成事件：用普通圆石在<b>同一位置</b>
+     * 走一遍放置判定——普通方块同样被否决 = 位置类保护（领地/权限），<b>尊重否决</b>；
+     * 普通方块能放而唯独食物被拦 = 专项物品否决，<b>强制放行</b>。仅限食物物品，
+     * 不影响其它方块的正常保护。若否决发生在 MONITOR 阶段（极少数），本方法无法覆盖，
+     * 终态日志会如实记录。注意：探针事件会让 CoreProtect 等记录类插件多记一条从未落地的圆石放置。</p>
+     */
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
+    public void onPlaceUncancel(BlockPlaceEvent e) {
+        if (!WTConfig.foodIgnorePlaceVeto || !e.isCancelled()) return;
+        ItemStack item = e.getItemInHand();
+        if (item == null || item.getType().isAir()) return;
+        SlimefunItem sf = resolve(item);
+        if (!(sf instanceof ConsumableItem)) return;
+
+        // 探针判定：同位置、同玩家的普通圆石放置是否也被否决——
+        // 被否决 = 位置类保护（领地/权限），尊重；未被否决 = 专项物品否决，放行
+        org.bukkit.block.BlockState replaced = e.getBlock().getState();
+        BlockPlaceEvent canary = new BlockPlaceEvent(e.getBlock(), replaced, e.getBlockAgainst(),
+                new ItemStack(Material.STONE), e.getPlayer(), true, org.bukkit.inventory.EquipmentSlot.HAND);
+        org.bukkit.Bukkit.getPluginManager().callEvent(canary);
+        if (canary.isCancelled()) {
+            if (WTConfig.debugFood) {
+                WT.log("[debug-food] " + sf.getId() + " 同位置普通方块也被否决 → 领地/保护类限制，尊重否决");
+            }
+            return;
+        }
+
+        e.setCancelled(false);
+        if (WTConfig.debugFood) {
+            WT.log("[debug-food] " + sf.getId() + " 放置曾被外部插件否决（普通方块可放）→ 已强制放行");
+        }
+    }
+
+    /**
+     * 终态处理（MONITOR）：食物的粘液数据登记统一在此按事件最终状态执行——
+     * 无论中途是否被否决过、也无论否决者处于哪个优先级，只有真正会落地的放置才登记，
+     * 避免「事件又被更高优先级取消却已登记」的幽灵数据。
+     * 被取消且未被放行时，debug 模式下列出监听本事件的候选插件。
+     */
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
+    public void onPlaceFinalize(BlockPlaceEvent e) {
+        ItemStack item = e.getItemInHand();
+        if (item == null || item.getType().isAir()) return;
+        SlimefunItem sf = resolve(item);
+        if (!(sf instanceof ConsumableItem)) return;
+
+        if (e.isCancelled()) {
+            if (WTConfig.debugFood) {
+                StringBuilder cand = new StringBuilder();
+                for (org.bukkit.plugin.RegisteredListener rl : e.getHandlers().getRegisteredListeners()) {
+                    String name = rl.getPlugin().getName();
+                    if (name.equals("WorldTaste") || name.equals("Slimefun")) continue;
+                    if (cand.length() > 0) cand.append(", ");
+                    cand.append(name);
+                }
+                WT.log("[debug-food] " + sf.getId() + " 放置最终被取消（含 MONITOR 阶段否决，"
+                        + "food.ignore-place-veto 未覆盖）；候选插件: "
+                        + (cand.length() == 0 ? "（无）" : cand));
+            }
+            return;
+        }
+        // 原版已按自己的逻辑摆放成功：登记 Slimefun 方块数据，
+        // 挖掘/爆炸/活塞/水流破坏时掉落带数据的物品
+        BlockStorage.store(e.getBlock(), sf.getId());
+    }
+
+    /** 从物品反查注册的 Slimefun 物品（先按 PDC id，再按外观兜底）。 */
+    private static SlimefunItem resolve(ItemStack item) {
+        SlimefunItem sf = SlimefunItem.getByItem(item);
+        if (sf == null) {
+            // 兜底：无 id 展示物品（如未注册物品的机器/多方块产物）按外观反查注册物品
+            sf = com.haiman233.worldtaste.util.Stacks.findRegisteredByAppearance(item);
+        }
+        return sf;
     }
 
     private static String names(List<Material> list) {

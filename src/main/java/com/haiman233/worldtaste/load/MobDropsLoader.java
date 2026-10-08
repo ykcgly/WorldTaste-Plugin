@@ -1,6 +1,7 @@
 package com.haiman233.worldtaste.load;
 
 import com.haiman233.worldtaste.WT;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -161,10 +162,26 @@ public final class MobDropsLoader {
         public final String itemId;
         public final String entity;
         public final int chance;
+        /**
+         * 普通 ItemStack 模板（惰性构建）。掉落时 clone 此模板而非 {@code SlimefunItemStack.clone()}：
+         * 后者每次都完整重建 SlimefunItemStack（重挂数据/贴图服务、重建 ItemMetaSnapshot），
+         * 头颅类物品还要把 Profile 的 JSON 重新解析一遍（spark 热点：CraftPlayerTextures → URI → Gson）。
+         * 模板一次性深拷贝为普通 ItemStack，其头颅 Profile 已解析，之后每次 clone 只是廉价的元数据拷贝。
+         */
+        private ItemStack template;
         Drop(String itemId, String entity, int chance) {
             this.itemId = itemId;
             this.entity = entity;
             this.chance = chance;
+        }
+        /** @return 预构建的掉落模板；物品未注册时返回 null（与旧行为一致：跳过该掉落）。 */
+        public ItemStack template() {
+            if (template == null) {
+                SlimefunItem sf = SlimefunItem.getById(itemId);
+                if (sf == null) return null;
+                template = new ItemStack(sf.getItem());
+            }
+            return template;
         }
     }
 }

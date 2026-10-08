@@ -49,6 +49,19 @@ public final class WTConfig {
     public static String disabledSuffix = "&r&c&l已禁用";
 
     /**
+     * 食物放置事件被外部插件否决时是否强制放行（food.ignore-place-veto，默认 true）。
+     *
+     * <p>实测服内多个附属插件会在 {@code BlockPlaceEvent} 上否决尘世百味的自定义头颅食物，
+     * 导致潜行右键永远放不出来（与权限/领地无关）。true 时本插件在 HIGHEST 优先级取消针对
+     * <b>本插件食物</b>的外部否决（放置继续走原版管线，手感不变）；false 时尊重外部否决，
+     * debug 模式下会列出候选插件名单。</p>
+     */
+    public static boolean foodIgnorePlaceVeto = true;
+
+    /** 食物右键决策的调试日志（debug.food，默认 false）。 */
+    public static boolean debugFood = false;
+
+    /**
      * 读取配置。必须在 {@link GroupLoader#load()} 之前调用——分组名是否追加
      * 「已禁用」取决于本开关。
      */
@@ -76,7 +89,11 @@ public final class WTConfig {
         disabledSuffix = y.getString("brewing.disabled-suffix", "&r&c&l已禁用");
         if (disabledSuffix == null) disabledSuffix = "";
 
+        foodIgnorePlaceVeto = y.getBoolean("food.ignore-place-veto", true);
+        debugFood = y.getBoolean("debug.food", false);
+
         WT.plugin.getLogger().info("config.yml: 酿造工艺 " + (brewingEnabled ? "已启用" : "已禁用"));
+        WT.plugin.getLogger().info("config.yml: 食物放置外部否决强制放行 " + (foodIgnorePlaceVeto ? "开启" : "关闭"));
     }
 
     /** 酿造玩法是否已关闭。 */

@@ -390,6 +390,47 @@ public final class CellarMenu {
     private static void paint(BlockMenu menu, Block manager) {
         scanSlots(menu, manager);
         WineCellarState st = WineCellarState.get(manager);
+        paintVisual(menu, st);
+        st.lastPaintHash = paintFingerprint(st); // 强制重绘后同步指纹，供周期刷新脏检查
+    }
+
+    /** 指纹一致的跳过视觉重绘版 paint（仅供周期刷新调用；{@link #scanSlots} 的玩法副作用照常执行）。 */
+    private static void paintIfChanged(BlockMenu menu, Block manager) {
+        scanSlots(menu, manager);
+        WineCellarState st = WineCellarState.get(manager);
+        int fp = paintFingerprint(st);
+        if (st.lastPaintHash != null && st.lastPaintHash == fp) return;
+        paintVisual(menu, st);
+        st.lastPaintHash = fp;
+    }
+
+    /**
+     * paint 渲染内容的指纹：只取「会被画进界面」的字段，粒度与显示一致——
+     * 酿造倒计时按秒（{@link #fmt(long)} 按 分/秒 渲染）、陈化按游戏日、酒精度按 0.1°。
+     * 指纹不变 = 本帧界面内容与上帧完全相同，跳过重绘不产生任何视觉差异。
+     */
+    private static int paintFingerprint(WineCellarState st) {
+        int h = st.phase().hashCode();
+        h = 31 * h + st.mode().hashCode();
+        if (st.phase() == WineCellarState.Phase.RUNNING) {
+            h = 31 * h + (st.mode() == WineCellarState.Mode.BREW
+                    ? Long.hashCode(Math.max(0, st.durationMs() - st.elapsedMs()) / 1000)
+                    : Long.hashCode(st.elapsedMs() / WineCellarState.GAME_DAY_MS));
+        }
+        h = 31 * h + Boolean.hashCode(st.autoAge());
+        h = 31 * h + Integer.hashCode(st.units());
+        h = 31 * h + Integer.hashCode(st.waterUnits());
+        h = 31 * h + Double.hashCode(Math.round(st.alcohol() * 10));
+        h = 31 * h + java.util.Objects.hashCode(st.yeast());
+        h = 31 * h + java.util.Objects.hashCode(st.cellarName());
+        for (WineCellarState.Liquid lq : st.liquids()) {
+            h = 31 * h + Integer.hashCode(lq.units());
+            h = 31 * h + lq.contents().hashCode();
+        }
+        return h;
+    }
+
+    private static void paintVisual(BlockMenu menu, WineCellarState st) {
         menu.replaceExistingItem(SLOT_CLOCK, clockItem(st));
         menu.replaceExistingItem(SLOT_CLEAR, clearItem(st));
         menu.replaceExistingItem(SLOT_WOOL, woolItem(st));
@@ -892,7 +933,9 @@ public final class CellarMenu {
                 it.remove();
                 continue;
             }
-            paint(menu, manager);
+            // 槽位扫描（吸收投入物/弹回果酒等玩法副作用）每轮照常执行；
+            // 只有「渲染内容与上帧一致」时才跳过视觉重绘（spark 优化：静止界面不再每 0.5s 全量重画）
+            paintIfChanged(menu, manager);
         }
     }
 

@@ -17,6 +17,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wither;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -120,6 +121,8 @@ public final class AttributeItems {
                 // 拦截全部放置路径（非潜行右键方块面时原版会尝试放置），必须显式 cancel；
                 // 食用逻辑由本处理器自行实现，不受底层事件取消影响。
                 e.cancel();
+                // Slimefun 对主手与副手都会派发：只处理主手，避免双手持物时重复扣电
+                if (e.getHand() != EquipmentSlot.HAND) return;
                 Player p = e.getPlayer();
                 // 潜行右键不食用
                 if (p.isSneaking()) return;
