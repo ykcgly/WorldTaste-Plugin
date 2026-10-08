@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -107,6 +108,47 @@ public class CropBlock extends SlimefunItem {
         return cfg.material == Material.CHORUS_FLOWER;
     }
 
+    // ===== 逐 tick 开销优化（spark 热点：CraftBlock.getType 占作物 tick 绝大部分） =====
+    /** 新放置的作物位置：放置后首个 tick 立即跑完整 tick，避免降频延迟「种子头 → 作物材质」转换。 */
+    private static final Map<World, Set<Long>> PENDING = new IdentityHashMap<>();
+    /** 兜底守卫的降频周期：800ms ≈ 16 tick（原按毫秒计数取模，实测约 8 tick 命中一次，与注释不符）。 */
+    private static final long GUARD_INTERVAL_MS = 800;
+    /** 降频基准：同一毫秒（≈同一 tick）内所有作物取到相同的判定结果。 */
+    private static long lastSeqMs = -1;
+    private static long guardBucket = -1;
+    private static boolean guardHit;
+
+    private static long posKey(Block b) {
+        return ((long) (b.getX() & 0x3FFFFFF) << 38) | ((long) (b.getZ() & 0x3FFFFFF) << 12) | (b.getY() & 0xFFF);
+    }
+
+    /** 作物放置成功（事件终态）后登记：首个 tick 立即处理。 */
+    public static void markPlaced(Block b) {
+        PENDING.computeIfAbsent(b.getWorld(), w -> new HashSet<>()).add(posKey(b));
+    }
+
+    /** 作物被破坏时清理登记（防止残留条目对空位置跑完整 tick）。 */
+    public static void clearPlaced(Block b) {
+        Set<Long> s = PENDING.get(b.getWorld());
+        if (s != null) s.remove(posKey(b));
+    }
+
+    /**
+     * 兜底守卫是否本 tick 到期：每 {@link #GUARD_INTERVAL_MS}（≈16 tick）内的第一个 tick 命中一次，
+     * 同一毫秒内后续作物的查询直接复用结果（毫秒粒度下等价于 tick 粒度：tick 间隔远大于 1ms）。
+     */
+    private static boolean guardDue() {
+        long now = System.currentTimeMillis();
+        if (now != lastSeqMs) {
+            lastSeqMs = now;
+            long bucket = now / GUARD_INTERVAL_MS;
+            // 跨入新周期 → 本 tick 命中一次；周期内的其余 tick 全部跳过
+            guardHit = bucket != guardBucket;
+            if (guardHit) guardBucket = bucket;
+        }
+        return guardHit;
+    }
+
     /** 作物方块是否带方向（如 COCOA 需附着在原木侧面）。 */
     public boolean isDirectionalCrop() {
         return directionalCrop;
@@ -147,6 +189,25 @@ public class CropBlock extends SlimefunItem {
     }
 
     private void tick(Block b) {
+        if (isChorus()) {
+            // 紫颂：唯一需要定时推进生长的作物，保持逐 tick
+            tickNow(b);
+            return;
+        }
+        if (!PENDING.isEmpty()) {
+            Set<Long> s = PENDING.get(b.getWorld());
+            if (s != null && !s.isEmpty() && s.remove(posKey(b))) {
+                // 刚种下：立即把种子头转为作物材质，不被降频延迟
+                tickNow(b);
+                return;
+            }
+        }
+        // 普通作物的 tick 无玩法逻辑（生长完全交给原版随机刻），只剩「材质被替换时恢复/清理」
+        // 的兜底守卫——降频到每 16 tick（0.8 秒）执行一次即可，稳定态每 tick 的开销趋近于零
+        if (guardDue()) tickNow(b);
+    }
+
+    private void tickNow(Block b) {
         Material type = b.getType();
         boolean isSeedHead = (type == Material.PLAYER_HEAD || type == Material.PLAYER_WALL_HEAD);
         if (type != cfg.material && !isSeedHead) {
@@ -437,6 +498,18 @@ public class CropBlock extends SlimefunItem {
             lastUse.keySet().removeIf(l -> inChunk(l, w, cx, cz));
             grown.removeIf(l -> inChunk(l, w, cx, cz));
             stage.keySet().removeIf(l -> inChunk(l, w, cx, cz));
+            Set<Long> pend = PENDING.get(w);
+            if (pend != null) {
+                pend.removeIf(k -> inChunkPacked(k, cx, cz));
+                if (pend.isEmpty()) PENDING.remove(w);
+            }
         }
+    }
+
+    /** 打包坐标是否落在指定区块内（区块卸载时清理「新放置」登记）。 */
+    private static boolean inChunkPacked(long k, int cx, int cz) {
+        int x = (int) (((k >>> 38) & 0x3FFFFFF) << 6) >> 6;
+        int z = (int) (((k >>> 12) & 0x3FFFFFF) << 6) >> 6;
+        return (x >> 4) == cx && (z >> 4) == cz;
     }
 }

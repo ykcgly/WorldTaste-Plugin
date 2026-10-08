@@ -3,6 +3,7 @@ package com.haiman233.worldtaste.machines;
 import com.haiman233.worldtaste.WT;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -245,8 +246,15 @@ public final class WineCellarState {
 
     // ===== 注册表与持久化 =====
     // 世界 → (打包坐标 → 状态)：热路径（管理器逐 tick 计时）零分配查询，
-    // 规避 Location 哈希（CraftWorld#hashCode 走世界 UUID）的开销
-    private static final Map<World, Map<Long, WineCellarState>> INDEX = new HashMap<>();
+    // 规避 Location 哈希（CraftWorld#hashCode 走世界 UUID）的开销。
+    // 外层用 IdentityHashMap：键按对象身份哈希（System.identityHashCode），
+    // 不再走 CraftWorld#hashCode 的 UUID 哈希（spark 热点 HashMap.hash）。
+    private static final Map<World, Map<Long, WineCellarState>> INDEX = new IdentityHashMap<>();
+
+    /** 单条目查询缓存：逐 tick 计时连续命中同一酒窖时直接复用，省掉内层 Map 查询。 */
+    private static World memoWorld;
+    private static long memoKey;
+    private static WineCellarState memoState;
 
     /** 方块坐标打包为 long（x/z 26 位 + y 12 位）。 */
     private static long key(int x, int y, int z) {
@@ -256,20 +264,24 @@ public final class WineCellarState {
     public static WineCellarState get(Block b) {
         World w = b.getWorld();
         long k = key(b.getX(), b.getY(), b.getZ());
+        if (w == memoWorld && k == memoKey && memoState != null) return memoState;
         Map<Long, WineCellarState> m = INDEX.get(w);
-        if (m != null) {
-            WineCellarState st = m.get(k);
-            if (st != null) return st;
+        WineCellarState st = m == null ? null : m.get(k);
+        if (st == null) {
+            st = new WineCellarState();
+            deserialize(st, BlockStorage.getLocationInfo(b.getLocation(), "wt-cellar-data"));
+            INDEX.computeIfAbsent(w, x -> new HashMap<>()).put(k, st);
         }
-        WineCellarState st = new WineCellarState();
-        deserialize(st, BlockStorage.getLocationInfo(b.getLocation(), "wt-cellar-data"));
-        INDEX.computeIfAbsent(w, x -> new HashMap<>()).put(k, st);
+        memoWorld = w;
+        memoKey = k;
+        memoState = st;
         return st;
     }
 
     public static void remove(Block b) {
         Map<Long, WineCellarState> m = INDEX.get(b.getWorld());
         if (m != null) m.remove(key(b.getX(), b.getY(), b.getZ()));
+        memoState = null; // 单条目缓存可能因本次移除而失效
     }
 
     /**

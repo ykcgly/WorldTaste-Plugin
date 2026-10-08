@@ -25,7 +25,9 @@ public final class MobDropListener implements Listener {
                 // 克隆预构建的普通 ItemStack 模板：不走 SlimefunItemStack 构造链，
                 // 头颅 Profile 也只在首次构建时解析一次（spark 热点修复）
                 ItemStack template = d.template();
-                if (template != null) e.getDrops().add(template.clone());
+                // 用拷贝构造而非 clone()：clone 走 Object.clone 会保留运行时类型，
+                // 一旦模板被判定为 SlimefunItemStack 就会触发整条重建 + 头颅 Profile 重解析
+                if (template != null) e.getDrops().add(new ItemStack(template));
             }
         }
     }

@@ -201,6 +201,7 @@ public final class CropListener implements Listener {
 
     /** 破坏作物主格：掉成品/种子、清数据、清除 2 格高作物的上格残留。 */
     private static void breakCrop(Block b, CropBlock crop) {
+        CropBlock.clearPlaced(b); // 清理「新放置」登记：该位置已无作物，避免残留条目触发完整 tick
         // 先按当前方块状态判定成熟并掉落（此时两格齐全、age 可读）。
         // 顺序与物理都关键：
         //  · 若先移除 2 格高作物的上格，原版邻块更新会把主格判为无法存活而按原版战利品破坏

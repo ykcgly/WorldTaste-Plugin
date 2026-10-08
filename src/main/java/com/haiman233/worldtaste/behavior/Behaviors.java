@@ -234,21 +234,31 @@ public final class Behaviors {
         }
     }
 
+    // 推断结果常量化：避免每次放置事件重复构造 List（BlockPlaceEvent 高频路径）
+    private static final List<Material> ON_FARMLAND = List.of(Material.FARMLAND);
+    private static final List<Material> ON_SOUL = List.of(Material.SOUL_SAND, Material.SOUL_SOIL);
+    private static final List<Material> ON_SUGAR_CANE = List.of(Material.SAND, Material.RED_SAND, Material.DIRT, Material.GRASS_BLOCK);
+    private static final List<Material> ON_CACTUS = List.of(Material.SAND, Material.RED_SAND);
+    private static final List<Material> ON_JUNGLE = List.of(Material.JUNGLE_LOG, Material.JUNGLE_WOOD,
+            Material.STRIPPED_JUNGLE_LOG, Material.STRIPPED_JUNGLE_WOOD);
+    private static final List<Material> ON_BERRY = List.of(Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+            Material.PODZOL, Material.ROOTED_DIRT, Material.MUD, Material.FARMLAND);
+
     /** 按作物材质推断默认种植要求（原版机制）。显式 plantOn 配置优先于推断。 */
     static List<Material> inferPlantOn(Material m) {
         switch (m) {
             case WHEAT, CARROTS, POTATOES, BEETROOTS, MELON_STEM, PUMPKIN_STEM, PITCHER_CROP, TORCHFLOWER_CROP:
-                return List.of(Material.FARMLAND);
+                return ON_FARMLAND;
             case NETHER_WART:
-                return List.of(Material.SOUL_SAND, Material.SOUL_SOIL);
+                return ON_SOUL;
             case SUGAR_CANE:
-                return List.of(Material.SAND, Material.RED_SAND, Material.DIRT, Material.GRASS_BLOCK);
+                return ON_SUGAR_CANE;
             case CACTUS:
-                return List.of(Material.SAND, Material.RED_SAND);
+                return ON_CACTUS;
             case COCOA:
-                return List.of(Material.JUNGLE_LOG, Material.JUNGLE_WOOD, Material.STRIPPED_JUNGLE_LOG, Material.STRIPPED_JUNGLE_WOOD);
+                return ON_JUNGLE;
             case SWEET_BERRY_BUSH:
-                return List.of(Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.PODZOL, Material.ROOTED_DIRT, Material.MUD, Material.FARMLAND);
+                return ON_BERRY;
             default:
                 return null;
         }

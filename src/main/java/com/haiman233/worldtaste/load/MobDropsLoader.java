@@ -179,7 +179,15 @@ public final class MobDropsLoader {
             if (template == null) {
                 SlimefunItem sf = SlimefunItem.getById(itemId);
                 if (sf == null) return null;
-                template = new ItemStack(sf.getItem());
+                // 显式按 type + amount + meta 组装，确保模板的运行时类型就是 Bukkit ItemStack：
+                // ItemStack#clone() 走 Object.clone（保留运行时类型），若模板被判定为
+                // SlimefunItemStack，每次掉落都会重建 SlimefunItemStack 并重新解析头颅 Profile
+                // （spark 1.09% 采样里的 URI.create / Gson / CraftPlayerTextures 子树）。
+                // 这里只解析一次，之后每次掉落仅做一次廉价的元数据拷贝。
+                ItemStack src = sf.getItem();
+                ItemStack t = new ItemStack(src.getType(), src.getAmount());
+                if (src.hasItemMeta()) t.setItemMeta(src.getItemMeta());
+                template = t;
             }
             return template;
         }

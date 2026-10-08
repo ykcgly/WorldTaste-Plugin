@@ -20,6 +20,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Map;
 
 /**
@@ -40,7 +41,13 @@ public class WineCellarManager extends SlimefunItem implements EnergyNetComponen
     /** 结构校验缓存：partner() 一次调用替代逐 tick 的 matches()+partner() 双重 3×3×3 扫描。 */
     private record StructureCheck(long expireAtTick, Block partner, TemperatureController ctrl) {}
 
-    private static final Map<World, Map<Long, StructureCheck>> CHECKS = new HashMap<>();
+    // 外层用 IdentityHashMap：键按对象身份哈希，避免 CraftWorld#hashCode 的 UUID 哈希（spark 热点）
+    private static final Map<World, Map<Long, StructureCheck>> CHECKS = new IdentityHashMap<>();
+
+    /** 单条目查询缓存：逐 tick 连续命中同一位置时直接复用，省掉两层 Map 查询。 */
+    private static World memoWorld;
+    private static long memoKey;
+    private static StructureCheck memoCheck;
 
     private static long key(Block b) {
         return ((long) (b.getX() & 0x3FFFFFF) << 38) | ((long) (b.getZ() & 0x3FFFFFF) << 12) | (b.getY() & 0xFFF);
@@ -50,22 +57,30 @@ public class WineCellarManager extends SlimefunItem implements EnergyNetComponen
     public static void invalidateStructureCheck(Block b) {
         Map<Long, StructureCheck> m = CHECKS.get(b.getWorld());
         if (m != null) m.remove(key(b));
+        memoCheck = null;
     }
 
     /** 缓存式结构校验：结构完整缓存 20 tick，不完整缓存 10 tick（补建后尽快恢复计时）。 */
     private static StructureCheck structureCheck(Block b) {
         World w = b.getWorld();
-        long now = w.getGameTime();
+        long k = key(b);
+        if (w == memoWorld && k == memoKey && memoCheck != null && memoCheck.expireAtTick() > w.getGameTime()) {
+            return memoCheck;
+        }
         Map<Long, StructureCheck> m = CHECKS.get(w);
-        StructureCheck v = m == null ? null : m.get(key(b));
+        StructureCheck v = m == null ? null : m.get(k);
+        long now = w.getGameTime();
         if (v == null || v.expireAtTick() <= now) {
             Block partner = CellarStructure.partner(b, false);
             TemperatureController ctrl = partner != null
                     && me.mrCookieSlime.Slimefun.api.BlockStorage.check(partner) instanceof TemperatureController c
                     ? c : null;
             v = new StructureCheck(now + (ctrl != null ? 20 : 10), ctrl != null ? partner : null, ctrl);
-            CHECKS.computeIfAbsent(w, x -> new HashMap<>()).put(key(b), v);
+            CHECKS.computeIfAbsent(w, x -> new HashMap<>()).put(k, v);
         }
+        memoWorld = w;
+        memoKey = k;
+        memoCheck = v;
         return v;
     }
 

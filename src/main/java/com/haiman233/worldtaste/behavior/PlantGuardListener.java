@@ -50,7 +50,7 @@ public final class PlantGuardListener implements Listener {
             e.setCancelled(true);
             return;
         }
-        SlimefunItem sf = resolve(item);
+        SlimefunItem sf = resolve(e, item);
         if (sf == null) return;
 
         // 作物种子：种植要求校验（全部种子类生效）
@@ -102,7 +102,7 @@ public final class PlantGuardListener implements Listener {
         if (!WTConfig.foodIgnorePlaceVeto || !e.isCancelled()) return;
         ItemStack item = e.getItemInHand();
         if (item == null || item.getType().isAir()) return;
-        SlimefunItem sf = resolve(item);
+        SlimefunItem sf = resolve(e, item);
         if (!(sf instanceof ConsumableItem)) return;
 
         // 探针判定：同位置、同玩家的普通圆石放置是否也被否决——
@@ -134,7 +134,13 @@ public final class PlantGuardListener implements Listener {
     public void onPlaceFinalize(BlockPlaceEvent e) {
         ItemStack item = e.getItemInHand();
         if (item == null || item.getType().isAir()) return;
-        SlimefunItem sf = resolve(item);
+        SlimefunItem sf = resolve(e, item);
+        if (sf instanceof CropBlock) {
+            // 作物：终态确认放置未被取消后才登记（被取消的位置登记会残留，
+            // 进而对空位置跑一次完整 tick：材质不符 → purge + clearBlockInfo）
+            if (!e.isCancelled()) CropBlock.markPlaced(e.getBlock());
+            return;
+        }
         if (!(sf instanceof ConsumableItem)) return;
 
         if (e.isCancelled()) {
@@ -155,6 +161,18 @@ public final class PlantGuardListener implements Listener {
         // 原版已按自己的逻辑摆放成功：登记 Slimefun 方块数据，
         // 挖掘/爆炸/活塞/水流破坏时掉落带数据的物品
         BlockStorage.store(e.getBlock(), sf.getId());
+    }
+
+    // 同一次放置会被本类的三个 handler（HIGH/HIGHEST/MONITOR）各解析一次物品；
+    // 事件分发是同步串行的，用单条目 memo 按事件身份缓存结果，一次放置只解析一次
+    private static BlockPlaceEvent memoEvent;
+    private static SlimefunItem memoItem;
+
+    private static SlimefunItem resolve(BlockPlaceEvent e, ItemStack item) {
+        if (memoEvent == e) return memoItem;
+        memoItem = resolve(item);
+        memoEvent = e;
+        return memoItem;
     }
 
     /** 从物品反查注册的 Slimefun 物品（先按 PDC id，再按外观兜底）。 */
