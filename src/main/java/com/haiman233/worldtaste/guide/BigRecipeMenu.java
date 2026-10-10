@@ -25,8 +25,9 @@ import org.bukkit.inventory.meta.ItemMeta;
  *       右下角（53）为「配方展示」按钮——以机器配方补全同款形式列出该机器全部产物，点击产物
  *       进入其专属的大型配方展示页；</li>
  *   <li>产物列表页 = 每个产物一格（0..44，按主产物去重），45 返回合成配方页、53 翻页；</li>
- *   <li>产物配方页 = 大型配方展示：材料区铺满 0..53（产物槽 24、机器图标 8、返回 35、翻页 53 除外），
- *       绑定槽直映、冲突/未绑定倒序补位；翻页在该产物的配方集合内循环，返回 35 回产物列表；</li>
+ *   <li>产物配方页 = 大型配方展示：材料区铺满 0..53（产物槽 24、机器图标 8、翻页 53 除外），
+ *       绑定槽直映、冲突/未绑定倒序补位；翻页在该产物的配方集合内循环。返回键只在右下角（53）：
+ *       单配方时 53 即返回键，多配方时 53 为翻页、35 为返回；</li>
  *   <li>所有粘液材料点击可跳转到对应材料的指南页（依赖配方堆携带 slimefun id PDC，
  *       见 {@code Read.resolve} 的前向引用修复）。</li>
  * </ul>
@@ -190,9 +191,10 @@ public final class BigRecipeMenu {
             menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        // 固定槽位
+        // 固定槽位（返回键 35 仅多配方时占用：单配方页只有右下角一个返回，35 让给材料区）
         boolean[] reserved = new boolean[54];
-        reserved[SLOT_ICON] = reserved[SLOT_OUTPUT] = reserved[SLOT_BACK] = reserved[SLOT_PAGE] = true;
+        reserved[SLOT_ICON] = reserved[SLOT_OUTPUT] = reserved[SLOT_PAGE] = true;
+        if (cycle.length > 1) reserved[SLOT_BACK] = true;
 
         // 材料区：绑定槽直映（跳过固定槽），未绑定/冲突从 52 倒序补位
         ItemStack[] input = r.getInput();
@@ -223,16 +225,16 @@ public final class BigRecipeMenu {
         // 机器图标（右上角）
         menu.addItem(SLOT_ICON, describeMachine(machine, r), ChestMenuUtils.getEmptyClickHandler());
 
-        // 返回（46）：从产物列表进入 → 回产物列表；否则回上级/指南
-        menu.addItem(SLOT_BACK, backItem(backOpener == null && !fromList), (pl, s, cursor, action) -> {
-            if (fromList) openProductList(pl, machine, 0, backOpener);
-            else if (backOpener != null) backOpener.run();
-            else JegHook.openGuide(pl);
-            return false;
-        });
-
-        // 翻页（53）：在 cycle 内循环；单配方时为返回键
+        // 返回键只在右下角：多配方时 35 返回 + 53 翻页；单配方时仅 53 返回（避免两个返回按钮）
         if (cycle.length > 1) {
+            menu.addItem(SLOT_BACK, backItem(backOpener == null && !fromList), (pl, s, cursor, action) -> {
+                if (fromList) openProductList(pl, machine, 0, backOpener);
+                else if (backOpener != null) backOpener.run();
+                else JegHook.openGuide(pl);
+                return false;
+            });
+
+            // 翻页（53）：在 cycle 内循环
             ItemStack pageBtn = pageItem("配方 " + (pos + 1) + "/" + cycle.length);
             ItemMeta pm = pageBtn.getItemMeta();
             if (pm != null) {
@@ -249,6 +251,7 @@ public final class BigRecipeMenu {
                 return false;
             });
         } else {
+            // 单配方：53 = 返回键（与多配方页的 35 返回同语义，只保留右下角一个）
             menu.addItem(SLOT_PAGE, backItem(backOpener == null && !fromList), (pl, s, cursor, action) -> {
                 if (fromList) openProductList(pl, machine, 0, backOpener);
                 else if (backOpener != null) backOpener.run();

@@ -54,6 +54,10 @@ public final class Setup {
         // 外观反查索引：所有物品（含 lateInit/机器/多方块）注册完毕后构建一次，供运行期
         // findRegisteredByAppearance 按材质分桶 O(1) 查询，避免放置事件等高频路径全量扫描
         com.haiman233.worldtaste.util.Stacks.buildAppearanceIndex();
+        // 禁用物品配方过滤：物品注册全部结束后按 PDC id 复查机器配方，剔除引用
+        // 未注册（如 brewing.enabled=false 的 preload 幽灵）或已禁用（/sf disable）物品的配方，
+        // 使其不再可合成，也不出现在大配方展示与配方补全界面
+        com.haiman233.worldtaste.machines.WTRecipeMachine.filterDisabledRecipes();
         // R6：所有内容/行为文件加载完毕，释放 Yaml 文件名缓存的解析树（长稳：避免长期持有 ~MB 级解析对象树）。
         // 经核查无 Loader 以字段持久持有 ConfigurationSection，registerListeners 也不再访问 YAML，释放安全。
         Yaml.clearCache();

@@ -8,7 +8,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,16 +31,16 @@ import org.bukkit.inventory.ItemStack;
 /**
  * 作物方块（machines.yml 中 script 为 seed/* 的物品）。
  *
- * <p>生长进度完全采用原版机制：种子放置后由 tick 转为作物材质并归零 age，其后由原版随机刻
- * 自然生长（骨粉催熟同样生效）；成熟与否在破坏时按原版 age 是否满档判定，插件不再按时间
- * 推进生长阶段。</p>
+ * <p>生长进度完全采用原版机制：种子放置终态时同步转为作物材质并归零 age（{@link #onPlaced}），
+ * 其后由原版随机刻自然生长（骨粉催熟同样生效）；成熟与否在破坏时按原版 age 是否满档判定，
+ * 插件不再按时间推进生长阶段。1.9.7 起普通作物<b>完全不参与粘液 tick</b>（零注册 ticker，
+ * 稳定态开销为零）。</p>
  *
  * <p>唯一例外是紫颂花（CHORUS_FLOWER）：原版紫颂只会"移动式"生长——每次生长把原位变成梗、
- * 在新格生成 age+1 的花，原版机制无法让紫颂花原地加龄。故对紫颂作物保留按 growMs 的定时
- * 推进（含成熟标记持久化与内存缓存，区块卸载时兜底清理）。原版随机刻的移动式生长与枯萎
- * 由 {@code CropListener} 在事件源头取消（BlockSpreadEvent / BlockGrowEvent），本类每 8 tick
- * 的上方扫描仅作兜底清理历史遗留，不再承担拦截职责（此前「原版生长 → tick 还原」会造成
- * 视觉闪回与每株两轮的方块更新开销）。</p>
+ * 在新格生成 age+1 的花，原版机制无法让紫颂花原地加龄。故仅紫颂作物保留 BlockTicker 按
+ * growMs 定时推进（含成熟标记持久化与内存缓存，区块卸载时兜底清理）。原版随机刻的移动式
+ * 生长与枯萎由 {@code CropListener} 在事件源头取消（BlockSpreadEvent / BlockGrowEvent）。
+ * 紫颂 tick 内仅做材质守卫（被替换/幽灵登记时跳过推进，交破坏事件清理），不再还原材质。</p>
  */
 public class CropBlock extends SlimefunItem {
 
@@ -108,45 +107,25 @@ public class CropBlock extends SlimefunItem {
         return cfg.material == Material.CHORUS_FLOWER;
     }
 
-    // ===== 逐 tick 开销优化（spark 热点：CraftBlock.getType 占作物 tick 绝大部分） =====
-    /** 新放置的作物位置：放置后首个 tick 立即跑完整 tick，避免降频延迟「种子头 → 作物材质」转换。 */
-    private static final Map<World, Set<Long>> PENDING = new IdentityHashMap<>();
-    /** 兜底守卫的降频周期：800ms ≈ 16 tick（原按毫秒计数取模，实测约 8 tick 命中一次，与注释不符）。 */
-    private static final long GUARD_INTERVAL_MS = 800;
-    /** 降频基准：同一毫秒（≈同一 tick）内所有作物取到相同的判定结果。 */
-    private static long lastSeqMs = -1;
-    private static long guardBucket = -1;
-    private static boolean guardHit;
-
-    private static long posKey(Block b) {
-        return ((long) (b.getX() & 0x3FFFFFF) << 38) | ((long) (b.getZ() & 0x3FFFFFF) << 12) | (b.getY() & 0xFFF);
-    }
-
-    /** 作物放置成功（事件终态）后登记：首个 tick 立即处理。 */
-    public static void markPlaced(Block b) {
-        PENDING.computeIfAbsent(b.getWorld(), w -> new HashSet<>()).add(posKey(b));
-    }
-
-    /** 作物被破坏时清理登记（防止残留条目对空位置跑完整 tick）。 */
-    public static void clearPlaced(Block b) {
-        Set<Long> s = PENDING.get(b.getWorld());
-        if (s != null) s.remove(posKey(b));
-    }
-
+    // ===== tick 退出（1.9.7）：普通作物零 tick，仅紫颂保留 BlockTicker =====
     /**
-     * 兜底守卫是否本 tick 到期：每 {@link #GUARD_INTERVAL_MS}（≈16 tick）内的第一个 tick 命中一次，
-     * 同一毫秒内后续作物的查询直接复用结果（毫秒粒度下等价于 tick 粒度：tick 间隔远大于 1ms）。
+     * 放置终态调用（{@code PlantGuardListener.onPlaceFinalize}，MONITOR 且未被取消时）：
+     * 立即把种子头转为作物材质并归零 age。作物退出粘液 tick 后，转换由放置事件同步完成
+     * （1.9.6 及以前为先登记 PENDING、由首个 tick 转换）。
      */
-    private static boolean guardDue() {
-        long now = System.currentTimeMillis();
-        if (now != lastSeqMs) {
-            lastSeqMs = now;
-            long bucket = now / GUARD_INTERVAL_MS;
-            // 跨入新周期 → 本 tick 命中一次；周期内的其余 tick 全部跳过
-            guardHit = bucket != guardBucket;
-            if (guardHit) guardBucket = bucket;
+    public void onPlaced(Block b) {
+        Material type = b.getType();
+        if (type != Material.PLAYER_HEAD && type != Material.PLAYER_WALL_HEAD) return;
+        if (isChorus()) {
+            // 重置紫颂定时状态（防同位置重放秒熟）
+            Location l = b.getLocation();
+            grown.remove(l);
+            lastUse.remove(l);
+            stage.remove(l);
+            BlockStorage.addBlockInfo(b, KEY_START, null);
+            BlockStorage.addBlockInfo(b, KEY_GROWN, null);
         }
-        return guardHit;
+        setStage(b, 0);
     }
 
     /** 作物方块是否带方向（如 COCOA 需附着在原木侧面）。 */
@@ -178,83 +157,24 @@ public class CropBlock extends SlimefunItem {
     @Override
     public void preRegister() {
         super.preRegister();
+        // 1.9.7 起普通作物不参与粘液 tick：生长=原版随机刻，成熟判定/掉落=破坏事件时读取 age，
+        // 种子头转换=放置终态同步完成（{@link #onPlaced}）。仅紫颂保留 BlockTicker 定时推进生长。
+        if (!isChorus()) return;
         addItemHandler(new BlockTicker() {
             @Override
             public boolean isSynchronized() { return true; }
             @Override
             public void tick(Block b, SlimefunItem item, Config data) {
-                CropBlock.this.tick(b);
+                CropBlock.this.tickChorus(b);
             }
         });
     }
 
-    private void tick(Block b) {
-        if (isChorus()) {
-            // 紫颂：唯一需要定时推进生长的作物，保持逐 tick
-            tickNow(b);
-            return;
-        }
-        if (!PENDING.isEmpty()) {
-            Set<Long> s = PENDING.get(b.getWorld());
-            if (s != null && !s.isEmpty() && s.remove(posKey(b))) {
-                // 刚种下：立即把种子头转为作物材质，不被降频延迟
-                tickNow(b);
-                return;
-            }
-        }
-        // 普通作物的 tick 无玩法逻辑（生长完全交给原版随机刻），只剩「材质被替换时恢复/清理」
-        // 的兜底守卫——降频到每 16 tick（0.8 秒）执行一次即可，稳定态每 tick 的开销趋近于零
-        if (guardDue()) tickNow(b);
-    }
-
-    private void tickNow(Block b) {
-        Material type = b.getType();
-        boolean isSeedHead = (type == Material.PLAYER_HEAD || type == Material.PLAYER_WALL_HEAD);
-        if (type != cfg.material && !isSeedHead) {
-            // 仍登记为我们的作物（玩家未破坏）时，可能是原版机制替换了方块
-            // （如紫颂随机生长/甘蔗物理变化）：恢复作物材质继续生长，避免误注销；
-            // 否则视为被移除（耕地破坏、爆炸、踩踏等），清理状态并注销，
-            // 避免幽灵 tick 把 AIR 设回作物刷原版种子。
-            if (BlockStorage.hasBlockInfo(b)) {
-                // 恢复材质后按周边支撑修正方向性作物的朝向；若在该位置已无法存活
-                //（支撑被移走等），按非玩家破坏处理并清数据，避免复活 → 破坏死循环
-                b.setType(cfg.material);
-                applyFacing(b, null);
-                if (!b.getBlockData().isSupported(b)) {
-                    discardUnsupportable(b);
-                    return;
-                }
-            } else {
-                purge(b.getLocation());
-                BlockStorage.clearBlockInfo(b);
-                return;
-            }
-        }
-        if (isSeedHead) {
-            // 刚种下/重放：转为作物材质并归零 age，其后交给原版随机刻生长
-            if (isChorus()) {
-                // 重置紫颂定时状态（防同位置重放秒熟）
-                Location l = b.getLocation();
-                grown.remove(l);
-                lastUse.remove(l);
-                stage.remove(l);
-                BlockStorage.addBlockInfo(b, KEY_START, null);
-                BlockStorage.addBlockInfo(b, KEY_GROWN, null);
-            }
-            setStage(b, 0);
-            return;
-        }
-        if (isChorus()) {
-            tickChorus(b);
-            return;
-        }
-        // 普通作物：生长完全交给原版随机刻（含骨粉催熟），无 tick 逻辑。
-        // maxAge 低于原版上限的限高作物（如瓜茎）由 CropListener 的 BlockGrowEvent 拦截在
-        // 成熟年龄上，无需 tick 轮询回退生长进度。
-    }
-
     /** 紫颂作物定时生长（原版无法让紫颂花原地加龄，见类注释）。 */
     private void tickChorus(Block b) {
+        // 幽灵/被替换守卫：材质不符时不推进也不还原（1.9.7 起不再有 tick 还原兜底），
+        // 交由破坏事件链路（CropListener）按最终材质判定与清理，避免把 AIR 设回作物刷种子
+        if (b.getType() != cfg.material) return;
         // 原版生长已在 CropListener 事件源头取消（Spread/Grow），tick 无需任何兜底扫描。
         Location l = b.getLocation();
         if (grown.contains(l)) return;
@@ -498,18 +418,6 @@ public class CropBlock extends SlimefunItem {
             lastUse.keySet().removeIf(l -> inChunk(l, w, cx, cz));
             grown.removeIf(l -> inChunk(l, w, cx, cz));
             stage.keySet().removeIf(l -> inChunk(l, w, cx, cz));
-            Set<Long> pend = PENDING.get(w);
-            if (pend != null) {
-                pend.removeIf(k -> inChunkPacked(k, cx, cz));
-                if (pend.isEmpty()) PENDING.remove(w);
-            }
         }
-    }
-
-    /** 打包坐标是否落在指定区块内（区块卸载时清理「新放置」登记）。 */
-    private static boolean inChunkPacked(long k, int cx, int cz) {
-        int x = (int) (((k >>> 38) & 0x3FFFFFF) << 6) >> 6;
-        int z = (int) (((k >>> 12) & 0x3FFFFFF) << 6) >> 6;
-        return (x >> 4) == cx && (z >> 4) == cz;
     }
 }

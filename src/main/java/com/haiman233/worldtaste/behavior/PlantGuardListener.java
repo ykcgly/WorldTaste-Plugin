@@ -135,10 +135,10 @@ public final class PlantGuardListener implements Listener {
         ItemStack item = e.getItemInHand();
         if (item == null || item.getType().isAir()) return;
         SlimefunItem sf = resolve(e, item);
-        if (sf instanceof CropBlock) {
-            // 作物：终态确认放置未被取消后才登记（被取消的位置登记会残留，
-            // 进而对空位置跑一次完整 tick：材质不符 → purge + clearBlockInfo）
-            if (!e.isCancelled()) CropBlock.markPlaced(e.getBlock());
+        if (sf instanceof CropBlock crop) {
+            // 作物：终态确认放置未被取消后，立即把种子头转为作物材质并归零 age
+            //（1.9.7 起作物不参与粘液 tick，转换由放置事件同步完成，不再登记 PENDING 延迟到 tick）
+            if (!e.isCancelled()) crop.onPlaced(e.getBlock());
             return;
         }
         if (!(sf instanceof ConsumableItem)) return;

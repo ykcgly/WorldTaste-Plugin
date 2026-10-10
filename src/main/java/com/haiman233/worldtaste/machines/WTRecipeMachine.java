@@ -3,10 +3,12 @@ package com.haiman233.worldtaste.machines;
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.util.Views;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.inventory.InvUtils;
@@ -47,6 +49,51 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
     private final boolean sfPrune;
     /** 进行中配方（按方块），完成时取此处的 WTRecipe 做概率滚动。 */
     private final Map<org.bukkit.Location, WTRecipe> active = new ConcurrentHashMap<>();
+    /** 全部已注册实例（加载收尾统一剔除引用禁用物品的配方用；含 recipe_machines/linked/workbench/template）。 */
+    private static final List<WTRecipeMachine> INSTANCES = new ArrayList<>();
+
+    /**
+     * 加载收尾调用（{@code Setup.loadAll} 末尾）：剔除引用了「未注册或已禁用」粘液物品的配方。
+     *
+     * <p>根因：{@code brewing.enabled=false} 时 {@code WTConfig.blockItem} 只拦物品本体的注册，
+     * 但其它机器配方以 {@code material_type: slimefun} 引用这些 id 时，{@code Read.resolve} 会走
+     * {@code WT.preload} 兜底包成带 id 的 SlimefunItemStack——配方照常注册、照常可合成、照常出现在
+     * 大配方展示与配方补全里。此处按配方物品的 PDC id 统一复查：id 查不到注册项，或注册项
+     * {@link SlimefunItem#isDisabled()}（覆盖 /sf disable 等运行期禁用）为 true → 整条配方剔除。
+     * 合成匹配、大配方展示、配方补全三处共用 {@link #getRecipes()}，一并失效。</p>
+     *
+     * <p>跨附属缺失引用不经过 preload（解析为占位石头、无 id PDC），不受本过滤影响，行为不变。</p>
+     */
+    public static void filterDisabledRecipes() {
+        int removed = 0, machines = 0;
+        for (WTRecipeMachine m : INSTANCES) {
+            List<WTRecipe> rs = m.recipes;
+            if (rs == null || rs.isEmpty()) continue;
+            machines++;
+            int before = rs.size();
+            rs.removeIf(WTRecipeMachine::referencesDisabledItem);
+            removed += before - rs.size();
+        }
+        if (removed > 0) {
+            WT.log("已剔除 " + removed + " 条引用未注册/禁用物品的机器配方（涉及 " + machines + " 台机器）");
+        }
+    }
+
+    /** 配方的任一输入或输出引用了未注册/已禁用的粘液物品时返回 true（整条配方不可用）。 */
+    private static boolean referencesDisabledItem(WTRecipe r) {
+        for (ItemStack in : r.getInput()) if (isDisabledStack(in)) return true;
+        for (ItemStack out : r.getOutput()) if (isDisabledStack(out)) return true;
+        return false;
+    }
+
+    /** 物品带 slimefun id PDC 但该 id 未注册（ brewing 关闭的 preload 幽灵）或已禁用时返回 true。 */
+    private static boolean isDisabledStack(ItemStack it) {
+        if (it == null || !it.hasItemMeta()) return false;
+        String id = Slimefun.getItemDataService().getItemData(it.getItemMeta()).orElse(null);
+        if (id == null) return false;
+        SlimefunItem sf = SlimefunItem.getById(id);
+        return sf == null || sf.isDisabled();
+    }
 
     public WTRecipeMachine(ItemGroup group, SlimefunItemStack item, RecipeType rt, ItemStack[] recipe,
                            int[] inputSlots, int[] outputSlots, List<WTRecipe> recipes,
@@ -59,6 +106,7 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         this.sfPrune = computeSfPrune(recipes);
         this.menu = menu;
         this.hideAll = hideAll;
+        INSTANCES.add(this);
         // 默认进度条用打火石（可损坏物品）：Slimefun 的 updateProgressbar 会以耐久条 + 进度百分比 + 剩余
         // 时间呈现，比静态玻璃板更醒目（对齐 Slimefun 本体电力机器 ElectricSmeltery 等）。菜单配置的
         // progressbar 物品仍优先（menus.yml 每机器可覆盖）。
