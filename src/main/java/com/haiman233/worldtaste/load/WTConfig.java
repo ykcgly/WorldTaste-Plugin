@@ -63,6 +63,17 @@ public final class WTConfig {
     public static boolean nativeEat = true;
 
     /**
+     * 旧存档食物自动升级开关（food.legacy-upgrade，默认 false）。
+     *
+     * <p>true：1.9.7 之前获取的存量食物（无可食组件）在<b>首次右键</b>时自动补齐
+     * FoodComponent + consumable 组件，此后走正常原版进食。每次右键多一次组件读取检测。</p>
+     *
+     * <p>false（默认）：不做检测——存量食物不能原版进食（非潜行右键地面也只阻止放置），
+     * 潜行仍可正常放置；重新合成/重新获取的新物品不受影响。关表可省去监听内的组件检测开销。</p>
+     */
+    public static boolean legacyUpgrade = false;
+
+    /**
      * 食物放置事件被外部插件否决时是否强制放行（food.ignore-place-veto，默认 true）。
      *
      * <p>实测服内多个附属插件会在 {@code BlockPlaceEvent} 上否决尘世百味的自定义头颅食物，
@@ -105,11 +116,13 @@ public final class WTConfig {
 
         foodIgnorePlaceVeto = y.getBoolean("food.ignore-place-veto", true);
         nativeEat = y.getBoolean("food.native-eat", true);
+        legacyUpgrade = y.getBoolean("food.legacy-upgrade", false);
         debugFood = y.getBoolean("debug.food", false);
 
         WT.plugin.getLogger().info("config.yml: 酿造工艺 " + (brewingEnabled ? "已启用" : "已禁用"));
         WT.plugin.getLogger().info("config.yml: 食物放置外部否决强制放行 " + (foodIgnorePlaceVeto ? "开启" : "关闭"));
         WT.plugin.getLogger().info("config.yml: 食物原版进食机制 " + (nativeEat ? "开启" : "关闭（插件结算）"));
+        WT.plugin.getLogger().info("config.yml: 旧存档食物自动升级 " + (legacyUpgrade ? "开启" : "关闭"));
     }
 
     /** 酿造玩法是否已关闭。 */

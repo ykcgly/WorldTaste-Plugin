@@ -91,13 +91,26 @@ public final class FoodHelper {
         } catch (Throwable t) {
             consumableApi = false;
         }
-        WT.plugin.getLogger().info("FoodHelper: FoodComponent API " + (HAS_FOOD_API ? "可用" : "不可用（<1.20.5）")
-                + "，Paper consumable 组件 API " + (consumableApi ? "可用" : "不可用（食物将无法原版进食动画）"));
     }
 
     /** 已成功写入并读回验证的 consumable 组件数量。 */
     public static int consumableAppliedCount() {
         return consumableApplied;
+    }
+
+    /**
+     * 物品是否已带 consumable 组件（1.21.2+ 可检测；低版本/探测失败一律返回 true——
+     * 1.20.5~1.21.1 仅 FoodComponent 即可食，无需懒升级）。
+     */
+    public static boolean hasConsumable(ItemStack stack) {
+        if (stack == null) return true;
+        probeConsumableApi();
+        if (!consumableApi || hasData == null) return true;
+        try {
+            return Boolean.TRUE.equals(hasData.invoke(stack, consumableType));
+        } catch (Throwable t) {
+            return true;
+        }
     }
 
     /**

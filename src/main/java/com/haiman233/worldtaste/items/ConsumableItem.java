@@ -40,8 +40,10 @@ import org.bukkit.potion.PotionEffectType;
  *   <li>食用的实现由 {@code food.native-eat} 决定：
  *       <b>true</b>（默认，服务端 ≥1.20.5）= 原版进食管线——物品在加载期注入 FoodComponent +
  *       consumable 组件（动画/咀嚼音/时长原生，饮品走 DRINK 动画与饮用音效），本处理器只做
- *       「放置/进食」分流（{@link #nativeEat}）：放行物品使用，仅当原版真会去放置方块时才
- *       DENY 方块使用；脚本效果由 FoodConsumeListener 在 PlayerItemConsumeEvent 补足。
+ *       分流（{@link #nativeEat}）：只有潜行+可放置落点交原版放置，其余一律转进食——指向
+ *       可放置落点的非潜行交互会 DENY 放置（客户端收到失败后自行转对空使用开始进食），指向
+ *       空气/落点不可放置/非方块材质直接放行物品使用；脚本效果由 FoodConsumeListener 在
+ *       PlayerItemConsumeEvent 补足。
  *       <b>false</b> 或低版本 = 插件结算（{@link #eat}）：DENY 原版使用物品后立即扣除并加成，
  *       无进食动画。</li>
  *   <li>offhandTool 使用型物品（吸烟需打火石、雪茄需剪刀）永不放置、永不走原版进食
@@ -83,6 +85,23 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             // 走「分流不代吃」——进食动画/咀嚼音/时长由原版管线承担，脚本效果在
             // PlayerItemConsumeEvent 里补足（FoodConsumeListener）
             if (WTConfig.nativeEat && FoodHelper.hasFoodApi() && opts.offhandTool == null) {
+                // 旧存档物品（1.9.7 前获取）没有可食组件：按 food.legacy-upgrade 开关决定是否
+                // 首次右键懒补齐（默认关闭以省监听开销；关闭时存量食物不可原版进食，潜行可放置）。
+                // 直接改背包中的活引用（而非 e.getItem() 副本），升级随槽位同步回客户端
+                if (WTConfig.legacyUpgrade) {
+                    ItemStack live = hand == EquipmentSlot.OFF_HAND
+                            ? p.getInventory().getItemInOffHand() : p.getInventory().getItemInMainHand();
+                    if (!FoodHelper.hasConsumable(live)) {
+                        boolean drink = "entity.generic.drink".equals(opts.soundKey);
+                        String skey = opts.silent ? "intentionally_empty" : opts.soundKey;
+                        if (drink && skey == null) skey = "entity.generic.drink";
+                        int nut = opts.componentCarriesFood() ? Math.max(0, opts.food.intValue()) : 0;
+                        float sat = (opts.componentCarriesFood() && opts.saturation != null)
+                                ? opts.saturation.floatValue() : 0f;
+                        FoodHelper.applyNativeFood(live, !opts.requireHungry, drink ? "drink" : "eat", skey, 0f, nut, sat);
+                        dbg(p, "旧物品缺少可食组件 → 已懒升级（本次起走原版进食）");
+                    }
+                }
                 nativeEat(e, p, m);
                 return;
             }
@@ -126,16 +145,18 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
 
     /**
      * 原版进食分流（{@code food.native-eat=true} 且服务端支持组件 API）：本方法<b>不代吃</b>，
-     * 只决定本次交互交给谁——
+     * 除下述两个特例外全部交原版，遵循「只有蹲下才能放置」的既定语义——
      * <ul>
-     *   <li>潜行 + 可放置落点 → 零干预（原版放置优先，与旧语义一致）；</li>
-     *   <li>要求饥饿且饱食度已满 → 全 DENY（原版本也不会开始进食，这里兜底防第三方消耗）；</li>
      *   <li>另一只手持有粘液物品 → 拒绝（沿用旧副手校验语义）；</li>
-     *   <li>其余 → 放行物品使用（原版 consumable 组件开始进食动画）。
-     *       仅当「原版这次真的会去放置方块」（非潜行 + 方块材质 + 落点可放置 + 所指方块
-     *       无交互行为）时才 DENY 方块使用，把交互转进 useItem（进食）路径；
-     *       其余情况保留方块标志——手持食物右键箱子/门仍可正常打开（与原版食物一致），
-     *       对无交互的普通方块原版会自动 fall-through 到物品使用。</li>
+     *   <li>要求饥饿且饱食度已满 → 全 DENY（原版本也不会开始进食，这里兜底防第三方消耗）；</li>
+     *   <li>方块材质 + 可放置落点：
+     *       <b>潜行 → 零干预</b>（原版放置优先，落点/朝向/贴图/音效/扣减全走原版管线）；
+     *       <b>非潜行 → DENY 方块/物品阻止放置</b>——客户端收到放置失败后会自行转
+     *       「对空使用」并在本地开始原版进食，服务端无需强制（曾尝试反射
+     *       {@code gameMode.useItem} 模拟对空使用，实测为多余环节且反射易碎，已移除）。</li>
+     *   <li>其余（指向空气、落点不可放置、非方块材质如饮品/肉类）→ 放行物品使用，
+     *       由原版 consumable 组件开始进食；指向无交互的普通方块且落点不可放置时，
+     *       原版会自动 fall-through 到物品使用，同样进食。</li>
      * </ul>
      */
     private void nativeEat(PlayerRightClickEvent e, Player p, Material m) {
@@ -149,15 +170,6 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             e.setUseItem(Event.Result.DENY);
             return;
         }
-        // 潜行 + 可放置落点 = 放置意图：零干预交还原版放置
-        if (p.isSneaking() && m.isBlock() && !m.isAir()) {
-            String target = placementTargetDesc(e, m);
-            if (target != null) {
-                dbg(p, (mainHand ? "主手" : "副手") + "潜行+可放置落点(" + m + " → " + target
-                        + ") → 零干预，交还原版放置");
-                return;
-            }
-        }
         if (opts.requireHungry && p.getFoodLevel() >= 20) {
             // 原版本不会开始进食（canAlwaysEat=false）；全 DENY 兜底防第三方消耗路径
             dbg(p, "饱食度已满且要求饥饿 → 不食用、不消耗（并取消底层交互）");
@@ -165,21 +177,26 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             e.getInteractEvent().setCancelled(true);
             return;
         }
-        // 放行物品使用 → 原版 consumable 组件开始进食（动画/音效/时长原生）
-        e.setUseItem(Event.Result.ALLOW);
-        if (!p.isSneaking() && m.isBlock() && !m.isAir() && placementTargetDesc(e, m) != null) {
-            Block clicked = e.getClickedBlock().orElse(null);
-            if (clicked != null && !clicked.getType().isInteractable()) {
-                // 原版会优先走放置：DENY 方块阻止实际放置（客户端预测只闪一下，属客户端行为）。
-                // 注意 CraftBukkit 在 DENY 方块后会提前返回、不继续 useItem 路径——
-                // 故需主动模拟一次「对空使用」让服务端进入原版进食（ServerInteract 特征探测）
+        // 原版放置优先，但「只有蹲下才能放置」：非潜行指向可放置落点 → 阻止放置并转进食
+        if (m.isBlock() && !m.isAir()) {
+            String target = placementTargetDesc(e, m);
+            if (target != null) {
+                if (p.isSneaking()) {
+                    dbg(p, (mainHand ? "主手" : "副手") + "潜行+可放置落点(" + m + " → " + target
+                            + ") → 零干预，交还原版放置");
+                    return;
+                }
+                // 非潜行：DENY 方块+物品阻止放置。客户端收到放置失败后会自行转「对空使用」
+                // 并在本地开始原版进食（无需服务端强制；实测 ServerInteract 模拟对空为多余
+                // 环节且反射易碎，已移除）
                 e.setUseBlock(Event.Result.DENY);
-                boolean forced = com.haiman233.worldtaste.util.ServerInteract.forceAirUse(p, e.getHand());
-                dbg(p, "落点可放置(" + m + ") → DENY 方块 + " + (forced ? "模拟对空使用" : "（模拟失败）")
-                        + " → 原版进食");
+                e.setUseItem(Event.Result.DENY);
+                dbg(p, "落点可放置(" + m + " → " + target + ") → DENY 放置，客户端自行转原版进食");
                 return;
             }
         }
+        // 放行物品使用 → 原版 consumable 组件开始进食（动画/音效/时长原生）
+        e.setUseItem(Event.Result.ALLOW);
         dbg(p, "→ 放行物品使用，交原版进食管线");
     }
 
