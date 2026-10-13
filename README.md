@@ -48,7 +48,7 @@ jar版本依然保留了原版rsc的yml配置文件，可以将jar后缀改为zi
 
 ```bash
 ./gradlew build
-# 产物：build/libs/WorldTaste-1.9.7-standalone.jar
+# 产物：build/libs/WorldTaste-1.9.8-standalone.jar
 ```
 
 1. 将构建出的 jar放入服务器的 `plugins/` 目录。
@@ -62,7 +62,7 @@ jar版本依然保留了原版rsc的yml配置文件，可以将jar后缀改为zi
 - **钓鱼**：百味钓竿搭配 5 种鱼饵，按权重掉落各类鱼产。
 - **屠宰**：为各类生物添加对应的肉与食材掉落。
 - **其他**：厨房装饰，以及愚人节 / 无尽贪婪等主题餐饮。
-- **酒精度联动**：与异域花园（ExoticGarden·复合花园）联动，全部酒类饮品标注酒精度，饮用后累积到异域花园的酒精系统（50 半醉提示、100 醉酒胡言乱语，随时间缓慢醒酒）。未安装异域花园时仅展示数值，不影响游戏。
+- **酒精度联动**：与异域花园（ExoticGarden·复合花园）联动，全部酒类饮品标注酒精度，饮用后累积到异域花园的酒精系统。
 - **酿造工艺**：新增主题餐饮--酿造工艺：配方在 juicer.yml 中定义。**默认开启**，如需关闭可在 config.yml 中将 brewing.enabled 设为 false。
 
 ## 全局配置（config.yml）

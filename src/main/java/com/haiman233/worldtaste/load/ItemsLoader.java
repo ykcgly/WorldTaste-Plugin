@@ -139,6 +139,36 @@ public final class ItemsLoader {
         }
 
         SlimefunItemStack sfis = new SlimefunItemStack(effId, display);
+        // 原版进食模式（food.native-eat，服务端 ≥1.20.5）：use 型脚本中「非 offhandTool 工具、
+        // 非能量物品」的食物 → 注入 FoodComponent + consumable 组件（动画/音效，1.21.2+），
+        // 右键交原版进食管线。offhandTool 使用型（yan/xuejia）与能量电池蛋糕保持纯插件逻辑。
+        // 饥饿/饱和恢复优先写进组件（简单数值型），原版进食一步恢复、consume 事件不再重复结算；
+        // foodSet/randomFood 等设定值组件表达不了 → 组件 0，由 consume 事件补足。
+        // 直接写在 SlimefunItemStack 上（register 前未锁定，setData/editMeta 均合法）。
+        if (WTConfig.nativeEat && FoodHelper.hasFoodApi() && spec.energyCapacity == null) {
+            com.haiman233.worldtaste.behavior.Behaviors.ConsumableOpts copts =
+                    spec.script != null ? com.haiman233.worldtaste.behavior.Behaviors.consumables.get(spec.script) : null;
+            if (copts != null && copts.use && copts.offhandTool == null) {
+                // 饮用判定：脚本音效为 entity.generic.drink（yl/tang/jiu/yangqiguan 等）→ DRINK 动画
+                boolean drink = "entity.generic.drink".equals(copts.soundKey);
+                String skey = copts.silent ? "intentionally_empty" : copts.soundKey;
+                if (drink && skey == null) skey = "entity.generic.drink"; // 原版饮用音效兜底
+                int nut = 0;
+                float sat = 0f;
+                if (copts.componentCarriesFood()) {
+                    nut = Math.max(0, copts.food.intValue());
+                    // 组件化时代（1.20.5+）food 组件的 saturation 字段 = 直接恢复量（非旧版修饰符），
+                    // 与旧 setSaturation 语义一致，直接写入即可（上限仍受当前饥饿值约束）
+                    if (copts.saturation != null && nut > 0) {
+                        sat = copts.saturation.floatValue();
+                    }
+                }
+                FoodHelper.applyNativeFood(sfis, !copts.requireHungry,
+                        drink ? "drink" : "eat", skey,
+                        (float) s.getDouble("eatseconds", s.getDouble("eat_seconds", 0)),
+                        nut, sat);
+            }
+        }
         // 展示覆盖（mob_drops：自定义掉落类型 + 居中生物刷怪蛋；覆盖为 null 时沿用 yml 原解析）
         RecipeType rt = recipeTypeOverride != null
                 ? recipeTypeOverride : RecipeTypes.resolve(s.getString("recipe_type", "NULL"));

@@ -49,6 +49,20 @@ public final class WTConfig {
     public static String disabledSuffix = "&r&c&l已禁用";
 
     /**
+     * 原版进食机制总开关（food.native-eat，默认 true）。
+     *
+     * <p>true：食物右键交由原版进食管线（进食/饮用动画、咀嚼音、时长原生；「要求饥饿」
+     * 由原版天然保证），脚本效果在 {@code PlayerItemConsumeEvent} 补足。物品注入
+     * FoodComponent + consumable 组件（1.21.2+，含饮品 DRINK 动画），
+     * {@link com.haiman233.worldtaste.items.ConsumableItem} 处理器只做「放置/进食」分流。
+     * 服务端低于 1.20.5（无组件 API）时自动回退旧逻辑，无需改配置。</p>
+     *
+     * <p>false：保持旧的插件结算逻辑（右键瞬间完成食用，无进食动画），且不给物品注入
+     * 可食组件（维持其不可被原版白吃的旧行为）。</p>
+     */
+    public static boolean nativeEat = true;
+
+    /**
      * 食物放置事件被外部插件否决时是否强制放行（food.ignore-place-veto，默认 true）。
      *
      * <p>实测服内多个附属插件会在 {@code BlockPlaceEvent} 上否决尘世百味的自定义头颅食物，
@@ -90,10 +104,12 @@ public final class WTConfig {
         if (disabledSuffix == null) disabledSuffix = "";
 
         foodIgnorePlaceVeto = y.getBoolean("food.ignore-place-veto", true);
+        nativeEat = y.getBoolean("food.native-eat", true);
         debugFood = y.getBoolean("debug.food", false);
 
         WT.plugin.getLogger().info("config.yml: 酿造工艺 " + (brewingEnabled ? "已启用" : "已禁用"));
         WT.plugin.getLogger().info("config.yml: 食物放置外部否决强制放行 " + (foodIgnorePlaceVeto ? "开启" : "关闭"));
+        WT.plugin.getLogger().info("config.yml: 食物原版进食机制 " + (nativeEat ? "开启" : "关闭（插件结算）"));
     }
 
     /** 酿造玩法是否已关闭。 */

@@ -4,6 +4,7 @@ import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.behavior.Behaviors.ConsumableOpts;
 import com.haiman233.worldtaste.behavior.Behaviors.Potion;
 import com.haiman233.worldtaste.hook.ExoticGardenHook;
+import com.haiman233.worldtaste.load.FoodHelper;
 import com.haiman233.worldtaste.load.WTConfig;
 import com.haiman233.worldtaste.util.Stacks;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
@@ -33,19 +34,18 @@ import org.bukkit.potion.PotionEffectType;
  *
  * <p>右键语义（恢复「右键=吃 / 潜行=放」，放置交给原版管线，插件不重实现）：
  * <ul>
- *   <li>右键（非潜行，无论指向哪里） = <b>食用</b>：DENY 原版「使用物品」（阻止原版放置与
- *       原版白吃）后自行执行食用逻辑；饱食度已满且要求饥饿时同样 DENY 但<b>不消耗</b>。</li>
- *   <li>潜行右键 + 方块材质（头颅类等）+ 存在可放置落点 = <b>放置</b>：本处理器<b>什么都不做</b>，
- *       落点、朝向、方块数据（含头颅贴图）、替换判定（草丛/水/雪层等）、放置音效、数量扣减
- *       全部由服务端自己的逻辑完成，手感与原版完全一致；
- *       粘液数据在 {@link com.haiman233.worldtaste.behavior.PlantGuardListener} 的
- *       {@code BlockPlaceEvent} 里登记，挖掘时仍掉落带数据的物品。
- *       教训：曾在这里自己用 {@code setType} 摆方块，结果漏了头颅贴图（变默认玩家头）、
- *       可替换判定错（顶层雪上悬空）、放置音重复——绝不再自写放置。</li>
- *   <li>潜行右键但无可放置落点（对着空气），或材质没有方块形态（饮品 POTION、COOKED_MUTTON
- *       肉类等）= <b>食用</b>（不存在"放置"这件事，潜行不应造成白消耗）。<br>
- *       例外：配置了 {@code offhandTool} 的使用型物品（吸烟需打火石、雪茄需剪刀）永不放置——
- *       它们存在就是为了「用」，摆成方块没有意义。</li>
+ *   <li>右键（非潜行，无论指向哪里） = <b>食用</b>；潜行右键 + 方块材质（头颅类等）+ 存在可放置
+ *       落点 = <b>放置</b>（零干预交还原版管线）；潜行但无可放置落点（对着空气），或材质没有
+ *       方块形态（饮品 POTION、COOKED_MUTTON 肉类等）= <b>食用</b>。</li>
+ *   <li>食用的实现由 {@code food.native-eat} 决定：
+ *       <b>true</b>（默认，服务端 ≥1.20.5）= 原版进食管线——物品在加载期注入 FoodComponent +
+ *       consumable 组件（动画/咀嚼音/时长原生，饮品走 DRINK 动画与饮用音效），本处理器只做
+ *       「放置/进食」分流（{@link #nativeEat}）：放行物品使用，仅当原版真会去放置方块时才
+ *       DENY 方块使用；脚本效果由 FoodConsumeListener 在 PlayerItemConsumeEvent 补足。
+ *       <b>false</b> 或低版本 = 插件结算（{@link #eat}）：DENY 原版使用物品后立即扣除并加成，
+ *       无进食动画。</li>
+ *   <li>offhandTool 使用型物品（吸烟需打火石、雪茄需剪刀）永不放置、永不走原版进食
+ *       （不注入可食组件），保持插件使用逻辑。</li>
  * </ul>
  */
 public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
@@ -55,6 +55,11 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
     public ConsumableItem(ItemGroup group, SlimefunItemStack item, RecipeType rt, ItemStack[] recipe, ConsumableOpts opts) {
         super(group, item, rt, recipe);
         this.opts = opts;
+    }
+
+    /** 本食物的消耗参数（供 {@link com.haiman233.worldtaste.behavior.FoodConsumeListener} 在原版进食后补效果）。 */
+    public ConsumableOpts opts() {
+        return opts;
     }
 
     @Override
@@ -71,9 +76,18 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
                 dbg(p, "主手也持有食物 → 副手分发跳过（主手优先，防双份食用）");
                 return;
             }
-            PlayerInventory inv = p.getInventory();
             ItemStack held = e.getItem();
             Material m = held == null ? Material.AIR : held.getType();
+
+            // 原版进食模式（food.native-eat，服务端 ≥1.20.5）：食物类（非 offhandTool 使用工具）
+            // 走「分流不代吃」——进食动画/咀嚼音/时长由原版管线承担，脚本效果在
+            // PlayerItemConsumeEvent 里补足（FoodConsumeListener）
+            if (WTConfig.nativeEat && FoodHelper.hasFoodApi() && opts.offhandTool == null) {
+                nativeEat(e, p, m);
+                return;
+            }
+
+            PlayerInventory inv = p.getInventory();
 
             // 潜行 + 方块材质 + 无需副手工具 + 存在可放置落点 = 放置意图：零干预交还原版
             // （不对事件做任何修改，Slimefun 把原样的 useItem/useBlock 写回，服务端走自己的放置流程，
@@ -108,6 +122,65 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             e.setUseItem(Event.Result.DENY);
             eat(p, hand);
         };
+    }
+
+    /**
+     * 原版进食分流（{@code food.native-eat=true} 且服务端支持组件 API）：本方法<b>不代吃</b>，
+     * 只决定本次交互交给谁——
+     * <ul>
+     *   <li>潜行 + 可放置落点 → 零干预（原版放置优先，与旧语义一致）；</li>
+     *   <li>要求饥饿且饱食度已满 → 全 DENY（原版本也不会开始进食，这里兜底防第三方消耗）；</li>
+     *   <li>另一只手持有粘液物品 → 拒绝（沿用旧副手校验语义）；</li>
+     *   <li>其余 → 放行物品使用（原版 consumable 组件开始进食动画）。
+     *       仅当「原版这次真的会去放置方块」（非潜行 + 方块材质 + 落点可放置 + 所指方块
+     *       无交互行为）时才 DENY 方块使用，把交互转进 useItem（进食）路径；
+     *       其余情况保留方块标志——手持食物右键箱子/门仍可正常打开（与原版食物一致），
+     *       对无交互的普通方块原版会自动 fall-through 到物品使用。</li>
+     * </ul>
+     */
+    private void nativeEat(PlayerRightClickEvent e, Player p, Material m) {
+        // 另一只手校验（与旧 eat() 语义一致；offhandTool 工具不进本分支）
+        PlayerInventory inv = p.getInventory();
+        boolean mainHand = e.getHand() == EquipmentSlot.HAND;
+        ItemStack other = mainHand ? inv.getItemInOffHand() : inv.getItemInMainHand();
+        if (other != null && SlimefunItem.getByItem(other) != null) {
+            dbg(p, "另一手持有粘液物品 → 拒绝食用");
+            p.sendMessage("您必须空出另一只手进食且" + (mainHand ? "副手" : "主手") + "不能持有粘液科技物品！");
+            e.setUseItem(Event.Result.DENY);
+            return;
+        }
+        // 潜行 + 可放置落点 = 放置意图：零干预交还原版放置
+        if (p.isSneaking() && m.isBlock() && !m.isAir()) {
+            String target = placementTargetDesc(e, m);
+            if (target != null) {
+                dbg(p, (mainHand ? "主手" : "副手") + "潜行+可放置落点(" + m + " → " + target
+                        + ") → 零干预，交还原版放置");
+                return;
+            }
+        }
+        if (opts.requireHungry && p.getFoodLevel() >= 20) {
+            // 原版本不会开始进食（canAlwaysEat=false）；全 DENY 兜底防第三方消耗路径
+            dbg(p, "饱食度已满且要求饥饿 → 不食用、不消耗（并取消底层交互）");
+            e.setUseItem(Event.Result.DENY);
+            e.getInteractEvent().setCancelled(true);
+            return;
+        }
+        // 放行物品使用 → 原版 consumable 组件开始进食（动画/音效/时长原生）
+        e.setUseItem(Event.Result.ALLOW);
+        if (!p.isSneaking() && m.isBlock() && !m.isAir() && placementTargetDesc(e, m) != null) {
+            Block clicked = e.getClickedBlock().orElse(null);
+            if (clicked != null && !clicked.getType().isInteractable()) {
+                // 原版会优先走放置：DENY 方块阻止实际放置（客户端预测只闪一下，属客户端行为）。
+                // 注意 CraftBukkit 在 DENY 方块后会提前返回、不继续 useItem 路径——
+                // 故需主动模拟一次「对空使用」让服务端进入原版进食（ServerInteract 特征探测）
+                e.setUseBlock(Event.Result.DENY);
+                boolean forced = com.haiman233.worldtaste.util.ServerInteract.forceAirUse(p, e.getHand());
+                dbg(p, "落点可放置(" + m + ") → DENY 方块 + " + (forced ? "模拟对空使用" : "（模拟失败）")
+                        + " → 原版进食");
+                return;
+            }
+        }
+        dbg(p, "→ 放行物品使用，交原版进食管线");
     }
 
     /**
@@ -175,12 +248,33 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             }
         }
 
-        int food = opts.randomFood != null ? (ThreadLocalRandom.current().nextInt(opts.randomFood) + 1)
-                : (opts.food != null ? opts.food.intValue() : 0);
-        if (opts.foodSet != null) p.setFoodLevel(opts.foodSet);
-        else if (food > 0) p.setFoodLevel(p.getFoodLevel() + food);
-        if (opts.saturationSet != null) p.setSaturation(opts.saturationSet);
-        else if (opts.saturation != null) p.setSaturation((float) (p.getSaturation() + opts.saturation));
+        applyConsumeEffects(p, opts, getId(), false);
+
+        // 音效：silent=不播；自定义 sound（喝汤播喝音/香烟打火石音等）；默认吃音效
+        if (!opts.silent) {
+            p.getWorld().playSound(p.getLocation(),
+                    opts.sound != null ? opts.sound : Sound.ENTITY_STRIDER_EAT, 1f, 1f);
+        }
+    }
+
+    /**
+     * 应用消耗效果：饥饿/饱和/消耗/空气/冻结/游戏模式/药水/异域花园联动/提示。
+     * 由旧路径 {@link #eat}（消耗物品后）与原版进食路径
+     * （{@link com.haiman233.worldtaste.behavior.FoodConsumeListener}，物品已由原版消耗）共用。
+     * 不含音效：旧路径由调用方按配置播放；原版路径由 consumable 组件动画音效承担。
+     *
+     * @param skipVanillaRestored true = 饥饿/饱和已由 FoodComponent 在原版进食时恢复
+     *                            （简单数值型食物），跳过这两项防止双重恢复
+     */
+    public static void applyConsumeEffects(Player p, ConsumableOpts opts, String itemId, boolean skipVanillaRestored) {
+        if (!skipVanillaRestored) {
+            int food = opts.randomFood != null ? (ThreadLocalRandom.current().nextInt(opts.randomFood) + 1)
+                    : (opts.food != null ? opts.food.intValue() : 0);
+            if (opts.foodSet != null) p.setFoodLevel(opts.foodSet);
+            else if (food > 0) p.setFoodLevel(p.getFoodLevel() + food);
+            if (opts.saturationSet != null) p.setSaturation(opts.saturationSet);
+            else if (opts.saturation != null) p.setSaturation((float) (p.getSaturation() + opts.saturation));
+        }
         if (opts.exhaustion != null) p.setExhaustion((float) (p.getExhaustion() - opts.exhaustion));
         if (opts.exhaustionSet != null) p.setExhaustion(opts.exhaustionSet.floatValue());
         if (opts.absorption != null) p.setAbsorptionAmount(opts.absorption);
@@ -203,13 +297,8 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
         }
 
         // 异域花园联动：酒类饮品（items.yml alcohol 字段）饮用后累加其酒精度
-        ExoticGardenHook.onDrink(p, this.getId());
+        ExoticGardenHook.onDrink(p, itemId);
 
         if (opts.message != null) p.sendMessage(opts.message);
-        // 音效：silent=不播；自定义 sound（喝汤播喝音/香烟打火石音等）；默认吃音效
-        if (!opts.silent) {
-            p.getWorld().playSound(p.getLocation(),
-                    opts.sound != null ? opts.sound : Sound.ENTITY_STRIDER_EAT, 1f, 1f);
-        }
     }
 }

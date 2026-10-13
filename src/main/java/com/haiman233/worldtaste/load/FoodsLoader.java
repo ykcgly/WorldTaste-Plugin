@@ -40,6 +40,19 @@ public final class FoodsLoader {
                 boolean foodOk = FoodHelper.apply(display, s.getInt("nutrition", 0), (float) s.getDouble("saturation", 0),
                         s.getBoolean("always_eatable", false), eatSeconds);
                 if (!foodOk) foodFail++;
+                // 原版进食模式：显式注入 consumable 组件，覆盖 Paper 自动补的默认（保证动画/音效正确）——
+                // 饮品（POTION 材质或脚本音效为 entity.generic.drink）走原版 DRINK 动画 + 饮用音效；
+                // 可选 consume-animation 字段显式指定（eat/drink），优先级最高。
+                if (WTConfig.nativeEat) {
+                    String anim = s.getString("consume-animation",
+                            display.getType() == org.bukkit.Material.POTION ? "drink" : "eat");
+                    String script0 = s.getString("script");
+                    com.haiman233.worldtaste.behavior.Behaviors.ConsumableOpts opts0 = script0 != null
+                            ? com.haiman233.worldtaste.behavior.Behaviors.consumables.get(script0.trim()) : null;
+                    String skey = opts0 != null ? (opts0.silent ? "intentionally_empty" : opts0.soundKey) : null;
+                    if ("drink".equals(anim) && skey == null) skey = "entity.generic.drink";
+                    FoodHelper.applyConsumable(display, eatSeconds, anim, skey);
+                }
 
                 SlimefunItemStack sfis = new SlimefunItemStack(effId, display);
                 RecipeType rt = RecipeTypes.resolve(s.getString("recipe_type", "NULL"));

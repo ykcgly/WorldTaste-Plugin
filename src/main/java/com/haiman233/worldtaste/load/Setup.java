@@ -58,6 +58,12 @@ public final class Setup {
         // 未注册（如 brewing.enabled=false 的 preload 幽灵）或已禁用（/sf disable）物品的配方，
         // 使其不再可合成，也不出现在大配方展示与配方补全界面
         com.haiman233.worldtaste.machines.WTRecipeMachine.filterDisabledRecipes();
+        // 原版进食模式：注入统计（0 个 = consumable 组件 API 不可用或全部写入失败，需按上方日志排查）
+        if (WTConfig.nativeEat) {
+            WT.plugin.getLogger().info("原版进食模式：已为 "
+                    + com.haiman233.worldtaste.load.FoodHelper.consumableAppliedCount()
+                    + " 个食物注入 consumable 组件");
+        }
         // R6：所有内容/行为文件加载完毕，释放 Yaml 文件名缓存的解析树（长稳：避免长期持有 ~MB 级解析对象树）。
         // 经核查无 Loader 以字段持久持有 ConfigurationSection，registerListeners 也不再访问 YAML，释放安全。
         Yaml.clearCache();

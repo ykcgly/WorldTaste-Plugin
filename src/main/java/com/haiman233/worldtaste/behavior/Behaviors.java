@@ -109,6 +109,7 @@ public final class Behaviors {
                     o.silent = true;
                 } else {
                     o.sound = resolveSound(snd, name);
+                    o.soundKey = snd.trim().toLowerCase(java.util.Locale.ROOT);
                 }
             }
             consumables.put(name, o);
@@ -223,6 +224,19 @@ public final class Behaviors {
         public Sound sound;
         /** sound=NONE：完全不播放音效。 */
         public boolean silent;
+        /** 原始音效资源键（如 entity.generic.drink，NONE 已剔除）：原版进食模式下判定饮用动画
+         *  （sound=entity.generic.drink → DRINK）与注入 consumable 组件音效用。 */
+        public String soundKey;
+
+        /**
+         * 原版进食模式下，饥饿/饱和恢复能否完全由 FoodComponent 承担：
+         * 仅当脚本是「简单数值型」（有 food、且无 foodSet/randomFood 这类组件表达不了的设定值）。
+         * true 时组件直接写入 nutrition/saturation，consume 事件不再重复结算这两项；
+         * false 时组件 nutrition=0，恢复由 consume 事件的脚本 opts 提供。
+         */
+        public boolean componentCarriesFood() {
+            return food != null && foodSet == null && randomFood == null;
+        }
     }
 
     public static final class Potion {
