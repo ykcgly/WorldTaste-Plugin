@@ -1,21 +1,22 @@
 package com.haiman233.worldtaste.load;
 
 import com.haiman233.worldtaste.WT;
+import com.haiman233.worldtaste.compat.Compat;
 import java.lang.reflect.Method;
-import java.util.Locale;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.components.FoodComponent;
 
 /**
- * 给食物物品应用 Paper FoodComponent（nutrition/saturation/canAlwaysEat/eatSeconds）。
- * 通过 {@link org.bukkit.inventory.meta.ItemMeta#getFood()} 获取组件（无组件时自动创建空实例），
- * 修改后 {@code setFood} 应用；eatSeconds 通过反射调用（Paper 1.21.6+ 支持）。
+ * 给食物物品应用 FoodComponent / consumable 组件（原版进食模式的数据层）。
  *
- * <p>原版进食模式（food.native-eat）另需 consumable 组件（1.21.2+ 才有；决定动画/音效/时长）。
- * Paper 1.21.2+ 的 Bukkit {@code ItemMeta} 无 consumable 方法，须走 Paper DataComponent API
- * （{@code ItemStack.setData(DataComponentTypes.CONSUMABLE, Consumable.consumable()…)}），
- * 全部经反射调用（类名只以字符串出现，低版本服务端不会 NoClassDefFoundError）。
- * 1.20.5~1.21.1 仅 FoodComponent：可食性成立（food 组件本身可食），但动画/音效固定为默认。</p>
+ * <p>两层职责：</p>
+ * <ul>
+ *   <li><b>FoodComponent</b>（1.20.5+，直接 API）：nutrition/saturation/canAlwaysEat，
+ *       由 {@link #apply} 应用——1.21.2 起可食性由 consumable 组件决定，本组件只承载恢复数值；</li>
+ *   <li><b>consumable 组件</b>（1.21.2+）：动画/音效/食用时长，版本差异经
+ *       {@link Compat#food()} 路由到 {@code compat.legacy}（反射）/ {@code compat.modern}
+ *       （直调）子包实现，本类不再持有任何反射代码。</li>
+ * </ul>
  */
 public final class FoodHelper {
 
@@ -27,6 +28,8 @@ public final class FoodHelper {
      */
     private static final boolean HAS_FOOD_API = detectFoodApi();
     private static boolean lowVersionLogged = false;
+    /** 已成功写入的 consumable 组件计数（Setup.loadAll 末尾汇总输出）。 */
+    private static int consumableApplied;
 
     private static boolean detectFoodApi() {
         try {
@@ -42,80 +45,29 @@ public final class FoodHelper {
         return HAS_FOOD_API;
     }
 
-    // ===== Paper 1.21.2+ consumable 组件（反射特征探测） =====
-    private static boolean consumableProbed;
-    private static boolean consumableApi;
-    private static Object consumableType;        // DataComponentTypes.CONSUMABLE
-    private static Method consumableFactory;     // Consumable.consumable()
-    private static Method bSeconds, bAnimation, bSound;   // Builder 方法
-    private static Class<?> animationCls;        // ItemUseAnimation（枚举）
-    private static Method setData;               // ItemStack.setData(Valued, DataComponentBuilder)
-    private static Method hasData;               // ItemStack.hasData(DataComponentType)
-    private static Method keyOf;                 // Key.key(String namespace, String value)
-    /** 已成功写入并读回验证的 consumable 组件计数（加载期统计，启动日志用）。 */
-    private static int consumableApplied;
-
-    private static void probeConsumableApi() {
-        if (consumableProbed) return;
-        consumableProbed = true;
-        try {
-            Class<?> dct = Class.forName("io.papermc.paper.datacomponent.DataComponentTypes");
-            consumableType = dct.getField("CONSUMABLE").get(null);
-            Class<?> consumableCls = Class.forName("io.papermc.paper.datacomponent.item.Consumable");
-            consumableFactory = consumableCls.getMethod("consumable");
-            Class<?> builderCls = consumableFactory.getReturnType();
-            bSeconds = builderCls.getMethod("consumeSeconds", float.class);
-            animationCls = Class.forName("io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation");
-            bAnimation = builderCls.getMethod("animation", animationCls);
-            bSound = builderCls.getMethod("sound", Class.forName("net.kyori.adventure.key.Key"));
-            Class<?> valuedCls = Class.forName("io.papermc.paper.datacomponent.DataComponentType$Valued");
-            Class<?> builderIface = Class.forName("io.papermc.paper.datacomponent.DataComponentBuilder");
-            Class<?> typeCls = Class.forName("io.papermc.paper.datacomponent.DataComponentType");
-            for (Method m : ItemStack.class.getMethods()) {
-                if (m.getName().equals("setData") && m.getParameterCount() == 2
-                        && m.getParameterTypes()[0] == valuedCls
-                        && m.getParameterTypes()[1] == builderIface) {
-                    setData = m;
-                    break;
-                }
-            }
-            for (Method m : ItemStack.class.getMethods()) {
-                if (m.getName().equals("hasData") && m.getParameterCount() == 1
-                        && m.getParameterTypes()[0] == typeCls) {
-                    hasData = m;
-                    break;
-                }
-            }
-            keyOf = Class.forName("net.kyori.adventure.key.Key").getMethod("key", String.class, String.class);
-            consumableApi = setData != null;
-        } catch (Throwable t) {
-            consumableApi = false;
-        }
-    }
-
-    /** 已成功写入并读回验证的 consumable 组件数量。 */
+    /** 已成功写入的 consumable 组件数量。 */
     public static int consumableAppliedCount() {
         return consumableApplied;
     }
 
-    /**
-     * 物品是否已带 consumable 组件（1.21.2+ 可检测；低版本/探测失败一律返回 true——
-     * 1.20.5~1.21.1 仅 FoodComponent 即可食，无需懒升级）。
-     */
+    /** 物品是否已带 consumable 组件（legacy 版本段恒 true——FoodComponent 本身即可食）。 */
     public static boolean hasConsumable(ItemStack stack) {
-        if (stack == null) return true;
-        probeConsumableApi();
-        if (!consumableApi || hasData == null) return true;
-        try {
-            return Boolean.TRUE.equals(hasData.invoke(stack, consumableType));
-        } catch (Throwable t) {
-            return true;
+        return Compat.food().hasConsumable(stack);
+    }
+
+    /** 注入 consumable 组件（动画/音效/食用时长；经 compat 路由，legacy 下为静默空操作）。 */
+    public static void applyConsumable(ItemStack stack, float consumeSeconds, String animation, String soundKey) {
+        if (stack == null) return;
+        Compat.food().applyConsumable(stack, consumeSeconds, animation, soundKey);
+        if (hasConsumable(stack)) {
+            consumableApplied++;
+        } else {
+            WT.log("Consumable 组件写入验证失败（写入后读回为空）");
         }
     }
 
     /**
-     * 原版进食物品注入（items.yml 脚本食物用）：FoodComponent + 1.21.2+ 的 consumable 组件
-     * （动画/音效）。
+     * 原版进食物品注入（items.yml 脚本食物用）：FoodComponent + consumable 组件（动画/音效）。
      *
      * <p>nutrition/saturation 直接承载脚本的饥饿/饱和恢复值。注意组件化时代（1.20.5 起）food
      * 组件的 {@code saturation} 字段是<b>直接恢复量</b>（1.20.5 Pre-Release 1 由
@@ -134,38 +86,6 @@ public final class FoodHelper {
                                        int nutrition, float saturation) {
         apply(stack, nutrition, saturation, canAlwaysEat, eatSeconds, false);
         applyConsumable(stack, eatSeconds, animation, soundKey);
-    }
-
-    /**
-     * 注入 consumable 组件（动画/音效/食用时长）。仅 1.21.2+ 生效；更低版本静默跳过
-     * （FoodComponent 已保证可食，动画/音效为服务端默认）。
-     *
-     * @param animation    "eat" 或 "drink"（饮品走原版饮用动作与音效）
-     * @param soundKey     音效资源键（null=不覆盖，用组件默认音效）
-     */
-    public static void applyConsumable(ItemStack stack, float consumeSeconds, String animation, String soundKey) {
-        if (stack == null) return;
-        probeConsumableApi();
-        if (!consumableApi) return;
-        try {
-            Object builder = consumableFactory.invoke(null);
-            if (consumeSeconds > 0) bSeconds.invoke(builder, consumeSeconds);
-            @SuppressWarnings({"unchecked", "rawtypes"})
-            Object anim = Enum.valueOf((Class<? extends Enum>) animationCls, animation.toUpperCase(Locale.ROOT));
-            bAnimation.invoke(builder, anim);
-            if (soundKey != null && !soundKey.isEmpty()) {
-                bSound.invoke(builder, keyOf.invoke(null, "minecraft", soundKey));
-            }
-            setData.invoke(stack, consumableType, builder);
-            // 读回验证：setData 静默失败会导致「物品有 food 组件却无法原版进食」的难排查症状
-            if (hasData != null && !Boolean.TRUE.equals(hasData.invoke(stack, consumableType))) {
-                WT.log("Consumable 组件写入验证失败（setData 已调用但读回为空）");
-            } else {
-                consumableApplied++;
-            }
-        } catch (Throwable t) {
-            WT.log("Consumable 组件应用失败: " + t);
-        }
     }
 
     /**
