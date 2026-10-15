@@ -61,6 +61,16 @@ public class WTWorkbench extends WTRecipeMachine {
         // 工作台不自动合成，仅在点击 click 槽时合成
     }
 
+    /**
+     * 工作台是点击即时合成（无合成过程），不存在进度显示——禁用进度槽占位。
+     * 修复河豚工作台实测问题：其 6×5 合成格输入槽覆盖默认进度槽 22，
+     * 父类默认的打火石进度占位会叠进输入格，成为「不明来路的打火石」。
+     */
+    @Override
+    protected int progressSlot() {
+        return -1;
+    }
+
     private void craft(BlockMenu menu) {
         // 顺序很关键：先无消耗匹配，命中后才扣能量并消耗输入、产出。
         //  · 若先扣能量再匹配：玩家空点击会白扣机器能量（可被反复刷空共享机器的能量）；

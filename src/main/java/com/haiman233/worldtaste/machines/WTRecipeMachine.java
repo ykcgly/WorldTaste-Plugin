@@ -45,6 +45,8 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
     private final MenuDef menu;
     private final boolean hideAll;
     private final ItemStack progressBar;
+    /** 解析后的进度槽：menu 指定值或默认 22；与输入/输出槽冲突时为 -1（见构造器防御）。 */
+    private final int progressSlotResolved;
     /** 是否启用 SF-id 预筛（仅纯-SF 机器为 true）。见 {@link #computeSfPrune}。 */
     private final boolean sfPrune;
     /** 进行中配方（按方块），完成时取此处的 WTRecipe 做概率滚动。 */
@@ -112,6 +114,16 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         // progressbar 物品仍优先（menus.yml 每机器可覆盖）。
         this.progressBar = (menu != null && menu.progressItem != null)
                 ? menu.progressItem : new ItemStack(Material.FLINT_AND_STEEL);
+        // 进度槽冲突防御（河豚工作台实测踩坑）：菜单漏配 progressbar 时回退默认 22，而大型工作台
+        // （6×5/6×6 合成格）的输入槽恰好覆盖 22——默认进度占位（打火石）会直接叠进输入格，
+        // 成了「不明来路的打火石」，玩家点不走（EmptyClickHandler）、放材料又被覆盖。
+        // 此处解析最终进度槽：与任一输入/输出槽重叠即弃用（-1），并告警提示服主补 menus.yml。
+        int ps = (menu != null && menu.progressSlot >= 0) ? menu.progressSlot : 22;
+        if (overlapsFunctional(ps)) {
+            WT.log(getId() + " 的进度槽 " + ps + " 与输入/输出槽重叠（menus.yml 缺 progressbar 配置？），已禁用进度占位");
+            ps = -1;
+        }
+        this.progressSlotResolved = ps;
         setProcessingSpeed(Math.max(1, speed));
         setCapacity(Math.max(1, capacity));
         setEnergyConsumption(Math.max(1, Math.min(consumption, Math.max(1, capacity))));
@@ -139,8 +151,17 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
     @Override
     protected void registerDefaultRecipes() { /* 配方由本类自行管理 */ }
 
-    private int progressSlot() {
-        return (menu != null && menu.progressSlot >= 0) ? menu.progressSlot : 22;
+    /** 进度槽（子类可覆盖，如点击合成的工作台返回 -1）。返回 -1 表示本机器无进度显示。 */
+    protected int progressSlot() {
+        return progressSlotResolved;
+    }
+
+    /** 进度槽是否与输入/输出槽重叠。 */
+    private boolean overlapsFunctional(int slot) {
+        if (slot < 0) return false;
+        for (int s : inputSlots) if (s == slot) return true;
+        for (int s : outputSlots) if (s == slot) return true;
+        return false;
     }
 
     /** 额外的可交互槽位（不会被背景填充阻挡），子类（如模板机器）可覆盖以加入模板槽等。 */
@@ -280,13 +301,13 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
                 op = new CraftingOperation(next);
                 getMachineProcessor().startOperation(b, op);
                 active.put(b.getLocation(), (WTRecipe) next);
-                getMachineProcessor().updateProgressBar(inv, pslot, op);
+                if (pslot >= 0) getMachineProcessor().updateProgressBar(inv, pslot, op);
             }
             return;
         }
         if (!takeCharge(b.getLocation())) return;
         if (!op.isFinished()) {
-            getMachineProcessor().updateProgressBar(inv, pslot, op);
+            if (pslot >= 0) getMachineProcessor().updateProgressBar(inv, pslot, op);
             op.addProgress(getSpeed());
             return;
         }
@@ -294,7 +315,7 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         if (r != null) {
             pushRecipeOutputs(b, inv, r);
         }
-        inv.replaceExistingItem(pslot, progressBar);
+        if (pslot >= 0) inv.replaceExistingItem(pslot, progressBar);
         getMachineProcessor().endOperation(b);
     }
 
