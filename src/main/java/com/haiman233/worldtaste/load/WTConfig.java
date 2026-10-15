@@ -14,8 +14,10 @@ import org.bukkit.inventory.meta.ItemMeta;
  * {@code saveResource} 从 jar 释放默认文件），读取失败或文件缺失时回退 jar 内置配置。
  * 这样管理员既能直接改插件目录下的文件，也不必担心文件被删坏导致插件起不来。</p>
  *
- * <p>目前仅一项：酿造工艺总开关 {@code brewing.enabled}。关闭时见
- * {@link #blockItem}——酿造分组下的物品不再注册，但分组按钮保留并标注「已禁用」。</p>
+ * <p>开关项：酿造工艺总开关 {@code brewing.enabled}（关闭时见 {@link #blockItem}）与
+ * 食物行为组 {@code food.native-eat} / {@code food.legacy-upgrade} /
+ * {@code food.ignore-place-veto}、调试组 {@code debug.food}。其中
+ * {@code food.native-eat} 支持旧配置自动补写（见 {@link #resolveNativeEat}）。</p>
  */
 public final class WTConfig {
 
@@ -49,12 +51,23 @@ public final class WTConfig {
     public static String disabledSuffix = "&r&c&l已禁用";
 
     /**
-     * 原版进食机制总开关（food.native-eat，默认 true）。
+     * 原版进食机制总开关（food.native-eat）。
+     *
+     * <p>取值规则（自动补写机制，1.9.9 起）：</p>
+     * <ul>
+     *   <li>插件目录<b>不存在</b> config.yml（首次启动 / 删除后重新生成）：释放 jar 内默认
+     *       模板，取其值 <b>true</b>——新生成的配置默认开启原版进食；</li>
+     *   <li>磁盘已有旧配置但条目<b>缺失或值无效</b>（老版本配置升级）：自动补写为
+     *       <b>false</b> 并在控制台输出提示——旧配置的服主多半基于旧的插件结算行为调服，
+     *       原版进食属新增行为，默认关闭更稳妥；需要时手动改 true 并重启。</li>
+     *   <li>条目存在且为布尔 → 照常读取。</li>
+     * </ul>
      *
      * <p>true：食物右键交由原版进食管线（进食/饮用动画、咀嚼音、时长原生；「要求饥饿」
      * 由原版天然保证），脚本效果在 {@code PlayerItemConsumeEvent} 补足。物品注入
      * FoodComponent + consumable 组件（1.21.2+，含饮品 DRINK 动画），
-     * {@link com.haiman233.worldtaste.items.ConsumableItem} 处理器只做「放置/进食」分流。
+     * {@link com.haiman233.worldtaste.items.ConsumableItem} 处理器只做「放置/进食」分流：
+     * 非潜行指向可放置落点时仅 DENY 方块交互、放行物品使用，由服务端直接开始进食。
      * 服务端低于 1.20.5（无组件 API）时自动回退旧逻辑，无需改配置。</p>
      *
      * <p>false：保持旧的插件结算逻辑（右键瞬间完成食用，无进食动画），且不给物品注入
@@ -93,9 +106,11 @@ public final class WTConfig {
     public static void load() {
         YamlConfiguration y = null;
         File file = new File(WT.plugin.getDataFolder(), FILE);
+        boolean generated = false;
         if (!file.exists()) {
             try {
                 WT.plugin.saveResource(FILE, false);
+                generated = file.exists();
             } catch (Exception e) {
                 WT.log("释放默认 " + FILE + " 失败（将使用 jar 内置配置）: " + e);
             }
@@ -115,7 +130,7 @@ public final class WTConfig {
         if (disabledSuffix == null) disabledSuffix = "";
 
         foodIgnorePlaceVeto = y.getBoolean("food.ignore-place-veto", true);
-        nativeEat = y.getBoolean("food.native-eat", true);
+        nativeEat = resolveNativeEat(y, file, generated);
         legacyUpgrade = y.getBoolean("food.legacy-upgrade", false);
         debugFood = y.getBoolean("debug.food", false);
 
@@ -123,6 +138,32 @@ public final class WTConfig {
         WT.plugin.getLogger().info("config.yml: 食物放置外部否决强制放行 " + (foodIgnorePlaceVeto ? "开启" : "关闭"));
         WT.plugin.getLogger().info("config.yml: 食物原版进食机制 " + (nativeEat ? "开启" : "关闭（插件结算）"));
         WT.plugin.getLogger().info("config.yml: 旧存档食物自动升级 " + (legacyUpgrade ? "开启" : "关闭"));
+    }
+
+    /**
+     * 解析 food.native-eat（含自动补写机制）：
+     * <ul>
+     *   <li>配置文件是本次新生成的（原先不存在，刚从 jar 释放）→ 采用模板默认 true；</li>
+     *   <li>磁盘旧配置缺条目或值非布尔（老版本配置升级）→ 补写为 false 保存并在控制台
+     *       warning 提示（原版进食是新增行为，旧配置默认关闭更稳妥）；</li>
+     *   <li>条目正常 → 照常读取；磁盘文件缺失且释放失败（y 来自 jar 内置）→ 模板值 true。</li>
+     * </ul>
+     */
+    private static boolean resolveNativeEat(YamlConfiguration y, File file, boolean generated) {
+        if (generated) return true;
+        if (!file.exists() || (y.isSet("food.native-eat") && y.isBoolean("food.native-eat"))) {
+            return y.getBoolean("food.native-eat", true);
+        }
+        // 旧配置升级：补写条目为 false（原版进食默认关闭），下次启动直接读到显式值
+        y.set("food.native-eat", false);
+        try {
+            y.save(file);
+            WT.plugin.getLogger().warning("config.yml 缺少 food.native-eat 条目（或值无效），"
+                    + "已自动补写为 false——食物原版进食机制默认关闭；如需开启请手动改为 true 后重启");
+        } catch (Exception e) {
+            WT.log("config.yml 自动补写 food.native-eat 失败（本次仍按 false 生效）: " + e);
+        }
+        return false;
     }
 
     /** 酿造玩法是否已关闭。 */

@@ -41,8 +41,8 @@ import org.bukkit.potion.PotionEffectType;
  *       <b>true</b>（默认，服务端 ≥1.20.5）= 原版进食管线——物品在加载期注入 FoodComponent +
  *       consumable 组件（动画/咀嚼音/时长原生，饮品走 DRINK 动画与饮用音效），本处理器只做
  *       分流（{@link #nativeEat}）：只有潜行+可放置落点交原版放置，其余一律转进食——指向
- *       可放置落点的非潜行交互会 DENY 放置（客户端收到失败后自行转对空使用开始进食），指向
- *       空气/落点不可放置/非方块材质直接放行物品使用；脚本效果由 FoodConsumeListener 在
+ *       可放置落点的非潜行交互仅 DENY 方块交互、放行物品使用（服务端直接开始原版进食），
+ *       指向空气/落点不可放置/非方块材质直接放行物品使用；脚本效果由 FoodConsumeListener 在
  *       PlayerItemConsumeEvent 补足。
  *       <b>false</b> 或低版本 = 插件结算（{@link #eat}）：DENY 原版使用物品后立即扣除并加成，
  *       无进食动画。</li>
@@ -151,9 +151,10 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
      *   <li>要求饥饿且饱食度已满 → 全 DENY（原版本也不会开始进食，这里兜底防第三方消耗）；</li>
      *   <li>方块材质 + 可放置落点：
      *       <b>潜行 → 零干预</b>（原版放置优先，落点/朝向/贴图/音效/扣减全走原版管线）；
-     *       <b>非潜行 → DENY 方块/物品阻止放置</b>——客户端收到放置失败后会自行转
-     *       「对空使用」并在本地开始原版进食，服务端无需强制（曾尝试反射
-     *       {@code gameMode.useItem} 模拟对空使用，实测为多余环节且反射易碎，已移除）。</li>
+     *       <b>非潜行 → 仅 DENY 方块交互</b>阻止放置，放行物品使用——服务端直接以
+     *       consumable 组件启动原版进食并同步动画（不再依赖客户端「转对空使用」
+     *       的模拟环节；曾尝试反射 {@code gameMode.useItem} 模拟对空使用，实测
+     *       为多余环节且反射易碎，已移除）。</li>
      *   <li>其余（指向空气、落点不可放置、非方块材质如饮品/肉类）→ 放行物品使用，
      *       由原版 consumable 组件开始进食；指向无交互的普通方块且落点不可放置时，
      *       原版会自动 fall-through 到物品使用，同样进食。</li>
@@ -186,12 +187,11 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
                             + ") → 零干预，交还原版放置");
                     return;
                 }
-                // 非潜行：DENY 方块+物品阻止放置。客户端收到放置失败后会自行转「对空使用」
-                // 并在本地开始原版进食（无需服务端强制；实测 ServerInteract 模拟对空为多余
-                // 环节且反射易碎，已移除）
+                // 非潜行：仅 DENY 方块交互阻止放置，放行物品使用 → 服务端直接以 consumable
+                // 组件启动原版进食并同步动画（不再依赖客户端「转对空使用」的模拟环节）
                 e.setUseBlock(Event.Result.DENY);
-                e.setUseItem(Event.Result.DENY);
-                dbg(p, "落点可放置(" + m + " → " + target + ") → DENY 放置，客户端自行转原版进食");
+                e.setUseItem(Event.Result.ALLOW);
+                dbg(p, "落点可放置(" + m + " → " + target + ") → DENY 方块交互，服务端直接开始原版进食");
                 return;
             }
         }
