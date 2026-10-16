@@ -95,9 +95,9 @@ public final class BigRecipeMenu {
         menu.addItem(16, describeMachine(machine, null), ChestMenuUtils.getEmptyClickHandler());
         menu.addItem(SLOT_ICON, infoItem("合成配方", "使用 " + recipeTypeName(machine) + " 合成该机器"), ChestMenuUtils.getEmptyClickHandler());
         // 返回（左下）
-        menu.addItem(35, backItem(backOpener == null), (pl, s, cursor, action) -> {
+        menu.addItem(35, backItem(), (pl, s, cursor, action) -> {
             if (backOpener != null) backOpener.run();
-            else JegHook.openGuide(pl);
+            else JegHook.goBack(pl);
             return false;
         });
         // 右下角：配方展示（产物列表，配方补全同款形式）
@@ -111,7 +111,7 @@ public final class BigRecipeMenu {
     }
 
     /** 产物列表页（配方补全同款形式）：主产物去重后逐格展示，点击进入该产物的配方页。 */
-    private static void openProductList(Player p, WTRecipeMachine machine, int page, Runnable backOpener) {
+    public static void openProductList(Player p, WTRecipeMachine machine, int page, Runnable backOpener) {
         List<WTRecipe> recipes = machine.getRecipes();
         // 按主产物身份去重（SF id 优先，否则材质+显示名），记录每产物命中的配方下标
         Map<String, ItemStack> products = new LinkedHashMap<>();
@@ -153,9 +153,11 @@ public final class BigRecipeMenu {
                 return false;
             });
         }
-        // 返回合成配方页（45）
-        menu.addItem(45, backItem(false), (pl, s, cursor, action) -> {
-            openCraftPage(pl, machine, backOpener);
+        // 返回（45）：从哪来回哪去——backOpener 为 null（从指南直接进入）时回指南，
+        // 不再绕道「机器自身配方展示」；经菜单链进入（子机器等）时回到来源页
+        menu.addItem(45, backItem(), (pl, s, cursor, action) -> {
+            if (backOpener != null) backOpener.run();
+            else JegHook.goBack(pl);
             return false;
         });
         // 翻页（53）
@@ -179,7 +181,7 @@ public final class BigRecipeMenu {
     }
 
     /** 大型配方展示页：cycle = 可循环展示的配方下标（全局顺序），fromList = 是否从产物列表进入。 */
-    private static void openWorkPage(Player p, WTRecipeMachine machine, int[] cycle, int pos, boolean fromList, Runnable backOpener) {
+    public static void openWorkPage(Player p, WTRecipeMachine machine, int[] cycle, int pos, boolean fromList, Runnable backOpener) {
         List<WTRecipe> recipes = machine.getRecipes();
         int workIdx = cycle[pos];
         WTRecipe r = recipes.get(workIdx);
@@ -227,10 +229,10 @@ public final class BigRecipeMenu {
 
         // 返回键只在右下角：多配方时 35 返回 + 53 翻页；单配方时仅 53 返回（避免两个返回按钮）
         if (cycle.length > 1) {
-            menu.addItem(SLOT_BACK, backItem(backOpener == null && !fromList), (pl, s, cursor, action) -> {
+            menu.addItem(SLOT_BACK, backItem(), (pl, s, cursor, action) -> {
                 if (fromList) openProductList(pl, machine, 0, backOpener);
                 else if (backOpener != null) backOpener.run();
-                else JegHook.openGuide(pl);
+                else JegHook.goBack(pl);
                 return false;
             });
 
@@ -252,10 +254,10 @@ public final class BigRecipeMenu {
             });
         } else {
             // 单配方：53 = 返回键（与多配方页的 35 返回同语义，只保留右下角一个）
-            menu.addItem(SLOT_PAGE, backItem(backOpener == null && !fromList), (pl, s, cursor, action) -> {
+            menu.addItem(SLOT_PAGE, backItem(), (pl, s, cursor, action) -> {
                 if (fromList) openProductList(pl, machine, 0, backOpener);
                 else if (backOpener != null) backOpener.run();
-                else JegHook.openGuide(pl);
+                else JegHook.goBack(pl);
                 return false;
             });
         }
@@ -270,10 +272,56 @@ public final class BigRecipeMenu {
             BigRecipeMenu.open(pl, sub, 0, reopenSelf);
         } else if (sf != null) {
             // 材料堆带 slimefun id PDC（Read.resolve 前向引用修复后所有配方材料均可识别）；
-            // 经 facade 派发到当前指南实现（JEG 安装时即 JEG 页面），addToHistory 支持返回
-            PlayerProfile.get(pl, profile -> SlimefunGuide.displayItem(profile, sf, true));
+            // 经 facade 派发到当前指南实现（JEG 安装时即 JEG 页面），addToHistory 支持返回。
+            // 记录返回链（含进入前的历史栈深度）：材料页点「返回」时回到本大配方页——
+            // 由 JegGuideListener 的 BackButtonClickEvent 按深度判定后拦截消费
+            PlayerProfile.get(pl, profile -> {
+                pushReturn(pl, reopenSelf, profile.getGuideHistory().size());
+                SlimefunGuide.displayItem(profile, sf, true);
+            });
         }
         // 原版材料：无粘液页可跳，菜单保持不动
+    }
+
+    // ---- 材料页返回链（「从哪来回哪去」）----
+    // 每次从大配方页跳入 JEG 材料页时 push「重开当前大配方页」的闭包 + 进入前的历史栈深度；
+    // JEG 材料页的返回按钮点击事件（BackButtonClickEvent）由 JegGuideListener 按深度判定：
+    //   玩家仍在材料页更深层的 JEG 页里 → 放行（JEG 自行逐级返回）；
+    //   已退回到材料页本身（size == 进入前深度 + 1）→ 拦截并回大配方页。
+    // ChestMenu 不在 JEG 历史栈体系内，无法经 GuideHistory 回跳，只能用点击事件接管。
+
+    /** 返回链条目：重开闭包 + 跳出时（材料页入栈前）的历史栈深度。 */
+    public record ReturnEntry(Runnable reopen, int historySize) {}
+
+    private static final Map<java.util.UUID, java.util.Deque<ReturnEntry>> RETURN_STACK = new java.util.concurrent.ConcurrentHashMap<>();
+
+    /** 记录「从大配方页跳出去」的返回条目（后进先出，逐层返回）。 */
+    public static void pushReturn(Player p, Runnable reopen, int historySize) {
+        RETURN_STACK.computeIfAbsent(p.getUniqueId(), k -> new java.util.ArrayDeque<>())
+                .push(new ReturnEntry(reopen, historySize));
+    }
+
+    /** 查看最近的返回条目（不弹出；无记录时返回 null）。 */
+    public static ReturnEntry peekReturn(Player p) {
+        java.util.Deque<ReturnEntry> stack = RETURN_STACK.get(p.getUniqueId());
+        return stack == null ? null : stack.peek();
+    }
+
+    /** 弹出最近的返回条目（消费；栈空后移除该玩家的记录）。 */
+    public static ReturnEntry consumeReturn(Player p) {
+        java.util.Deque<ReturnEntry> stack = RETURN_STACK.get(p.getUniqueId());
+        if (stack == null) return null;
+        ReturnEntry entry = stack.poll();
+        if (stack.isEmpty()) RETURN_STACK.remove(p.getUniqueId());
+        return entry;
+    }
+
+    /**
+     * 使返回链失效（玩家在 JEG 页里点击了物品导航离开——深入浏览后返回应交还 JEG
+     * 自行逐级返回，而非弹回大配方页）。由 JegGuideListener 在物品点击事件时调用。
+     */
+    public static void invalidateReturn(Player p) {
+        RETURN_STACK.remove(p.getUniqueId());
     }
 
     /** 产物身份键：SF id 优先，否则材质+显示名。 */
@@ -419,13 +467,12 @@ public final class BigRecipeMenu {
         return it;
     }
 
-    private static ItemStack backItem(boolean toGuide) {
-        ItemStack it = new ItemStack(Material.OAK_DOOR);
-        ItemMeta meta = it.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + (toGuide ? "返回指南" : "返回"));
-            it.setItemMeta(meta);
-        }
-        return it;
+    /**
+     * 返回按钮（统一文案「返回」，行为 = 回上一级，从哪来回哪去）。
+     * 材质使用 Slimefun 官方返回按钮粘液 id {@code _UI_BACK}（箭头，指南同款，支持材质包）。
+     */
+    private static ItemStack backItem() {
+        return new io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack(
+                "_UI_BACK", Material.ARROW, ChatColor.YELLOW + "返回");
     }
 }

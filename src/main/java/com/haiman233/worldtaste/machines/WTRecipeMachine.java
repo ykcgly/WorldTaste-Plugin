@@ -51,6 +51,8 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
     private final boolean sfPrune;
     /** 进行中配方（按方块），完成时取此处的 WTRecipe 做概率滚动。 */
     private final Map<org.bukkit.Location, WTRecipe> active = new ConcurrentHashMap<>();
+    /** 玩家在该方块机器上「上一次补全的配方」（按方块位置；补全界面填充时记录，供补全按钮右键一键复补）。 */
+    private final Map<org.bukkit.Location, WTRecipe> lastFilled = new ConcurrentHashMap<>();
     /** 全部已注册实例（加载收尾统一剔除引用禁用物品的配方用；含 recipe_machines/linked/workbench/template）。 */
     private static final List<WTRecipeMachine> INSTANCES = new ArrayList<>();
 
@@ -88,6 +90,51 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         return false;
     }
 
+    /** 记录该方块机器「上一次补全的配方」（补全界面填充时调用）。 */
+    public void rememberFilled(org.bukkit.Location loc, WTRecipe r) {
+        if (loc != null && r != null) lastFilled.put(loc, r);
+    }
+
+    /** 读取该方块机器「上一次补全的配方」；从未补全过返回 null。 */
+    public WTRecipe lastFilledAt(org.bukkit.Location loc) {
+        return loc == null ? null : lastFilled.get(loc);
+    }
+
+    /** 产物命中：机器 + 该产物命中的工作配方下标（全局顺序）。 */
+    public record ProductHit(WTRecipeMachine machine, int[] indices) {}
+
+    /**
+     * 按主产物身份反查工作配方机器（指南点击产物直接跳大配方展示用）。
+     * 主产物身份键与 {@code BigRecipeMenu.productKey} 一致：SF id 优先，否则材质+显示名。
+     *
+     * @return 命中的机器与配方下标；无任何机器的产物匹配时返回 null
+     */
+    public static ProductHit findByProduct(ItemStack out) {
+        if (out == null || out.getType().isAir()) return null;
+        String key = productKey(out);
+        for (WTRecipeMachine m : INSTANCES) {
+            if (m.recipes == null) continue;
+            int[] hits = new int[m.recipes.size()];
+            int n = 0;
+            for (int i = 0; i < m.recipes.size(); i++) {
+                ItemStack[] os = m.recipes.get(i).getOutput();
+                ItemStack main = (os.length > 0) ? os[0] : null;
+                if (main != null && key.equals(productKey(main))) hits[n++] = i;
+            }
+            if (n > 0) return new ProductHit(m, java.util.Arrays.copyOf(hits, n));
+        }
+        return null;
+    }
+
+    /** 产物身份键：SF id 优先，否则材质+显示名。 */
+    private static String productKey(ItemStack out) {
+        SlimefunItem sf = SlimefunItem.getByItem(out);
+        if (sf != null) return "sf:" + sf.getId();
+        String name = out.hasItemMeta() && out.getItemMeta().hasDisplayName()
+                ? out.getItemMeta().getDisplayName() : "";
+        return "mc:" + out.getType() + ":" + name;
+    }
+
     /** 物品带 slimefun id PDC 但该 id 未注册（ brewing 关闭的 preload 幽灵）或已禁用时返回 true。 */
     private static boolean isDisabledStack(ItemStack it) {
         if (it == null || !it.hasItemMeta()) return false;
@@ -114,14 +161,17 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         // progressbar 物品仍优先（menus.yml 每机器可覆盖）。
         this.progressBar = (menu != null && menu.progressItem != null)
                 ? menu.progressItem : new ItemStack(Material.FLINT_AND_STEEL);
-        // 进度槽冲突防御（河豚工作台实测踩坑）：菜单漏配 progressbar 时回退默认 22，而大型工作台
-        // （6×5/6×6 合成格）的输入槽恰好覆盖 22——默认进度占位（打火石）会直接叠进输入格，
-        // 成了「不明来路的打火石」，玩家点不走（EmptyClickHandler）、放材料又被覆盖。
-        // 此处解析最终进度槽：与任一输入/输出槽重叠即弃用（-1），并告警提示服主补 menus.yml。
-        int ps = (menu != null && menu.progressSlot >= 0) ? menu.progressSlot : 22;
-        if (overlapsFunctional(ps)) {
-            WT.log(getId() + " 的进度槽 " + ps + " 与输入/输出槽重叠（menus.yml 缺 progressbar 配置？），已禁用进度占位");
+        // 进度槽解析：工作台（点击即时合成，WTWorkbench）无进度语义，直接禁用且不告警；
+        // 其余机器回退默认 22，与输入/输出槽重叠时禁用并告警（防占位物叠进功能槽）。
+        int ps;
+        if (this instanceof WTWorkbench) {
             ps = -1;
+        } else {
+            ps = (menu != null && menu.progressSlot >= 0) ? menu.progressSlot : 22;
+            if (overlapsFunctional(ps)) {
+                WT.log(getId() + " 的进度槽 " + ps + " 与输入/输出槽重叠（menus.yml 缺 progressbar 配置？），已禁用进度占位");
+                ps = -1;
+            }
         }
         this.progressSlotResolved = ps;
         setProcessingSpeed(Math.max(1, speed));
@@ -236,7 +286,14 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
                         bm = blockMenu;
                     }
                 }
-                com.haiman233.worldtaste.guide.RecipeFillMenu.open(player, WTRecipeMachine.this, bm);
+                if (action.isRightClicked()) {
+                    // 右键/Shift+右键：一键补全「上一次补全的配方」1 份 / 8 份
+                    com.haiman233.worldtaste.guide.RecipeFillMenu.refill(player, this, bm,
+                            action.isShiftClicked() ? 8 : 1);
+                    return false;
+                }
+                // 左键：打开配方选择界面
+                com.haiman233.worldtaste.guide.RecipeFillMenu.open(player, this, bm);
                 return false;
             });
         }
@@ -581,14 +638,17 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
 
     /** 展示副本：克隆输出并附加耗时 lore（仅展示用，不影响实际产出）。 */
 
-    /** 配方补全按钮。 */
+    /** 配方补全按钮（知识之书）：右键/Shift+右键补全上次配方，左键打开配方选择界面。 */
     private static ItemStack fillButton() {
-        org.bukkit.inventory.ItemStack it = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BOOK);
+        org.bukkit.inventory.ItemStack it = new org.bukkit.inventory.ItemStack(org.bukkit.Material.KNOWLEDGE_BOOK);
         org.bukkit.inventory.meta.ItemMeta meta = it.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(org.bukkit.ChatColor.GREEN + "配方补全");
             java.util.List<String> lore = new java.util.ArrayList<>();
-            lore.add(org.bukkit.ChatColor.GRAY + "选择完整配方后自动从背包填充材料");
+            lore.add(org.bukkit.ChatColor.GREEN + "右键补全1份上次的配方");
+            lore.add(org.bukkit.ChatColor.GREEN + "Shift+右键补全8份上次的配方");
+            lore.add("");
+            lore.add(org.bukkit.ChatColor.GRAY + "左键打开配方选择界面");
             meta.setLore(lore);
             it.setItemMeta(meta);
         }

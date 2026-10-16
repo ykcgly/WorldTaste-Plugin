@@ -22,6 +22,8 @@ jar版本依然保留了原版rsc的yml配置文件，可以将jar后缀改为zi
 ## 下载
 
 [![构建状态](https://builds.guizhanss.com/api/badge/ykcgly/WorldTaste-Plugin/master/latest)](https://builds.guizhanss.com/ykcgly/WorldTaste-Plugin/master)
+[鬼斩资源站](https://resources.guizhanss.com/plugin/WorldTaste-Plugin)
+[releases](https://github.com/ykcgly/WorldTaste-Plugin/releases)
 
 ## 前置依赖
 
@@ -38,7 +40,7 @@ jar版本依然保留了原版rsc的yml配置文件，可以将jar后缀改为zi
 - **硬依赖缺失**（Slimefun / Gastronomicon / ExoticGarden 任一未安装）：控制台输出
   `缺少 xxx，WorldTaste已自动卸载！`，插件自动卸载、不参与加载。
 - **软依赖缺失**（Cultivation / InfinityExpansion / LogiTech）：控制台输出
-  `缺少 xxx，部分玩法可能无法加载`，插件继续加载。
+  `缺少 xxx，部分玩法可能无法加载`，插件继续加载，但是会禁用部分物品！
   JEG（JustEnoughGuide）缺失已有完整降级，不做提示。
 - 启动时的「物品未找到」警告已折叠：普通引用缺失（如未装附属导致的 `GN_*`、`YEAST`）
   汇总为一行（含数量与示例）；仅**特殊物品**（榨汁盆、酒窖管理器、温度控制器、果渣、
@@ -48,12 +50,12 @@ jar版本依然保留了原版rsc的yml配置文件，可以将jar后缀改为zi
 
 ```bash
 ./gradlew build
-# 产物：build/libs/WorldTaste-1.9.9-standalone.jar
+# 产物：build/libs/WorldTaste-1.10.0-standalone.jar
 ```
 
 1. 将构建出的 jar放入服务器的 `plugins/` 目录。
 2. 装齐上表中的前置插件。
-3. 重启服务器（不建议热重载）。
+3. 重启服务器。
 
 ## 功能概览
 
@@ -63,7 +65,7 @@ jar版本依然保留了原版rsc的yml配置文件，可以将jar后缀改为zi
 - **屠宰**：为各类生物添加对应的肉与食材掉落。
 - **其他**：厨房装饰，以及愚人节 / 无尽贪婪等主题餐饮。
 - **酒精度联动**：与异域花园（ExoticGarden·复合花园）联动，全部酒类饮品标注酒精度，饮用后累积到异域花园的酒精系统。
-- **酿造工艺**：新增主题餐饮--酿造工艺：配方在 juicer.yml 中定义。**默认开启**，如需关闭可在 config.yml 中将 brewing.enabled 设为 false。
+- **酿造工艺**：新增主题餐饮--酿造工艺：配方在 `juicer.yml` 中定义。**默认开启**，如需关闭可在 `config.yml` 中将 `brewing.enabled` 设为 `false`。
 
 ## 全局配置（config.yml）
 

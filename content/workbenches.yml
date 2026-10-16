@@ -2044,7 +2044,7 @@ WT_BWWYL:
   output: [25]
 WT_HETUNGZT:
   item:
-    lore: ['', §7用于合成与河豚有关的物品, '', §d工作台, §8⇨ §e⚡§7 10000 J 可存储, §8⇨ §e⚡§7 5000 J/物品]
+    lore: ['', §7用于合成与河豚有关的物品, '', §d工作台]
     name: §6§l河豚工作台
     amount: 1
     material_type: skull_hash
@@ -2088,8 +2088,8 @@ WT_HETUNGZT:
       amount: 1
       material_type: mc
       material: PUFFERFISH_BUCKET
-  capacity: 10000
-  energyPerCraft: 5000
+  # 纯工作台：energy: false = 不耗电、退出粘液 tick 周期（capacity/energyPerCraft 被忽略）
+  energy: false
   hideAllRecipes: false
   recipes:
     '1':

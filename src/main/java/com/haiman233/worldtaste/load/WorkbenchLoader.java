@@ -38,12 +38,14 @@ public final class WorkbenchLoader {
                 if (output.length == 0) output = new int[] { 16 };
                 int capacity = s.getInt("capacity", 128);
                 int energyPerCraft = s.getInt("energyPerCraft", 8);
+                // energy: false = 纯工作台（不耗电、退出 tick 周期，如河豚工作台）；默认 true 兼容旧配置
+                boolean usesEnergy = s.getBoolean("energy", true);
                 int click = s.getInt("click", 22);
                 boolean hideAll = s.getBoolean("hideAllRecipes", false);
                 List<WTRecipe> recipes = RecipeMachineLoader.readRecipes(s.getConfigurationSection("recipes"), input.length);
                 MenuDef menu = WT.menus.get(id);
                 WTWorkbench w = new WTWorkbench(g, sfis, rt, craftRecipe, input, output, recipes,
-                        capacity, energyPerCraft, 1, menu, hideAll, click);
+                        capacity, energyPerCraft, 1, menu, hideAll, click, usesEnergy);
                 w.register(WT.plugin);
                 ok++;
             } catch (Exception e) {

@@ -38,4 +38,27 @@ public final class JegHook {
             // JEG 未安装或 API 变更：静默
         }
     }
+
+    /**
+     * 回到 JEG 历史栈的当前条目（大配方菜单从指南进入后的返回键用）。
+     *
+     * <p>自定义大配方页不在 JEG 历史栈内：玩家在物品页/分组页点击产物跳转后栈顶仍是
+     * 来源页，返回 = 重渲染栈顶（{@code GuideHistory#openLastEntry}，不弹出）——
+     * 精确回到进入前的页面。JEG 未安装或 API 变更时退回主菜单。</p>
+     */
+    public static void goBack(org.bukkit.entity.Player p) {
+        io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile.get(p, profile -> {
+            try {
+                Class<?> guideUtil = Class.forName("com.balugaq.jeg.utils.GuideUtil");
+                Class<?> modeCls = Class.forName("io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode");
+                Object mode = io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide.getDefaultMode();
+                Object impl = guideUtil.getMethod("getGuide", org.bukkit.entity.Player.class, modeCls)
+                        .invoke(null, p, mode);
+                profile.getGuideHistory().openLastEntry(
+                        (io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation) impl);
+            } catch (Throwable t) {
+                openGuide(p);
+            }
+        });
+    }
 }

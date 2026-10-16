@@ -49,6 +49,8 @@ public final class Setup {
         TemplateLoader.load();
         GeoLoader.load();
         com.haiman233.worldtaste.behavior.Behaviors.registerListeners();
+        // 配方补全搜索聊天拦截（幂等）：49 格搜索按钮 → 聊天输入 → 拦截该条消息不上公屏
+        com.haiman233.worldtaste.guide.RecipeFillMenu.register();
         // 异域花园酒精度联动：启动期探测并在日志输出联动状态（未装异域花园时降级为风味文本）
         com.haiman233.worldtaste.hook.ExoticGardenHook.init();
         // 外观反查索引：所有物品（含 lateInit/机器/多方块）注册完毕后构建一次，供运行期

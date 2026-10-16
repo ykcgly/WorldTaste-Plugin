@@ -35,3 +35,4 @@ Desktop.ini
 # ── AI 助手会话产物（非工程源码，勿入库）──────────
 # WorkBuddy：会话记录 / 项目记忆 / 每日工作日志
 .workbuddy/
+.gradle-home/
