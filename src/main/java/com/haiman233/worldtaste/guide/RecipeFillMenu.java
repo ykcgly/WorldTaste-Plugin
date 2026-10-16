@@ -3,7 +3,6 @@ package com.haiman233.worldtaste.guide;
 import com.haiman233.worldtaste.machines.WTRecipe;
 import com.haiman233.worldtaste.machines.WTRecipeMachine;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import java.util.ArrayList;
 import java.util.List;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -170,7 +169,8 @@ public final class RecipeFillMenu {
                 return missing;
             }
             ItemStack cur = inv.getItemInSlot(slot);
-            if (cur != null && !cur.getType().isAir() && !SlimefunUtils.isItemSimilar(cur, need, true)) {
+            if (cur != null && !cur.getType().isAir()
+                    && !com.haiman233.worldtaste.util.RecipeMatch.input(cur, need, false)) {
                 p.sendMessage(ChatColor.YELLOW + "槽位 " + (slot + 1) + " 被其他物品占用，跳过该材料");
                 continue;
             }
@@ -212,7 +212,7 @@ public final class RecipeFillMenu {
             if (usedInput[k]) continue;
             ItemStack cur = inv.getItemInSlot(layoutSlots[k]);
             if (cur != null && !cur.getType().isAir()
-                    && SlimefunUtils.isItemSimilar(cur, need, true)
+                    && com.haiman233.worldtaste.util.RecipeMatch.input(cur, need, false)
                     && cur.getAmount() < cur.getMaxStackSize()) {
                 usedInput[k] = true;
                 return layoutSlots[k];
@@ -238,7 +238,8 @@ public final class RecipeFillMenu {
         for (int k = 0; k < inv.getSize() && left > 0; k++) {
             ItemStack it = inv.getItem(k);
             if (it == null || it.getType().isAir()) continue;
-            if (!SlimefunUtils.isItemSimilar(it, need, true)) continue;
+            // 实体桶（河豚桶等）带 bucket_entity_data 组件：宽松匹配才能从背包收集到玩家实际捕获的桶
+            if (!com.haiman233.worldtaste.util.RecipeMatch.input(it, need, false)) continue;
             int take = Math.min(left, it.getAmount());
             if (take <= 0) continue;
             if (result == null) {
