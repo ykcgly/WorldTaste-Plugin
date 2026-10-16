@@ -119,17 +119,16 @@ public final class Behaviors {
 
     /**
      * 原版点分资源键（entity.generic.drink）→ Sound 常量。
-     * 经反射读 Sound 静态字段：兼容 Sound 为枚举（≤1.21.2）与接口（1.21.3+）两种运行形态，
-     * 两侧常量均为 public static 字段，GETSTATIC 字节码跨版本一致。
+     * Sound 在 1.21.3 起由枚举改为接口（valueOf 消失），经 Compat.sounds() 版本路由：
+     * ≤1.21.2 枚举 valueOf（compat.legacy 源集）、1.21.3+ Registry 查找（compat.modern 源集），
+     * 全程无反射；无效键返回 null（回退默认吃音效）。
      */
     private static Sound resolveSound(String key, String script) {
-        String name = key.trim().toUpperCase(java.util.Locale.ROOT).replace('.', '_');
-        try {
-            return (Sound) Sound.class.getField(name).get(null);
-        } catch (Exception e) {
+        Sound s = com.haiman233.worldtaste.compat.Compat.sounds().resolve(key);
+        if (s == null) {
             WT.log("consumable " + script + " 的 sound 无效: " + key + "（将使用默认吃音效）");
-            return null;
         }
+        return s;
     }
 
     private static void loadCrops() {

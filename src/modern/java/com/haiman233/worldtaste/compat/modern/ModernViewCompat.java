@@ -5,8 +5,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
 /**
- * modern（1.21.2+，主体）InventoryView 实现：1.21 起 {@code InventoryView} 已是接口，
- * 方法调用可直接编译为 invokeinterface，无需反射。
+ * modern（1.21+，主体）InventoryView 实现：Paper 1.21.11 编译，{@code InventoryView}
+ * 在该版本段为<b>接口</b>，方法调用编译为 invokeinterface——与 1.21+ 运行时形态一致，
+ * 直调即可（1.20.x 运行时不会加载本类）。
  */
 public final class ModernViewCompat implements ViewCompat {
 

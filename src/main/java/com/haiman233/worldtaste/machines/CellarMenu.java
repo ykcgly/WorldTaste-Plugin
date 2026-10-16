@@ -310,45 +310,12 @@ public final class CellarMenu {
                 && org.bukkit.potion.PotionType.WATER == basePotionType(pm);
     }
 
-    // --- 基础药水类型读取（跨版本二进制兼容） ---
-    // getBasePotionType 为 1.20.2+ API（1.20.0/1.20.1 调用会 NoSuchMethodError），
-    // getBasePotionData 为 1.20.4- API（1.20.5+ 已移除，编译期不可引用），两条路径全部走反射。
-    private static final java.lang.reflect.Method M_BASE_POTION_TYPE =
-            findMethod(org.bukkit.inventory.meta.PotionMeta.class, "getBasePotionType");
-    private static final java.lang.reflect.Method M_BASE_POTION_DATA =
-            findMethod(org.bukkit.inventory.meta.PotionMeta.class, "getBasePotionData");
-    private static final java.lang.reflect.Method M_POTION_DATA_TYPE = findDataGetType();
-
-    private static java.lang.reflect.Method findMethod(Class<?> cls, String name) {
-        try {
-            return cls.getMethod(name);
-        } catch (NoSuchMethodException e) {
-            return null;
-        }
-    }
-
-    private static java.lang.reflect.Method findDataGetType() {
-        try {
-            return Class.forName("org.bukkit.potion.PotionData").getMethod("getType");
-        } catch (Throwable e) {
-            return null; // 1.20.5+ 已移除 PotionData
-        }
-    }
-
-    /** 读取药水基础药水类型（跨版本；未设置时返回 null）。 */
+    // --- 基础药水类型读取（跨版本） ---
+    // getBasePotionType 为 1.20.2+ API，1.20.0/1.20.1 上不存在且 getBasePotionData 已在
+    // 1.20.5 移除（无法用同一无反射实现覆盖两端）→ 经 Compat.potions() 版本路由：
+    // 1.20.2+ 直调（compat.legacy 源集，接口方法两侧形态一致），更老版本 noop 恒 null。
     private static org.bukkit.potion.PotionType basePotionType(org.bukkit.inventory.meta.PotionMeta pm) {
-        try {
-            if (M_BASE_POTION_TYPE != null) {
-                return (org.bukkit.potion.PotionType) M_BASE_POTION_TYPE.invoke(pm);
-            }
-            if (M_BASE_POTION_DATA != null && M_POTION_DATA_TYPE != null) {
-                Object data = M_BASE_POTION_DATA.invoke(pm);
-                return data == null ? null : (org.bukkit.potion.PotionType) M_POTION_DATA_TYPE.invoke(data);
-            }
-        } catch (Throwable ignored) {
-            // 反射失败按非水瓶处理
-        }
-        return null;
+        return com.haiman233.worldtaste.compat.Compat.potions().basePotionType(pm);
     }
 
     /** 启动前电力校验：管理器与温控器双机蓄电均需 ≥ 各自每 tick 消耗。 */

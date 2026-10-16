@@ -2,47 +2,32 @@ package com.haiman233.worldtaste.load;
 
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.compat.Compat;
-import java.lang.reflect.Method;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.components.FoodComponent;
 
 /**
  * 给食物物品应用 FoodComponent / consumable 组件（原版进食模式的数据层）。
  *
- * <p>两层职责：</p>
+ * <p>两层职责（均经 {@link Compat#food()} 版本路由，本类无任何反射与版本判定）：</p>
  * <ul>
- *   <li><b>FoodComponent</b>（1.20.5+，直接 API）：nutrition/saturation/canAlwaysEat，
- *       由 {@link #apply} 应用——1.21.2 起可食性由 consumable 组件决定，本组件只承载恢复数值；</li>
- *   <li><b>consumable 组件</b>（1.21.2+）：动画/音效/食用时长，版本差异经
- *       {@link Compat#food()} 路由到 {@code compat.legacy}（反射）/ {@code compat.modern}
- *       （直调）子包实现，本类不再持有任何反射代码。</li>
+ *   <li><b>FoodComponent</b>（1.20.5+，Bukkit API）：nutrition/saturation/canAlwaysEat/
+ *       eatSeconds，由路由实现直调写入——1.21.2 起可食性由 consumable 组件决定，
+ *       本组件只承载恢复数值；</li>
+ *   <li><b>consumable 组件</b>（1.21.2+）：动画/音效/食用时长，路由到
+ *       {@code compat.modern}（DataComponent 直调）；legacy（1.20.5~1.21.1）与
+ *       noop（1.20.4-）版本段为语义化空操作。</li>
  * </ul>
  */
 public final class FoodHelper {
 
     private FoodHelper() {}
 
-    /**
-     * 1.20.5+ 才有 {@code ItemMeta#getFood}/FoodComponent（已核对 1.20.4 javadoc 完全不存在）。
-     * 启动时探测一次；低版本整体跳过，避免每个食物在 catch(Throwable) 里逐条刷 NoSuchMethodError。
-     */
-    private static final boolean HAS_FOOD_API = detectFoodApi();
     private static boolean lowVersionLogged = false;
     /** 已成功写入的 consumable 组件计数（Setup.loadAll 末尾汇总输出）。 */
     private static int consumableApplied;
 
-    private static boolean detectFoodApi() {
-        try {
-            org.bukkit.inventory.meta.ItemMeta.class.getMethod("getFood");
-            return true;
-        } catch (NoSuchMethodException e) {
-            return false;
-        }
-    }
-
-    /** 组件 API 是否可用（原版进食模式的最低门槛：1.20.5+）。 */
+    /** FoodComponent API 是否可用（原版进食模式的最低门槛：1.20.5+，由 compat 路由保证）。 */
     public static boolean hasFoodApi() {
-        return HAS_FOOD_API;
+        return Compat.food().hasFoodApi();
     }
 
     /** 已成功写入的 consumable 组件数量。 */
@@ -50,7 +35,7 @@ public final class FoodHelper {
         return consumableApplied;
     }
 
-    /** 物品是否已带 consumable 组件（legacy 版本段恒 true——FoodComponent 本身即可食）。 */
+    /** 物品是否已带 consumable 组件（legacy/noop 版本段恒 true——FoodComponent 本身即可食）。 */
     public static boolean hasConsumable(ItemStack stack) {
         return Compat.food().hasConsumable(stack);
     }
@@ -99,11 +84,8 @@ public final class FoodHelper {
      *   <li>{@code saturation<0} → 0；</li>
      *   <li>{@code canAlwaysEat} 取食物自身 {@code always_eatable}（默认 false，即饥饿时才可食）。</li>
      * </ul>
-     * 实现说明：Paper 1.21.11 起 {@code org.bukkit.craftbukkit.inventory.components.CraftFoodComponent}
-     * 已无无参构造器（仅有 FoodProperties / 拷贝 / Map 三种构造），反射 {@code newInstance()} 会抛
-     * NoSuchMethodException；改用官方 API {@code ItemMeta#getFood()}：无 food 组件时返回新建的空实例，
-     * 返回值为快照，修改后必须 {@code setFood} 应用。兼容 Paper 1.21.2+。
-     * {@code eatSeconds} 非标准 API，仍以反射方式尝试，不存在则忽略。</p>
+     * 实现经 {@link Compat#food()} 版本路由直调（1.20.5+ 直调 {@code ItemMeta#getFood/setFood}，
+     * 无反射）；1.20.4- 版本段无组件 API，noop 实现按空操作处理并输出一次性低版本日志。</p>
      *
      * @param bumpNutrition false 时不做 {@code <1→1} 提升（原版进食模式下的脚本食物：
      *                      营养值归 0，恢复值全部由 consume 事件的脚本 opts 提供，
@@ -116,7 +98,7 @@ public final class FoodHelper {
     public static boolean apply(ItemStack stack, int nutrition, float saturation, boolean canAlwaysEat,
                                 float eatSeconds, boolean bumpNutrition) {
         if (stack == null) return true;
-        if (!HAS_FOOD_API) {
+        if (!hasFoodApi()) {
             if (!lowVersionLogged) {
                 lowVersionLogged = true;
                 WT.log("当前服务端低于 1.20.5，无 FoodComponent API，foods.yml 的营养/饱食度组件不生效（脚本食物效果不受影响）");
@@ -125,30 +107,10 @@ public final class FoodHelper {
         }
         if (bumpNutrition && nutrition < 1) nutrition = 1;
         if (saturation < 0f) saturation = 0f;
-        final int fFood = nutrition;
-        final float fSat = saturation;
-        final boolean fAlways = canAlwaysEat;
-        boolean[] ok = {true};
-        stack.editMeta(meta -> {
-            try {
-                FoodComponent fc = meta.getFood();
-                fc.setNutrition(fFood);
-                fc.setSaturation(fSat);
-                fc.setCanAlwaysEat(fAlways);
-                if (eatSeconds > 0) {
-                    try {
-                        Method m = fc.getClass().getMethod("setEatSeconds", float.class);
-                        m.invoke(fc, eatSeconds);
-                    } catch (NoSuchMethodException ignored) {
-                        // 当前 Paper 版本 FoodComponent 无 eatSeconds，忽略（与 RSC 一致）
-                    }
-                }
-                meta.setFood(fc);
-            } catch (Throwable e) {
-                ok[0] = false;
-                WT.log("FoodComponent 应用失败: " + e);
-            }
-        });
-        return ok[0];
+        boolean ok = Compat.food().applyFood(stack, nutrition, saturation, canAlwaysEat, eatSeconds, false);
+        if (!ok) {
+            WT.log("FoodComponent 应用失败（compat 实现: " + Compat.food().getClass().getSimpleName() + "）");
+        }
+        return ok;
     }
 }
