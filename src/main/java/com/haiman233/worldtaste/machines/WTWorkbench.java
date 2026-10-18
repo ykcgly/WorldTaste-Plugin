@@ -1,60 +1,131 @@
 package com.haiman233.worldtaste.machines;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * 工作台（workbenches.yml，如百味万用炉/河豚工作台）：复用 {@link WTRecipeMachine} 的配方/GUI，
- * 但不自动 tick 合成；改为玩家点击 click 槽位时即时合成（匹配并消耗输入、产出）。
+ * 工作台（workbenches.yml，如河豚工作台）：点击 click 槽位即时合成——不耗电、无进度、
+ * 不参与粘液 tick（1.10.0 起，海曼书皮压缩机模式：extends {@link SlimefunItem} 而非
+ * AContainer，从根源脱离电力组件与 tick 调度）。
  *
- * <p>电力可选（yml {@code energy}，默认 true）：{@code energy: false} 的纯工作台
- * （如河豚工作台）不参与电网——合成不扣电、无蓄电容量，且通过 {@code disableTicker}
- * 退出粘液 tick 周期（tick 本就为空，注册只会白白占用调度）。</p>
+ * <p>需要耗电的工作台（如百味万用炉）见子类 {@link WTEnergyWorkbench}
+ * （yml {@code energy: true}，默认）。</p>
+ *
+ * <p>匹配/消耗/菜单布局与电力机器同源：{@link RecipeMatcher}（静态匹配引擎）+
+ * {@link MachineMenuBuilder}（静态菜单构建）+ {@link RecipeMatch}（实体桶/工具比较）。</p>
  */
-public class WTWorkbench extends WTRecipeMachine {
+public class WTWorkbench extends SlimefunItem implements InventoryBlock, WTMachine {
 
     private final int clickSlot;
-    /** 是否耗电合成（yml energy，默认 true；false = 纯工作台，免电免 tick）。 */
-    private final boolean usesEnergy;
+    private final int[] inputSlots;
+    private final int[] outputSlots;
+    private final int[] posBySlot;
+    private final List<WTRecipe> recipes;
+    private final MenuDef menu;
+    private final Map<Location, WTRecipe> lastFilled = new ConcurrentHashMap<>();
 
     public WTWorkbench(ItemGroup group, SlimefunItemStack item, RecipeType rt, ItemStack[] recipe,
                        int[] input, int[] output, List<WTRecipe> recipes,
                        int capacity, int consumption, int speed, MenuDef menu, boolean hideAll,
                        int clickSlot, boolean usesEnergy) {
-        super(group, item, rt, recipe, input, output, recipes, capacity, consumption, speed, menu, hideAll);
+        super(group, item, rt, recipe);
+        this.inputSlots = input;
+        this.outputSlots = output;
+        this.posBySlot = RecipeMatcher.buildPosBySlot(input);
+        this.recipes = recipes;
+        this.menu = menu;
         this.clickSlot = clickSlot;
-        this.usesEnergy = usesEnergy;
-        if (!usesEnergy) {
-            // 纯工作台：清空电力参数——容量/单次耗电归 0，不再作为电网组件参与蓄电与请求
-            setCapacity(0);
-            setEnergyConsumption(0);
-        }
-        // 用自定义 preset 覆盖 AContainer 默认 preset，在 newInstance 挂接点击合成
-        new BlockMenuPreset(getId(), getItemName()) {
+        // capacity/consumption/usesEnergy 对纯工作台均无意义（免电免 tick）；
+        // 耗电变体 WTEnergyWorkbench 自行取用
+        addItemHandler(new SimpleBlockBreakHandler() {
+            @Override
+            public void onBlockBreak(Block b) {
+                BlockMenu inv = BlockStorage.getInventory(b.getLocation());
+                if (inv != null) {
+                    inv.dropItems(b.getLocation(), inputSlots);
+                    inv.dropItems(b.getLocation(), outputSlots);
+                }
+            }
+        });
+        // 机器登记（大配方展示/产物反查/禁用配方过滤共用 INSTANCES）
+        WTRecipeMachine.registerMachine(this);
+        // 必须用显式 preset（覆写 newInstance 挂点击合成）——
+        // InventoryBlock.createPreset 的匿名类不覆写 newInstance（fork 默认空实现），
+        // 会导致点击合成 handler 从未注册（实测：河豚工作台点合成无反应）
+        createWorkbenchPreset();
+    }
+
+    private void constructMenu(BlockMenuPreset preset) {
+        MachineMenuBuilder.build(preset, this, menu, inputSlots, outputSlots, -1, null, java.util.Collections.emptySet());
+    }
+
+    @Override
+    public int[] getInputSlots() { return inputSlots; }
+
+    @Override
+    public int[] getOutputSlots() { return outputSlots; }
+
+    @Override
+    public List<WTRecipe> getRecipes() { return recipes; }
+
+    @Override
+    public void rememberFilled(Location loc, WTRecipe recipe) {
+        if (loc != null && recipe != null) lastFilled.put(loc, recipe);
+    }
+
+    @Override
+    public WTRecipe lastFilledAt(Location loc) {
+        return loc == null ? null : lastFilled.get(loc);
+    }
+
+    private void craft(BlockMenu menu) {
+        // 顺序很关键：先无消耗匹配，命中后才消耗输入、产出（纯工作台不扣电）。
+        var m = RecipeMatcher.findMatch(menu, recipes, inputSlots, outputSlots, posBySlot, false);
+        if (m == null) return;
+        if (!consumeEnergy(menu)) return;
+        RecipeMatcher.consumeMatch(menu, m, inputSlots);
+        m.recipe.pushOutputs(menu, outputSlots);
+    }
+
+    /** 能量钩子：纯工作台恒 true（不扣电）；耗电变体（WTEnergyWorkbench）覆盖为扣电语义。 */
+    protected boolean consumeEnergy(BlockMenu menu) {
+        return true;
+    }
+
+    /** 创建机器界面 preset（构造器内调用）：挂点击合成与 cargo 传输。 */
+    protected BlockMenuPreset createWorkbenchPreset() {
+        return new BlockMenuPreset(getId(), getItemName()) {
             @Override
             public void init() {
-                WTWorkbench.this.constructMenu(this);
+                constructMenu(this);
             }
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
                 menu.addMenuClickHandler(clickSlot, (player, slot, clicked, action) -> {
-                    WTWorkbench.this.craft(menu);
+                    craft(menu);
                     return false;
                 });
             }
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                return flow == ItemTransportFlow.INSERT ? getInputSlots() : getOutputSlots();
+                return flow == ItemTransportFlow.INSERT ? inputSlots : outputSlots;
             }
 
             @Override
@@ -67,42 +138,5 @@ public class WTWorkbench extends WTRecipeMachine {
                                         io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction.INTERACT_BLOCK));
             }
         };
-    }
-
-    /**
-     * 点击即时合成的工作台没有合成过程，退出粘液 tick 周期。
-     * 实现：AContainer.preRegister() 的唯一职责就是注册逐 tick 的 BlockTicker（字节码实证，
-     * 方法体仅 addItemHandler 一个匿名 ticker）——此处整体覆盖且不调 super，ticker 从根源
-     * 不注册，不再占用每 tick 调度（tick 空实现仅保留占位）。
-     */
-    @Override
-    public void preRegister() {
-        // 不调用 super.preRegister()：跳过 AContainer 的 BlockTicker 注册
-    }
-
-    /**
-     * 工作台是点击即时合成（无合成过程），不存在进度显示——禁用进度槽占位。
-     */
-    @Override
-    protected int progressSlot() {
-        return -1;
-    }
-
-    @Override
-    protected void tick(Block b) {
-        // 工作台不自动合成；preRegister 未注册 ticker，本方法不会被调度
-    }
-
-    private void craft(BlockMenu menu) {
-        // 顺序很关键：先无消耗匹配，命中后才扣能量并消耗输入、产出。
-        //  · 若先扣能量再匹配：玩家空点击会白扣机器能量（可被反复刷空共享机器的能量）；
-        //  · 若先消耗输入再扣能量：没电时已消耗输入却无产出（吞物品）。
-        // 拆出无消耗 findMatch 后：无配方→不扣能量不消耗；有配方没电→不消耗不产出（安全失败）。
-        // energy: false 的纯工作台不扣电。
-        var m = findMatch(menu);
-        if (m == null) return;
-        if (usesEnergy && !takeCharge(menu.getLocation())) return;
-        consumeMatch(menu, m);
-        m.recipe.pushOutputs(menu, getOutputSlots());
     }
 }

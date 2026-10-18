@@ -3,6 +3,7 @@ package com.haiman233.worldtaste.load;
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.machines.MenuDef;
 import com.haiman233.worldtaste.machines.WTRecipe;
+import com.haiman233.worldtaste.machines.WTEnergyWorkbench;
 import com.haiman233.worldtaste.machines.WTWorkbench;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -38,14 +39,18 @@ public final class WorkbenchLoader {
                 if (output.length == 0) output = new int[] { 16 };
                 int capacity = s.getInt("capacity", 128);
                 int energyPerCraft = s.getInt("energyPerCraft", 8);
-                // energy: false = 纯工作台（不耗电、退出 tick 周期，如河豚工作台）；默认 true 兼容旧配置
+                // energy: false = 纯工作台（WTWorkbench，不耗电、退出 tick 周期，如河豚工作台）；
+                // 默认 true = 耗电型（WTEnergyWorkbench，如百味万用炉）
                 boolean usesEnergy = s.getBoolean("energy", true);
                 int click = s.getInt("click", 22);
                 boolean hideAll = s.getBoolean("hideAllRecipes", false);
                 List<WTRecipe> recipes = RecipeMachineLoader.readRecipes(s.getConfigurationSection("recipes"), input.length);
                 MenuDef menu = WT.menus.get(id);
-                WTWorkbench w = new WTWorkbench(g, sfis, rt, craftRecipe, input, output, recipes,
-                        capacity, energyPerCraft, 1, menu, hideAll, click, usesEnergy);
+                WTWorkbench w = usesEnergy
+                        ? new WTEnergyWorkbench(g, sfis, rt, craftRecipe, input, output, recipes,
+                                capacity, energyPerCraft, 1, menu, hideAll, click)
+                        : new WTWorkbench(g, sfis, rt, craftRecipe, input, output, recipes,
+                                capacity, energyPerCraft, 1, menu, hideAll, click, false);
                 w.register(WT.plugin);
                 ok++;
             } catch (Exception e) {

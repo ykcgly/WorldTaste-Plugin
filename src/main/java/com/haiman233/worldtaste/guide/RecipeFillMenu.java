@@ -2,7 +2,7 @@ package com.haiman233.worldtaste.guide;
 
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.machines.WTRecipe;
-import com.haiman233.worldtaste.machines.WTRecipeMachine;
+import com.haiman233.worldtaste.machines.WTMachine;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public final class RecipeFillMenu {
     private static volatile boolean pinyinAvailable = true;
 
     /** 一次待输入搜索的上下文。 */
-    private record SearchCtx(WTRecipeMachine machine, BlockMenu menu) {}
+    private record SearchCtx(WTMachine machine, BlockMenu menu) {}
 
     private RecipeFillMenu() {}
 
@@ -70,11 +70,11 @@ public final class RecipeFillMenu {
     }
 
     /** 打开配方选择菜单。@param menu 玩家当前打开的机器菜单（补全按钮所在），可能为 null 时走准星兜底 */
-    public static void open(Player p, WTRecipeMachine machine, BlockMenu menu) {
+    public static void open(Player p, WTMachine machine, BlockMenu menu) {
         open(p, machine, menu, 0, null);
     }
 
-    public static void open(Player p, WTRecipeMachine machine, BlockMenu menu, int page) {
+    public static void open(Player p, WTMachine machine, BlockMenu menu, int page) {
         open(p, machine, menu, page, null);
     }
 
@@ -83,7 +83,7 @@ public final class RecipeFillMenu {
      *
      * @param search 搜索词（null/空白 = 全部配方；否则按产物/材料名称与拼音过滤）
      */
-    public static void open(Player p, WTRecipeMachine machine, BlockMenu menu, int page, String search) {
+    public static void open(Player p, WTMachine machine, BlockMenu menu, int page, String search) {
         List<WTRecipe> all = machine.getRecipes();
         List<WTRecipe> recipes = all;
         boolean searching = search != null && !search.isBlank();
@@ -176,7 +176,7 @@ public final class RecipeFillMenu {
      *
      * @param portions 份数（1 或 8）
      */
-    public static void refill(Player p, WTRecipeMachine machine, BlockMenu provided, int portions) {
+    public static void refill(Player p, WTMachine machine, BlockMenu provided, int portions) {
         BlockMenu inv = resolveInv(p, machine, provided);
         if (inv == null) return;
         WTRecipe last = machine.lastFilledAt(inv.getLocation());
@@ -191,7 +191,7 @@ public final class RecipeFillMenu {
     }
 
     /** 搜索按钮点击：关闭界面，转入聊天输入（拦截该条聊天不上公屏）。 */
-    private static void promptSearch(Player p, WTRecipeMachine machine, BlockMenu menu) {
+    private static void promptSearch(Player p, WTMachine machine, BlockMenu menu) {
         pendingSearch.put(p.getUniqueId(), new SearchCtx(machine, menu));
         p.closeInventory();
         p.sendMessage(ChatColor.GREEN + "请输入文本，输入\"取消\"取消搜索");
@@ -274,7 +274,7 @@ public final class RecipeFillMenu {
     }
 
     /** 左键：补全所选配方一份材料（每次点击在当前槽位基础上追加一份，可多次点击堆叠多份）。 */
-    private static void fill(Player p, WTRecipeMachine machine, WTRecipe r, BlockMenu provided) {
+    private static void fill(Player p, WTMachine machine, WTRecipe r, BlockMenu provided) {
         int missing = fillOne(p, machine, r, provided);
         p.sendMessage(missing == 0
                 ? ChatColor.GREEN + "材料已填充一份"
@@ -282,7 +282,7 @@ public final class RecipeFillMenu {
     }
 
     /** 右键：像左键一样逐份追加，但一次追加 {@link #FILL_GROUP_SIZE} 份材料（可多次点击继续累加）。 */
-    private static void fillN(Player p, WTRecipeMachine machine, WTRecipe r, BlockMenu provided) {
+    private static void fillN(Player p, WTMachine machine, WTRecipe r, BlockMenu provided) {
         int missing = fillCore(p, machine, r, provided, FILL_GROUP_SIZE);
         p.sendMessage(missing == 0
                 ? ChatColor.GREEN + "已补全该配方 " + FILL_GROUP_SIZE + " 份材料"
@@ -290,7 +290,7 @@ public final class RecipeFillMenu {
     }
 
     /** 解析机器菜单（传入或准星兜底），校验归属。 */
-    private static BlockMenu resolveInv(Player p, WTRecipeMachine machine, BlockMenu provided) {
+    private static BlockMenu resolveInv(Player p, WTMachine machine, BlockMenu provided) {
         BlockMenu inv = provided;
         if (inv == null) {
             Block target = p.getTargetBlockExact(5);
@@ -306,12 +306,12 @@ public final class RecipeFillMenu {
     /**
      * 填充单个配方一份材料（增量语义：每次在当前槽位已有基础上再追加一份），返回缺失材料数。
      */
-    private static int fillOne(Player p, WTRecipeMachine machine, WTRecipe r, BlockMenu provided) {
+    private static int fillOne(Player p, WTMachine machine, WTRecipe r, BlockMenu provided) {
         return fillCore(p, machine, r, provided, 1);
     }
 
     /** 填充核心：增量语义——在槽内已有基础上追加 portions 份所需材料。返回缺失材料数（不发送消息）。 */
-    private static int fillCore(Player p, WTRecipeMachine machine, WTRecipe r, BlockMenu provided, int portions) {
+    private static int fillCore(Player p, WTMachine machine, WTRecipe r, BlockMenu provided, int portions) {
         BlockMenu inv = resolveInv(p, machine, provided);
         if (inv == null) return 0;
         // 记录「上一次补全的配方」（按方块位置）：供机器界面补全按钮右键/Shift+右键一键复补

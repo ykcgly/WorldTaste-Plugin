@@ -2,7 +2,7 @@ package com.haiman233.worldtaste.guide;
 
 import com.haiman233.worldtaste.jeg.JegHook;
 import com.haiman233.worldtaste.machines.WTRecipe;
-import com.haiman233.worldtaste.machines.WTRecipeMachine;
+import com.haiman233.worldtaste.machines.WTMachine;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
@@ -44,7 +44,7 @@ public final class BigRecipeMenu {
 
     /** 是否为大型配方机器：任一工作配方的输入项数超过 9（3x3 标准以上）。
      *  大型机器使用本大配方菜单；普通机器保留 JEG/Slimefun 默认配方展示。 */
-    public static boolean isLargeRecipeMachine(WTRecipeMachine machine) {
+    public static boolean isLargeRecipeMachine(WTMachine machine) {
         for (WTRecipe r : machine.getRecipes()) {
             int n = 0;
             for (ItemStack in : r.getInput()) if (in != null) n++;
@@ -54,7 +54,7 @@ public final class BigRecipeMenu {
     }
 
     /** 兼容入口：0=合成配方页；i=按全局顺序的第 i 个工作配方页（不经产物列表）。 */
-    public static void open(Player p, WTRecipeMachine machine, int index, Runnable backOpener) {
+    public static void open(Player p, WTMachine machine, int index, Runnable backOpener) {
         List<WTRecipe> recipes = machine.getRecipes();
         int workCount = recipes.size();
         int total = workCount + 1; // 0 = 合成页
@@ -70,7 +70,7 @@ public final class BigRecipeMenu {
     }
 
     /** 合成配方页：标准 3x3 布局（对齐 LogiTech），53 = 配方展示（产物列表）。 */
-    private static void openCraftPage(Player p, WTRecipeMachine machine, Runnable backOpener) {
+    private static void openCraftPage(Player p, WTMachine machine, Runnable backOpener) {
         List<WTRecipe> recipes = machine.getRecipes();
         int workCount = recipes.size();
         String title = ChatColor.stripColor(machine.getItemName()) + " · 合成配方";
@@ -111,7 +111,7 @@ public final class BigRecipeMenu {
     }
 
     /** 产物列表页（配方补全同款形式）：主产物去重后逐格展示，点击进入该产物的配方页。 */
-    public static void openProductList(Player p, WTRecipeMachine machine, int page, Runnable backOpener) {
+    public static void openProductList(Player p, WTMachine machine, int page, Runnable backOpener) {
         List<WTRecipe> recipes = machine.getRecipes();
         // 按主产物身份去重（SF id 优先，否则材质+显示名），记录每产物命中的配方下标
         Map<String, ItemStack> products = new LinkedHashMap<>();
@@ -181,7 +181,7 @@ public final class BigRecipeMenu {
     }
 
     /** 大型配方展示页：cycle = 可循环展示的配方下标（全局顺序），fromList = 是否从产物列表进入。 */
-    public static void openWorkPage(Player p, WTRecipeMachine machine, int[] cycle, int pos, boolean fromList, Runnable backOpener) {
+    public static void openWorkPage(Player p, WTMachine machine, int[] cycle, int pos, boolean fromList, Runnable backOpener) {
         List<WTRecipe> recipes = machine.getRecipes();
         int workIdx = cycle[pos];
         WTRecipe r = recipes.get(workIdx);
@@ -268,7 +268,7 @@ public final class BigRecipeMenu {
     /** 材料点击导航：子机器 → 打开其大配方菜单；普通粘液物品 → 跳转指南材料页；原版材料不动。 */
     private static void navigateIngredient(Player pl, ItemStack display, Runnable reopenSelf) {
         SlimefunItem sf = SlimefunItem.getByItem(display);
-        if (sf instanceof WTRecipeMachine sub) {
+        if (sf instanceof WTMachine sub) {
             BigRecipeMenu.open(pl, sub, 0, reopenSelf);
         } else if (sf != null) {
             // 材料堆带 slimefun id PDC（Read.resolve 前向引用修复后所有配方材料均可识别）；
@@ -333,7 +333,7 @@ public final class BigRecipeMenu {
         return "mc:" + out.getType() + ":" + name;
     }
 
-    private static String recipeTypeName(WTRecipeMachine machine) {
+    private static String recipeTypeName(WTMachine machine) {
         try {
             return ChatColor.stripColor(machine.getRecipeType().toItem().getItemMeta().getDisplayName());
         } catch (Throwable t) {
@@ -350,7 +350,7 @@ public final class BigRecipeMenu {
             lore.add(ChatColor.GREEN + "材料 " + (index + 1));
             if (clone.getAmount() > 1) lore.add(ChatColor.RED + "数量: " + clone.getAmount());
             SlimefunItem sf = SlimefunItem.getByItem(clone);
-            if (sf instanceof WTRecipeMachine) lore.add(ChatColor.DARK_GRAY + "点击打开该机器配方");
+            if (sf instanceof WTMachine) lore.add(ChatColor.DARK_GRAY + "点击打开该机器配方");
             else if (sf != null) lore.add(ChatColor.DARK_GRAY + "点击查看获取方式");
             meta.setLore(lore);
             clone.setItemMeta(meta);
@@ -367,7 +367,7 @@ public final class BigRecipeMenu {
             lore.add(ChatColor.GREEN + "合成材料 " + (index + 1));
             if (clone.getAmount() > 1) lore.add(ChatColor.RED + "数量: " + clone.getAmount());
             SlimefunItem sf = SlimefunItem.getByItem(clone);
-            if (sf instanceof WTRecipeMachine) lore.add(ChatColor.DARK_GRAY + "点击打开该机器配方");
+            if (sf instanceof WTMachine) lore.add(ChatColor.DARK_GRAY + "点击打开该机器配方");
             else if (sf != null) lore.add(ChatColor.DARK_GRAY + "点击查看获取方式");
             meta.setLore(lore);
             clone.setItemMeta(meta);
@@ -409,7 +409,7 @@ public final class BigRecipeMenu {
         return clone;
     }
 
-    private static ItemStack describeMachine(WTRecipeMachine machine, WTRecipe r) {
+    private static ItemStack describeMachine(WTMachine machine, WTRecipe r) {
         ItemStack icon = machine.getItem().clone();
         ItemMeta meta = icon.getItemMeta();
         if (meta != null) {

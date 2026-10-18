@@ -4,6 +4,7 @@ import com.balugaq.jeg.api.objects.events.GuideEvents;
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.guide.BigRecipeMenu;
 import com.haiman233.worldtaste.guide.DecorativeSubGroup;
+import com.haiman233.worldtaste.machines.WTMachine;
 import com.haiman233.worldtaste.machines.WTRecipeMachine;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
@@ -49,7 +50,7 @@ public final class JegGuideListener implements Listener {
         //（深入浏览后点返回应交还 JEG 自行逐级返回，而非弹回大配方页）
         BigRecipeMenu.invalidateReturn(e.getPlayer());
         SlimefunItem sf = SlimefunItem.getByItem(clicked);
-        if (sf instanceof WTRecipeMachine machine && BigRecipeMenu.isLargeRecipeMachine(machine)) {
+        if (sf instanceof WTMachine machine && BigRecipeMenu.isLargeRecipeMachine(machine)) {
             // 仅大型配方机器（如终焉厨锅）拦截并打开大配方菜单；普通机器保留 JEG 默认展示
             e.setCancelled(true);
             BigRecipeMenu.open(e.getPlayer(), machine, 0, null);
