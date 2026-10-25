@@ -77,7 +77,6 @@ public final class Behaviors {
             if (s.isSet("remainingAirAdd")) o.remainingAirAdd = s.getInt("remainingAirAdd");
             if (s.isSet("foodSet")) o.foodSet = s.getInt("foodSet");
             if (s.isSet("saturationSet")) o.saturationSet = (float) s.getDouble("saturationSet");
-            o.requireHungry = s.getBoolean("requireHungry", false);
             if (s.isSet("satRegen")) o.satRegen = s.getInt("satRegen");
             if (s.isSet("unsatRegen")) o.unsatRegen = s.getInt("unsatRegen");
             if (s.isSet("starvation")) o.starvation = s.getInt("starvation");
@@ -207,7 +206,6 @@ public final class Behaviors {
         public Integer remainingAirAdd;
         public Integer foodSet;
         public Float saturationSet;
-        public boolean requireHungry;
         public Integer satRegen;
         public Integer unsatRegen;
         public Integer starvation;

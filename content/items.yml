@@ -22,7 +22,7 @@ WORLDTASTE_VERSINO:
     material: PAPER
     lore:
       - '&f当前版本:'
-      - '&bRelease-1.10.0'
+      - '&bRelease-1.10.1'
       - '&7您在提issues的时候需要展示这个'
       - '&7如果尘世百味加载不完全，请先检查服务器是否安装了美食家和异域花园附属'
       - '&7尘世百味附属始于2025年1月12日'
@@ -1989,7 +1989,7 @@ WT_LAHUAJIAO:
   recipe:
     5:
       material_type: slimefun
-      material: WT_SEED_HUAJIAO
+      material: WT_SEED_LAHUAJIAO
       amount: 1
 # 玉米
 WT_YMHFJ: #rgb(165,165,168)
@@ -7358,6 +7358,34 @@ WT_TUZAI_LAB110:
       material_type: slimefun
       material: WT_MUSEEHUN
       amount: 1
+# 屠宰 鲑鱼
+WT_TUZAI_GUIYUYUTOU:
+  item_group: ws_tuzai
+  item:
+    name: "&a&l鲑鱼鱼头"
+    material_type: skull_hash
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjBlYTlhMjIzNjIwY2RiNTRiMzU3NDEzZDQzYmQ4OWM0MDA4YmNhNmEyMjdmM2I3ZGI5N2Y3NzMzZWFkNWZjZiJ9fX0=
+  placeable: false
+  recipe_type: WUWEI_TUZAIKANDAO
+  recipe:
+    5:
+      material_type: slimefun
+      material: WT_ZHENGZHICUNMING
+      amount: 1
+WT_TUZAI_YUPAI:
+  item_group: ws_tuzai
+  item:
+    name: "&a&l鲑鱼鱼排"
+    material_type: skull_hash
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjcwYTk4OTJkZGI5NzM1OTY2ZjZmODFjM2JjNDkzNWE4NTc0YTE4ODE1MDE3ODZlZDhjNjQwMDBmNmFhYmQ5MSJ9fX0=
+  placeable: false
+  recipe_type: WUWEI_TUZAIKANDAO
+  recipe:
+    5:
+      material_type: slimefun
+      material: WT_ZHENGZHICUNMING
+      amount: 1
+
 # 屠宰 末影龙
 WT_TUZAI_LONGJIAO:
   item_group: ws_tuzai
@@ -13643,6 +13671,36 @@ WT_KAOYUPISA:
       amount: 1
       material_type: slimefun
       material: WT_PISAMIANTUAN
+  placeable: false
+  script: '8'
+WT_NIUROJIANG:
+  item:
+    lore:
+    - ''
+    - §7§o恢复 §b§o4 §7§o点饥饿值和饱和度
+    name: §c§l牛肉酱
+    amount: 1
+    material_type: skull_hash
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjEzMGExYTViOTRiYWRlYmQ3NTYxNDllZWI4NTVmMDYzNjFlNTBlM2RiNjE4YTE1YzFkMTFhMzQ3NzFlMWIzIn19fQ==
+  item_group: ws_kuaican
+  recipe_type: WUWEI_CHUFANG
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: BEEF
+    '2':
+      amount: 1
+      material_type: slimefun
+      material: WT_LAHUAJIAO
+    '3':
+      amount: 1
+      material_type: slimefun
+      material: GARLIC
+    '5':
+      amount: 1
+      material_type: mc
+      material: glass_bottle
   placeable: false
   script: '8'
 WT_XIANGCHANGPISA:
@@ -23249,6 +23307,44 @@ WT_MIFAN:
       amount: 1
       material_type: mc
       material: BOWL
+  placeable: false
+  script: '5'
+WT_MAPODOFU:
+  item:
+    lore:
+    - ''
+    - §7§o恢复 §b§o2.5 §7§o点饥饿值和饱和度
+    name: §c§l麻婆豆腐
+    amount: 1
+    material_type: skull_hash
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2JiMDc5ZDU0YWNmOWZkNTZlMDcwNjM3OTg0MTA0MGEzMWQ5OTgwMmNkYTU0YTRmNjBkNGYyOTRjM2JlMjBhNiJ9fX0=
+  item_group: ws_zhongcan
+  recipe_type: WUWEI_WAGUO
+  recipe:
+    '1':
+      amount: 1
+      material_type: slimefun
+      material: WT_XIAOMILA
+    '2':
+      amount: 1
+      material_type: slimefun
+      material: WT_NIUROJIANG
+    '3':
+      amount: 1
+      material_type: slimefun
+      material: GN_TOFU
+    '4':
+      amount: 1
+      material_type: slimefun
+      material: WT_LAHUAJIAO
+    '5':
+      amount: 1
+      material_type: mc
+      material: BOWL
+    '6':
+      amount: 1
+      material_type: slimefun
+      material: GARLIC
   placeable: false
   script: '5'
 WT_HMJ:

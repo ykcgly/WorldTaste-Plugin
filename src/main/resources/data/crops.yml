@@ -1219,6 +1219,6 @@
   "maxAge": 1
   "stages": "small"
   "weightedDrops":
-    - {"id": "WT_JIEQIUSHENGCAI", "weight": 1.0}
+    - {"id": "WT_LAHUAJIAO", "weight": 1.0}
     - {"id": "WT_SEED_LAHUAJIAO", "weight": 1.0}
   "cropId": "WT_SEED_LAHUAJIAO"

@@ -163,7 +163,9 @@ public final class ItemsLoader {
                         sat = copts.saturation.floatValue();
                     }
                 }
-                FoodHelper.applyNativeFood(sfis, !copts.requireHungry,
+                // canAlwaysEat 恒 true：饱食度检测已移除（满饱食度/创造模式同样可食用），
+                // 与原版注册、旧存档懒升级三条路径共用同一语义
+                FoodHelper.applyNativeFood(sfis, true,
                         drink ? "drink" : "eat", skey,
                         (float) s.getDouble("eatseconds", s.getDouble("eat_seconds", 0)),
                         nut, sat);

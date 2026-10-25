@@ -40,7 +40,7 @@ public final class FoodConsumeListener implements Listener {
                 return;
             }
             // 旧模式：脚本类食物（ConsumableItem）绝不允许被原版进食链路消耗：食用一律由脚本
-            // 统一处理（饱食度校验/副手校验/药水/提示/音效），原版链路会绕过这一切——实测服上
+            // 统一处理（副手校验/药水/提示/音效），原版链路会绕过这一切——实测服上
             // 「满饱食度右键仍被消耗」即来自这条路径，这里直接拦截，物品不消耗。
             e.setCancelled(true);
             if (WTConfig.debugFood) {

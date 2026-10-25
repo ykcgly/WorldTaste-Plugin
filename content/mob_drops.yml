@@ -1,3 +1,4 @@
+###################################肉类#####################################
 WT_JUSHILIJI:
   lateInit: false
   item_group: ws_roulei
@@ -1056,7 +1057,7 @@ WT_NPCROU_V:
   register:
     conditions:
       - version >= 1.21.9
-# 蛋
+################################# 蛋 ################################
 WT_MUSEEHUNDAN:
   lateInit: false
   item_group: ws_dongwu
@@ -1103,7 +1104,7 @@ WT_JIANSHOUZHEPI:
     amount: 1
   entity: WARDEN
   chance: 10
-# 屠宰
+################################# 屠宰 ################################
 WT_ZHENGZHIZHU:
   lateInit: false
   item_group: ws_tuzai
@@ -1176,7 +1177,19 @@ WT_ZHENGZHICUNMING:
     amount: 1
   entity: VILLAGER
   chance: 30
-# 鱼籽
+WT_ZHENGZHICUNMING:
+  lateInit: false
+  item_group: ws_tuzai
+  item:
+    name: '&f&l整条鲑鱼'
+    lore:
+    - '&7需要放入屠宰机中屠宰'
+    material_type: skull_hash
+    material: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdkN2FiODEyNDBjMjJjZWJmOTI3YmJjZWQ5ZWVjZjdmMjZmN2RhNjg0ZTM2OWJkMTVkODkzMzFlZDQ0ZTJkZiJ9fX0=
+    amount: 1
+  entity: SALMON
+  chance: 70
+################################# 鱼籽 ################################
 WT_SHOUWEIZHE_ROE:
   lateInit: false
   item_group: ws_xinglugubuchong

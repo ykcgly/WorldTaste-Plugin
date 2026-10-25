@@ -59,7 +59,10 @@ public final class FoodHelper {
      * {@code saturation_modifier} 更名并改义），不是旧版 FoodData.eat 的修饰符，无需换算。
      * 恢复上限受当前饥饿值约束——与旧 {@code setSaturation} 的钳制一致。</p>
      *
-     * @param canAlwaysEat 饱食度满时是否仍可吃（脚本未要求饥饿 → true，对齐旧 eat() 语义）
+     * @param canAlwaysEat 饱食度满时是否仍可吃。尘世百味全部食物恒传 true——进食饱食度
+     *                      检测已整体移除（原脚本 requireHungry / foods.yml always_eatable
+     *                      均废弃），满饱食度与创造模式同样可食用；参数保留是为兼容
+     *                      其它可能的调用方。
      * @param animation    "eat" 或 "drink"
      * @param soundKey     音效资源键（null=组件默认音效）
      * @param eatSeconds   食用时长（&gt;0 时设置，否则默认 1.6s）
@@ -82,7 +85,8 @@ public final class FoodHelper {
      *       在 foods.yml 无 nutrition，缺省 0；RSC 将 &lt;1 一律提升为 1 使其可食，恢复值主体由 onEat
      *       脚本 {@code opts.food/saturation} 提供）；</li>
      *   <li>{@code saturation<0} → 0；</li>
-     *   <li>{@code canAlwaysEat} 取食物自身 {@code always_eatable}（默认 false，即饥饿时才可食）。</li>
+     *   <li>{@code canAlwaysEat}：尘世百味恒为 true（饱食度检测已移除，创造模式同样可食用）；
+     *       对齐 RSC 时期的 {@code always_eatable} 字段已废弃不再读取。</li>
      * </ul>
      * 实现经 {@link Compat#food()} 版本路由直调（1.20.5+ 直调 {@code ItemMeta#getFood/setFood}，
      * 无反射）；1.20.4- 版本段无组件 API，noop 实现按空操作处理并输出一次性低版本日志。</p>

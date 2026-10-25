@@ -49,6 +49,13 @@ import org.bukkit.potion.PotionEffectType;
  *   <li>offhandTool 使用型物品（吸烟需打火石、雪茄需剪刀）永不放置、永不走原版进食
  *       （不注入可食组件），保持插件使用逻辑。</li>
  * </ul>
+ *
+ * <p><b>饱食度检测（已移除）</b>：1.10.0 及以前，脚本带 {@code requireHungry: true} 的食物在
+ * 饱食度满（{@code getFoodLevel() >= 20}）时被整体拦截——不食用、不消耗、并取消底层交互。
+ * 该检测会连带挡住<b>创造模式玩家</b>（创造下饱食度恒为 20，永远「已满」），导致创造玩家
+ * 根本无法食用任何此类食物。现已整体移除：所有食物饱食度满时同样可食用（对齐原版
+ * {@code canAlwaysEat} 食物，如金苹果），消耗与效果正常结算，只是数值恢复被服务端钳制在
+ * 上限内。数据里的 {@code requireHungry} 字段随之废弃，不再解析。</p>
  */
 public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
@@ -98,7 +105,9 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
                         int nut = opts.componentCarriesFood() ? Math.max(0, opts.food.intValue()) : 0;
                         float sat = (opts.componentCarriesFood() && opts.saturation != null)
                                 ? opts.saturation.floatValue() : 0f;
-                        FoodHelper.applyNativeFood(live, !opts.requireHungry, drink ? "drink" : "eat", skey, 0f, nut, sat);
+                        // canAlwaysEat 恒 true：饱食度检测已移除（满饱食度/创造模式同样可食用，
+                        // 见类注释），旧存档懒升级与原版注册共用同一语义
+                        FoodHelper.applyNativeFood(live, true, drink ? "drink" : "eat", skey, 0f, nut, sat);
                         dbg(p, "旧物品缺少可食组件 → 已懒升级（本次起走原版进食）");
                     }
                 }
@@ -127,16 +136,9 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             // 食用：DENY 原版「使用物品」（原版放置 + 原版白吃——1.21.2+ 的 consumable 组件
             // 可能在饥饿时抢走本次交互），自行执行食用逻辑。
             // 只 DENY useItem、不动 useBlock，以免手持食物时无法右键箱子/门等方块。
-            if (opts.requireHungry && p.getFoodLevel() >= 20) {
-                // 饱食度已满且该食物要求「饿了才吃」：什么都不做，也绝不允许被消耗。
-                // 实测仅有 setUseItem(DENY) 时仍会被第三方路径消耗（食物的 consumable 组件
-                // /其它插件），故这里把底层 PlayerInteractEvent 整个取消——useItem 与
-                // useBlock 一并 DENY，服务端与插件侧都不会再有后续动作。
-                dbg(p, "饱食度已满且要求饥饿 → 不食用、不消耗（并取消底层交互）");
-                e.setUseItem(Event.Result.DENY);
-                e.getInteractEvent().setCancelled(true);
-                return;
-            }
+            //
+            // 注意：此处不再做饱食度检测（原 requireHungry 分支已移除）——饱食度满时同样
+            // 放行食用，避免创造模式玩家（饱食度恒 20）被挡住无法进食。
             dbg(p, "→ DENY 原版使用物品，自行食用");
             e.setUseItem(Event.Result.DENY);
             eat(p, hand);
@@ -148,7 +150,6 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
      * 除下述两个特例外全部交原版，遵循「只有蹲下才能放置」的既定语义——
      * <ul>
      *   <li>另一只手持有粘液物品 → 拒绝（沿用旧副手校验语义）；</li>
-     *   <li>要求饥饿且饱食度已满 → 全 DENY（原版本也不会开始进食，这里兜底防第三方消耗）；</li>
      *   <li>方块材质 + 可放置落点：
      *       <b>潜行 → 零干预</b>（原版放置优先，落点/朝向/贴图/音效/扣减全走原版管线）；
      *       <b>非潜行 → 仅 DENY 方块交互</b>阻止放置，放行物品使用——服务端直接以
@@ -171,13 +172,8 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             e.setUseItem(Event.Result.DENY);
             return;
         }
-        if (opts.requireHungry && p.getFoodLevel() >= 20) {
-            // 原版本不会开始进食（canAlwaysEat=false）；全 DENY 兜底防第三方消耗路径
-            dbg(p, "饱食度已满且要求饥饿 → 不食用、不消耗（并取消底层交互）");
-            e.setUseItem(Event.Result.DENY);
-            e.getInteractEvent().setCancelled(true);
-            return;
-        }
+        // 饱食度检测已移除：满饱食度（含创造模式恒 20）也放行，由原版 canAlwaysEat 组件
+        // 与下方分流逻辑保证可食用；不再需要「全 DENY 兜底防第三方消耗」的特殊分支。
         // 原版放置优先，但「只有蹲下才能放置」：非潜行指向可放置落点 → 阻止放置并转进食
         if (m.isBlock() && !m.isAir()) {
             String target = placementTargetDesc(e, m);
@@ -227,7 +223,6 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
 
     /** 右键食用（主手或副手均可触发，消耗与校验都作用于触发的那只手）。 */
     private void eat(Player p, EquipmentSlot hand) {
-        if (opts.requireHungry && p.getFoodLevel() >= 20) return;
         PlayerInventory inv = p.getInventory();
         boolean mainHand = hand == EquipmentSlot.HAND;
         ItemStack held = mainHand ? inv.getItemInMainHand() : inv.getItemInOffHand();

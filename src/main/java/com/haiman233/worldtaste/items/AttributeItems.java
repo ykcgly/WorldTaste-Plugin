@@ -126,7 +126,8 @@ public final class AttributeItems {
                 Player p = e.getPlayer();
                 // 潜行右键不食用
                 if (p.isSneaking()) return;
-                if (p.getFoodLevel() >= 20) return; // 饱食时无意义，不耗电
+                // 饱食度检测已移除（与 ConsumableItem 一致）：饱食度满/创造模式同样可用，
+                // 满饱食度时恢复值被服务端钳制在上限内，代价由玩家自行权衡
                 ItemStack main = p.getInventory().getItemInMainHand();
                 if (main == null || main.getAmount() <= 0) return;
                 // removeItemCharge 内部含电量校验：不足时不扣除也不生效

@@ -14,9 +14,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * 加载 foods.yml：应用 FoodComponent(nutrition/saturation/canAlwaysEat) 使食物可食，
+ * 加载 foods.yml：应用 FoodComponent(nutrition/saturation/canAlwaysEat 恒 true) 使食物可食，
  * 并登记 onEat 脚本(kind=eat)供 {@link com.haiman233.worldtaste.behavior.FoodConsumeListener} 追加效果。
  * eatseconds：Paper 1.21.11 的 FoodComponent 不支持，忽略（与 RSC 一致）。
+ *
+ * <p>饱食度检测已整体移除： foods.yml 全部食物饱食度满时（含创造模式恒 20）同样可食用，
+ * {@code canAlwaysEat} 恒为 true，数据里的 {@code always_eatable} 字段不再读取。</p>
  */
 public final class FoodsLoader {
 
@@ -37,8 +40,10 @@ public final class FoodsLoader {
                 if (display == null) { MissingItems.record("无展示物品:" + effId); skip++; continue; }
                 display = display.clone();
                 float eatSeconds = (float) s.getDouble("eatseconds", s.getDouble("eat_seconds", 0));
+                // canAlwaysEat 恒 true：饱食度检测已整体移除（饱食度满/创造模式同样可食用），
+                // 与 items.yml 脚本食物路径语义一致；数据里的 always_eatable 字段已废弃
                 boolean foodOk = FoodHelper.apply(display, s.getInt("nutrition", 0), (float) s.getDouble("saturation", 0),
-                        s.getBoolean("always_eatable", false), eatSeconds);
+                        true, eatSeconds);
                 if (!foodOk) foodFail++;
                 // 原版进食模式：显式注入 consumable 组件，覆盖 Paper 自动补的默认（保证动画/音效正确）——
                 // 饮品（POTION 材质或脚本音效为 entity.generic.drink）走原版 DRINK 动画 + 饮用音效；

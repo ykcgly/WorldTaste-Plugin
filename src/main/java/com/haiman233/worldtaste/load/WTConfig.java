@@ -63,12 +63,13 @@ public final class WTConfig {
      *   <li>条目存在且为布尔 → 照常读取。</li>
      * </ul>
      *
-     * <p>true：食物右键交由原版进食管线（进食/饮用动画、咀嚼音、时长原生；「要求饥饿」
-     * 由原版天然保证），脚本效果在 {@code PlayerItemConsumeEvent} 补足。物品注入
-     * FoodComponent + consumable 组件（1.21.2+，含饮品 DRINK 动画），
+     * <p>true：食物右键交由原版进食管线（进食/饮用动画、咀嚼音、时长原生），脚本效果在
+     * {@code PlayerItemConsumeEvent} 补足。物品注入 FoodComponent + consumable 组件
+     * （1.21.2+，含饮品 DRINK 动画），
      * {@link com.haiman233.worldtaste.items.ConsumableItem} 处理器只做「放置/进食」分流：
      * 非潜行指向可放置落点时仅 DENY 方块交互、放行物品使用，由服务端直接开始进食。
-     * 服务端低于 1.20.5（无组件 API）时自动回退旧逻辑，无需改配置。</p>
+     * 饱食度检测已整体移除：所有食物 {@code canAlwaysEat=true}，饱食度满（含创造模式
+     * 恒 20）同样可食用。服务端低于 1.20.5（无组件 API）时自动回退旧逻辑，无需改配置。</p>
      *
      * <p>false：保持旧的插件结算逻辑（右键瞬间完成食用，无进食动画），且不给物品注入
      * 可食组件（维持其不可被原版白吃的旧行为）。</p>
