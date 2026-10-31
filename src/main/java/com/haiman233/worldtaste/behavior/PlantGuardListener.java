@@ -18,6 +18,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 种植与放置保护（统一走 {@link BlockPlaceEvent}，不依赖 Slimefun 内部放置流程）：
@@ -72,7 +73,7 @@ public final class PlantGuardListener implements Listener {
                 if (!ok) {
                     e.setCancelled(true);
                     Player p = e.getPlayer();
-                    if (p != null) p.sendMessage("该作物只能种植在 " + names(allowed) + " 上！");
+                    if (p != null) p.sendMessage(Lang.get("msg.plantguardlistener.001") + names(allowed) + Lang.get("msg.plantguardlistener.002"));
                 }
             }
             return;
@@ -113,14 +114,14 @@ public final class PlantGuardListener implements Listener {
         org.bukkit.Bukkit.getPluginManager().callEvent(canary);
         if (canary.isCancelled()) {
             if (WTConfig.debugFood) {
-                WT.log("[debug-food] " + sf.getId() + " 同位置普通方块也被否决 → 领地/保护类限制，尊重否决");
+                WT.log("[debug-food] " + sf.getId() + Lang.get("log.plantguardlistener.001"));
             }
             return;
         }
 
         e.setCancelled(false);
         if (WTConfig.debugFood) {
-            WT.log("[debug-food] " + sf.getId() + " 放置曾被外部插件否决（普通方块可放）→ 已强制放行");
+            WT.log("[debug-food] " + sf.getId() + Lang.get("log.plantguardlistener.002"));
         }
     }
 
@@ -152,9 +153,9 @@ public final class PlantGuardListener implements Listener {
                     if (cand.length() > 0) cand.append(", ");
                     cand.append(name);
                 }
-                WT.log("[debug-food] " + sf.getId() + " 放置最终被取消（含 MONITOR 阶段否决，"
-                        + "food.ignore-place-veto 未覆盖）；候选插件: "
-                        + (cand.length() == 0 ? "（无）" : cand));
+                WT.log("[debug-food] " + sf.getId() + Lang.get("log.plantguardlistener.003")
+                        + Lang.get("msg.plantguardlistener.003")
+                        + (cand.length() == 0 ? Lang.get("msg.plantguardlistener.004") : cand));
             }
             return;
         }

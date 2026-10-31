@@ -22,16 +22,19 @@ public class WTTemplateMachine extends WTRecipeMachine {
     private final Map<String, List<WTRecipe>> byTemplate;
     /** 模板堆叠数放大产出（对齐 RSC moreOutputIfMoreTemplates：产出 amount *= 模板数量）。 */
     private final boolean moreOutputIfMoreTemplates;
+    /** 模板堆叠数加速（fasterIfMoreTemplates：进度推进 *= 模板数量，饲料/电力每秒消耗同比上升）。 */
+    private final boolean fasterIfMoreTemplates;
 
     public WTTemplateMachine(ItemGroup group, SlimefunItemStack item, RecipeType rt, ItemStack[] recipe,
                              int[] input, int[] output, List<WTRecipe> allRecipes,
                              Map<String, List<WTRecipe>> byTemplate,
                              int capacity, int consumption, int speed, MenuDef menu, boolean hideAll, int templateSlot,
-                             boolean moreOutputIfMoreTemplates) {
+                             boolean moreOutputIfMoreTemplates, boolean fasterIfMoreTemplates) {
         super(group, item, rt, recipe, input, output, allRecipes, capacity, consumption, speed, menu, hideAll);
         this.templateSlot = templateSlot;
         this.byTemplate = byTemplate;
         this.moreOutputIfMoreTemplates = moreOutputIfMoreTemplates;
+        this.fasterIfMoreTemplates = fasterIfMoreTemplates;
         // super() 末尾重建 preset 时本类字段 templateSlot 尚未赋值（读到 0），
         // 导致真正的模板槽被背景封死。字段就绪后再重建一次 preset。
         createPreset(this, getInventoryTitle(), this::constructMenu);
@@ -62,5 +65,18 @@ public class WTTemplateMachine extends WTRecipeMachine {
         ItemStack tpl = inv.getItemInSlot(templateSlot);
         int mult = (tpl != null && tpl.getType() != org.bukkit.Material.AIR) ? Math.max(1, tpl.getAmount()) : 1;
         r.pushOutputs(inv, getOutputSlots(), mult);
+    }
+
+    /**
+     * {@code fasterIfMoreTemplates}：进度推进乘以模板槽内生物堆叠数（N 只 → 速度 ×N）。
+     * 每周期饲料消耗量与产出不变、电力仍为 consumption J/s 恒定——由于周期缩短，
+     * 饲料与产出的每秒速率都同比 ×N（与产卵室「动物越多速度越快」的语义一致）。
+     */
+    @Override
+    protected int progressPerTick(BlockMenu inv) {
+        if (!fasterIfMoreTemplates) return super.progressPerTick(inv);
+        ItemStack tpl = inv.getItemInSlot(templateSlot);
+        int mult = (tpl != null && tpl.getType() != org.bukkit.Material.AIR) ? Math.max(1, tpl.getAmount()) : 1;
+        return getSpeed() * mult;
     }
 }

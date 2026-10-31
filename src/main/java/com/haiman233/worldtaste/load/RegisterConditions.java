@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 评估物品段的 register.conditions（对齐 RSC YamlReader.checkForRegistration）。
@@ -23,7 +24,7 @@ public final class RegisterConditions {
             String c = raw.trim();
             if (c.isEmpty()) continue;
             if (!eval(c)) {
-                if (reg.getBoolean("warn", false)) WT.log("注册条件不满足，跳过: " + c);
+                if (reg.getBoolean("warn", false)) WT.log(Lang.get("log.registerconditions.001") + c);
                 return false;
             }
         }

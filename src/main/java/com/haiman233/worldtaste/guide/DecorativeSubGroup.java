@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 装饰分隔板组（groups.yml type: button，RSC 中 actions: none 的对应物）。
@@ -106,7 +107,7 @@ public class DecorativeSubGroup extends SubItemGroup {
             SlimefunItem dummy = new SlimefunItem(this, stack, RecipeType.NULL, new ItemStack[9]);
             add(dummy);
         } catch (Throwable t) {
-            WT.log("装饰组 " + getKey().getKey() + " 哑物品创建失败，该玻璃板可能不显示: " + t);
+            WT.log(Lang.get("log.decorativesubgroup.001") + getKey().getKey() + Lang.get("log.decorativesubgroup.002") + t);
         }
     }
 

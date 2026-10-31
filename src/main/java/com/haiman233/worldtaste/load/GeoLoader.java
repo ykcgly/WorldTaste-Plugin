@@ -7,6 +7,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 加载 geo_resources.yml：以普通物品注册（指南可见、可被配方引用），并注册为真正的 {@link WTGeoResource}，
@@ -39,9 +40,9 @@ public final class GeoLoader {
                 res.register();
                 ok++;
             } catch (Exception e) {
-                WT.log("geo_resources.yml " + id + " 注册失败: " + e);
+                WT.log("geo_resources.yml " + id + Lang.get("log.geoloader.001") + e);
             }
         }
-        WT.plugin.getLogger().info("geo_resources.yml: 注册 " + ok);
+        WT.plugin.getLogger().info(Lang.get("log.geoloader.002") + ok);
     }
 }

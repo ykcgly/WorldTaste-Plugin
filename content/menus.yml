@@ -600,22 +600,28 @@ WT_PTTJLJ:
 WT_CHANLUANSHI:
   title: §c§l产卵室
   slots:
-    0-1:
-      name: ' '
-      amount: 1
-      material_type: mc
-      material: YELLOW_STAINED_GLASS_PANE
-    '2':
+    '28':
       name: ' '
       amount: 1
       material_type: mc
       material: LIME_STAINED_GLASS_PANE
-    9-10:
+      progressbar: true
+    '0':
       name: ' '
       amount: 1
       material_type: mc
       material: ORANGE_STAINED_GLASS_PANE
-    '11':
+    '1':
+      name: ' '
+      amount: 1
+      material_type: mc
+      material: LIME_STAINED_GLASS_PANE
+    '9':
+      name: §6§l请在下方放入通用饲料
+      amount: 1
+      material_type: mc
+      material: MAGENTA_STAINED_GLASS_PANE
+    '10':
       name: ' '
       amount: 1
       material_type: mc
@@ -624,39 +630,23 @@ WT_CHANLUANSHI:
       name: ' '
       amount: 1
       material_type: mc
-      material: ORANGE_STAINED_GLASS_PANE
-    '20':
+      material: LIME_STAINED_GLASS_PANE
+    '27':
+      name: §6§l请在下方放入对应生物（不消耗）
+      amount: 1
+      material_type: mc
+      material: RED_STAINED_GLASS_PANE
+    '37':
       name: ' '
       amount: 1
       material_type: mc
       material: LIME_STAINED_GLASS_PANE
-    '28':
+    '45':
       name: ' '
       amount: 1
       material_type: mc
       material: ORANGE_STAINED_GLASS_PANE
-    '29':
-      name: ' '
-      amount: 1
-      material_type: mc
-      material: LIME_STAINED_GLASS_PANE
-      progressbar: true
-    36-37:
-      name: ' '
-      amount: 1
-      material_type: mc
-      material: ORANGE_STAINED_GLASS_PANE
-    '38':
-      name: ' '
-      amount: 1
-      material_type: mc
-      material: LIME_STAINED_GLASS_PANE
-    45-46:
-      name: ' '
-      amount: 1
-      material_type: mc
-      material: YELLOW_STAINED_GLASS_PANE
-    '47':
+    '46':
       name: ' '
       amount: 1
       material_type: mc

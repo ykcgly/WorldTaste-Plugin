@@ -51,6 +51,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Transformation;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 榨汁盆（machines.yml 中 script: zhapen，材质为榨汁盆）。
@@ -192,11 +193,11 @@ public class JuicerBasin extends SlimefunItem {
             org.bukkit.entity.Item item = (org.bukkit.entity.Item) en;
             int verdict = canInsert(st, JuicerRecipe.refOf(item.getItemStack()));
             if (verdict == INSERT_BUSY) {
-                reject(item, "§c这个榨汁盆中已经有物品了！");
+                reject(item, Lang.get("msg.juicerbasin.001"));
                 continue;
             }
             if (verdict == INSERT_INVALID) {
-                reject(item, "§c这个物品不能榨汁！");
+                reject(item, Lang.get("msg.juicerbasin.002"));
                 continue;
             }
             if (consumeDropped(item)) doInsert(b, st, item.getItemStack());
@@ -417,7 +418,7 @@ public class JuicerBasin extends SlimefunItem {
             b.getWorld().dropItemNaturally(b.getLocation().add(0.5, 0.6, 0.5), out);
         }
         b.getWorld().playSound(b.getLocation().add(0.5, 0.5, 0.5), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
-        if (feedback != null) feedback.sendActionBar(Component.text("已经榨好了！", NamedTextColor.GREEN));
+        if (feedback != null) feedback.sendActionBar(Component.text(Lang.get("msg.juicerbasin.003"), NamedTextColor.GREEN));
     }
 
     /** 盆附近最近的玩家（完成/铁砧进度反馈用），盆周边 2 格内无人返回 null。 */
@@ -443,13 +444,13 @@ public class JuicerBasin extends SlimefunItem {
 
     /** 蹲下空手左键预览：内容物清单（本地化名称×数量）+ 容量 + 当前状态。 */
     private static Component preview(BasinState st) {
-        Component prefix = Component.text("[榨汁盆] ", NamedTextColor.GOLD);
+        Component prefix = Component.text(Lang.get("msg.juicerbasin.004"), NamedTextColor.GOLD);
         if (st == null || st.contents.isEmpty()) {
-            return prefix.append(Component.text("盆内空空如也", NamedTextColor.GRAY));
+            return prefix.append(Component.text(Lang.get("msg.juicerbasin.005"), NamedTextColor.GRAY));
         }
         net.kyori.adventure.text.TextComponent.Builder msg = net.kyori.adventure.text.Component.text()
                 .append(prefix)
-                .append(Component.text("内容物: ", NamedTextColor.GRAY));
+                .append(Component.text(Lang.get("msg.juicerbasin.006"), NamedTextColor.GRAY));
         boolean first = true;
         for (Map.Entry<String, Integer> en : st.contents.entrySet()) {
             if (!first) msg.append(Component.text("、", NamedTextColor.GRAY));
@@ -459,14 +460,14 @@ public class JuicerBasin extends SlimefunItem {
         }
         msg.append(Component.text("（" + st.total + "/" + MAX_CAPACITY + "）", NamedTextColor.DARK_GRAY));
         int sugar = JuicerRecipe.totalSugar(st.contents);
-        if (sugar > 0) msg.append(Component.text(" 糖分:" + sugar, NamedTextColor.LIGHT_PURPLE));
+        if (sugar > 0) msg.append(Component.text(Lang.get("msg.juicerbasin.007") + sugar, NamedTextColor.LIGHT_PURPLE));
         String status;
         if (st.doses > 0) {
-            status = "已榨好，剩余 " + st.doses + " 份";
+            status = Lang.get("msg.juicerbasin.008") + st.doses + Lang.get("msg.juicerbasin.009");
         } else if (st.started) {
-            status = (st.isMix() ? "混合榨汁中 " : "榨汁中 ") + st.progress + "/" + progressTotal(st);
+            status = (st.isMix() ? Lang.get("msg.juicerbasin.010") : Lang.get("msg.juicerbasin.011")) + st.progress + "/" + progressTotal(st);
         } else {
-            status = "等待投料";
+            status = Lang.get("msg.juicerbasin.012");
         }
         return msg.append(Component.text(" " + status, NamedTextColor.YELLOW)).build();
     }
@@ -599,7 +600,7 @@ public class JuicerBasin extends SlimefunItem {
                         Long last = hintCooldown.get(p.getUniqueId());
                         if (last == null || now - last >= 1000) {
                             hintCooldown.put(p.getUniqueId(), now);
-                            p.sendActionBar(Component.text("材料不足，无法开始榨汁", NamedTextColor.RED));
+                            p.sendActionBar(Component.text(Lang.get("msg.juicerbasin.013"), NamedTextColor.RED));
                         }
                     }
                     return;
@@ -764,7 +765,7 @@ public class JuicerBasin extends SlimefunItem {
             // 桶：仅满盆（水量=满额份数）一次接取全部并清空
             if (isVanilla(hand, Material.BUCKET)) {
                 if (st.doses < st.dosesMax) {
-                    p.sendMessage("§c这个盆不是满的");
+                    p.sendMessage(Lang.get("msg.juicerbasin.014"));
                     return;
                 }
                 if (st.recipe != null) {
@@ -784,11 +785,11 @@ public class JuicerBasin extends SlimefunItem {
         private static void insertFromHand(PlayerInteractEvent e, Block b, ItemStack hand) {
             int verdict = canInsert(STATES.get(b.getLocation()), JuicerRecipe.refOf(hand));
             if (verdict == INSERT_BUSY) {
-                e.getPlayer().sendMessage("§c这个榨汁盆中已经有物品了！");
+                e.getPlayer().sendMessage(Lang.get("msg.juicerbasin.001"));
                 return;
             }
             if (verdict == INSERT_INVALID) {
-                e.getPlayer().sendMessage("§c这个物品不能榨汁！");
+                e.getPlayer().sendMessage(Lang.get("msg.juicerbasin.002"));
                 return;
             }
             consumeOne(e.getPlayer(), EquipmentSlot.HAND);

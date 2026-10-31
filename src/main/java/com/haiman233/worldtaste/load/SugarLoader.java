@@ -4,6 +4,7 @@ import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.machines.JuicerRecipe;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 加载 sugar.yml 糖分值配置（材料 id → 糖分）。
@@ -25,7 +26,7 @@ public final class SugarLoader {
             JuicerRecipe.setSugar(resolveRef(id.trim()), sugar);
             ok++;
         }
-        WT.plugin.getLogger().info("sugar.yml: 注册 " + ok + " 种材料的糖分值");
+        WT.plugin.getLogger().info(Lang.get("log.sugarloader.001") + ok + Lang.get("log.sugarloader.002"));
     }
 
     /** 材料 id → 内容物 ref（mc:/sf: 前缀）。 */

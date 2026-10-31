@@ -18,6 +18,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 指南榨汁盆入口（双模式）：
@@ -106,7 +107,7 @@ public final class JuicerGuideListener implements Listener {
         ItemStack it = new ItemStack(Material.GOLDEN_APPLE);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(org.bukkit.ChatColor.GOLD + "榨汁盆配方");
+            meta.setDisplayName(org.bukkit.ChatColor.GOLD + Lang.get("msg.juicerguidelistener.001"));
             meta.getPersistentDataContainer().set(KEY_ENTRY, PersistentDataType.BYTE, (byte) 1);
             it.setItemMeta(meta);
         }

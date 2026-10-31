@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.configuration.file.YamlConfiguration;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 从 jar 资源加载 YAML。
@@ -40,14 +41,14 @@ public final class Yaml {
     private static YamlConfiguration doLoad(WorldTastePlugin plugin, String name) {
         try (InputStream in = plugin.getResource(name)) {
             if (in == null) {
-                WT.log("资源缺失: " + name);
+                WT.log(Lang.get("log.yaml.001") + name);
                 return new YamlConfiguration();
             }
             try (InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
                 return YamlConfiguration.loadConfiguration(reader);
             }
         } catch (IOException e) {
-            WT.log("读取 " + name + " 失败: " + e);
+            WT.log(Lang.get("log.yaml.002") + name + Lang.get("log.yaml.003") + e);
             return new YamlConfiguration();
         }
     }

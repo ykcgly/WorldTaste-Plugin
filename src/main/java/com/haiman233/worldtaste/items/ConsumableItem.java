@@ -27,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 消耗型食物（右键食用）。覆盖原 WT_eatConsumable 与独立食物脚本(yl/tang/jiu/yan/zhongdu 等)：
@@ -82,7 +83,7 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             ItemStack mainHeld = p.getInventory().getItemInMainHand();
             if (hand == EquipmentSlot.OFF_HAND && mainHeld != null && !mainHeld.getType().isAir()
                     && SlimefunItem.getByItem(mainHeld) instanceof ConsumableItem) {
-                dbg(p, "主手也持有食物 → 副手分发跳过（主手优先，防双份食用）");
+                dbg(p, Lang.get("msg.consumableitem.001"));
                 return;
             }
             ItemStack held = e.getItem();
@@ -108,7 +109,7 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
                         // canAlwaysEat 恒 true：饱食度检测已移除（满饱食度/创造模式同样可食用，
                         // 见类注释），旧存档懒升级与原版注册共用同一语义
                         FoodHelper.applyNativeFood(live, true, drink ? "drink" : "eat", skey, 0f, nut, sat);
-                        dbg(p, "旧物品缺少可食组件 → 已懒升级（本次起走原版进食）");
+                        dbg(p, Lang.get("msg.consumableitem.002"));
                     }
                 }
                 nativeEat(e, p, m);
@@ -124,13 +125,13 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             if (p.isSneaking() && opts.offhandTool == null) {
                 String target = placementTargetDesc(e, m);
                 if (target != null) {
-                    dbg(p, (hand == EquipmentSlot.HAND ? "主手" : "副手") + "潜行+可放置落点("
-                            + m + " → " + target + ") → 零干预，交还原版放置");
+                    dbg(p, (hand == EquipmentSlot.HAND ? Lang.get("msg.consumableitem.003") : Lang.get("msg.consumableitem.004")) + Lang.get("msg.consumableitem.005")
+                            + m + " → " + target + Lang.get("msg.consumableitem.006"));
                     return;
                 }
-                dbg(p, "潜行但无可放置落点(材质=" + m + ") → 改走食用");
+                dbg(p, Lang.get("msg.consumableitem.007") + m + Lang.get("msg.consumableitem.008"));
             } else if (p.isSneaking()) {
-                dbg(p, "潜行+offhandTool 使用型物品(" + m + ") → 永不放置，走食用");
+                dbg(p, Lang.get("msg.consumableitem.009") + m + Lang.get("msg.consumableitem.010"));
             }
 
             // 食用：DENY 原版「使用物品」（原版放置 + 原版白吃——1.21.2+ 的 consumable 组件
@@ -139,7 +140,7 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             //
             // 注意：此处不再做饱食度检测（原 requireHungry 分支已移除）——饱食度满时同样
             // 放行食用，避免创造模式玩家（饱食度恒 20）被挡住无法进食。
-            dbg(p, "→ DENY 原版使用物品，自行食用");
+            dbg(p, Lang.get("msg.consumableitem.011"));
             e.setUseItem(Event.Result.DENY);
             eat(p, hand);
         };
@@ -167,8 +168,8 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
         boolean mainHand = e.getHand() == EquipmentSlot.HAND;
         ItemStack other = mainHand ? inv.getItemInOffHand() : inv.getItemInMainHand();
         if (other != null && SlimefunItem.getByItem(other) != null) {
-            dbg(p, "另一手持有粘液物品 → 拒绝食用");
-            p.sendMessage("您必须空出另一只手进食且" + (mainHand ? "副手" : "主手") + "不能持有粘液科技物品！");
+            dbg(p, Lang.get("msg.consumableitem.012"));
+            p.sendMessage(Lang.get("msg.consumableitem.013") + (mainHand ? Lang.get("msg.consumableitem.004") : Lang.get("msg.consumableitem.003")) + Lang.get("msg.consumableitem.014"));
             e.setUseItem(Event.Result.DENY);
             return;
         }
@@ -179,21 +180,21 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             String target = placementTargetDesc(e, m);
             if (target != null) {
                 if (p.isSneaking()) {
-                    dbg(p, (mainHand ? "主手" : "副手") + "潜行+可放置落点(" + m + " → " + target
-                            + ") → 零干预，交还原版放置");
+                    dbg(p, (mainHand ? Lang.get("msg.consumableitem.003") : Lang.get("msg.consumableitem.004")) + Lang.get("msg.consumableitem.005") + m + " → " + target
+                            + Lang.get("msg.consumableitem.006"));
                     return;
                 }
                 // 非潜行：仅 DENY 方块交互阻止放置，放行物品使用 → 服务端直接以 consumable
                 // 组件启动原版进食并同步动画（不再依赖客户端「转对空使用」的模拟环节）
                 e.setUseBlock(Event.Result.DENY);
                 e.setUseItem(Event.Result.ALLOW);
-                dbg(p, "落点可放置(" + m + " → " + target + ") → DENY 方块交互，服务端直接开始原版进食");
+                dbg(p, Lang.get("msg.consumableitem.015") + m + " → " + target + Lang.get("msg.consumableitem.016"));
                 return;
             }
         }
         // 放行物品使用 → 原版 consumable 组件开始进食（动画/音效/时长原生）
         e.setUseItem(Event.Result.ALLOW);
-        dbg(p, "→ 放行物品使用，交原版进食管线");
+        dbg(p, Lang.get("msg.consumableitem.017"));
     }
 
     /**
@@ -231,12 +232,12 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
         if (opts.offhandTool != null) {
             // 配套工具在「另一只手」（主手食物→副手工具；副手食物→主手工具）
             if (other == null || other.getType() != opts.offhandTool) {
-                p.sendMessage("您必须使用" + (mainHand ? "主手" : "副手") + "且另一只手持有 "
+                p.sendMessage(Lang.get("msg.consumableitem.018") + (mainHand ? Lang.get("msg.consumableitem.003") : Lang.get("msg.consumableitem.004")) + Lang.get("msg.consumableitem.019")
                         + com.haiman233.worldtaste.util.ZhNames.orEnglish(opts.offhandTool) + "！");
                 return;
             }
         } else if (other != null && SlimefunItem.getByItem(other) != null) {
-            p.sendMessage("您必须空出另一只手进食且" + (mainHand ? "副手" : "主手") + "不能持有粘液科技物品！");
+            p.sendMessage(Lang.get("msg.consumableitem.013") + (mainHand ? Lang.get("msg.consumableitem.004") : Lang.get("msg.consumableitem.003")) + Lang.get("msg.consumableitem.014"));
             return;
         }
 
@@ -305,7 +306,7 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
         for (Potion pt : opts.potions) {
             PotionEffectType type = PotionEffectType.getByName(pt.type);
             if (type != null) p.addPotionEffect(new PotionEffect(type, pt.duration, pt.amplifier, false));
-            else WT.log("未知药水类型: " + pt.type);
+            else WT.log(Lang.get("log.consumableitem.001") + pt.type);
         }
 
         // 异域花园联动：酒类饮品（items.yml alcohol 字段）饮用后累加其酒精度

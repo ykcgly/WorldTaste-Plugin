@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 加载 cellar.yml 酒窖配方（须在 items/foods 物品注册后调用）。
@@ -51,11 +52,11 @@ public final class CellarLoader {
                 if (register(key, s)) ok++;
                 else skip++;
             } catch (Exception e) {
-                WT.log("cellar.yml " + key + " 解析失败，跳过: " + e);
+                WT.log("cellar.yml " + key + Lang.get("log.cellarloader.001") + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info("cellar.yml: 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info(Lang.get("log.cellarloader.002") + ok + Lang.get("log.cellarloader.003") + skip);
     }
 
     private static boolean register(String key, ConfigurationSection s) {
@@ -84,13 +85,13 @@ public final class CellarLoader {
             refs.merge(ref, count, Integer::sum);
         }
         if (refs.isEmpty()) {
-            WT.log("cellar.yml " + key + ": 缺少有效 ingredient，跳过");
+            WT.log("cellar.yml " + key + Lang.get("log.cellarloader.004"));
             return false;
         }
         boolean aging = s.getBoolean("aging", true);
         ItemStack result = Read.item(s.getConfigurationSection("result"), true);
         if (result == null) {
-            WT.log("cellar.yml " + key + ": result 无效，跳过");
+            WT.log("cellar.yml " + key + Lang.get("log.cellarloader.005"));
             return false;
         }
         CellarRecipe.register(new CellarRecipe(key, refs, aging, result));

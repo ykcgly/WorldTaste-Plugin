@@ -27,6 +27,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 作物方块（machines.yml 中 script 为 seed/* 的物品）。
@@ -89,8 +90,8 @@ public class CropBlock extends SlimefunItem {
                 if (cfg.maxAge < a.getMaximumAge()) computedClamp = Math.max(0, cfg.maxAge);
             } else {
                 // 原版生长要求材质可加龄（Ageable）：非 Ageable 材质的作物永远无法成熟，加载期给出告警
-                com.haiman233.worldtaste.WT.log("作物 " + getId() + " 的材质 " + cfg.material
-                        + " 不支持原版生长（非 Ageable），该作物将无法成熟");
+                com.haiman233.worldtaste.WT.log(Lang.get("log.cropblock.001") + getId() + Lang.get("log.cropblock.002") + cfg.material
+                        + Lang.get("msg.cropblock.001"));
             }
         } catch (Throwable ignored) {
             // 异常材质（如 air）交由运行期 type 守卫兜底
@@ -357,7 +358,7 @@ public class CropBlock extends SlimefunItem {
         else {
             Material m = Material.matchMaterial(id);
             if (m == null) {
-                com.haiman233.worldtaste.WT.log("作物 " + getId() + " 的掉落物无法解析: " + id);
+                com.haiman233.worldtaste.WT.log(Lang.get("log.cropblock.001") + getId() + Lang.get("log.cropblock.003") + id);
                 return;
             }
             stack = new ItemStack(m);

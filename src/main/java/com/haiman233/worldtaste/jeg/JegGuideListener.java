@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * JEG 指南事件拦截：
@@ -34,7 +35,7 @@ public final class JegGuideListener implements Listener {
     public static void register() {
         if (JegHook.available()) {
             Bukkit.getPluginManager().registerEvents(new JegGuideListener(), WT.plugin);
-            WT.plugin.getLogger().info("JEG 集成：大配方菜单、产物跳转、返回链拦截已启用");
+            WT.plugin.getLogger().info(Lang.get("log.jegguidelistener.001"));
         }
     }
 

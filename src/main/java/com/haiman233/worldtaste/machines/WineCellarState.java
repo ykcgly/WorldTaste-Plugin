@@ -14,6 +14,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 酒窖状态机（按管理器方块位置存储）。
@@ -345,7 +346,7 @@ public final class WineCellarState {
                 parseLegacy(st, parts);
             }
         } catch (Exception ex) {
-            WT.log("酒窖状态解析失败，已重置: " + ex);
+            WT.log(Lang.get("log.winecellarstate.001") + ex);
             st.phase = Phase.IDLE;
             st.mode = Mode.BREW;
             st.liquids.clear();

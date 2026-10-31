@@ -6,6 +6,7 @@ import java.io.File;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 全局配置（config.yml）：玩法总开关等与内容无关的开关项。
@@ -48,7 +49,7 @@ public final class WTConfig {
     public static boolean brewingEnabled = true;
 
     /** 关闭时追加在分组名后的字样（brewing.disabled-suffix）。 */
-    public static String disabledSuffix = "&r&c&l已禁用";
+    public static String disabledSuffix = Lang.get("msg.wtconfig.001");
 
     /**
      * 原版进食机制总开关（food.native-eat）。
@@ -101,6 +102,19 @@ public final class WTConfig {
     public static boolean debugFood = false;
 
     /**
+     * 显示语言（language，默认 {@code zh_CN}）。
+     *
+     * <p>取值是 {@code plugins/WorldTaste/lang/} 下的文件名（不含 {@code .yml}）。内置
+     * {@code zh_CN}（简体中文，全量）与 {@code en_US}（英文，界面/提示层；物品名缺键时回退中文）。
+     * 服主也可把自己的语言文件丢进该目录，填文件名即可生效。</p>
+     *
+     * <p>由 {@link com.haiman233.worldtaste.util.Lang#load(String)} 消费，查找顺序：
+     * 当前语言 → {@link com.haiman233.worldtaste.util.Lang#DEFAULT} → {@code content/*.yml}
+     * 内联文本。语言码只接受字母/数字/下划线/连字符，非法值由 Lang 回退默认语言。</p>
+     */
+    public static String language = "zh_CN";
+
+    /**
      * 读取配置。必须在 {@link GroupLoader#load()} 之前调用——分组名是否追加
      * 「已禁用」取决于本开关。
      */
@@ -113,21 +127,21 @@ public final class WTConfig {
                 WT.plugin.saveResource(FILE, false);
                 generated = file.exists();
             } catch (Exception e) {
-                WT.log("释放默认 " + FILE + " 失败（将使用 jar 内置配置）: " + e);
+                WT.log(Lang.get("log.wtconfig.001") + FILE + Lang.get("log.wtconfig.002") + e);
             }
         }
         if (file.exists()) {
             try {
                 y = YamlConfiguration.loadConfiguration(file);
             } catch (Exception e) {
-                WT.log("读取 plugins/WorldTaste/" + FILE + " 失败，回退 jar 内置配置: " + e);
+                WT.log(Lang.get("log.wtconfig.003") + FILE + Lang.get("log.wtconfig.004") + e);
                 y = null;
             }
         }
         if (y == null) y = Yaml.loadResource(WT.plugin, FILE);
 
         brewingEnabled = y.getBoolean("brewing.enabled", true);
-        disabledSuffix = y.getString("brewing.disabled-suffix", "&r&c&l已禁用");
+        disabledSuffix = y.getString("brewing.disabled-suffix", Lang.get("msg.wtconfig.001"));
         if (disabledSuffix == null) disabledSuffix = "";
 
         foodIgnorePlaceVeto = y.getBoolean("food.ignore-place-veto", true);
@@ -135,10 +149,18 @@ public final class WTConfig {
         legacyUpgrade = y.getBoolean("food.legacy-upgrade", false);
         debugFood = y.getBoolean("debug.food", false);
 
-        WT.plugin.getLogger().info("config.yml: 酿造工艺 " + (brewingEnabled ? "已启用" : "已禁用"));
-        WT.plugin.getLogger().info("config.yml: 食物放置外部否决强制放行 " + (foodIgnorePlaceVeto ? "开启" : "关闭"));
-        WT.plugin.getLogger().info("config.yml: 食物原版进食机制 " + (nativeEat ? "开启" : "关闭（插件结算）"));
-        WT.plugin.getLogger().info("config.yml: 旧存档食物自动升级 " + (legacyUpgrade ? "开启" : "关闭"));
+        // 显示语言：老配置没有该条目属正常（升级场景），静默采用默认值，不擅自改写服主的文件
+        language = y.getString("language", "zh_CN");
+        if (language == null || language.trim().isEmpty()) language = "zh_CN";
+        if (!y.isSet("language")) {
+            WT.plugin.getLogger().info(Lang.get("log.wtconfig.005")
+                    + Lang.get("msg.wtconfig.002"));
+        }
+
+        WT.plugin.getLogger().info(Lang.get("log.wtconfig.006") + (brewingEnabled ? Lang.get("log.wtconfig.007") : Lang.get("log.wtconfig.008")));
+        WT.plugin.getLogger().info(Lang.get("log.wtconfig.009") + (foodIgnorePlaceVeto ? Lang.get("log.wtconfig.010") : Lang.get("log.wtconfig.011")));
+        WT.plugin.getLogger().info(Lang.get("log.wtconfig.012") + (nativeEat ? Lang.get("log.wtconfig.010") : Lang.get("log.wtconfig.013")));
+        WT.plugin.getLogger().info(Lang.get("log.wtconfig.014") + (legacyUpgrade ? Lang.get("log.wtconfig.010") : Lang.get("log.wtconfig.011")));
     }
 
     /**
@@ -159,10 +181,10 @@ public final class WTConfig {
         y.set("food.native-eat", false);
         try {
             y.save(file);
-            WT.plugin.getLogger().warning("config.yml 缺少 food.native-eat 条目（或值无效），"
-                    + "已自动补写为 false——食物原版进食机制默认关闭；如需开启请手动改为 true 后重启");
+            WT.plugin.getLogger().warning(Lang.get("log.wtconfig.015")
+                    + Lang.get("msg.wtconfig.003"));
         } catch (Exception e) {
-            WT.log("config.yml 自动补写 food.native-eat 失败（本次仍按 false 生效）: " + e);
+            WT.log(Lang.get("log.wtconfig.016") + e);
         }
         return false;
     }

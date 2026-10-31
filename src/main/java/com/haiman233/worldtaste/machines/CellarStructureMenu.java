@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 酒窖多方块结构展示页（对齐文明复兴的多方块结构展示）：三层 3×3 网格
@@ -22,7 +23,7 @@ public final class CellarStructureMenu {
 
     /** 打开结构展示页：cellar 为来源酒窖管理器方块（返回键直接回到该页面）。 */
     public static void open(Player p, Block cellar) {
-        ChestMenu menu = new ChestMenu(ChatColor.GOLD + "酒窖管理器 " + ChatColor.GRAY + "· 多方块结构");
+        ChestMenu menu = new ChestMenu(ChatColor.GOLD + Lang.get("ui.cellarstructuremenu.001") + ChatColor.GRAY + Lang.get("ui.cellarstructuremenu.002"));
         menu.setEmptySlotsClickable(false);
         menu.setPlayerInventoryClickable(true);
         for (int i = 0; i < 54; i++) {
@@ -32,24 +33,24 @@ public final class CellarStructureMenu {
         // 三个 3×3 网格：列 0-2 / 3-5 / 6-8，行 2-4（每列一格子组）
         // 顶层（行 2-4 的第一组）
         layer(menu, 0, new String[][]{
-                {"橡木木板", "OAK_PLANKS"}, {"橡木原木", "OAK_LOG"}, {"橡木木板", "OAK_PLANKS"},
-                {"橡木原木", "OAK_LOG"}, {"橡木原木", "OAK_LOG"}, {"橡木原木", "OAK_LOG"},
-                {"橡木木板", "OAK_PLANKS"}, {"橡木原木", "OAK_LOG"}, {"橡木木板", "OAK_PLANKS"}});
+                {Lang.get("ui.cellarstructuremenu.003"), "OAK_PLANKS"}, {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"}, {Lang.get("ui.cellarstructuremenu.003"), "OAK_PLANKS"},
+                {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"}, {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"}, {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"},
+                {Lang.get("ui.cellarstructuremenu.003"), "OAK_PLANKS"}, {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"}, {Lang.get("ui.cellarstructuremenu.003"), "OAK_PLANKS"}});
         // 中层
         layer(menu, 1, new String[][]{
-                {"橡木原木", "OAK_LOG"}, {"橡木木板", "OAK_PLANKS"}, {"橡木原木", "OAK_LOG"},
-                {"橡木木板", "OAK_PLANKS"}, {"空气", null}, {"橡木木板", "OAK_PLANKS"},
-                {"橡木原木", "OAK_LOG"}, {"酒窖管理器", "BREWING_STAND"}, {"温度控制器", "WAXED_COPPER_BLOCK"}});
+                {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"}, {Lang.get("ui.cellarstructuremenu.003"), "OAK_PLANKS"}, {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"},
+                {Lang.get("ui.cellarstructuremenu.003"), "OAK_PLANKS"}, {Lang.get("ui.cellarstructuremenu.005"), null}, {Lang.get("ui.cellarstructuremenu.003"), "OAK_PLANKS"},
+                {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"}, {Lang.get("ui.cellarstructuremenu.006"), "BREWING_STAND"}, {Lang.get("ui.cellarstructuremenu.007"), "WAXED_COPPER_BLOCK"}});
         // 底层（与顶层相同）
         layer(menu, 2, new String[][]{
-                {"橡木木板", "OAK_PLANKS"}, {"橡木原木", "OAK_LOG"}, {"橡木木板", "OAK_PLANKS"},
-                {"橡木原木", "OAK_LOG"}, {"橡木原木", "OAK_LOG"}, {"橡木原木", "OAK_LOG"},
-                {"橡木木板", "OAK_PLANKS"}, {"橡木原木", "OAK_LOG"}, {"橡木木板", "OAK_PLANKS"}});
+                {Lang.get("ui.cellarstructuremenu.003"), "OAK_PLANKS"}, {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"}, {Lang.get("ui.cellarstructuremenu.003"), "OAK_PLANKS"},
+                {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"}, {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"}, {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"},
+                {Lang.get("ui.cellarstructuremenu.003"), "OAK_PLANKS"}, {Lang.get("ui.cellarstructuremenu.004"), "OAK_LOG"}, {Lang.get("ui.cellarstructuremenu.003"), "OAK_PLANKS"}});
 
         // 层标签
-        menu.addItem(1, label(Material.OAK_PLANKS, "顶层（y=+1）"), ChestMenuUtils.getEmptyClickHandler());
-        menu.addItem(4, label(Material.BREWING_STAND, "中层（y=0）"), ChestMenuUtils.getEmptyClickHandler());
-        menu.addItem(7, label(Material.OAK_PLANKS, "底层（y=-1）"), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(1, label(Material.OAK_PLANKS, Lang.get("ui.cellarstructuremenu.008")), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(4, label(Material.BREWING_STAND, Lang.get("ui.cellarstructuremenu.009")), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(7, label(Material.OAK_PLANKS, Lang.get("ui.cellarstructuremenu.010")), ChestMenuUtils.getEmptyClickHandler());
 
         // 返回：直接回到来源酒窖页面（子页面打开时酒窖会话已结束，不能用会话表反查）
         menu.addItem(49, back(), (pl, s, cur, action) -> {
@@ -98,7 +99,7 @@ public final class CellarStructureMenu {
         ItemStack it = new ItemStack(Material.OAK_DOOR);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + "返回酒窖");
+            meta.setDisplayName(ChatColor.YELLOW + Lang.get("ui.cellarstructuremenu.011"));
             it.setItemMeta(meta);
         }
         return it;

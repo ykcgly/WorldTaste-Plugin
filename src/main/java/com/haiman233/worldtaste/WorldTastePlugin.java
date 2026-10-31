@@ -4,6 +4,7 @@ import com.haiman233.worldtaste.load.Setup;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 尘世百味 WorldTaste —— 独立 Slimefun 附属插件主类。
@@ -30,15 +31,15 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
 
     /** 硬依赖：{插件名, 中文名}，缺任一即自动卸载。 */
     private static final String[][] HARD_DEPS = {
-            {"Slimefun", "粘液科技"},
-            {"Gastronomicon", "美食家"},
-            {"ExoticGarden", "异域花园"},
+            {"Slimefun", Lang.get("msg.worldtasteplugin.001")},
+            {"Gastronomicon", Lang.get("msg.worldtasteplugin.002")},
+            {"ExoticGarden", Lang.get("msg.worldtasteplugin.003")},
     };
 
     /** 软依赖：{插件名, 中文名}，缺失仅提示后继续加载。 */
     private static final String[][] SOFT_DEPS = {
-            {"Cultivation", "农耕工艺"},
-            {"InfinityExpansion", "无尽贪婪"},
+            {"Cultivation", Lang.get("msg.worldtasteplugin.004")},
+            {"InfinityExpansion", Lang.get("msg.worldtasteplugin.005")},
             {"LogiTech", "LogiTech"},
     };
 
@@ -46,14 +47,14 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
     public void onEnable() {
         instance = this;
         WT.plugin = this;
-        getLogger().info("尘世百味 开始加载（独立版）...");
+        getLogger().info(Lang.get("log.worldtasteplugin.001"));
         // 依赖检查前置：硬依赖缺失时不加载任何内容，直接卸载
         if (!checkDependencies()) return;
         try {
             Setup.loadAll();
-            getLogger().info("尘世百味 加载成功");
+            getLogger().info(Lang.get("log.worldtasteplugin.002"));
         } catch (Throwable e) {
-            getLogger().severe("尘世百味 加载过程中出现异常: " + e);
+            getLogger().severe(Lang.get("log.worldtasteplugin.003") + e);
             e.printStackTrace();
         }
     }
@@ -65,14 +66,14 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
     private boolean checkDependencies() {
         for (String[] dep : HARD_DEPS) {
             if (Bukkit.getPluginManager().getPlugin(dep[0]) == null) {
-                getLogger().severe("缺少 " + label(dep) + "，WorldTaste已自动卸载！");
+                getLogger().severe(Lang.get("log.worldtasteplugin.004") + label(dep) + Lang.get("log.worldtasteplugin.005"));
                 Bukkit.getPluginManager().disablePlugin(this);
                 return false;
             }
         }
         for (String[] dep : SOFT_DEPS) {
             if (Bukkit.getPluginManager().getPlugin(dep[0]) == null) {
-                getLogger().warning("缺少 " + label(dep) + "，部分玩法可能无法加载");
+                getLogger().warning(Lang.get("log.worldtasteplugin.004") + label(dep) + Lang.get("log.worldtasteplugin.006"));
             }
         }
         return true;
@@ -85,7 +86,7 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
 
     @Override
     public void onDisable() {
-        getLogger().info("尘世百味 已卸载");
+        getLogger().info(Lang.get("log.worldtasteplugin.007"));
     }
 
     public static WorldTastePlugin getInstance() {

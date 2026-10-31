@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 行为数据注册表：加载生成器产出的 data/*.yml（consumables/crops/fishing），
@@ -113,7 +114,7 @@ public final class Behaviors {
             }
             consumables.put(name, o);
         }
-        WT.plugin.getLogger().info("行为数据: consumables=" + consumables.size());
+        WT.plugin.getLogger().info(Lang.get("log.behaviors.001") + consumables.size());
     }
 
     /**
@@ -125,7 +126,7 @@ public final class Behaviors {
     private static Sound resolveSound(String key, String script) {
         Sound s = com.haiman233.worldtaste.compat.Compat.sounds().resolve(key);
         if (s == null) {
-            WT.log("consumable " + script + " 的 sound 无效: " + key + "（将使用默认吃音效）");
+            WT.log("consumable " + script + Lang.get("log.behaviors.002") + key + Lang.get("log.behaviors.003"));
         }
         return s;
     }
@@ -151,7 +152,7 @@ public final class Behaviors {
                         if (id instanceof String && ch instanceof Number) {
                             c.drops.add(new CropDrop((String) id, ((Number) ch).doubleValue(), 0));
                         } else {
-                            WT.log("crop " + name + " 的 drops 项缺少 id/chance，跳过该项");
+                            WT.log("crop " + name + Lang.get("log.behaviors.004"));
                         }
                     }
                 } else if (s.isList("weightedDrops")) {
@@ -163,7 +164,7 @@ public final class Behaviors {
                             c.drops.add(new CropDrop((String) id, 0, wv));
                             c.weightTotal += wv; // R8: load 期预算权重总和（对齐 R4）
                         } else {
-                            WT.log("crop " + name + " 的 weightedDrops 项缺少 id/weight，跳过该项");
+                            WT.log("crop " + name + Lang.get("log.behaviors.005"));
                         }
                     }
                     c.weighted = true;
@@ -187,11 +188,11 @@ public final class Behaviors {
                 c.seedDropMax = Math.max(1, s.getInt("seedDropMax", 3));
                 crops.put(name, c);
             } catch (Exception e) {
-                WT.log("crop " + name + " 解析失败，跳过: " + e);
+                WT.log("crop " + name + Lang.get("log.behaviors.006") + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info("行为数据: crops=" + crops.size() + (skip > 0 ? ", 跳过 " + skip : ""));
+        WT.plugin.getLogger().info(Lang.get("log.behaviors.007") + crops.size() + (skip > 0 ? Lang.get("log.behaviors.008") + skip : ""));
     }
 
     /** 食物消耗参数（对应原 WT_eatConsumable opts，并扩展覆盖独立脚本的空气/冻结/药水等）。 */

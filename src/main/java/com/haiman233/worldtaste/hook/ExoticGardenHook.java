@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 异域花园（ExoticGarden·复合花园 fork）酒精度联动。
@@ -69,7 +70,7 @@ public final class ExoticGardenHook {
 
     private static void probe() {
         if (Bukkit.getPluginManager().getPlugin("ExoticGarden") == null) {
-            WT.plugin.getLogger().info("未检测到异域花园，酒精度联动未启用");
+            WT.plugin.getLogger().info(Lang.get("log.exoticgardenhook.001"));
             return;
         }
         try {
@@ -82,11 +83,11 @@ public final class ExoticGardenHook {
             addAlcohol = pa.getMethod("addAlcohol", int.class);
             getAlcohol = pa.getMethod("getAlcohol");
             available = true;
-            WT.plugin.getLogger().info("已联动异域花园酒精度系统（" + alcoholValues.size() + " 种酒类饮品）");
+            WT.plugin.getLogger().info(Lang.get("log.exoticgardenhook.002") + alcoholValues.size() + Lang.get("log.exoticgardenhook.003"));
         } catch (Throwable t) {
             available = false;
             // 异域花园已安装但酒精系统不可用（异常 fork/结构变更）：一次性告警便于排查
-            WT.log("检测到异域花园但酒精系统反射失败，酒精度联动未启用: " + t);
+            WT.log(Lang.get("log.exoticgardenhook.004") + t);
         }
     }
 
@@ -121,13 +122,13 @@ public final class ExoticGardenHook {
             addAlcohol.invoke(pa, amount);
             int now = (Integer) getAlcohol.invoke(pa);
             if (now < 100 && now > 50) {
-                p.sendMessage("§8[§a异域花园§8] §e你已经半醉了，请适度饮酒！");
+                p.sendMessage(Lang.get("msg.exoticgardenhook.001"));
             } else if (now >= 100) {
-                p.sendMessage("§8[§a异域花园§8] §e你醉了！可以尝试食用一些可以§b解酒§e的消耗品");
+                p.sendMessage(Lang.get("msg.exoticgardenhook.002"));
                 sendDrunkMessage.invoke(null, p);
             }
         } catch (Throwable t) {
-            WT.log("异域花园酒精度累加失败: " + t);
+            WT.log(Lang.get("log.exoticgardenhook.005") + t);
         }
     }
 }

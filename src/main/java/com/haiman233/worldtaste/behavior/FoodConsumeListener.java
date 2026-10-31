@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 食物进食事件：对 foods.yml 带 onEat 脚本(gz/rou 等)的食物，在进食后追加饥饿/饱和/消耗/药水等效果。
@@ -31,8 +32,8 @@ public final class FoodConsumeListener implements Listener {
                     && ci.opts().offhandTool == null) {
                 if (WTConfig.debugFood) {
                     WT.log("[debug-food] " + sf.getId() + " (" + e.getPlayer().getName()
-                            + ") 原版进食完成 → 应用脚本效果"
-                            + (ci.opts().componentCarriesFood() ? "（饥饿/饱和已由组件恢复）" : ""));
+                            + Lang.get("msg.foodconsumelistener.001")
+                            + (ci.opts().componentCarriesFood() ? Lang.get("msg.foodconsumelistener.002") : ""));
                 }
                 // 简单数值型食物的饥饿/饱和已由 FoodComponent 在原版进食时恢复，跳过防双重结算
                 ConsumableItem.applyConsumeEffects(e.getPlayer(), ci.opts(), sf.getId(),
@@ -44,14 +45,14 @@ public final class FoodConsumeListener implements Listener {
             // 「满饱食度右键仍被消耗」即来自这条路径，这里直接拦截，物品不消耗。
             e.setCancelled(true);
             if (WTConfig.debugFood) {
-                WT.log("[debug-food] " + sf.getId() + " 脚本类食物的原版进食已拦截（不允许原版消耗）");
+                WT.log("[debug-food] " + sf.getId() + Lang.get("log.foodconsumelistener.001"));
             }
             return;
         }
         // 诊断（debug.food 开启时）：物品走的是「原版进食」路径而不是脚本食用
         if (WTConfig.debugFood) {
             WT.log("[debug-food] " + sf.getId() + " (" + e.getPlayer().getName()
-                    + ") 走原版进食路径（PlayerItemConsumeEvent）");
+                    + Lang.get("msg.foodconsumelistener.003"));
         }
         ConsumableOpts opts = Behaviors.foodOnEat.get(sf.getId());
         if (opts == null) return;

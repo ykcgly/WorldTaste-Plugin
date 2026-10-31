@@ -109,6 +109,12 @@ tasks.processResources {
         include(contentYaml)
         into("") // 置于 jar 根目录
     }
+    // 语言文件：content/lang/<语言码>.yml → jar 内 lang/<语言码>.yml
+    // （运行期由 Lang 从 plugins/WorldTaste/lang/ 读取，缺失时按此路径从 jar 释放）
+    from(rootProject.projectDir.resolve("content/lang")) {
+        include("*.yml")
+        into("lang")
+    }
 }
 
 tasks.jar {

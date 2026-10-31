@@ -7,6 +7,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /** 加载 recipe_types.yml 自定义配方类型，并提供 recipe_type 字符串解析。 */
 public final class RecipeTypes {
@@ -20,19 +21,20 @@ public final class RecipeTypes {
             ConfigurationSection s = y.getConfigurationSection(key);
             if (s == null) continue;
             try {
-                ItemStack display = Read.item(s, false);
+                // 语言键：recipe_type.<配方类型 id>.name / .lore
+                ItemStack display = Read.item(s, false, "recipe_type." + key);
                 if (display == null) {
-                    WT.log("recipe_types " + key + ": 无图标，跳过");
+                    WT.log("recipe_types " + key + Lang.get("log.recipetypes.001"));
                     continue;
                 }
                 RecipeType rt = new RecipeType(new NamespacedKey(WT.plugin, key.toLowerCase(Locale.ROOT)), display);
                 WT.recipeTypes.put(key.toUpperCase(Locale.ROOT), rt);
                 ok++;
             } catch (Exception e) {
-                WT.log("recipe_types " + key + " 失败: " + e);
+                WT.log("recipe_types " + key + Lang.get("log.recipetypes.002") + e);
             }
         }
-        WT.plugin.getLogger().info("recipe_types.yml: 注册 " + ok);
+        WT.plugin.getLogger().info(Lang.get("log.recipetypes.003") + ok);
     }
 
     /** 解析 recipe_type 字符串：先查自定义，再映射标准常量，最后回退 NULL。 */
@@ -66,7 +68,7 @@ public final class RecipeTypes {
             case "GOLD_PAN": return RecipeType.GOLD_PAN;
             case "HEATED_PRESSURE_CHAMBER": return RecipeType.HEATED_PRESSURE_CHAMBER;
             default:
-                WT.log("未知 recipe_type: " + name + "，回退为 NULL");
+                WT.log(Lang.get("log.recipetypes.004") + name + Lang.get("log.recipetypes.005"));
                 return RecipeType.NULL;
         }
     }

@@ -23,6 +23,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 电力配方机器（recipe_machines.yml）。继承 {@link AContainer} 复用能量/进度/GUI 基建，
@@ -80,7 +81,7 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem, WT
             removed += before - rs.size();
         }
         if (removed > 0) {
-            WT.log("已剔除 " + removed + " 条引用未注册/禁用物品的机器配方（涉及 " + machines + " 台机器）");
+            WT.log(Lang.get("log.wtrecipemachine.001") + removed + Lang.get("log.wtrecipemachine.002") + machines + Lang.get("log.wtrecipemachine.003"));
         }
     }
 
@@ -126,7 +127,7 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem, WT
         //（防占位物叠进功能槽；纯工作台已脱离本类，见 WTWorkbench）。
         int ps = (menu != null && menu.progressSlot >= 0) ? menu.progressSlot : 22;
         if (overlapsFunctional(ps)) {
-            WT.log(getId() + " 的进度槽 " + ps + " 与输入/输出槽重叠（menus.yml 缺 progressbar 配置？），已禁用进度占位");
+            WT.log(getId() + Lang.get("log.wtrecipemachine.004") + ps + Lang.get("log.wtrecipemachine.005"));
             ps = -1;
         }
         this.progressSlotResolved = ps;
@@ -225,7 +226,7 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem, WT
         if (!takeCharge(b.getLocation())) return;
         if (!op.isFinished()) {
             if (pslot >= 0) getMachineProcessor().updateProgressBar(inv, pslot, op);
-            op.addProgress(getSpeed());
+            op.addProgress(progressPerTick(inv));
             return;
         }
         WTRecipe r = active.remove(b.getLocation());
@@ -239,6 +240,14 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem, WT
     @Override
     protected MachineRecipe findNextRecipe(BlockMenu inv) {
         return matchRecipes(inv, recipes);
+    }
+
+    /**
+     * 每 tick 推进的处理进度（默认恒为 {@link #getSpeed()}）。抽取为可覆盖钩子，供子类按
+     * 机器实时状态动态调速——产卵室（{@code fasterIfMoreTemplates}）按模板槽生物堆叠数加速。
+     */
+    protected int progressPerTick(BlockMenu inv) {
+        return getSpeed();
     }
 
     /**
@@ -306,7 +315,7 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem, WT
             java.util.List<String> lore = meta.getLore() != null
                     ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
             lore.add("");
-            lore.add(org.bukkit.ChatColor.GRAY + "耗时: " + (r.getTicks() / 2) + "s");
+            lore.add(org.bukkit.ChatColor.GRAY + Lang.get("msg.wtrecipemachine.001") + (r.getTicks() / 2) + "s");
             meta.setLore(lore);
             clone.setItemMeta(meta);
         }

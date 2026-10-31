@@ -17,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 大型配方展示菜单（对齐 LogiTech 配方展示思路）：
@@ -73,7 +74,7 @@ public final class BigRecipeMenu {
     private static void openCraftPage(Player p, WTMachine machine, Runnable backOpener) {
         List<WTRecipe> recipes = machine.getRecipes();
         int workCount = recipes.size();
-        String title = ChatColor.stripColor(machine.getItemName()) + " · 合成配方";
+        String title = ChatColor.stripColor(machine.getItemName()) + Lang.get("ui.bigrecipemenu.001");
         ChestMenu menu = new ChestMenu(title);
         menu.setEmptySlotsClickable(false);
         for (int i = 0; i < 54; i++) {
@@ -93,7 +94,7 @@ public final class BigRecipeMenu {
         ItemStack rtIcon = machine.getRecipeType().toItem();
         menu.addItem(10, rtIcon != null ? rtIcon : ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         menu.addItem(16, describeMachine(machine, null), ChestMenuUtils.getEmptyClickHandler());
-        menu.addItem(SLOT_ICON, infoItem("合成配方", "使用 " + recipeTypeName(machine) + " 合成该机器"), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(SLOT_ICON, infoItem(Lang.get("ui.bigrecipemenu.002"), Lang.get("ui.bigrecipemenu.003") + recipeTypeName(machine) + Lang.get("ui.bigrecipemenu.004")), ChestMenuUtils.getEmptyClickHandler());
         // 返回（左下）
         menu.addItem(35, backItem(), (pl, s, cursor, action) -> {
             if (backOpener != null) backOpener.run();
@@ -134,7 +135,7 @@ public final class BigRecipeMenu {
         int pages = (keys.size() + perPage - 1) / perPage;
         int pg = ((page % pages) + pages) % pages;
 
-        String title = ChatColor.stripColor(machine.getItemName()) + " · 产物配方 " + (pg + 1) + "/" + pages;
+        String title = ChatColor.stripColor(machine.getItemName()) + Lang.get("ui.bigrecipemenu.005") + (pg + 1) + "/" + pages;
         ChestMenu menu = new ChestMenu(title);
         menu.setEmptySlotsClickable(false);
         for (int i = 0; i < 54; i++) {
@@ -162,13 +163,13 @@ public final class BigRecipeMenu {
         });
         // 翻页（53）
         if (pages > 1) {
-            ItemStack pageBtn = pageItem("翻页 " + (pg + 1) + "/" + pages);
+            ItemStack pageBtn = pageItem(Lang.get("ui.bigrecipemenu.006") + (pg + 1) + "/" + pages);
             ItemMeta pm = pageBtn.getItemMeta();
             if (pm != null) {
                 List<String> lore = pm.getLore() != null ? new ArrayList<>(pm.getLore()) : new ArrayList<>();
                 lore.add("");
-                lore.add(ChatColor.GRAY + "左键：下一页");
-                lore.add(ChatColor.GRAY + "右键：上一页");
+                lore.add(ChatColor.GRAY + Lang.get("ui.bigrecipemenu.007"));
+                lore.add(ChatColor.GRAY + Lang.get("ui.bigrecipemenu.008"));
                 pm.setLore(lore);
                 pageBtn.setItemMeta(pm);
             }
@@ -186,7 +187,7 @@ public final class BigRecipeMenu {
         int workIdx = cycle[pos];
         WTRecipe r = recipes.get(workIdx);
         int workCount = recipes.size();
-        String title = ChatColor.stripColor(machine.getItemName()) + " · 配方 " + (pos + 1) + "/" + cycle.length;
+        String title = ChatColor.stripColor(machine.getItemName()) + Lang.get("ui.bigrecipemenu.009") + (pos + 1) + "/" + cycle.length;
         ChestMenu menu = new ChestMenu(title);
         menu.setEmptySlotsClickable(false);
         for (int i = 0; i < 54; i++) {
@@ -237,13 +238,13 @@ public final class BigRecipeMenu {
             });
 
             // 翻页（53）：在 cycle 内循环
-            ItemStack pageBtn = pageItem("配方 " + (pos + 1) + "/" + cycle.length);
+            ItemStack pageBtn = pageItem(Lang.get("ui.bigrecipemenu.010") + (pos + 1) + "/" + cycle.length);
             ItemMeta pm = pageBtn.getItemMeta();
             if (pm != null) {
                 List<String> lore = pm.getLore() != null ? new ArrayList<>(pm.getLore()) : new ArrayList<>();
                 lore.add("");
-                lore.add(ChatColor.GRAY + "左键：下一页");
-                lore.add(ChatColor.GRAY + "右键：上一页");
+                lore.add(ChatColor.GRAY + Lang.get("ui.bigrecipemenu.007"));
+                lore.add(ChatColor.GRAY + Lang.get("ui.bigrecipemenu.008"));
                 pm.setLore(lore);
                 pageBtn.setItemMeta(pm);
             }
@@ -347,11 +348,11 @@ public final class BigRecipeMenu {
         if (meta != null) {
             List<String> lore = meta.getLore() != null ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
             lore.add("");
-            lore.add(ChatColor.GREEN + "材料 " + (index + 1));
-            if (clone.getAmount() > 1) lore.add(ChatColor.RED + "数量: " + clone.getAmount());
+            lore.add(ChatColor.GREEN + Lang.get("ui.bigrecipemenu.011") + (index + 1));
+            if (clone.getAmount() > 1) lore.add(ChatColor.RED + Lang.get("ui.bigrecipemenu.012") + clone.getAmount());
             SlimefunItem sf = SlimefunItem.getByItem(clone);
-            if (sf instanceof WTMachine) lore.add(ChatColor.DARK_GRAY + "点击打开该机器配方");
-            else if (sf != null) lore.add(ChatColor.DARK_GRAY + "点击查看获取方式");
+            if (sf instanceof WTMachine) lore.add(ChatColor.DARK_GRAY + Lang.get("ui.bigrecipemenu.013"));
+            else if (sf != null) lore.add(ChatColor.DARK_GRAY + Lang.get("ui.bigrecipemenu.014"));
             meta.setLore(lore);
             clone.setItemMeta(meta);
         }
@@ -364,11 +365,11 @@ public final class BigRecipeMenu {
         if (meta != null) {
             List<String> lore = meta.getLore() != null ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
             lore.add("");
-            lore.add(ChatColor.GREEN + "合成材料 " + (index + 1));
-            if (clone.getAmount() > 1) lore.add(ChatColor.RED + "数量: " + clone.getAmount());
+            lore.add(ChatColor.GREEN + Lang.get("ui.bigrecipemenu.015") + (index + 1));
+            if (clone.getAmount() > 1) lore.add(ChatColor.RED + Lang.get("ui.bigrecipemenu.012") + clone.getAmount());
             SlimefunItem sf = SlimefunItem.getByItem(clone);
-            if (sf instanceof WTMachine) lore.add(ChatColor.DARK_GRAY + "点击打开该机器配方");
-            else if (sf != null) lore.add(ChatColor.DARK_GRAY + "点击查看获取方式");
+            if (sf instanceof WTMachine) lore.add(ChatColor.DARK_GRAY + Lang.get("ui.bigrecipemenu.013"));
+            else if (sf != null) lore.add(ChatColor.DARK_GRAY + Lang.get("ui.bigrecipemenu.014"));
             meta.setLore(lore);
             clone.setItemMeta(meta);
         }
@@ -382,9 +383,9 @@ public final class BigRecipeMenu {
         if (meta != null) {
             List<String> lore = meta.getLore() != null ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
             lore.add("");
-            lore.add(ChatColor.GREEN + "产物");
-            lore.add(ChatColor.GRAY + "共有 " + recipeCount + " 个配方");
-            lore.add(ChatColor.YELLOW + "点击查看配方");
+            lore.add(ChatColor.GREEN + Lang.get("ui.bigrecipemenu.016"));
+            lore.add(ChatColor.GRAY + Lang.get("ui.bigrecipemenu.017") + recipeCount + Lang.get("ui.bigrecipemenu.018"));
+            lore.add(ChatColor.YELLOW + Lang.get("ui.bigrecipemenu.019"));
             meta.setLore(lore);
             clone.setItemMeta(meta);
         }
@@ -398,11 +399,11 @@ public final class BigRecipeMenu {
         if (meta != null) {
             List<String> lore = meta.getLore() != null ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
             lore.add("");
-            lore.add(ChatColor.GREEN + "产物 1");
+            lore.add(ChatColor.GREEN + Lang.get("ui.bigrecipemenu.020"));
             int ch = r.chance(0);
-            if (ch < 100) lore.add(ChatColor.YELLOW + "概率: " + ch + "%");
-            if (clone.getAmount() > 1) lore.add(ChatColor.RED + "数量: " + clone.getAmount());
-            if (totalOutputs > 1) lore.add(ChatColor.DARK_GRAY + "另有 " + (totalOutputs - 1) + " 个产物");
+            if (ch < 100) lore.add(ChatColor.YELLOW + Lang.get("ui.bigrecipemenu.021") + ch + "%");
+            if (clone.getAmount() > 1) lore.add(ChatColor.RED + Lang.get("ui.bigrecipemenu.012") + clone.getAmount());
+            if (totalOutputs > 1) lore.add(ChatColor.DARK_GRAY + Lang.get("ui.bigrecipemenu.022") + (totalOutputs - 1) + Lang.get("ui.bigrecipemenu.023"));
             meta.setLore(lore);
             clone.setItemMeta(meta);
         }
@@ -416,10 +417,10 @@ public final class BigRecipeMenu {
             List<String> lore = meta.getLore() != null ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
             lore.add("");
             if (r != null) {
-                lore.add(ChatColor.GRAY + "耗时: " + (r.getTicks() / 2) + "s");
-                lore.add(ChatColor.DARK_GRAY + "在该机器中制作");
+                lore.add(ChatColor.GRAY + Lang.get("ui.bigrecipemenu.024") + (r.getTicks() / 2) + "s");
+                lore.add(ChatColor.DARK_GRAY + Lang.get("ui.bigrecipemenu.025"));
             } else {
-                lore.add(ChatColor.DARK_GRAY + "机器本体（合成产物）");
+                lore.add(ChatColor.DARK_GRAY + Lang.get("ui.bigrecipemenu.026"));
             }
             meta.setLore(lore);
             icon.setItemMeta(meta);
@@ -445,12 +446,12 @@ public final class BigRecipeMenu {
         ItemStack it = new ItemStack(Material.BOOK);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + "配方展示");
+            meta.setDisplayName(ChatColor.YELLOW + Lang.get("ui.bigrecipemenu.027"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "按产物浏览全部工作配方");
-            lore.add(ChatColor.GRAY + "当前共 " + workCount + " 个配方");
+            lore.add(ChatColor.GRAY + Lang.get("ui.bigrecipemenu.028"));
+            lore.add(ChatColor.GRAY + Lang.get("ui.bigrecipemenu.029") + workCount + Lang.get("ui.bigrecipemenu.018"));
             lore.add("");
-            lore.add(ChatColor.YELLOW + "点击打开产物列表");
+            lore.add(ChatColor.YELLOW + Lang.get("ui.bigrecipemenu.030"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -473,6 +474,6 @@ public final class BigRecipeMenu {
      */
     private static ItemStack backItem() {
         return new io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack(
-                "_UI_BACK", Material.ARROW, ChatColor.YELLOW + "返回");
+                "_UI_BACK", Material.ARROW, ChatColor.YELLOW + Lang.get("ui.bigrecipemenu.031"));
     }
 }

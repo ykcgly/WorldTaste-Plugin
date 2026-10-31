@@ -25,6 +25,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 机器配方补全：列出机器全部工作配方（产物代表，分页），玩家选择后自动从背包
@@ -94,18 +95,18 @@ public final class RecipeFillMenu {
                 if (matchesQuery(r, q)) recipes.add(r);
             }
             if (recipes.isEmpty()) {
-                p.sendMessage(ChatColor.YELLOW + "没有匹配 \"" + search + "\" 的配方");
+                p.sendMessage(ChatColor.YELLOW + Lang.get("ui.recipefillmenu.001") + search + Lang.get("ui.recipefillmenu.002"));
                 return;
             }
         } else if (recipes.isEmpty()) {
-            p.sendMessage(ChatColor.RED + "该机器没有可补全的配方");
+            p.sendMessage(ChatColor.RED + Lang.get("ui.recipefillmenu.003"));
             return;
         }
         int pages = Math.max(1, (recipes.size() + PER_PAGE - 1) / PER_PAGE);
         int pg = Math.max(0, Math.min(page, pages - 1));
 
-        String title = ChatColor.stripColor(machine.getItemName()) + " · 选择配方"
-                + (searching ? " · 搜索: " + search : "")
+        String title = ChatColor.stripColor(machine.getItemName()) + Lang.get("ui.recipefillmenu.004")
+                + (searching ? Lang.get("ui.recipefillmenu.005") + search : "")
                 + (pages > 1 ? " " + (pg + 1) + "/" + pages : "");
         ChestMenu gui = new ChestMenu(title);
         gui.setEmptySlotsClickable(false);
@@ -141,7 +142,7 @@ public final class RecipeFillMenu {
         gui.addItem(SLOT_SEARCH, searchButton(), (pl, s, cursor, action) -> {
             if (action.isRightClicked()) {
                 if (searching) {
-                    pl.sendMessage(ChatColor.YELLOW + "已取消搜索");
+                    pl.sendMessage(ChatColor.YELLOW + Lang.get("ui.recipefillmenu.006"));
                     open(pl, machine, menu, 0, null);
                 }
                 return false;
@@ -152,13 +153,13 @@ public final class RecipeFillMenu {
 
         // 右下角（53）：翻页（多页时）；单页时留空
         if (pages > 1) {
-            ItemStack pageBtn = pageItem("配方 " + (pg + 1) + "/" + pages);
+            ItemStack pageBtn = pageItem(Lang.get("ui.recipefillmenu.007") + (pg + 1) + "/" + pages);
             ItemMeta pm = pageBtn.getItemMeta();
             if (pm != null) {
                 List<String> lore = pm.getLore() != null ? new ArrayList<>(pm.getLore()) : new ArrayList<>();
                 lore.add("");
-                lore.add(ChatColor.GRAY + "左键：下一页");
-                lore.add(ChatColor.GRAY + "右键：上一页");
+                lore.add(ChatColor.GRAY + Lang.get("ui.recipefillmenu.008"));
+                lore.add(ChatColor.GRAY + Lang.get("ui.recipefillmenu.009"));
                 pm.setLore(lore);
                 pageBtn.setItemMeta(pm);
             }
@@ -181,20 +182,20 @@ public final class RecipeFillMenu {
         if (inv == null) return;
         WTRecipe last = machine.lastFilledAt(inv.getLocation());
         if (last == null) {
-            p.sendMessage(ChatColor.YELLOW + "该机器还没有补全过配方：先左键打开配方选择界面选择一次");
+            p.sendMessage(ChatColor.YELLOW + Lang.get("ui.recipefillmenu.010"));
             return;
         }
         int missing = fillCore(p, machine, last, provided, portions);
         p.sendMessage(missing == 0
-                ? ChatColor.GREEN + "已补全上次的配方 ×" + portions
-                : ChatColor.YELLOW + "补全完成，但缺少 " + missing + " 种材料");
+                ? ChatColor.GREEN + Lang.get("ui.recipefillmenu.011") + portions
+                : ChatColor.YELLOW + Lang.get("ui.recipefillmenu.012") + missing + Lang.get("ui.recipefillmenu.013"));
     }
 
     /** 搜索按钮点击：关闭界面，转入聊天输入（拦截该条聊天不上公屏）。 */
     private static void promptSearch(Player p, WTMachine machine, BlockMenu menu) {
         pendingSearch.put(p.getUniqueId(), new SearchCtx(machine, menu));
         p.closeInventory();
-        p.sendMessage(ChatColor.GREEN + "请输入文本，输入\"取消\"取消搜索");
+        p.sendMessage(ChatColor.GREEN + Lang.get("ui.recipefillmenu.014"));
     }
 
     /** 搜索聊天拦截：捕获输入词并取消公屏广播（LOWEST 尽早取消）。 */
@@ -208,7 +209,7 @@ public final class RecipeFillMenu {
             String msg = e.getMessage() == null ? "" : e.getMessage().trim();
             Bukkit.getScheduler().runTask(WT.plugin, () -> {
                 if (msg.equalsIgnoreCase("取消")) {
-                    e.getPlayer().sendMessage(ChatColor.YELLOW + "已取消搜索");
+                    e.getPlayer().sendMessage(ChatColor.YELLOW + Lang.get("ui.recipefillmenu.006"));
                     open(e.getPlayer(), ctx.machine(), ctx.menu(), 0, null);
                     return;
                 }
@@ -277,16 +278,16 @@ public final class RecipeFillMenu {
     private static void fill(Player p, WTMachine machine, WTRecipe r, BlockMenu provided) {
         int missing = fillOne(p, machine, r, provided);
         p.sendMessage(missing == 0
-                ? ChatColor.GREEN + "材料已填充一份"
-                : ChatColor.YELLOW + "填充完成，但缺少 " + missing + " 种材料");
+                ? ChatColor.GREEN + Lang.get("ui.recipefillmenu.015")
+                : ChatColor.YELLOW + Lang.get("ui.recipefillmenu.016") + missing + Lang.get("ui.recipefillmenu.013"));
     }
 
     /** 右键：像左键一样逐份追加，但一次追加 {@link #FILL_GROUP_SIZE} 份材料（可多次点击继续累加）。 */
     private static void fillN(Player p, WTMachine machine, WTRecipe r, BlockMenu provided) {
         int missing = fillCore(p, machine, r, provided, FILL_GROUP_SIZE);
         p.sendMessage(missing == 0
-                ? ChatColor.GREEN + "已补全该配方 " + FILL_GROUP_SIZE + " 份材料"
-                : ChatColor.YELLOW + "补全完成，但缺少 " + missing + " 种材料");
+                ? ChatColor.GREEN + Lang.get("ui.recipefillmenu.017") + FILL_GROUP_SIZE + Lang.get("ui.recipefillmenu.018")
+                : ChatColor.YELLOW + Lang.get("ui.recipefillmenu.012") + missing + Lang.get("ui.recipefillmenu.013"));
     }
 
     /** 解析机器菜单（传入或准星兜底），校验归属。 */
@@ -297,7 +298,7 @@ public final class RecipeFillMenu {
             if (target != null) inv = BlockStorage.getInventory(target.getLocation());
         }
         if (inv == null || inv.getPreset() == null || inv.getPreset().getSlimefunItem() != machine) {
-            p.sendMessage(ChatColor.RED + "补全失败：请打开该机器（" + ChatColor.stripColor(machine.getItemName()) + "）后重试");
+            p.sendMessage(ChatColor.RED + Lang.get("ui.recipefillmenu.019") + ChatColor.stripColor(machine.getItemName()) + Lang.get("ui.recipefillmenu.020"));
             return null;
         }
         return inv;
@@ -332,13 +333,13 @@ public final class RecipeFillMenu {
                 slot = findStackOrEmpty(inv, need, layoutSlots, usedInput);
             }
             if (slot < 0) {
-                p.sendMessage(ChatColor.RED + "补全失败：没有空余输入槽");
+                p.sendMessage(ChatColor.RED + Lang.get("ui.recipefillmenu.021"));
                 return missing;
             }
             ItemStack cur = inv.getItemInSlot(slot);
             if (cur != null && !cur.getType().isAir()
                     && !com.haiman233.worldtaste.util.RecipeMatch.input(cur, need, false)) {
-                p.sendMessage(ChatColor.YELLOW + "槽位 " + (slot + 1) + " 被其他物品占用，跳过该材料");
+                p.sendMessage(ChatColor.YELLOW + Lang.get("ui.recipefillmenu.022") + (slot + 1) + Lang.get("ui.recipefillmenu.023"));
                 continue;
             }
             int have = (cur == null || cur.getType().isAir()) ? 0 : cur.getAmount();
@@ -352,7 +353,7 @@ public final class RecipeFillMenu {
             ItemStack collected = takeFromPlayer(p, need, take);
             if (collected == null || collected.getAmount() <= 0) {
                 missing++;
-                p.sendMessage(ChatColor.RED + "背包缺少 " + displayName(need) + " ×" + take);
+                p.sendMessage(ChatColor.RED + Lang.get("ui.recipefillmenu.024") + displayName(need) + " ×" + take);
                 continue;
             }
             int got = collected.getAmount();
@@ -365,8 +366,8 @@ public final class RecipeFillMenu {
             }
             if (got < take) {
                 missing++;
-                p.sendMessage(ChatColor.RED + "材料不足：" + displayName(need) + " 还差 " + (take - got)
-                        + " 个（已放入 " + got + " 个）");
+                p.sendMessage(ChatColor.RED + Lang.get("ui.recipefillmenu.025") + displayName(need) + Lang.get("ui.recipefillmenu.026") + (take - got)
+                        + Lang.get("ui.recipefillmenu.027") + got + Lang.get("ui.recipefillmenu.028"));
             }
         }
         return missing;
@@ -435,10 +436,10 @@ public final class RecipeFillMenu {
         if (meta != null) {
             List<String> lore = meta.getLore() != null ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
             lore.add("");
-            lore.add(ChatColor.GREEN + "配方 " + (index + 1));
-            lore.add(ChatColor.GRAY + "材料 " + countInputs(r) + " 项 · 耗时 " + (r.getTicks() / 2) + "s");
-            lore.add(ChatColor.DARK_GRAY + "左键：补全该配方一份（可多次点击追加）");
-            lore.add(ChatColor.DARK_GRAY + "右键：补全该配方 " + FILL_GROUP_SIZE + " 份（可多次点击追加）");
+            lore.add(ChatColor.GREEN + Lang.get("ui.recipefillmenu.007") + (index + 1));
+            lore.add(ChatColor.GRAY + Lang.get("ui.recipefillmenu.029") + countInputs(r) + Lang.get("ui.recipefillmenu.030") + (r.getTicks() / 2) + "s");
+            lore.add(ChatColor.DARK_GRAY + Lang.get("ui.recipefillmenu.031"));
+            lore.add(ChatColor.DARK_GRAY + Lang.get("ui.recipefillmenu.032") + FILL_GROUP_SIZE + Lang.get("ui.recipefillmenu.033"));
             meta.setLore(lore);
             icon.setItemMeta(meta);
         }
@@ -465,9 +466,9 @@ public final class RecipeFillMenu {
         ItemStack it = new ItemStack(Material.COMPASS);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.GREEN + "点我搜索");
+            meta.setDisplayName(ChatColor.GREEN + Lang.get("ui.recipefillmenu.034"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GREEN + "右键取消搜索");
+            lore.add(ChatColor.GREEN + Lang.get("ui.recipefillmenu.035"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -489,9 +490,9 @@ public final class RecipeFillMenu {
         ItemStack it = new ItemStack(Material.OAK_DOOR);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + "返回机器");
+            meta.setDisplayName(ChatColor.YELLOW + Lang.get("ui.recipefillmenu.036"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "关闭配方选择，回到机器界面");
+            lore.add(ChatColor.GRAY + Lang.get("ui.recipefillmenu.037"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }

@@ -12,6 +12,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 酒窖配方展示菜单（布局与榨汁盆配方页一致，无混合材料页）：
@@ -44,7 +45,7 @@ public final class CellarRecipeMenu {
 
     /** 酒窖管理器自身配方概览页（指南/机器入口），右下角书本按钮进入配方展示页。 */
     public static void openOverview(Player p) {
-        ChestMenu menu = baseMenu(ChatColor.GOLD + "酒窖管理器 " + ChatColor.GRAY + "· 自身配方");
+        ChestMenu menu = baseMenu(ChatColor.GOLD + Lang.get("ui.cellarrecipemenu.001") + ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.002"));
         io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem manager =
                 io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem.getById("WT_JIUJIAO");
         if (manager == null) return;
@@ -79,7 +80,7 @@ public final class CellarRecipeMenu {
         ItemStack it = new ItemStack(Material.BOOK);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.GOLD + "酒窖配方");
+            meta.setDisplayName(ChatColor.GOLD + Lang.get("ui.cellarrecipemenu.003"));
             meta.getPersistentDataContainer().set(
                     com.haiman233.worldtaste.guide.CellarGuideListener.KEY_ENTRY,
                     org.bukkit.persistence.PersistentDataType.BYTE, (byte) 1);
@@ -96,14 +97,14 @@ public final class CellarRecipeMenu {
     public static void openRecipeList(Player p, int page, Block cellar) {
         List<CellarRecipe> recipes = CellarRecipe.all();
         if (recipes.isEmpty()) {
-            p.sendMessage("§c暂无酒窖配方（cellar.yml）。");
+            p.sendMessage(Lang.get("ui.cellarrecipemenu.004"));
             return;
         }
         int pages = (recipes.size() + LIST_PAGE_SIZE - 1) / LIST_PAGE_SIZE;
         int idx = ((page % pages) + pages) % pages;
 
-        ChestMenu menu = baseMenu(ChatColor.GOLD + "酒窖管理器 " + ChatColor.GRAY
-                + "· 配方列表 " + (idx + 1) + "/" + pages);
+        ChestMenu menu = baseMenu(ChatColor.GOLD + Lang.get("ui.cellarrecipemenu.001") + ChatColor.GRAY
+                + Lang.get("ui.cellarrecipemenu.005") + (idx + 1) + "/" + pages);
         int start = idx * LIST_PAGE_SIZE;
         for (int i = start; i < recipes.size() && i < start + LIST_PAGE_SIZE; i++) {
             CellarRecipe r = recipes.get(i);
@@ -131,7 +132,7 @@ public final class CellarRecipeMenu {
         if (meta != null) {
             List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
             lore.add("");
-            lore.add(ChatColor.YELLOW + "点击查看配方详情");
+            lore.add(ChatColor.YELLOW + Lang.get("ui.cellarrecipemenu.006"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -145,14 +146,14 @@ public final class CellarRecipeMenu {
     public static void openRecipes(Player p, int index, Block cellar) {
         List<CellarRecipe> recipes = CellarRecipe.all();
         if (recipes.isEmpty()) {
-            p.sendMessage("§c暂无酒窖配方（cellar.yml）。");
+            p.sendMessage(Lang.get("ui.cellarrecipemenu.004"));
             return;
         }
         int idx = ((index % recipes.size()) + recipes.size()) % recipes.size();
         CellarRecipe r = recipes.get(idx);
 
-        ChestMenu menu = baseMenu(ChatColor.GOLD + "酒窖管理器 " + ChatColor.GRAY
-                + "· 配方 " + (idx + 1) + "/" + recipes.size());
+        ChestMenu menu = baseMenu(ChatColor.GOLD + Lang.get("ui.cellarrecipemenu.001") + ChatColor.GRAY
+                + Lang.get("ui.cellarrecipemenu.007") + (idx + 1) + "/" + recipes.size());
         fillRecipeDeco(menu);
 
         // 红色区：投入材料（份数体现为堆叠数）
@@ -233,7 +234,7 @@ public final class CellarRecipeMenu {
         if (meta != null) {
             List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
             lore.add("");
-            lore.add(ChatColor.GRAY + "投入份数: " + ChatColor.YELLOW + count);
+            lore.add(ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.008") + ChatColor.YELLOW + count);
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -247,8 +248,8 @@ public final class CellarRecipeMenu {
         if (meta != null) {
             List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
             lore.add("");
-            lore.add(ChatColor.GRAY + "产出份数: " + ChatColor.YELLOW + r.totalInput + " 单位");
-            lore.add(ChatColor.GRAY + "每单位产出灌装为 1 瓶");
+            lore.add(ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.009") + ChatColor.YELLOW + r.totalInput + Lang.get("ui.cellarrecipemenu.010"));
+            lore.add(ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.011"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -260,9 +261,9 @@ public final class CellarRecipeMenu {
         ItemStack it = new ItemStack(Material.BREWING_STAND);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.GOLD + "酿造于酒窖管理器");
+            meta.setDisplayName(ChatColor.GOLD + Lang.get("ui.cellarrecipemenu.012"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "投入果汁（清水可稀释）+ 酒曲后启动酿造");
+            lore.add(ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.013"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -274,10 +275,10 @@ public final class CellarRecipeMenu {
         ItemStack it = new ItemStack(Material.CLOCK);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + "酿造时长");
+            meta.setDisplayName(ChatColor.YELLOW + Lang.get("ui.cellarrecipemenu.014"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "20~40 分钟（随机）");
-            lore.add(ChatColor.GRAY + "完成后可陈化或直接灌装出酒");
+            lore.add(ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.015"));
+            lore.add(ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.016"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -289,10 +290,10 @@ public final class CellarRecipeMenu {
         ItemStack it = new ItemStack(aging ? Material.BLAZE_POWDER : Material.GHAST_TEAR);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(aging ? ChatColor.RED + "允许陈酿" : ChatColor.GRAY + "不可陈酿");
+            meta.setDisplayName(aging ? ChatColor.RED + Lang.get("ui.cellarrecipemenu.017") : ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.018"));
             List<String> lore = new ArrayList<>();
-            lore.add(aging ? ChatColor.GRAY + "陈化模式下酒精度随游戏日增长"
-                    : ChatColor.GRAY + "该产物无酒精度，不可陈化");
+            lore.add(aging ? ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.019")
+                    : ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.020"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -305,7 +306,7 @@ public final class CellarRecipeMenu {
         if (im != null) {
             List<String> lore = im.getLore() == null ? new ArrayList<>() : new ArrayList<>(im.getLore());
             lore.add("");
-            lore.add(ChatColor.DARK_GRAY + "机器本体");
+            lore.add(ChatColor.DARK_GRAY + Lang.get("ui.cellarrecipemenu.021"));
             im.setLore(lore);
             icon.setItemMeta(im);
         }
@@ -316,9 +317,9 @@ public final class CellarRecipeMenu {
         ItemStack none = new ItemStack(Material.BARRIER);
         ItemMeta nm = none.getItemMeta();
         if (nm != null) {
-            nm.setDisplayName(ChatColor.YELLOW + "自身配方待定");
+            nm.setDisplayName(ChatColor.YELLOW + Lang.get("ui.cellarrecipemenu.022"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "该机器暂未配置合成配方");
+            lore.add(ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.023"));
             nm.setLore(lore);
             none.setItemMeta(nm);
         }
@@ -329,7 +330,7 @@ public final class CellarRecipeMenu {
         ItemStack it = new ItemStack(Material.OAK_DOOR);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + "返回指南");
+            meta.setDisplayName(ChatColor.YELLOW + Lang.get("ui.cellarrecipemenu.024"));
             it.setItemMeta(meta);
         }
         return it;
@@ -340,7 +341,7 @@ public final class CellarRecipeMenu {
         ItemStack it = new ItemStack(Material.OAK_DOOR);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + "返回配方列表");
+            meta.setDisplayName(ChatColor.YELLOW + Lang.get("ui.cellarrecipemenu.025"));
             it.setItemMeta(meta);
         }
         return it;
@@ -350,10 +351,10 @@ public final class CellarRecipeMenu {
         ItemStack it = new ItemStack(Material.ARROW);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + "翻页");
+            meta.setDisplayName(ChatColor.YELLOW + Lang.get("ui.cellarrecipemenu.026"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "左键：下一页");
-            lore.add(ChatColor.GRAY + "右键：上一页");
+            lore.add(ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.027"));
+            lore.add(ChatColor.GRAY + Lang.get("ui.cellarrecipemenu.028"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }

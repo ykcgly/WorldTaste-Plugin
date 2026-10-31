@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 加载 foods.yml：应用 FoodComponent(nutrition/saturation/canAlwaysEat 恒 true) 使食物可食，
@@ -35,9 +36,9 @@ public final class FoodsLoader {
                 if (!RegisterConditions.pass(s)) { skip++; continue; }
                 String effId = s.getString("id_alias", id);
                 ItemGroup g = WT.group(s.getString("item_group"));
-                if (g == null) { MissingItems.record("物品组缺失:" + s.getString("item_group")); skip++; continue; }
+                if (g == null) { MissingItems.record(Lang.get("msg.foodsloader.001") + s.getString("item_group")); skip++; continue; }
                 ItemStack display = WT.preload.get(effId.toUpperCase(java.util.Locale.ROOT));
-                if (display == null) { MissingItems.record("无展示物品:" + effId); skip++; continue; }
+                if (display == null) { MissingItems.record(Lang.get("msg.foodsloader.002") + effId); skip++; continue; }
                 display = display.clone();
                 float eatSeconds = (float) s.getDouble("eatseconds", s.getDouble("eat_seconds", 0));
                 // canAlwaysEat 恒 true：饱食度检测已整体移除（饱食度满/创造模式同样可食用），
@@ -74,14 +75,14 @@ public final class FoodsLoader {
                 }
                 ok++;
             } catch (Exception e) {
-                WT.log("foods.yml " + id + " 注册失败: " + e);
+                WT.log("foods.yml " + id + Lang.get("log.foodsloader.001") + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info("foods.yml: 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info(Lang.get("log.foodsloader.002") + ok + Lang.get("log.foodsloader.003") + skip);
         if (foodFail > 0) {
             WT.plugin.getLogger().severe("foods.yml: " + foodFail
-                    + " 个食物的 FoodComponent 应用失败，这些食物将不可食用！");
+                    + Lang.get("msg.foodsloader.003"));
         }
     }
 }

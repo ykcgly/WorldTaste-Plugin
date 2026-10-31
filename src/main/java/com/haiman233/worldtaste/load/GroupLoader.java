@@ -14,6 +14,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /** 加载 groups.yml：nested / sub / button / seasonal / locked / normal。 */
 public final class GroupLoader {
@@ -32,7 +33,7 @@ public final class GroupLoader {
                 String type = s.getString("type", "normal").toLowerCase(Locale.ROOT);
                 if (type.equals("nested") || type.equals("parent")) registerNested(key, s);
             } catch (Exception e) {
-                WT.log("groups " + key + " 注册失败，跳过: " + e);
+                WT.log("groups " + key + Lang.get("log.grouploader.001") + e);
             }
         }
         int ok = WT.groups.size();
@@ -44,16 +45,17 @@ public final class GroupLoader {
                 if (type.equals("nested") || type.equals("parent")) continue;
                 registerChild(key, s, type);
             } catch (Exception e) {
-                WT.log("groups " + key + " 注册失败，跳过: " + e);
+                WT.log("groups " + key + Lang.get("log.grouploader.001") + e);
             }
         }
-        WT.plugin.getLogger().info("groups.yml: 注册 " + (WT.groups.size() - ok) + " 子组，共 " + WT.groups.size());
+        WT.plugin.getLogger().info(Lang.get("log.grouploader.002") + (WT.groups.size() - ok) + Lang.get("log.grouploader.003") + WT.groups.size());
     }
 
     private static void registerNested(String key, ConfigurationSection s) {
-        ItemStack display = WTConfig.applyDisabledSuffix(key, Read.item(s.getConfigurationSection("item"), false));
+        // 语言键：group.<分组 id>.name / .lore
+        ItemStack display = WTConfig.applyDisabledSuffix(key, Read.item(s.getConfigurationSection("item"), false, "group." + key));
         if (display == null) {
-            WT.log("groups " + key + ": 无展示物品");
+            WT.log("groups " + key + Lang.get("log.grouploader.004"));
             return;
         }
         int tier = s.getInt("tier", 3);
@@ -64,9 +66,9 @@ public final class GroupLoader {
 
     private static void registerChild(String key, ConfigurationSection s, String type) {
         // 玩法关闭的分组（如酿造工艺）按钮保留，仅在名称后追加「已禁用」
-        ItemStack display = WTConfig.applyDisabledSuffix(key, Read.item(s.getConfigurationSection("item"), false));
+        ItemStack display = WTConfig.applyDisabledSuffix(key, Read.item(s.getConfigurationSection("item"), false, "group." + key));
         if (display == null) {
-            WT.log("groups " + key + ": 无展示物品");
+            WT.log("groups " + key + Lang.get("log.grouploader.004"));
             return;
         }
         int tier = s.getInt("tier", 3);

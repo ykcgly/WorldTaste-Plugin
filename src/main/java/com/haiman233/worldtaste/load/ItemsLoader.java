@@ -22,6 +22,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 加载物品类配置。items.yml（消耗品/食材/装饰）与 machines.yml（脚本驱动的可放置物品，多为作物）结构一致，
@@ -55,7 +56,7 @@ public final class ItemsLoader {
                 if (register(id, s)) ok++;
                 else skip++;
             } catch (Exception e) {
-                WT.log(file + " " + id + " 注册失败: " + e);
+                WT.log(file + " " + id + Lang.get("log.itemsloader.001") + e);
                 skip++;
             }
         }
@@ -66,11 +67,11 @@ public final class ItemsLoader {
                 if (register(id, late.get(i))) ok++;
                 else skip++;
             } catch (Exception e) {
-                WT.log(file + " " + id + "(lateInit) 注册失败: " + e);
+                WT.log(file + " " + id + Lang.get("log.itemsloader.002") + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info(file + ": 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info(file + Lang.get("log.itemsloader.003") + ok + Lang.get("log.itemsloader.004") + skip);
     }
 
     /** 通用物品注册（items/machines/foods/mob_drops/geo 复用）。成功返回 true。 */
@@ -105,7 +106,7 @@ public final class ItemsLoader {
         ItemGroup g = WT.group(s.getString("item_group"));
         if (g == null) {
             // 折叠上报（按缺失的组 id 归并计数），加载结束汇总为一行
-            MissingItems.record("物品组缺失:" + s.getString("item_group"));
+            MissingItems.record(Lang.get("msg.itemsloader.001") + s.getString("item_group"));
             return false;
         }
         // 酿造工艺总开关关闭：该玩法分组下的物品一律不注册（分组按钮保留，名称标注「已禁用」）
@@ -121,7 +122,7 @@ public final class ItemsLoader {
         if (display == null) display = WT.preload.get(id.toUpperCase(java.util.Locale.ROOT));
         if (display == null) {
             // 折叠上报（按物品 id 归并计数），加载结束汇总为一行
-            MissingItems.record("无展示物品:" + effId);
+            MissingItems.record(Lang.get("msg.itemsloader.002") + effId);
             return false;
         }
 
@@ -132,7 +133,7 @@ public final class ItemsLoader {
             display = display.clone();
             org.bukkit.inventory.meta.ItemMeta meta = display.getItemMeta();
             java.util.List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
-            lore.add(Colors.c("&7▷▷ &b酒精度: &e" + spec.alcohol));
+            lore.add(Colors.c(Lang.get("msg.itemsloader.003") + spec.alcohol));
             meta.setLore(lore);
             display.setItemMeta(meta);
             ExoticGardenHook.register(effId, spec.alcohol);
@@ -189,8 +190,8 @@ public final class ItemsLoader {
             ItemMeta meta = sfis.getItemMeta();
             if (meta != null) {
                 List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
-                lore.add(Colors.c("&7▷▷ &e可储存: &e" + (int) rech.getMaxItemCharge(sfis) + " J"));
-                lore.add(Colors.c("&7▷▷ &7可在充电站充电后右键食用"));
+                lore.add(Colors.c(Lang.get("msg.itemsloader.004") + (int) rech.getMaxItemCharge(sfis) + " J"));
+                lore.add(Colors.c(Lang.get("msg.itemsloader.005")));
                 meta.setLore(lore);
                 sfis.setItemMeta(meta);
             }
@@ -223,10 +224,10 @@ public final class ItemsLoader {
         ItemMeta meta = sfis.getItemMeta();
         if (meta == null) return;
         List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
-        lore.add(Colors.c("&7▷▷ &e储电容量: &e" + comp.getCapacity() + " J"));
+        lore.add(Colors.c(Lang.get("msg.itemsloader.006") + comp.getCapacity() + " J"));
         if (comp.getEnergyComponentType() == EnergyNetComponentType.CONSUMER
                 && item instanceof PowerConsumer consumer && consumer.getConsumption() > 0) {
-            lore.add(Colors.c("&7▷▷ &c运行时耗电: &c" + consumer.getConsumption() + " J/刻"));
+            lore.add(Colors.c(Lang.get("msg.itemsloader.007") + consumer.getConsumption() + Lang.get("msg.itemsloader.008")));
         }
         meta.setLore(lore);
         sfis.setItemMeta(meta);

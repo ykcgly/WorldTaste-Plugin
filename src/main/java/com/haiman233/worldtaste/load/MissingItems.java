@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 加载期「物品未找到」的折叠上报。
@@ -29,13 +30,13 @@ public final class MissingItems {
      * 缺失不只是「配方变成占位方块」，而是对应功能整体不可用，故需要立即告警。
      */
     private static final Map<String, String> SPECIAL = Map.of(
-            "WT_ZHAPEN", "榨汁盆（酿造工艺核心机器）",
-            "WT_JIUJIAO", "酒窖管理器（酿造工艺核心机器）",
-            "WT_WENDU", "温度控制器（酒窖温控）",
-            "WT_GUOZHA", "果渣（榨汁产物）",
-            "WT_SWEET_PAPER", "甜度试纸",
-            "WT_WINE", "陈酿果酒（酒窖产物）",
-            "WT_JIUQU", "酒曲（酿造加成）");
+            "WT_ZHAPEN", Lang.get("msg.missingitems.001"),
+            "WT_JIUJIAO", Lang.get("msg.missingitems.002"),
+            "WT_WENDU", Lang.get("msg.missingitems.003"),
+            "WT_GUOZHA", Lang.get("msg.missingitems.004"),
+            "WT_SWEET_PAPER", Lang.get("msg.missingitems.005"),
+            "WT_WINE", Lang.get("msg.missingitems.006"),
+            "WT_JIUQU", Lang.get("msg.missingitems.007"));
 
     /** 汇总展示的示例 id 上限（超出部分以「……等」收尾，避免汇总本身又刷屏）。 */
     private static final int MAX_EXAMPLES = 30;
@@ -64,7 +65,7 @@ public final class MissingItems {
         String what = SPECIAL.get(key);
         if (what != null) {
             if (WARNED_SPECIAL.add(key)) {
-                WT.log("特殊物品缺失: " + key + "（" + what + "），相关功能将不可用！");
+                WT.log(Lang.get("log.missingitems.001") + key + "（" + what + Lang.get("log.missingitems.002"));
             }
             return;
         }
@@ -80,15 +81,15 @@ public final class MissingItems {
         int shown = 0;
         for (Map.Entry<String, Integer> e : COUNTS.entrySet()) {
             if (shown >= MAX_EXAMPLES) {
-                sb.append(" ……等共 ").append(COUNTS.size()).append(" 种");
+                sb.append(Lang.get("msg.missingitems.008")).append(COUNTS.size()).append(Lang.get("msg.missingitems.009"));
                 break;
             }
             if (shown > 0) sb.append(", ");
             sb.append(e.getKey()).append('×').append(e.getValue());
             shown++;
         }
-        WT.log("有 " + COUNTS.size() + " 种被引用的物品未找到（共 " + total
-                + " 处引用，对应配方/展示已用占位方块代替）：" + sb);
+        WT.log(Lang.get("log.missingitems.003") + COUNTS.size() + Lang.get("log.missingitems.004") + total
+                + Lang.get("msg.missingitems.010") + sb);
         COUNTS.clear();
     }
 }

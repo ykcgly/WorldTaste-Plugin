@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Wither;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 原 RSC 通过 ByteBuddy 动态叠加属性接口；此处针对 WorldTaste 实际用到的单属性组合预定义类。
@@ -132,7 +133,7 @@ public final class AttributeItems {
                 if (main == null || main.getAmount() <= 0) return;
                 // removeItemCharge 内部含电量校验：不足时不扣除也不生效
                 if (!removeItemCharge(main, CHARGE_PER_USE)) {
-                    p.sendMessage("电量不足");
+                    p.sendMessage(Lang.get("msg.attributeitems.001"));
                     return;
                 }
                 p.setFoodLevel(p.getFoodLevel() + FOOD);

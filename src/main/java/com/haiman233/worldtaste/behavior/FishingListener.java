@@ -19,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 百味钓竿钓鱼（对齐原 diaoyu.js + wt_fishing.js）：主手持指定钓竿、副手持已知鱼饵时，
@@ -52,7 +53,7 @@ public final class FishingListener implements Listener {
             }
         }
         int total = baits.values().stream().mapToInt(b -> b.drops.size()).sum();
-        WT.plugin.getLogger().info("行为数据: fishing rod=" + rodId + " baits=" + baits.size() + " drops=" + total);
+        WT.plugin.getLogger().info(Lang.get("log.fishinglistener.001") + rodId + " baits=" + baits.size() + " drops=" + total);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -90,7 +91,7 @@ public final class FishingListener implements Listener {
             Item ent = p.getWorld().dropItem(p.getLocation().add(0, 1, 0), leftover.get(0));
             ent.setPickupDelay(2);
         }
-        p.sendMessage("§b恭喜你钓到了 " + displayName(stack) + " §b*1");
+        p.sendMessage(Lang.get("msg.fishinglistener.001") + displayName(stack) + " §b*1");
         p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
     }
 

@@ -12,6 +12,7 @@ import java.util.List;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /** 加载 workbenches.yml → {@link WTWorkbench}（点击合成）。 */
 public final class WorkbenchLoader {
@@ -26,10 +27,10 @@ public final class WorkbenchLoader {
             if (s == null) continue;
             try {
                 ItemGroup g = WT.group(s.getString("item_group"));
-                if (g == null) { MissingItems.record("物品组缺失:" + s.getString("item_group")); skip++; continue; }
+                if (g == null) { MissingItems.record(Lang.get("msg.workbenchloader.001") + s.getString("item_group")); skip++; continue; }
                 if (WTConfig.blockItem(s.getString("item_group"), id)) { skip++; continue; }
                 ItemStack display = WT.preload.get(id.toUpperCase(java.util.Locale.ROOT));
-                if (display == null) { MissingItems.record("无展示物品:" + id); skip++; continue; }
+                if (display == null) { MissingItems.record(Lang.get("msg.workbenchloader.002") + id); skip++; continue; }
                 SlimefunItemStack sfis = new SlimefunItemStack(id, display);
                 RecipeType rt = RecipeTypes.resolve(s.getString("recipe_type", "NULL"));
                 ItemStack[] craftRecipe = Read.recipe(s.getConfigurationSection("recipe"), 9);
@@ -54,10 +55,10 @@ public final class WorkbenchLoader {
                 w.register(WT.plugin);
                 ok++;
             } catch (Exception e) {
-                WT.log("workbenches.yml " + id + " 注册失败: " + e);
+                WT.log("workbenches.yml " + id + Lang.get("log.workbenchloader.001") + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info("workbenches.yml: 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info(Lang.get("log.workbenchloader.002") + ok + Lang.get("log.workbenchloader.003") + skip);
     }
 }

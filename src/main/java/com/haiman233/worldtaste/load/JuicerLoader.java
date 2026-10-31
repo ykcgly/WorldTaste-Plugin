@@ -11,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 加载 juicer.yml 榨汁盆配方（须在 items/foods 物品注册后调用，产物/投入物可按
@@ -52,12 +53,12 @@ public final class JuicerLoader {
                 if (register(key, s)) ok++;
                 else skip++;
             } catch (Exception e) {
-                WT.log("juicer.yml " + key + " 解析失败，跳过: " + e);
+                WT.log("juicer.yml " + key + Lang.get("log.juicerloader.001") + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info("juicer.yml: 注册 " + ok + ", 跳过 " + skip
-                + (JuicerRecipe.mix != null ? ", 可混合物品 " + JuicerRecipe.mix.mixableRefs.size() : ""));
+        WT.plugin.getLogger().info(Lang.get("log.juicerloader.002") + ok + Lang.get("log.juicerloader.003") + skip
+                + (JuicerRecipe.mix != null ? Lang.get("msg.juicerloader.001") + JuicerRecipe.mix.mixableRefs.size() : ""));
     }
 
     /** 解析头部全局设置：玩家名 lore 开关与文本格式、铁砧损耗开关与概率。 */
@@ -75,7 +76,7 @@ public final class JuicerLoader {
             JuicerRecipe.agingGrowthMin = Math.max(0, Math.min(min, max));
             JuicerRecipe.agingGrowthMax = Math.max(min, max);
         } catch (NumberFormatException ex) {
-            WT.log("juicer.yml aging-growth 格式错误（应为 min~max），使用默认值");
+            WT.log(Lang.get("log.juicerloader.004"));
             JuicerRecipe.agingGrowthMin = 0.05;
             JuicerRecipe.agingGrowthMax = 0.15;
         }
@@ -111,7 +112,7 @@ public final class JuicerLoader {
             bottle = new ItemStack(Material.POTION);
             ItemMeta meta = bottle.getItemMeta();
             if (meta != null) {
-                meta.setDisplayName(Colors.c("&f&l混合果汁"));
+                meta.setDisplayName(Colors.c(Lang.get("msg.juicerloader.002")));
                 bottle.setItemMeta(meta);
             }
         }
@@ -120,7 +121,7 @@ public final class JuicerLoader {
             bucket = new ItemStack(Material.WATER_BUCKET);
             ItemMeta meta = bucket.getItemMeta();
             if (meta != null) {
-                meta.setDisplayName(Colors.c("&f&l混合果汁桶"));
+                meta.setDisplayName(Colors.c(Lang.get("msg.juicerloader.003")));
                 bucket.setItemMeta(meta);
             }
         }
@@ -133,7 +134,7 @@ public final class JuicerLoader {
         Map<String, Integer> ingredientRefs = parseIngredient(s, key);
         if (ingredientRefs == null) return false;
         if (sum(ingredientRefs) > 10) {
-            WT.log("juicer.yml " + key + ": 投入总数超过盆容量 10，该配方无法投满，跳过");
+            WT.log("juicer.yml " + key + Lang.get("log.juicerloader.005"));
             return false;
         }
         String firstRef = ingredientRefs.keySet().iterator().next();
@@ -155,7 +156,7 @@ public final class JuicerLoader {
 
         ItemStack result = Read.item(s.getConfigurationSection("result"), true);
         if (result == null) {
-            WT.log("juicer.yml " + key + ": result 无效，跳过");
+            WT.log("juicer.yml " + key + Lang.get("log.juicerloader.006"));
             return false;
         }
 
@@ -197,7 +198,7 @@ public final class JuicerLoader {
             if (ref != null) refs.put(ref, amount);
         }
         if (refs.isEmpty()) {
-            WT.log("juicer.yml " + key + ": 缺少有效 ingredient，跳过");
+            WT.log("juicer.yml " + key + Lang.get("log.juicerloader.007"));
             return null;
         }
         return refs;
@@ -234,7 +235,7 @@ public final class JuicerLoader {
     private static String refOfMaterial(String material, String key) {
         Material m = Material.matchMaterial(material);
         if (m == null) {
-            WT.log("juicer.yml " + key + ": 未知材质 " + material + "，跳过");
+            WT.log("juicer.yml " + key + Lang.get("log.juicerloader.008") + material + Lang.get("log.juicerloader.009"));
             return null;
         }
         return "mc:" + m.name();

@@ -4,6 +4,7 @@ import com.haiman233.worldtaste.WT;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /** 内容加载编排：按依赖顺序注册 groups → recipe_types → 预加载展示物品 → 各内容文件。 */
 public final class Setup {
@@ -23,6 +24,9 @@ public final class Setup {
         MissingItems.reset();
         // 全局配置（config.yml）须最先加载：分组名是否追加「已禁用」、酿造内容是否注册都取决于它
         WTConfig.load();
+        // 语言文件（lang/<language>.yml）紧随其后：分组名、配方类型名、菜单标题、物品名/lore
+        // 全部经 Lang 取值，晚于 GroupLoader 就会让首个分组拿到未翻译文本
+        com.haiman233.worldtaste.util.Lang.load(WTConfig.language);
         GroupLoader.load();
         RecipeTypes.load();
         preloadDisplays();
@@ -62,9 +66,9 @@ public final class Setup {
         com.haiman233.worldtaste.machines.WTRecipeMachine.filterDisabledRecipes();
         // 原版进食模式：注入统计（0 个 = consumable 组件 API 不可用或全部写入失败，需按上方日志排查）
         if (WTConfig.nativeEat) {
-            WT.plugin.getLogger().info("原版进食模式：已为 "
+            WT.plugin.getLogger().info(Lang.get("log.setup.001")
                     + com.haiman233.worldtaste.load.FoodHelper.consumableAppliedCount()
-                    + " 个食物注入 consumable 组件");
+                    + Lang.get("msg.setup.001"));
         }
         // R6：所有内容/行为文件加载完毕，释放 Yaml 文件名缓存的解析树（长稳：避免长期持有 ~MB 级解析对象树）。
         // 经核查无 Loader 以字段持久持有 ConfigurationSection，registerListeners 也不再访问 YAML，释放安全。
@@ -77,7 +81,9 @@ public final class Setup {
         WT.preload.clear();
         // 「物品未找到」汇总：普通缺失折叠为一行（特殊物品已在发现时单独告警）
         MissingItems.report();
-        WT.plugin.getLogger().info("基础内容加载完成，耗时 " + (System.currentTimeMillis() - t) + "ms");
+        // 语言文件缺失键汇总（正常为 0；非 0 说明语言文件与代码/内容不同步）
+        com.haiman233.worldtaste.util.Lang.report();
+        WT.plugin.getLogger().info(Lang.get("log.setup.002") + (System.currentTimeMillis() - t) + "ms");
     }
 
     /** 第一遍：把各物品/机器的展示堆加入 WT.preload，使后续配方解析能跨文件按 id 引用。 */
@@ -93,13 +99,14 @@ public final class Setup {
                     if (s == null) continue;
                     ConfigurationSection itemSec = s.getConfigurationSection("item");
                     if (itemSec == null) continue;
-                    ItemStack display = Read.item(itemSec, false);
+                    String effId = s.getString("id_alias", id).toUpperCase(java.util.Locale.ROOT);
+                    // 语言键：item.<物品 id>.name / .lore（缺键回退 yml 内联文本）
+                    ItemStack display = Read.item(itemSec, false, "item." + effId);
                     if (display != null) {
-                        String effId = s.getString("id_alias", id).toUpperCase(java.util.Locale.ROOT);
                         WT.preload.put(effId, display);
                     }
                 } catch (Exception e) {
-                    WT.log("预加载展示物品 " + id + " 失败，跳过: " + e);
+                    WT.log(Lang.get("log.setup.003") + id + Lang.get("log.setup.004") + e);
                 }
             }
         }

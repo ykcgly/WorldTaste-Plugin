@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 甜度试纸（items.yml 定义物品本体与配方，本类只挂载检测行为）：
@@ -34,7 +35,7 @@ public final class SweetnessPaper {
     public static void register() {
         SlimefunItem item = SlimefunItem.getById(ID);
         if (item == null) {
-            WT.log("甜度试纸 " + ID + " 未在 items.yml 中注册，检测功能未启用");
+            WT.log(Lang.get("log.sweetnesspaper.001") + ID + Lang.get("log.sweetnesspaper.002"));
             return;
         }
         Bukkit.getPluginManager().registerEvents(new DetectListener(), WT.plugin);
@@ -67,9 +68,9 @@ public final class SweetnessPaper {
             else p.getInventory().setItemInOffHand(null);
             p.getWorld().playSound(p.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1f, 1.4f);
             if (sugar <= 0) {
-                p.sendMessage("§e甜度检测：§7当前饮品几乎不含糖分。");
+                p.sendMessage(Lang.get("msg.sweetnesspaper.001"));
             } else {
-                p.sendMessage("§e甜度检测：§f当前饮品的糖分为 §b" + sugar + "§e 点。");
+                p.sendMessage(Lang.get("msg.sweetnesspaper.002") + sugar + Lang.get("msg.sweetnesspaper.003"));
             }
         }
     }

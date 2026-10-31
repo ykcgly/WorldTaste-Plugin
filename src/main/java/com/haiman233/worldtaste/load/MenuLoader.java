@@ -3,6 +3,7 @@ package com.haiman233.worldtaste.load;
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.machines.MenuDef;
 import com.haiman233.worldtaste.util.Colors;
+import com.haiman233.worldtaste.util.Lang;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +20,8 @@ public final class MenuLoader {
             ConfigurationSection s = y.getConfigurationSection(id);
             if (s == null) continue;
             try {
-                MenuDef menu = new MenuDef(id, Colors.c(s.getString("title", id)));
+                // 语言键：menu.<菜单 id>.title（缺键回退 menus.yml 内联标题）
+                MenuDef menu = new MenuDef(id, Colors.c(Lang.of("menu." + id + ".title", s.getString("title", id))));
                 int size = s.getInt("size", -1);
                 if (size > 0) menu.size = size;
                 ConfigurationSection slots = s.getConfigurationSection("slots");
@@ -27,7 +29,8 @@ public final class MenuLoader {
                     for (String key : slots.getKeys(false)) {
                         ConfigurationSection slotSec = slots.getConfigurationSection(key);
                         if (slotSec == null) continue;
-                        ItemStack item = Read.item(slotSec, false);
+                        // 语言键：menu.<菜单 id>.slots.<槽位键>.name / .lore（槽位键含 "0-1" 这类区间写法）
+                        ItemStack item = Read.item(slotSec, false, "menu." + id + ".slots." + key);
                         boolean isProgress = slotSec.getBoolean("progressbar", false)
                                 || slotSec.isConfigurationSection("progressbar");
                         for (int slot : parseSlots(key)) {
@@ -42,10 +45,10 @@ public final class MenuLoader {
                 WT.menus.put(id, menu);
                 ok++;
             } catch (Exception e) {
-                WT.log("menus.yml " + id + " 失败: " + e);
+                WT.log("menus.yml " + id + Lang.get("log.menuloader.001") + e);
             }
         }
-        WT.plugin.getLogger().info("menus.yml: 注册 " + ok);
+        WT.plugin.getLogger().info(Lang.get("log.menuloader.002") + ok);
     }
 
     /** 解析槽位键：单值 "6" 或区间 "10-17"。非法/反转/越界（>53）返回空数组（仅跳过该槽，不连累整个菜单）。 */

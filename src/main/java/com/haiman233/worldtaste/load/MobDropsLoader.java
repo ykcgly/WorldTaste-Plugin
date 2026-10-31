@@ -17,6 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 加载 mob_drops.yml：以普通物品注册，并记录 entity/chance 供生物死亡掉落监听器使用。
@@ -87,11 +88,11 @@ public final class MobDropsLoader {
                 }
                 ok++;
             } catch (Exception e) {
-                WT.log("mob_drops.yml " + id + " 注册失败: " + e);
+                WT.log("mob_drops.yml " + id + Lang.get("log.mobdropsloader.001") + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info("mob_drops.yml: 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info(Lang.get("log.mobdropsloader.002") + ok + Lang.get("log.mobdropsloader.003") + skip);
     }
 
     /**
@@ -103,8 +104,8 @@ public final class MobDropsLoader {
             ItemStack icon = new ItemStack(Material.ZOMBIE_SPAWN_EGG);
             ItemMeta meta = icon.getItemMeta();
             if (meta != null) {
-                meta.displayName(Component.text("生物掉落", NamedTextColor.AQUA));
-                meta.lore(List.of(Component.text("击杀对应生物有概率获得", NamedTextColor.GRAY)));
+                meta.displayName(Component.text(Lang.get("msg.mobdropsloader.001"), NamedTextColor.AQUA));
+                meta.lore(List.of(Component.text(Lang.get("msg.mobdropsloader.002"), NamedTextColor.GRAY)));
                 icon.setItemMeta(meta);
             }
             mobDropType = new RecipeType(new NamespacedKey(WT.plugin, "mob_drop"), icon);
@@ -143,17 +144,17 @@ public final class MobDropsLoader {
             ItemMeta meta = egg.getItemMeta();
             if (meta == null) return null;
             Component lore = Component.text()
-                    .append(Component.text("击杀 ", NamedTextColor.GREEN))
+                    .append(Component.text(Lang.get("msg.mobdropsloader.003"), NamedTextColor.GREEN))
                     .append(Component.translatable(type.translationKey()).color(NamedTextColor.AQUA))
-                    .append(Component.text(" 时会有 ", NamedTextColor.GREEN))
+                    .append(Component.text(Lang.get("msg.mobdropsloader.004"), NamedTextColor.GREEN))
                     .append(Component.text(chance + "%", NamedTextColor.AQUA))
-                    .append(Component.text(" 的概率掉落", NamedTextColor.GREEN))
+                    .append(Component.text(Lang.get("msg.mobdropsloader.005"), NamedTextColor.GREEN))
                     .build();
             meta.lore(List.of(lore));
             egg.setItemMeta(meta);
             return egg;
         } catch (Exception e) {
-            WT.log("mob_drops " + type + ": 掉落来源展示构建失败，退回无配方: " + e);
+            WT.log("mob_drops " + type + Lang.get("log.mobdropsloader.004") + e);
             return null;
         }
     }

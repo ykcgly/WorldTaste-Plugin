@@ -12,6 +12,7 @@ import java.util.List;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /** 加载 recipe_machines.yml → {@link WTRecipeMachine}。 */
 public final class RecipeMachineLoader {
@@ -32,10 +33,10 @@ public final class RecipeMachineLoader {
             if (s == null) continue;
             try {
                 ItemGroup g = WT.group(s.getString("item_group"));
-                if (g == null) { MissingItems.record("物品组缺失:" + s.getString("item_group")); skip++; continue; }
+                if (g == null) { MissingItems.record(Lang.get("msg.recipemachineloader.001") + s.getString("item_group")); skip++; continue; }
                 if (WTConfig.blockItem(s.getString("item_group"), id)) { skip++; continue; }
                 ItemStack display = WT.preload.get(id.toUpperCase(java.util.Locale.ROOT));
-                if (display == null) { MissingItems.record("无展示物品:" + id); skip++; continue; }
+                if (display == null) { MissingItems.record(Lang.get("msg.recipemachineloader.002") + id); skip++; continue; }
                 SlimefunItemStack sfis = new SlimefunItemStack(id, display);
                 RecipeType rt = RecipeTypes.resolve(s.getString("recipe_type", "NULL"));
                 ItemStack[] craftRecipe = Read.recipe(s.getConfigurationSection("recipe"), 9);
@@ -54,11 +55,11 @@ public final class RecipeMachineLoader {
                 m.register(WT.plugin);
                 ok++;
             } catch (Exception e) {
-                WT.log(file + " " + id + " 注册失败: " + e);
+                WT.log(file + " " + id + Lang.get("log.recipemachineloader.001") + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info(file + ": 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info(file + Lang.get("log.recipemachineloader.002") + ok + Lang.get("log.recipemachineloader.003") + skip);
     }
 
     /** 读取 recipe_machines 的 recipes 段。 */
@@ -115,12 +116,12 @@ public final class RecipeMachineLoader {
                 int[] ch = chances.stream().mapToInt(Integer::intValue).toArray();
                 // CraftingOperation 校验 input/output 非空，空配方会令 tick 抛异常，跳过。
                 if (input.length == 0 || outs.isEmpty()) {
-                    WT.log("配方 " + name + " 输入或输出为空，跳过");
+                    WT.log(Lang.get("log.recipemachineloader.004") + name + Lang.get("log.recipemachineloader.005"));
                     continue;
                 }
                 out.add(new WTRecipe(seconds, input, outs.toArray(new ItemStack[0]), ch, chooseOne, noConsume, inSlots, outSlots, inputDamage));
             } catch (Exception e) {
-                WT.log("配方 " + name + " 解析失败: " + e);
+                WT.log(Lang.get("log.recipemachineloader.004") + name + Lang.get("log.recipemachineloader.006") + e);
             }
         }
         return out;

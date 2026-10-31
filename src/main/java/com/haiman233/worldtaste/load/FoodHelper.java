@@ -3,6 +3,7 @@ package com.haiman233.worldtaste.load;
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.compat.Compat;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 给食物物品应用 FoodComponent / consumable 组件（原版进食模式的数据层）。
@@ -47,7 +48,7 @@ public final class FoodHelper {
         if (hasConsumable(stack)) {
             consumableApplied++;
         } else {
-            WT.log("Consumable 组件写入验证失败（写入后读回为空）");
+            WT.log(Lang.get("log.foodhelper.001"));
         }
     }
 
@@ -105,7 +106,7 @@ public final class FoodHelper {
         if (!hasFoodApi()) {
             if (!lowVersionLogged) {
                 lowVersionLogged = true;
-                WT.log("当前服务端低于 1.20.5，无 FoodComponent API，foods.yml 的营养/饱食度组件不生效（脚本食物效果不受影响）");
+                WT.log(Lang.get("log.foodhelper.002"));
             }
             return true;
         }
@@ -113,7 +114,7 @@ public final class FoodHelper {
         if (saturation < 0f) saturation = 0f;
         boolean ok = Compat.food().applyFood(stack, nutrition, saturation, canAlwaysEat, eatSeconds, false);
         if (!ok) {
-            WT.log("FoodComponent 应用失败（compat 实现: " + Compat.food().getClass().getSimpleName() + "）");
+            WT.log(Lang.get("log.foodhelper.003") + Compat.food().getClass().getSimpleName() + "）");
         }
         return ok;
     }

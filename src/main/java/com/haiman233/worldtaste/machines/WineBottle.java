@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 陈酿果酒（WT_WINE，内部物品，酒窖出酒产出，不在指南提供配方）。
@@ -45,14 +46,14 @@ public final class WineBottle extends SlimefunItem {
     /** 注册内部物品与饮用监听（Setup 调用；无配方，仅酒窖产出）。 */
     public static void register(ItemGroup group) {
         if (group == null) {
-            WT.log("酒窖果酒注册失败：物品组缺失");
+            WT.log(Lang.get("log.winebottle.001"));
             return;
         }
         ItemStack template = new ItemStack(Material.POTION);
         if (template.getItemMeta() instanceof PotionMeta pm) {
             pm.setColor(Color.fromRGB(110, 20, 40));
-            pm.setDisplayName(Colors.c("&5&l陈酿果酒"));
-            pm.setLore(List.of(Colors.c("&7酒窖陈酿的果酒，右键饮用")));
+            pm.setDisplayName(Colors.c(Lang.get("msg.winebottle.001")));
+            pm.setLore(List.of(Colors.c(Lang.get("msg.winebottle.002"))));
             template.setItemMeta(pm);
         }
         SlimefunItemStack stack = new SlimefunItemStack("WT_WINE", template);
@@ -99,12 +100,12 @@ public final class WineBottle extends SlimefunItem {
         ItemMeta meta = out.getItemMeta();
         if (meta instanceof PotionMeta pm) {
             pm.setColor(Color.fromRGB(110, 20, 40));
-            pm.setDisplayName(Colors.c("&5&l陈酿果酒"));
+            pm.setDisplayName(Colors.c(Lang.get("msg.winebottle.001")));
             pm.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
             // 与榨汁盆产物相同：整行 & 颜色码经 Colors.c 后 setLore。
             // PotionMeta.lore(Component) 不会翻译 juicer.yml 里的 & 码，会原样显示。
             List<String> lore = new ArrayList<>();
-            lore.add(Colors.c("&7酒窖陈酿的果酒，右键饮用"));
+            lore.add(Colors.c(Lang.get("msg.winebottle.002")));
             lore.addAll(renderInfo(JuicerRecipe.wineLoreFormat, players, contents, alcohol));
             pm.setLore(lore);
             out.setItemMeta(meta);
@@ -119,16 +120,16 @@ public final class WineBottle extends SlimefunItem {
      */
     private static List<String> renderInfo(String format, Set<String> players,
                                            Map<String, Double> contents, double alcohol) {
-        String playersText = players == null || players.isEmpty() ? "无" : String.join("、", players);
+        String playersText = players == null || players.isEmpty() ? Lang.get("msg.winebottle.003") : String.join("、", players);
         List<String> contentsLines = JuicerRecipe.contentsLegacyList(contents);
         List<String> out = new ArrayList<>();
         if (JuicerRecipe.wineContentsVertical && contentsLines.size() >= 1
-                && !contentsLines.get(0).equals("§7无")
-                && !contentsLines.get(0).equals("§8[组成已隐藏]")) {
+                && !JuicerRecipe.isNoContentsLine(contentsLines.get(0))
+                && !JuicerRecipe.isHiddenContentsLine(contentsLines.get(0))) {
             // 竖向模式：format 中 %contents% 替换为「组成」一行，然后每材料各自一行
             String firstLine = format
                     .replace("%players%", playersText)
-                    .replace("%contents%", "§b组成：")
+                    .replace("%contents%", Lang.get("msg.winebottle.004"))
                     .replace("%alcohol%", String.format("%.1f", alcohol));
             out.add(Colors.c(firstLine));
             out.addAll(contentsLines);

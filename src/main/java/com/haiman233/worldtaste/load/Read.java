@@ -44,6 +44,19 @@ public final class Read {
 
     /** 读取物品段。{@code countable=true} 时应用 amount。 */
     public static ItemStack item(ConfigurationSection s, boolean countable) {
+        return item(s, countable, null);
+    }
+
+    /**
+     * 读取物品段，并按语言键覆盖展示文本。
+     *
+     * <p>{@code langKey} 为语言文件中的键前缀（如 {@code item.WT_KAOMAOROU}、{@code group.ws_kaorou}、
+     * {@code menu.WT_TUZAIJI.slots.9}），本方法会依次查 {@code <键>.name} 与 {@code <键>.lore}：
+     * 命中则用语言文件的值，缺失则回退到 {@code content/*.yml} 里的内联 name/lore，再缺失则
+     * 保持原样（无名字/无 lore）。{@code langKey == null} 表示这是配方槽位等「引用型」物品，
+     * 不参与翻译（否则会把材料名当成配方的名字。</p>
+     */
+    public static ItemStack item(ConfigurationSection s, boolean countable, String langKey) {
         if (s == null) return null;
         String material = s.getString("material", "");
         if (material.isEmpty()) return null;
@@ -61,8 +74,12 @@ public final class Read {
         ItemMeta meta = stack.getItemMeta();
         if (meta != null) {
             String name = s.getString("name");
-            if (name != null && !name.isEmpty()) meta.setDisplayName(Colors.c(name));
             List<String> lore = s.getStringList("lore");
+            if (langKey != null) {
+                name = com.haiman233.worldtaste.util.Lang.of(langKey + ".name", name);
+                lore = com.haiman233.worldtaste.util.Lang.ofList(langKey + ".lore", lore);
+            }
+            if (name != null && !name.isEmpty()) meta.setDisplayName(Colors.c(name));
             if (lore != null && !lore.isEmpty()) meta.setLore(Colors.c(lore));
             String color = s.getString("color");
             if (color != null && !color.isEmpty()) applyColor(meta, color);

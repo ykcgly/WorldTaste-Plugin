@@ -20,6 +20,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 榨汁盆配方（juicer.yml 定义，{@link JuicerLoader} 加载）。
@@ -59,9 +60,32 @@ public final class JuicerRecipe {
     // ===== 全局设置（juicer.yml 头部，JuicerLoader 载入）=====
     /** 是否在踩踏产物 lore 末尾追加榨汁师（参与踩踏玩家名）。 */
     public static boolean playerNames = true;
+
+    /**
+     * 「组成已隐藏」占位行（wine-show-contents=false）的语言键。
+     *
+     * <p>CellarMenu / WineBottle 的竖向渲染要先判断首行是不是这两种占位行，再决定排版；
+     * 文本已改为可翻译，若两边各写各的中文常量，换语言后判定就会失效（竖向排版错乱）。
+     * 故比较必须与本键同源，见 {@link #isHiddenContentsLine(String)}。</p>
+     */
+    public static final String KEY_CONTENTS_HIDDEN = "msg.juicerrecipe.006";
+
+    /** 「无组成」占位行的语言键（同 {@link #KEY_CONTENTS_HIDDEN} 的理由）。 */
+    public static final String KEY_CONTENTS_NONE = "msg.juicerrecipe.007";
+
+    /** 该行是否为「无组成」占位行。 */
+    public static boolean isNoContentsLine(String line) {
+        return line != null && line.equals(Lang.get(KEY_CONTENTS_NONE));
+    }
+
+    /** 该行是否为「组成已隐藏」占位行。 */
+    public static boolean isHiddenContentsLine(String line) {
+        return line != null && line.equals(Lang.get(KEY_CONTENTS_HIDDEN));
+    }
+
     /** 榨汁信息 lore 行格式（支持 & 颜色代码；占位符 %playername% 玩家名、%time% 榨好时间）。 */
     public static String playerNamesFormat =
-            "&8[&6榨汁盆&8] &7榨汁师: &f%playername% &7(&b%time%&7)";
+            Lang.get("msg.juicerrecipe.001");
     /** 是否启用铁砧损耗（false = 铁砧砸落永不损坏）。 */
     public static boolean anvilDamage = false;
     /** 铁砧损耗概率（1~10，实际概率 = 数值/10，每次砸落判定一次）。 */
@@ -74,7 +98,7 @@ public final class JuicerRecipe {
     public static double agingGrowthMax = 0.15;
     /** 陈酿果酒 lore 信息行格式（%players% 榨汁玩家、%contents% 组成果汁、%alcohol% 酒精度）。 */
     public static String wineLoreFormat =
-            "&8[&6酒窖&8] &7榨汁师: &f%players% &7| &b%contents% &7| &c酒精度: &e%alcohol%°";
+            Lang.get("msg.juicerrecipe.002");
     /** 成品酒是否显示组成物品（%contents% 占位符渲染的内容）。 */
     public static boolean wineShowContents = true;
     /** 组成物品显示方向：true = 竖向（每个材料一行），false = 横向（顿号分隔一行）。 */
@@ -313,7 +337,7 @@ public final class JuicerRecipe {
     private static void appendJuiceInfo(ItemMeta meta, Set<String> players, long completedAt) {
         if (!playerNames || players == null || players.isEmpty()) return;
         String fmt = playerNamesFormat == null || playerNamesFormat.isEmpty()
-                ? "&8[&6榨汁盆&8] &7榨汁师: &f%playername%" : playerNamesFormat;
+                ? Lang.get("msg.juicerrecipe.003") : playerNamesFormat;
         StringBuilder names = new StringBuilder();
         for (String n : players) {
             if (names.length() > 0) names.append('、');
@@ -328,10 +352,10 @@ public final class JuicerRecipe {
 
     /** 在显示名的颜色码之后插入「桶装」前缀（§6§l苹果汁 → §6§l桶装苹果汁）。 */
     private static String bucketName(String legacyName) {
-        if (legacyName == null) return "桶装";
+        if (legacyName == null) return Lang.get("msg.juicerrecipe.004");
         int i = 0;
         while (i + 1 < legacyName.length() && legacyName.charAt(i) == '§') i += 2;
-        return legacyName.substring(0, i) + "桶装" + legacyName.substring(i);
+        return legacyName.substring(0, i) + Lang.get("msg.juicerrecipe.004") + legacyName.substring(i);
     }
 
     /**
@@ -368,7 +392,7 @@ public final class JuicerRecipe {
             }
             meta.getPersistentDataContainer().set(KEY_ITEM_SUGAR, PersistentDataType.INTEGER, sugar);
             List<Component> lore = meta.lore() == null ? new ArrayList<>() : new ArrayList<>(meta.lore());
-            TextComponent.Builder line = Component.text().append(Component.text("内容: ", NamedTextColor.GRAY));
+            TextComponent.Builder line = Component.text().append(Component.text(Lang.get("msg.juicerrecipe.005"), NamedTextColor.GRAY));
             boolean first = true;
             for (Map.Entry<String, Double> e : display.entrySet()) {
                 if (!first) line.append(Component.text("、", NamedTextColor.GRAY));
@@ -489,11 +513,11 @@ public final class JuicerRecipe {
     public static List<String> contentsLegacyList(Map<String, Double> contents) {
         List<String> out = new ArrayList<>();
         if (!wineShowContents) {
-            out.add("§8[组成已隐藏]");
+            out.add(Lang.get(KEY_CONTENTS_HIDDEN));
             return out;
         }
         if (contents == null || contents.isEmpty()) {
-            out.add("§7无");
+            out.add(Lang.get(KEY_CONTENTS_NONE));
             return out;
         }
         if (!wineContentsVertical) {
@@ -518,7 +542,7 @@ public final class JuicerRecipe {
 
     /** 组成果汁名（横向顿号分隔；粘液显示名保留自身颜色码；原版翻译组件再转旧式文本）。 */
     public static String contentsLegacy(Map<String, Double> contents) {
-        if (contents == null || contents.isEmpty()) return "无";
+        if (contents == null || contents.isEmpty()) return Lang.get("msg.juicerrecipe.008");
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Double> en : contents.entrySet()) {
             if (sb.length() > 0) sb.append("、");

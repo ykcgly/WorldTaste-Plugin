@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 酒窖管理器（machines.yml 中 script: jiujiao，材质酿造台）：酒窖多方块核心。
@@ -110,8 +111,8 @@ public class WineCellarManager extends SlimefunItem implements EnergyNetComponen
                     b.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1f, 1f);
                     Player placer = st.placerId() != null ? Bukkit.getPlayer(st.placerId()) : null;
                     if (placer != null) {
-                        placer.sendMessage("§c酒窖电力中断，" + (brew ? "酿造" : "陈化")
-                                + "失败，液体已全部报废！");
+                        placer.sendMessage(Lang.get("msg.winecellarmanager.001") + (brew ? Lang.get("msg.winecellarmanager.002") : Lang.get("msg.winecellarmanager.003"))
+                                + Lang.get("msg.winecellarmanager.004"));
                     }
                     return;
                 }
@@ -124,7 +125,7 @@ public class WineCellarManager extends SlimefunItem implements EnergyNetComponen
 
         // 机器页面（粘液原生 BlockMenuPreset：右键打开、界面内容随方块持久化、多玩家共享查看）。
         // 本分支 BlockMenuPreset 构造即自注册进注册表（不经过 addItemHandler）
-        new BlockMenuPreset(item.getItemId(), ChatColor.GOLD + "酒窖管理器") {
+        new BlockMenuPreset(item.getItemId(), ChatColor.GOLD + Lang.get("msg.winecellarmanager.005")) {
             @Override
             public void init() {
                 CellarMenu.setupMenu(this);

@@ -8,6 +8,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 配方机器菜单构建（静态参数化，电力机器 {@link WTRecipeMachine} 与纯工作台
@@ -135,12 +136,12 @@ public final class MachineMenuBuilder {
         org.bukkit.inventory.ItemStack it = new org.bukkit.inventory.ItemStack(org.bukkit.Material.KNOWLEDGE_BOOK);
         org.bukkit.inventory.meta.ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(org.bukkit.ChatColor.GREEN + "配方补全");
+            meta.setDisplayName(org.bukkit.ChatColor.GREEN + Lang.get("ui.machinemenubuilder.001"));
             java.util.List<String> lore = new java.util.ArrayList<>();
-            lore.add(org.bukkit.ChatColor.GREEN + "右键补全1份上次的配方");
-            lore.add(org.bukkit.ChatColor.GREEN + "Shift+右键补全8份上次的配方");
+            lore.add(org.bukkit.ChatColor.GREEN + Lang.get("ui.machinemenubuilder.002"));
+            lore.add(org.bukkit.ChatColor.GREEN + Lang.get("ui.machinemenubuilder.003"));
             lore.add("");
-            lore.add(org.bukkit.ChatColor.GRAY + "左键打开配方选择界面");
+            lore.add(org.bukkit.ChatColor.GRAY + Lang.get("ui.machinemenubuilder.004"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }

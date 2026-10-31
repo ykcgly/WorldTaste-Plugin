@@ -5,12 +5,15 @@ import java.util.Map;
 import org.bukkit.Material;
 
 /**
- * 原版材质中文名表：覆盖玩家提示里实际会出现的材质集合（作物种植要求、副手工具、
- * 钓鱼产出兜底名等）。未收录的材质回退为小写枚举名（与旧行为一致），不抛异常。
+ * 原版材质显示名表。
+ *
+ * <p>表内是本项目默认的中文名（作为兜底），运行期优先取语言文件的
+ * {@code material.<材质枚举名>}（缺键则用本表，再缺返回 null 由调用方回退英文名）。
+ * 这样英文语言包只需翻译 {@code material.*} 一个区段，就能让「作物需要种在耕地上」
+ * 这类提示里的材质名跟着变。</p>
  *
  * <p>不用 Component.translatable 的原因：这些提示是纯文本 legacy 消息（聊天栏/动作栏
- * 混用颜色码），本服面向中文玩家，固定中文名即可；且 fishing.yml 等数据可随时引用
- * 新材质，表外的回退保证不缺字。</p>
+ * 混用颜色码），走 lang 文件即可，也不需要客户端语言环境配合。</p>
  */
 public final class ZhNames {
 
@@ -97,10 +100,10 @@ public final class ZhNames {
         put("NAME_TAG", "命名牌");
     }
 
-    /** 材质中文名；未收录返回 null（调用方可回退旧英文格式）。 */
+    /** 材质显示名；语言文件 {@code material.<材质>} 优先，其次本表，未收录返回 null。 */
     public static String of(Material m) {
         if (m == null) return null;
-        return MAP.get(m.name());
+        return Lang.of("material." + m.name(), MAP.get(m.name()));
     }
 
     /** 材质中文名；未收录回退为小写枚举名（下划线转空格，与旧行为一致）。 */

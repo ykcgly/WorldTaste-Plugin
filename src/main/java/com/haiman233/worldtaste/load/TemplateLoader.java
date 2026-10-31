@@ -14,6 +14,7 @@ import java.util.Map;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 加载 template_machines.yml → {@link WTTemplateMachine}。配方按“模板物品 id”分组；
@@ -31,10 +32,10 @@ public final class TemplateLoader {
             if (s == null) continue;
             try {
                 ItemGroup g = WT.group(s.getString("item_group"));
-                if (g == null) { MissingItems.record("物品组缺失:" + s.getString("item_group")); skip++; continue; }
+                if (g == null) { MissingItems.record(Lang.get("msg.templateloader.001") + s.getString("item_group")); skip++; continue; }
                 if (WTConfig.blockItem(s.getString("item_group"), id)) { skip++; continue; }
                 ItemStack display = WT.preload.get(id.toUpperCase(java.util.Locale.ROOT));
-                if (display == null) { MissingItems.record("无展示物品:" + id); skip++; continue; }
+                if (display == null) { MissingItems.record(Lang.get("msg.templateloader.002") + id); skip++; continue; }
                 SlimefunItemStack sfis = new SlimefunItemStack(id, display);
                 RecipeType rt = RecipeTypes.resolve(s.getString("recipe_type", "NULL"));
                 ItemStack[] craftRecipe = Read.recipe(s.getConfigurationSection("recipe"), 9);
@@ -47,6 +48,7 @@ public final class TemplateLoader {
                 int templateSlot = s.getInt("templateSlot", 21);
                 boolean hideAll = s.getBoolean("hideAllRecipes", false);
                 boolean moreOutputIfMoreTemplates = s.getBoolean("moreOutputIfMoreTemplates", false);
+                boolean fasterIfMoreTemplates = s.getBoolean("fasterIfMoreTemplates", false);
 
                 Map<String, List<WTRecipe>> byTemplate = new HashMap<>();
                 List<WTRecipe> all = new ArrayList<>();
@@ -62,14 +64,15 @@ public final class TemplateLoader {
                 }
                 MenuDef menu = WT.menus.get(id);
                 WTTemplateMachine m = new WTTemplateMachine(g, sfis, rt, craftRecipe, input, output, all,
-                        byTemplate, capacity, consumption, 1, menu, hideAll, templateSlot, moreOutputIfMoreTemplates);
+                        byTemplate, capacity, consumption, 1, menu, hideAll, templateSlot,
+                        moreOutputIfMoreTemplates, fasterIfMoreTemplates);
                 m.register(WT.plugin);
                 ok++;
             } catch (Exception e) {
-                WT.log("template_machines.yml " + id + " 注册失败: " + e);
+                WT.log("template_machines.yml " + id + Lang.get("log.templateloader.001") + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info("template_machines.yml: 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info(Lang.get("log.templateloader.002") + ok + Lang.get("log.templateloader.003") + skip);
     }
 }

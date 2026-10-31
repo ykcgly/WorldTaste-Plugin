@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import com.haiman233.worldtaste.util.Lang;
 
 /**
  * 榨汁盆配方展示菜单（布局对齐需求图，菜单代码参考终焉厨锅大配方展示）：
@@ -56,7 +57,7 @@ public final class JuicerMenu {
      * （当前未配置则留空），右下角金苹果按钮进入配方展示页。
      */
     public static void openBasinOverview(Player p) {
-        ChestMenu menu = baseMenu(ChatColor.GOLD + "榨汁盆 " + ChatColor.GRAY + "· 自身配方");
+        ChestMenu menu = baseMenu(ChatColor.GOLD + Lang.get("ui.juicermenu.001") + ChatColor.GRAY + Lang.get("ui.juicermenu.002"));
         io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem basin =
                 io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem.getById(
                         com.haiman233.worldtaste.machines.JuicerBasin.ITEM_ID);
@@ -75,9 +76,9 @@ public final class JuicerMenu {
             ItemStack none = new ItemStack(Material.BARRIER);
             ItemMeta nm = none.getItemMeta();
             if (nm != null) {
-                nm.setDisplayName(ChatColor.YELLOW + "自身配方待定");
+                nm.setDisplayName(ChatColor.YELLOW + Lang.get("ui.juicermenu.003"));
                 List<String> lore = new ArrayList<>();
-                lore.add(ChatColor.GRAY + "该机器暂未配置合成配方");
+                lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.004"));
                 nm.setLore(lore);
                 none.setItemMeta(nm);
             }
@@ -89,7 +90,7 @@ public final class JuicerMenu {
         if (im != null) {
             List<String> lore = im.getLore() == null ? new ArrayList<>() : new ArrayList<>(im.getLore());
             lore.add("");
-            lore.add(ChatColor.DARK_GRAY + "机器本体");
+            lore.add(ChatColor.DARK_GRAY + Lang.get("ui.juicermenu.005"));
             im.setLore(lore);
             icon.setItemMeta(im);
         }
@@ -111,7 +112,7 @@ public final class JuicerMenu {
         ItemStack it = new ItemStack(Material.GOLDEN_APPLE);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.GOLD + "榨汁盆配方");
+            meta.setDisplayName(ChatColor.GOLD + Lang.get("ui.juicermenu.006"));
             meta.getPersistentDataContainer().set(JuicerGuideListener.KEY_ENTRY,
                     org.bukkit.persistence.PersistentDataType.BYTE, (byte) 1);
             it.setItemMeta(meta);
@@ -132,8 +133,8 @@ public final class JuicerMenu {
         int pages = (recipes.size() + LIST_PAGE_SIZE - 1) / LIST_PAGE_SIZE;
         int idx = ((page % pages) + pages) % pages;
 
-        ChestMenu menu = baseMenu(ChatColor.GOLD + "榨汁盆 " + ChatColor.GRAY
-                + "· 配方列表 " + (idx + 1) + "/" + pages);
+        ChestMenu menu = baseMenu(ChatColor.GOLD + Lang.get("ui.juicermenu.001") + ChatColor.GRAY
+                + Lang.get("ui.juicermenu.007") + (idx + 1) + "/" + pages);
         int start = idx * LIST_PAGE_SIZE;
         for (int i = start; i < recipes.size() && i < start + LIST_PAGE_SIZE; i++) {
             JuicerRecipe r = recipes.get(i);
@@ -167,7 +168,7 @@ public final class JuicerMenu {
         if (meta != null) {
             List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
             lore.add("");
-            lore.add(ChatColor.YELLOW + "点击查看配方详情");
+            lore.add(ChatColor.YELLOW + Lang.get("ui.juicermenu.008"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -184,8 +185,8 @@ public final class JuicerMenu {
         int idx = ((index % recipes.size()) + recipes.size()) % recipes.size();
         JuicerRecipe r = recipes.get(idx);
 
-        ChestMenu menu = baseMenu(ChatColor.GOLD + "榨汁盆 " + ChatColor.GRAY
-                + "· 配方 " + (idx + 1) + "/" + recipes.size());
+        ChestMenu menu = baseMenu(ChatColor.GOLD + Lang.get("ui.juicermenu.001") + ChatColor.GRAY
+                + Lang.get("ui.juicermenu.009") + (idx + 1) + "/" + recipes.size());
         fillRecipeDeco(menu);
 
         // 红色区：投入材料（数量体现为物品堆叠数）
@@ -224,7 +225,7 @@ public final class JuicerMenu {
                 if (meta != null) {
                     List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
                     lore.add("");
-                    lore.add(ChatColor.GRAY + "可投入榨汁盆混合榨汁");
+                    lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.010"));
                     meta.setLore(lore);
                     it.setItemMeta(meta);
                 }
@@ -234,15 +235,15 @@ public final class JuicerMenu {
         int pages = Math.max(1, (mats.size() + MIX_PAGE_SIZE - 1) / MIX_PAGE_SIZE);
         int idx = ((index % pages) + pages) % pages;
 
-        ChestMenu menu = baseMenu(ChatColor.GOLD + "榨汁盆 " + ChatColor.GRAY
-                + "· 混合材料 " + (idx + 1) + "/" + pages);
+        ChestMenu menu = baseMenu(ChatColor.GOLD + Lang.get("ui.juicermenu.001") + ChatColor.GRAY
+                + Lang.get("ui.juicermenu.011") + (idx + 1) + "/" + pages);
         fillPinkDeco(menu);
 
         // 首排中间：标签
         ItemStack label = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE);
         ItemMeta lm = label.getItemMeta();
         if (lm != null) {
-            lm.setDisplayName(Colors.c("&e这&b些&2都&a能&6榨&d汁&e哦"));
+            lm.setDisplayName(Colors.c(Lang.get("ui.juicermenu.012")));
             label.setItemMeta(lm);
         }
         menu.addItem(SLOT_MIX_LABEL, label, ChestMenuUtils.getEmptyClickHandler());
@@ -343,7 +344,7 @@ public final class JuicerMenu {
         if (meta != null) {
             List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
             lore.add("");
-            lore.add(ChatColor.GRAY + "投入数量: " + ChatColor.YELLOW + count);
+            lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.013") + ChatColor.YELLOW + count);
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -357,8 +358,8 @@ public final class JuicerMenu {
         if (meta != null) {
             List<String> lore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
             lore.add("");
-            lore.add(ChatColor.GRAY + "产出份数: " + ChatColor.YELLOW + r.yield + " 份");
-            lore.add(ChatColor.GRAY + "瓶子每次接取 1 份，桶需满盆一次接完");
+            lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.014") + ChatColor.YELLOW + r.yield + Lang.get("ui.juicermenu.015"));
+            lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.016"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -370,9 +371,9 @@ public final class JuicerMenu {
         ItemStack it = new ItemStack(Material.LEATHER_BOOTS);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.GREEN + "榨汁方式: 玩家踩踏");
+            meta.setDisplayName(ChatColor.GREEN + Lang.get("ui.juicermenu.017"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "站在盆内跳跃踩踏（每次 +1）");
+            lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.018"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -383,9 +384,9 @@ public final class JuicerMenu {
         ItemStack it = new ItemStack(Material.ANVIL);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.RED + "榨汁方式: 铁砧砸击");
+            meta.setDisplayName(ChatColor.RED + Lang.get("ui.juicermenu.019"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "铁砧砸在盆顶（每次 +4）");
+            lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.020"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -397,10 +398,10 @@ public final class JuicerMenu {
         ItemStack it = new ItemStack(Material.ANVIL);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.GOLD + "榨汁方式: 踩踏 / 铁砧砸击");
+            meta.setDisplayName(ChatColor.GOLD + Lang.get("ui.juicermenu.021"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "站在盆内跳跃踩踏（每次 +1）");
-            lore.add(ChatColor.GRAY + "或铁砧砸在盆顶（每次 +4）");
+            lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.018"));
+            lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.022"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -413,9 +414,9 @@ public final class JuicerMenu {
         it.setAmount(Math.min(64, Math.max(1, progress)));
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + "所需次数");
+            meta.setDisplayName(ChatColor.YELLOW + Lang.get("ui.juicermenu.023"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "踩踏/砸击 " + ChatColor.YELLOW + progress + ChatColor.GRAY + " 次");
+            lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.024") + ChatColor.YELLOW + progress + ChatColor.GRAY + Lang.get("ui.juicermenu.025"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -426,11 +427,11 @@ public final class JuicerMenu {
         ItemStack it = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.LIGHT_PURPLE + "混合榨汁材料");
+            meta.setDisplayName(ChatColor.LIGHT_PURPLE + Lang.get("ui.juicermenu.026"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "查看哪些材料可以混合榨汁");
+            lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.027"));
             lore.add("");
-            lore.add(ChatColor.DARK_GRAY + "点击打开");
+            lore.add(ChatColor.DARK_GRAY + Lang.get("ui.juicermenu.028"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -441,7 +442,7 @@ public final class JuicerMenu {
         ItemStack it = new ItemStack(Material.OAK_DOOR);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + "返回指南");
+            meta.setDisplayName(ChatColor.YELLOW + Lang.get("ui.juicermenu.029"));
             it.setItemMeta(meta);
         }
         return it;
@@ -452,7 +453,7 @@ public final class JuicerMenu {
         ItemStack it = new ItemStack(Material.OAK_DOOR);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + "返回配方列表");
+            meta.setDisplayName(ChatColor.YELLOW + Lang.get("ui.juicermenu.030"));
             it.setItemMeta(meta);
         }
         return it;
@@ -462,10 +463,10 @@ public final class JuicerMenu {
         ItemStack it = new ItemStack(Material.ARROW);
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.YELLOW + "翻页");
+            meta.setDisplayName(ChatColor.YELLOW + Lang.get("ui.juicermenu.031"));
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "左键：下一页");
-            lore.add(ChatColor.GRAY + "右键：上一页");
+            lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.032"));
+            lore.add(ChatColor.GRAY + Lang.get("ui.juicermenu.033"));
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
