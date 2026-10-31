@@ -50,7 +50,7 @@
 
 ```bash
 ./gradlew build
-# 产物：build/libs/WorldTaste-1.10.1-standalone.jar
+# 产物：build/libs/WorldTaste-1.10.2-standalone.jar
 ```
 
 1. 将构建出的 jar放入服务器的 `plugins/` 目录。

@@ -101,7 +101,7 @@ item:
     name: '&f&lVersion'
     lore:
       - '&fCurrent version:'
-      - '&bRelease-1.10.1'
+      - '&bRelease-1.10.2'
       - '&7You need to show this when you open an issue'
       - '&7If WorldTaste does not load fully, first check whether the Gastronomicon and ExoticGarden addons are installed on the server'
       - '&7The WorldTaste addon began on January 12, 2025'
