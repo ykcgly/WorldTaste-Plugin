@@ -485,6 +485,11 @@ WT_ZHONGZIJDY:
           material: WT_SEED_SHIRUN
           amount: 1
           chance: 10
+        '32':
+          material_type: slimefun
+          material: WT_SEED_LAHUAJIAO
+          amount: 1
+          chance: 10
       chooseOne: true
       forDisplay: false
       hide: false

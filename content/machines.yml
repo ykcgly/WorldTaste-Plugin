@@ -305,7 +305,7 @@ WT_SEED_RIBENNANGUA:
       amount: 1
   recipe_type: WUWEI_ZZJDY
   script: seed/ribennangua
-WT_SEED_HUAJIAO:
+WT_SEED_LAHUAJIAO:
   item_group: ws_zhongzi
   item:
     name: "&f&l花椒种子"
@@ -318,7 +318,7 @@ WT_SEED_HUAJIAO:
   recipe: 
     5:
       material_type: slimefun
-      material: WT_SCZZ
+      material: WT_WDZWZZ
       amount: 1
   recipe_type: WUWEI_ZZJDY
   script: seed/huajiao
