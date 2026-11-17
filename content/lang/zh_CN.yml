@@ -17363,13 +17363,13 @@ log.yaml.002: '读取 '  # 片段
 log.yaml.003: ' 失败: '  # 片段
 
 # ---- PackMachine.java / PackMachineLoader.java ----
-msg.packmachine.no-input: '§c请先在左侧放入待转换的头颅食物！'
-msg.packmachine.002: '§c该物品不是可打包的头颅食物！'
-msg.packmachine.003: '§c输出槽已被占用，请先取走！'
-msg.packmachine.004: '§c请在中层放入打包袋！'
+msg.packmachine.no-input: '§c请在输入槽放置食物'
+msg.packmachine.002: '§c这个东西不能打包！'
+msg.packmachine.003: '§c请先清空输出槽'
+msg.packmachine.004: '§c请在中间放入打包袋！'
 msg.packmachine.005: '§c中间槽位只允许放入打包袋！'
 msg.packmachine.006: '§c该物品缺少对应的形态模板！'
-msg.packmachine.007: '§c该物品已是放置形态，无需打包！'
+msg.packmachine.007: '§c该物品已被打包，无需打包！'
 msg.packmachine.packed: '&7已打包'
 msg.packmachineloader.001: '§c[打包台] 分组不存在: '  # 片段
 msg.packmachineloader.002: '§c[打包台] 无展示物品: '  # 片段

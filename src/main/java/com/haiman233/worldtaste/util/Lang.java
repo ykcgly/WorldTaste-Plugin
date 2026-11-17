@@ -74,6 +74,7 @@ public final class Lang {
     public static void load(String wanted) {
         code = normalize(wanted);
         exportBuiltins();
+        syncFromJar();
         fallback = flatten(open(DEFAULT, true));
         if (fallback.isEmpty()) {
             WT.log("[Lang] 内置 " + DEFAULT + " 语言文件缺失或为空，内容文本将回退 content/*.yml 内联值");
@@ -262,12 +263,71 @@ public final class Lang {
         }
     }
 
+    /** 直接读 jar 内语言资源（无磁盘回退），jar 内没有该语言时返回 null。 */
+    private static YamlConfiguration jarLocale(String locale) {
+        try (InputStream in = WT.plugin.getResource(DIR + "/" + locale + ".yml")) {
+            if (in == null) return null;
+            try (InputStreamReader r = new InputStreamReader(in, StandardCharsets.UTF_8)) {
+                return YamlConfiguration.loadConfiguration(r);
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * 版本更新自动补全：磁盘语言文件是旧版本释放的副本时，把 jar 内新增的键追加到文件末尾
+     * （<b>只增不改</b>——服主/译者已有翻译一律保留，原文件内容与注释不动）。
+     * 以后每版新增语言键无需服主手动删文件重新生成。
+     */
+    private static void syncFromJar() {
+        File dir = new File(WT.plugin.getDataFolder(), DIR);
+        for (String locale : BUILTIN) {
+            File f = new File(dir, locale + ".yml");
+            if (!f.exists()) continue;
+            YamlConfiguration jar = jarLocale(locale);
+            if (jar == null) continue;
+            YamlConfiguration disk = YamlConfiguration.loadConfiguration(f);
+            StringBuilder sb = new StringBuilder();
+            int added = 0;
+            for (String k : jar.getKeys(true)) {
+                // 仅叶子节点（字符串/列表）需要补；中间路径节点由 YAML 结构自然产生
+                if (!jar.isString(k) && !jar.isList(k)) continue;
+                if (disk.isSet(k)) continue;
+                Object v = jar.get(k);
+                if (sb.length() > 0) sb.append('\n');
+                if (v instanceof List<?> l) {
+                    sb.append(k).append(':');
+                    for (Object o : l) {
+                        sb.append("\n  - ").append(yamlScalar(o == null ? "" : String.valueOf(o)));
+                    }
+                } else {
+                    sb.append(k).append(": ").append(yamlScalar(String.valueOf(v)));
+                }
+                added++;
+            }
+            if (added == 0) continue;
+            try (java.io.FileWriter w = new java.io.FileWriter(f, StandardCharsets.UTF_8)) {
+                w.write("\n# ---- 自动补全：以下键由插件版本更新合并（只增不改，已有翻译保留在原文中） ----\n");
+                w.write(sb.toString());
+                w.write("\n");
+                WT.log("[Lang] lang/" + locale + ".yml 为旧版本释放副本，已补全缺失键 " + added + " 个");
+            } catch (Exception e) {
+                WT.log("[Lang] lang/" + locale + ".yml 补全失败: " + e);
+            }
+        }
+    }
+
+    /** YAML 单引号标量（内部单引号翻倍转义），与语言文件现有条目格式一致。 */
+    private static String yamlScalar(String s) {
+        return "'" + s.replace("'", "''") + "'";
+    }
+
     /**
      * 打开语言文件：优先磁盘（管理员可改），缺失时从 jar 释放；再缺失则直接读 jar 内资源
      * （只读兜底，防止 saveResource 失败时彻底没有文本）。
      */
-    private static YamlConfiguration open(String locale, boolean export) {
-        File dir = new File(WT.plugin.getDataFolder(), DIR);
+    private static YamlConfiguration open(String locale, boolean export) {        File dir = new File(WT.plugin.getDataFolder(), DIR);
         File file = new File(dir, locale + ".yml");
         if (!file.exists() && export) {
             try {
