@@ -8,8 +8,7 @@
 - 原作者为[海曼](https://github.com/haiman233)（初代rsc插件），后由[hershate](https://github.com/hershate)改为jar版本
 - 由养坤场管理员提修复了大量bug以及一些优化
 - jar版本相较rsc的脚本驱动拥有更好的性能！
-- 以上操作均为ai操作，本人几乎没有编程基础，不喜勿喷。
-- 但是可以保证的是，已经在本地测试服经过一段时间的测试，目前没有遇到其他bug。
+- 以上操作均为ai操作，本人几乎没有编程基础（在学了o(╥﹏╥)o），不喜勿喷。
 - 如果遇到问题，欢迎加我的qq`1424136122`或者提issue反馈，我会尽力解决。
 
 > jar版本依然保留了原版rsc的yml配置文件，可以将jar后缀改为zip后打开即可看到。继承了rsc的易编辑性！
@@ -21,9 +20,8 @@
 
 ## 🚀下载
 
-[![构建状态](https://builds.guizhanss.com/api/badge/ykcgly/WorldTaste-Plugin/master/latest)](https://builds.guizhanss.com/ykcgly/WorldTaste-Plugin/master)
-[鬼斩资源站](https://resources.guizhanss.com/plugin/WorldTaste-Plugin)
-[releases](https://github.com/ykcgly/WorldTaste-Plugin/releases)
+- [鬼斩资源站](https://resources.guizhanss.com/plugin/WorldTaste-Plugin)
+- [releases](https://github.com/ykcgly/WorldTaste-Plugin/releases)
 
 ## 🍱前置依赖
 
