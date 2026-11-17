@@ -84,9 +84,21 @@ public final class Compat {
     // ---- 路由（实现类经 Holder 惰性加载，见类注释） ----
 
     private static FoodCompat createFood() {
+        // 1.21.4+ 优先命中 ModernHeadFoodCompat（item_model 组件，头颅食物下界砖本体形态）；
+        // 该类继承 ModernFoodCompat， FOOD/CONSUMABLE 全部行为复用
+        if (atLeast(1, 21, 4)) return ModernHeadFoodHolder.I;
         if (atLeast(1, 21, 2)) return ModernFoodHolder.I;
         if (atLeast(1, 20, 5)) return LegacyFoodHolder.I;
         return NoopFoodCompat.INSTANCE;
+    }
+
+    /**
+     * 服务端 ≥1.21.2（consumable 组件的 ConsumeEffect 可写入吃完药水效果）。
+     * 供 {@code ItemsLoader}/{@code ConsumableItem} 判定「药水是否已组件化」，
+     * 与 {@code FoodCompat.applyConsumableWithEffects} 的真实写入能力保持一致。
+     */
+    public static boolean hasConsumeEffectsApi() {
+        return atLeast(1, 21, 2);
     }
 
     private static ViewCompat createView() {
@@ -110,6 +122,10 @@ public final class Compat {
      */
     private static final class ModernFoodHolder {
         static final FoodCompat I = com.haiman233.worldtaste.compat.modern.ModernFoodCompat.INSTANCE;
+    }
+
+    private static final class ModernHeadFoodHolder {
+        static final FoodCompat I = com.haiman233.worldtaste.compat.modern.ModernHeadFoodCompat.INSTANCE;
     }
 
     private static final class LegacyFoodHolder {

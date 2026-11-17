@@ -15,7 +15,7 @@ public final class Setup {
     private static final String[] ITEM_FILES = {
         "items.yml", "machines.yml", "foods.yml", "mob_drops.yml", "geo_resources.yml",
         "recipe_machines.yml", "mb_machines.yml", "linked_recipe_machines.yml",
-        "template_machines.yml", "workbenches.yml"
+        "template_machines.yml", "workbenches.yml", "pack_machines.yml"
     };
 
     public static void loadAll() {
@@ -49,9 +49,16 @@ public final class Setup {
         MenuLoader.load();
         RecipeMachineLoader.load();
         WorkbenchLoader.load();
+        // 打包台（pack_machines.yml）：固化头颅食物的「放置形态模板」到静态表，
+        // 必须在本方法内、preload.clear()（R9）之前执行
+        PackMachineLoader.load();
         MultiBlockLoader.load();
         TemplateLoader.load();
         GeoLoader.load();
+        // 打包台：全部内容注册完毕后统一固化可打包集合——「有头颅模型 + 带有 food 组件」
+        // 的已注册物品（须在 R9 preload.clear() 之前，模板取自 preload 原始头颅展示堆）
+        int packForms = com.haiman233.worldtaste.machines.WTPackMachine.freezePlaceableTemplates();
+        WT.plugin.getLogger().info(Lang.get("log.packmachine.001") + packForms + Lang.get("log.packmachine.002"));
         com.haiman233.worldtaste.behavior.Behaviors.registerListeners();
         // 配方补全搜索聊天拦截（幂等）：49 格搜索按钮 → 聊天输入 → 拦截该条消息不上公屏
         com.haiman233.worldtaste.guide.RecipeFillMenu.register();

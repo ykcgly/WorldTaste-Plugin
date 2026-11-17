@@ -2,7 +2,14 @@ package com.haiman233.worldtaste.load;
 
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.compat.Compat;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import java.util.ArrayList;
+import java.util.List;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import com.haiman233.worldtaste.util.Lang;
 
 /**
@@ -73,8 +80,82 @@ public final class FoodHelper {
     public static void applyNativeFood(ItemStack stack, boolean canAlwaysEat, String animation,
                                        String soundKey, float eatSeconds,
                                        int nutrition, float saturation) {
+        applyNativeFood(stack, canAlwaysEat, animation, soundKey, eatSeconds, nutrition, saturation, null);
+    }
+
+    /**
+     * 同上，另把吃完药水效果一并注入 consumable 组件（1.21.2+ 原版进食自动生效）。
+     * legacy/noop 版本段经 compat default 退化为无效果版本——药水仍由脚本在
+     * consume 事件结算，调用方按 {@code Compat.hasConsumeEffectsApi()} 设置
+     * {@code componentCarriesEffects} 标记防止双重结算。
+     */
+    public static void applyNativeFood(ItemStack stack, boolean canAlwaysEat, String animation,
+                                       String soundKey, float eatSeconds,
+                                       int nutrition, float saturation, List<PotionEffect> effects) {
         apply(stack, nutrition, saturation, canAlwaysEat, eatSeconds, false);
-        applyConsumable(stack, eatSeconds, animation, soundKey);
+        if (effects != null && !effects.isEmpty()) {
+            Compat.food().applyConsumableWithEffects(stack, eatSeconds, animation, soundKey, effects);
+            if (hasConsumable(stack)) {
+                consumableApplied++;
+            } else {
+                WT.log(Lang.get("log.foodhelper.001"));
+            }
+        } else {
+            applyConsumable(stack, eatSeconds, animation, soundKey);
+        }
+    }
+
+    // ---- 头颅食物双形态（1.21.4+ item_model 构造） ----
+
+    /** 头颅类材质集合（物品不会是墙面变体，无需收录 *_WALL_HEAD）。 */
+    private static final java.util.Set<Material> HEAD_MATERIALS = java.util.EnumSet.of(
+            Material.PLAYER_HEAD, Material.SKELETON_SKULL, Material.ZOMBIE_HEAD,
+            Material.WITHER_SKELETON_SKULL, Material.CREEPER_HEAD, Material.DRAGON_HEAD,
+            Material.PIGLIN_HEAD);
+
+    /** 物品材质是否为头颅类（头颅食物形态改造的判定入口）。 */
+    public static boolean isHeadMaterial(Material m) {
+        return m != null && HEAD_MATERIALS.contains(m);
+    }
+
+    /**
+     * 构造「下界砖本体形态」基底：NETHER_BRICK + 复制原头颅物品的名称与 lore。
+     * 纯 Bukkit API、版本无关；item_model/profile 等组件由调用方经 compat 注入。
+     * 失败返回 null，调用方回退头颅本体构造（1.21.4- 与旧存档继续头颅形态）。
+     *
+     * <p>本体选 NETHER_BRICK 而非蜂蜜瓶：原版不可堆肥、不可放营火、自带 64 堆叠、
+     * 无 use_remainder 残留物，无需任何「取消默认组件」的补丁。</p>
+     */
+    public static SlimefunItemStack buildBrickForm(String id, ItemStack headDisplay) {
+        try {
+            ItemStack brick = new ItemStack(Material.NETHER_BRICK);
+            ItemMeta src = headDisplay.getItemMeta();
+            ItemMeta meta = brick.getItemMeta();
+            if (src == null || meta == null) return null;
+            if (src.hasDisplayName()) meta.setDisplayName(src.getDisplayName());
+            if (src.hasLore()) meta.setLore(src.getLore());
+            brick.setItemMeta(meta);
+            // PDC sf id 由 SlimefunItemStack 构造器写入——两种形态同一 id，
+            // 指南/配方/机器识别全部兼容（RecipeMatch 按 id 兜底匹配）
+            return new SlimefunItemStack(id, brick);
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+
+    /**
+     * 脚本药水列表 → Bukkit PotionEffect（ambient=false，与脚本 {@code addPotionEffect}
+     * 结算语义一致）。无法解析的药水类型照旧折叠日志。
+     */
+    public static List<PotionEffect> potionEffects(List<com.haiman233.worldtaste.behavior.Behaviors.Potion> pts) {
+        if (pts == null || pts.isEmpty()) return List.of();
+        List<PotionEffect> out = new ArrayList<>(pts.size());
+        for (com.haiman233.worldtaste.behavior.Behaviors.Potion pt : pts) {
+            PotionEffectType type = PotionEffectType.getByName(pt.type);
+            if (type != null) out.add(new PotionEffect(type, pt.duration, pt.amplifier, false));
+            else WT.log(Lang.get("log.consumableitem.001") + pt.type);
+        }
+        return out;
     }
 
     /**

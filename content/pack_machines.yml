@@ -1,0 +1,46 @@
+WT_DABAOTAI:
+  lateInit: false
+  item_group: ws_jiqi
+  item:
+    name: '&e&l打包台'
+    lore:
+      - ''
+      - '&7将头颅食物打包为可放置状态'
+      - '&7手持已打包的食物蹲下右键空气即可拆包'
+    material_type: mc
+    material: CALCITE
+  bagId: WT_DABAODAI
+  input: 10
+  bag: 13
+  output: 16
+  click: 22
+  recipe_type: ENHANCED_CRAFTING_TABLE
+  recipe:
+    '1':
+      amount: 1
+      material_type: mc
+      material: CALCITE
+    '2':
+      amount: 1
+      material_type: mc
+      material: CALCITE
+    '3':
+      amount: 1
+      material_type: mc
+      material: CALCITE
+    '4':
+      amount: 1
+      material_type: mc
+      material: STICK
+    '6':
+      amount: 1
+      material_type: mc
+      material: STICK
+    '7':
+      amount: 1
+      material_type: mc
+      material: STICK
+    '9':
+      amount: 1
+      material_type: mc
+      material: STICK

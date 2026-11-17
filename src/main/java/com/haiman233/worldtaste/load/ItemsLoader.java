@@ -2,6 +2,7 @@ package com.haiman233.worldtaste.load;
 
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.behavior.BlockDrops;
+import com.haiman233.worldtaste.compat.Compat;
 import com.haiman233.worldtaste.guide.DecorativeSubGroup;
 import com.haiman233.worldtaste.hook.ExoticGardenHook;
 import com.haiman233.worldtaste.items.ItemSpec;
@@ -22,6 +23,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
 import com.haiman233.worldtaste.util.Lang;
 
 /**
@@ -164,12 +166,33 @@ public final class ItemsLoader {
                         sat = copts.saturation.floatValue();
                     }
                 }
+                float eatSec = (float) s.getDouble("eatseconds", s.getDouble("eat_seconds", 0));
+                List<PotionEffect> effects = FoodHelper.potionEffects(copts.potions);
+                // 1.21.4+ 头颅形态食物 → 下界砖本体 + item_model 头颅渲染：本体不再是方块物品，
+                // 右键任何位置原版都直接开始进食，从根源消除「头颅被放置打断」的交互争抢；
+                // 蹲下放置机制代码保留，仅低版本（无 item_model）的头颅本体继续生效。
+                // 逐物品回退：profile 缺失等失败场景换回头颅形态重建，行为与 1.21.3- 一致。
+                boolean brickForm = false;
+                if (FoodHelper.isHeadMaterial(display.getType()) && Compat.food().supportsHeadModel()) {
+                    SlimefunItemStack brick = FoodHelper.buildBrickForm(effId, display);
+                    if (brick != null) {
+                        FoodHelper.applyNativeFood(brick, true, drink ? "drink" : "eat", skey, eatSec, nut, sat, effects);
+                        if (Compat.food().applyHeadModel(brick, display)) {
+                            sfis = brick;
+                            brickForm = true;
+                        }
+                    }
+                }
                 // canAlwaysEat 恒 true：饱食度检测已移除（满饱食度/创造模式同样可食用），
                 // 与原版注册、旧存档懒升级三条路径共用同一语义
-                FoodHelper.applyNativeFood(sfis, true,
-                        drink ? "drink" : "eat", skey,
-                        (float) s.getDouble("eatseconds", s.getDouble("eat_seconds", 0)),
-                        nut, sat);
+                if (!brickForm) {
+                    FoodHelper.applyNativeFood(sfis, true,
+                            drink ? "drink" : "eat", skey, eatSec, nut, sat, effects);
+                }
+                // 药水已随 consumable 组件写入（1.21.2+）→ 标记后脚本结算跳过 potions 防双重
+                if (!effects.isEmpty() && Compat.hasConsumeEffectsApi()) {
+                    copts.componentCarriesEffects = true;
+                }
             }
         }
         // 展示覆盖（mob_drops：自定义掉落类型 + 居中生物刷怪蛋；覆盖为 null 时沿用 yml 原解析）

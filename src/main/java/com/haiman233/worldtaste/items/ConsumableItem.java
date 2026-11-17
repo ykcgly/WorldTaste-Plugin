@@ -3,6 +3,7 @@ package com.haiman233.worldtaste.items;
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.behavior.Behaviors.ConsumableOpts;
 import com.haiman233.worldtaste.behavior.Behaviors.Potion;
+import com.haiman233.worldtaste.compat.Compat;
 import com.haiman233.worldtaste.hook.ExoticGardenHook;
 import com.haiman233.worldtaste.load.FoodHelper;
 import com.haiman233.worldtaste.load.WTConfig;
@@ -107,8 +108,12 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
                         float sat = (opts.componentCarriesFood() && opts.saturation != null)
                                 ? opts.saturation.floatValue() : 0f;
                         // canAlwaysEat 恒 true：饱食度检测已移除（满饱食度/创造模式同样可食用，
-                        // 见类注释），旧存档懒升级与原版注册共用同一语义
-                        FoodHelper.applyNativeFood(live, true, drink ? "drink" : "eat", skey, 0f, nut, sat);
+                        // 见类注释），旧存档懒升级与原版注册共用同一语义。
+                        // 药水效果一并写入组件（1.21.2+）——注意只补组件不换形态：
+                        // 旧存档物品保持头颅本体，形态转换交由打包台（WT_DABAOTAI）
+                        java.util.List<PotionEffect> fx = FoodHelper.potionEffects(opts.potions);
+                        FoodHelper.applyNativeFood(live, true, drink ? "drink" : "eat", skey, 0f, nut, sat, fx);
+                        if (!fx.isEmpty() && Compat.hasConsumeEffectsApi()) opts.componentCarriesEffects = true;
                         dbg(p, Lang.get("msg.consumableitem.002"));
                     }
                 }
@@ -163,6 +168,14 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
      * </ul>
      */
     private void nativeEat(PlayerRightClickEvent e, Player p, Material m) {
+        // 放置形态（打包台产物，无进食组件）：零干预交原版——非潜行也能直接放置，
+        // 不走「DENY 方块交互转进食」分流（无组件，转了也不会吃，只会白白拦住放置）
+        if (m.isBlock() && !m.isAir()
+                && com.haiman233.worldtaste.util.Stacks.isPlaceableForm(e.getItem())) {
+            dbg(p, (e.getHand() == EquipmentSlot.HAND ? Lang.get("msg.consumableitem.003") : Lang.get("msg.consumableitem.004"))
+                    + Lang.get("msg.consumableitem.020") + m);
+            return;
+        }
         // 另一只手校验（与旧 eat() 语义一致；offhandTool 工具不进本分支）
         PlayerInventory inv = p.getInventory();
         boolean mainHand = e.getHand() == EquipmentSlot.HAND;
@@ -303,10 +316,14 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
         if (opts.remainingAir != null) p.setRemainingAir(opts.remainingAir);
         if (opts.freezeTicks != null) p.setFreezeTicks(opts.freezeTicks);
 
-        for (Potion pt : opts.potions) {
-            PotionEffectType type = PotionEffectType.getByName(pt.type);
-            if (type != null) p.addPotionEffect(new PotionEffect(type, pt.duration, pt.amplifier, false));
-            else WT.log(Lang.get("log.consumableitem.001") + pt.type);
+        // 药水效果：已写入 consumable 组件（1.21.2+ 原版进食自动施加）时脚本跳过，
+        // 防止「组件效果 + 脚本效果」双重叠加；legacy/noop 版本段照旧在此结算
+        if (!opts.componentCarriesEffects) {
+            for (Potion pt : opts.potions) {
+                PotionEffectType type = PotionEffectType.getByName(pt.type);
+                if (type != null) p.addPotionEffect(new PotionEffect(type, pt.duration, pt.amplifier, false));
+                else WT.log(Lang.get("log.consumableitem.001") + pt.type);
+            }
         }
 
         // 异域花园联动：酒类饮品（items.yml alcohol 字段）饮用后累加其酒精度

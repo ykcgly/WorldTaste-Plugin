@@ -51,4 +51,29 @@ public interface FoodCompat {
      * @param soundKey       音效资源键（null = 组件默认音效）
      */
     void applyConsumable(ItemStack stack, float consumeSeconds, String animation, String soundKey);
+
+    /**
+     * 当前服务端是否支持「任意物品渲染头颅外观」（item_model + profile 组件，1.21.4+）。
+     * false 时头颅食物保持头颅本体构造——1.21.3 及以下没有 item_model 组件，
+     * 非头颅物品无法显示头颅模型。
+     */
+    default boolean supportsHeadModel() { return false; }
+
+    /**
+     * 给物品注入头颅外观：item_model = minecraft:player_head + 从 headSource（头颅物品）
+     * 复制 profile 纹理。仅 {@link #supportsHeadModel()} 为 true 时调用；
+     * 失败（headSource 无 profile 等）返回 false，调用方回退头颅本体构造。
+     */
+    default boolean applyHeadModel(ItemStack stack, ItemStack headSource) { return false; }
+
+    /**
+     * 注入 consumable 组件（动画/音效/时长），并把吃完药水效果写入组件
+     * （ConsumeEffect.applyStatusEffects，1.21.2+ 原版进食路径自动生效）。
+     * 默认实现退化为无效果版本——legacy（1.20.5~1.21.1，无 ConsumeEffect）与 noop
+     * （1.20.4-，无组件 API）版本段的药水仍由脚本在 consume 事件结算，行为不变。
+     */
+    default void applyConsumableWithEffects(ItemStack stack, float consumeSeconds, String animation,
+                                            String soundKey, java.util.List<org.bukkit.potion.PotionEffect> effects) {
+        applyConsumable(stack, consumeSeconds, animation, soundKey);
+    }
 }

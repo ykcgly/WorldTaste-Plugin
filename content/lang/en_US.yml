@@ -101,7 +101,7 @@ item:
     name: '&f&lVersion'
     lore:
       - '&fCurrent version:'
-      - '&bRelease-1.10.2'
+      - '&bRelease-1.10.3'
       - '&7You need to show this when you open an issue'
       - '&7If WorldTaste does not load fully, first check whether the Gastronomicon and ExoticGarden addons are installed on the server'
       - '&7The WorldTaste addon began on January 12, 2025'
@@ -16072,11 +16072,22 @@ recipe_type:
     name: '&6&lJuicer Basin'
     lore:
       - '&7This item must be made in the Juicer Basin'
+  WT_DABAOTAI:
+    name: '&e&lPacking Table'
+    lore:
+      - ''
+      - '&7Packs head-shaped food into its placeable form'
+      - '&7Sneak and right-click air while holding a packed food to unpack it'
 
 # ==========================================================================
 # Machine GUIs (key = menu.<menu id>.title / menu.<menu id>.slots.<slot>.name)
 # ==========================================================================
 menu:
+  WT_DABAOTAI:
+    title: '§6§lPacking Table'
+    slots:
+      '22':
+        name: '§b§lClick to Pack'
   WT_BWWYL:
     title: '§e§km§6§lAll-Purpose Stove§e§km'
     slots:
@@ -17351,3 +17362,23 @@ log.yaml.001: 'Missing resource: '  # fragment
 log.yaml.002: 'Reading '  # fragment
 log.yaml.003: ' failed: '  # fragment
 
+
+# ---- PackMachine.java / PackMachineLoader.java ----
+msg.packmachine.no-input: '§cPut a head-shaped food to convert in the top slot first!'
+msg.packmachine.002: '§cThis item is not a packable head-shaped food!'
+msg.packmachine.003: '§cThe output slot is occupied, take the item out first!'
+msg.packmachine.004: '§cPut a packing bag in the middle slot!'
+msg.packmachine.005: '§cOnly packing bags are allowed in the middle slot!'
+msg.packmachine.006: '§cMissing the form template for this item!'
+msg.packmachine.007: '§cThis item is already in its placeable form!'
+msg.packmachine.packed: '&7Packed'
+msg.packmachineloader.001: '§c[PackingTable] item group missing: '  # fragment
+msg.packmachineloader.002: '§c[PackingTable] no display item: '  # fragment
+log.packmachineloader.001: ' failed to register: '  # fragment
+log.packmachineloader.002: 'pack_machines.yml: registered '  # fragment
+log.packmachineloader.003: ', skipped '  # fragment
+log.packmachine.001: ' Packing Table froze packable head-shaped foods: '  # fragment
+log.packmachine.002: ' item(s)'
+
+# ---- ConsumableItem.java (placeable-form passthrough) ----
+msg.consumableitem.020: '§7[placeable form] vanilla placement passthrough -> '

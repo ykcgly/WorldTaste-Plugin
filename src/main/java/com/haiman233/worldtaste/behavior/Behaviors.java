@@ -225,6 +225,10 @@ public final class Behaviors {
         /** 原始音效资源键（如 entity.generic.drink，NONE 已剔除）：原版进食模式下判定饮用动画
          *  （sound=entity.generic.drink → DRINK）与注入 consumable 组件音效用。 */
         public String soundKey;
+        /** 药水效果已写入 consumable 组件（1.21.2+ ConsumeEffect，原版进食自动施加）：
+         *  脚本结算（applyConsumeEffects）跳过 potions 防止双重叠加。
+         *  注册期由 ItemsLoader/懒升级路径按 Compat.hasConsumeEffectsApi() 设置。 */
+        public boolean componentCarriesEffects;
 
         /**
          * 原版进食模式下，饥饿/饱和恢复能否完全由 FoodComponent 承担：

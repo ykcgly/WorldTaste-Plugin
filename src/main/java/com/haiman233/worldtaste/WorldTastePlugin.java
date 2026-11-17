@@ -47,6 +47,7 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
     public void onEnable() {
         instance = this;
         WT.plugin = this;
+        WT.packFormKey = new org.bukkit.NamespacedKey(this, "pack_form");
         getLogger().info(Lang.get("log.worldtasteplugin.001"));
         // 依赖检查前置：硬依赖缺失时不加载任何内容，直接卸载
         if (!checkDependencies()) return;

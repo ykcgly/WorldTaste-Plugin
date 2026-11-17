@@ -45,7 +45,21 @@ public final class RecipeMatch {
         if (in == null || need == null) return false;
         if (damageTool) return toolLike(in, need);
         if (ENTITY_BUCKETS.contains(need.getType())) return entityBucketLike(in, need);
-        return SlimefunUtils.isItemSimilar(in, need, true);
+        if (SlimefunUtils.isItemSimilar(in, need, true)) return true;
+        // 新旧形态混存兼容：1.21.4+ 的头颅食物以 NETHER_BRICK 为本体（item_model 渲染头颅），
+        // 与旧存档/低版本/打包台产物（真头颅本体）材质不同，isItemSimilar 必失配。
+        // 同一 Slimefun id（打包台转换不改 PDC id）即视为同一物品，两形态可互换使用。
+        return sameSfItem(in, need);
+    }
+
+    /** 两物品是否为同一 Slimefun id（形态无关）。任一端不是粘液物品返回 false。 */
+    private static boolean sameSfItem(ItemStack in, ItemStack need) {
+        io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem sfNeed =
+                io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem.getByItem(need);
+        if (sfNeed == null) return false;
+        io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem sfIn =
+                io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem.getByItem(in);
+        return sfIn != null && sfIn.getId().equals(sfNeed.getId());
     }
 
     /**

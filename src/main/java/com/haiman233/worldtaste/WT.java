@@ -23,6 +23,10 @@ public final class WT {
     /** id -> 菜单定义（来自 menus.yml，供机器 GUI 使用） */
     public static final Map<String, MenuDef> menus = new HashMap<>();
 
+    /** 打包台形态标记（PDC BYTE，1=放置形态）：头颅食物双形态的跨版本判别键。
+     *  食用形态无标记（默认），放置形态（真头颅）打标——低版本无组件 API 也可用。 */
+    public static org.bukkit.NamespacedKey packFormKey;
+
     public static ItemGroup group(String id) {
         if (id == null) return null;
         return groups.get(id.toLowerCase(java.util.Locale.ROOT));

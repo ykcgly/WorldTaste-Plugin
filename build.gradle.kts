@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.haiman233"
-version = "1.10.2-standalone"
+version = "1.10.3-standalone"
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
@@ -99,7 +99,8 @@ tasks.named<org.gradle.api.tasks.compile.JavaCompile>("compileModernJava") {
 val contentYaml = listOf(
     "groups.yml", "recipe_types.yml", "items.yml", "foods.yml", "machines.yml",
     "recipe_machines.yml", "mb_machines.yml", "linked_recipe_machines.yml",
-    "template_machines.yml", "workbenches.yml", "mob_drops.yml", "geo_resources.yml", "menus.yml",
+    "template_machines.yml", "workbenches.yml", "pack_machines.yml", "mob_drops.yml",
+    "geo_resources.yml", "menus.yml",
     "juicer.yml", "sugar.yml", "cellar.yml", "config.yml"
 )
 
