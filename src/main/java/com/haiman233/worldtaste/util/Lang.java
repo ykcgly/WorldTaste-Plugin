@@ -307,7 +307,9 @@ public final class Lang {
                 added++;
             }
             if (added == 0) continue;
-            try (java.io.FileWriter w = new java.io.FileWriter(f, StandardCharsets.UTF_8)) {
+            // 追加模式（第三个参数 true）——FileWriter(File, charset) 两参形式是截断写，
+            // 会把整个语言文件覆盖成只剩本次合并的键（1.10.3 首版实测踩坑）
+            try (java.io.FileWriter w = new java.io.FileWriter(f, StandardCharsets.UTF_8, true)) {
                 w.write("\n# ---- 自动补全：以下键由插件版本更新合并（只增不改，已有翻译保留在原文中） ----\n");
                 w.write(sb.toString());
                 w.write("\n");

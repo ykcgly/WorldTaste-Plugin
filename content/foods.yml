@@ -3468,6 +3468,21 @@ WT_LVNAI:
     amount: 1
   script: gz2
   recipe_type: 'NULL'
+WT_MILK:
+  lateInit: false
+  item_group: ws_yingliao
+  item:
+    name: '&b&l???'
+    lore:
+      - ''
+      - §7§o恢复 §b§o3.0 §7§o点饥饿值和饱和度
+      - '&8用空桶右键?挤取'
+      - "&7&m上面的还是下面的"
+    material_type: mc
+    material: MILK_BUCKET
+    amount: 1
+  script: gz2
+  recipe_type: 'NULL'
 
 # 肝帝月
 WT_YONGHENGNIUROU:

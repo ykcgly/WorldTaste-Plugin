@@ -47,11 +47,14 @@ public final class FoodsLoader {
                         true, eatSeconds);
                 if (!foodOk) foodFail++;
                 // 原版进食模式：显式注入 consumable 组件，覆盖 Paper 自动补的默认（保证动画/音效正确）——
-                // 饮品（POTION 材质或脚本音效为 entity.generic.drink）走原版 DRINK 动画 + 饮用音效；
+                // 饮品（POTION 材质、奶桶 MILK_BUCKET，或脚本音效为 entity.generic.drink）走原版
+                // DRINK 动画 + 饮用音效（骆驼奶/马奶/羊奶/驴奶等奶桶原版即饮用语义）；
                 // 可选 consume-animation 字段显式指定（eat/drink），优先级最高。
                 if (WTConfig.nativeEat) {
+                    org.bukkit.Material m = display.getType();
                     String anim = s.getString("consume-animation",
-                            display.getType() == org.bukkit.Material.POTION ? "drink" : "eat");
+                            m == org.bukkit.Material.POTION || m == org.bukkit.Material.MILK_BUCKET
+                                    ? "drink" : "eat");
                     String script0 = s.getString("script");
                     com.haiman233.worldtaste.behavior.Behaviors.ConsumableOpts opts0 = script0 != null
                             ? com.haiman233.worldtaste.behavior.Behaviors.consumables.get(script0.trim()) : null;

@@ -1592,7 +1592,17 @@ WT_DABAOTAI:
       amount: 1
       material_type: mc
       material: YELLOW_STAINED_GLASS_PANE
-    '18-20':
+    '18':
+      name: ' '
+      amount: 1
+      material_type: mc
+      material: ORANGE_STAINED_GLASS_PANE
+    "19":
+      name: '&b在上方放入需要打包的食物'
+      amount: 1
+      material_type: mc
+      material: ORANGE_STAINED_GLASS
+    '20':
       name: ' '
       amount: 1
       material_type: mc
@@ -1604,16 +1614,28 @@ WT_DABAOTAI:
       material: LIME_STAINED_GLASS_PANE
     '22':
       name: §b§l点击打包
+      lore:
+        - "&7需要在上方放入打包袋"
       amount: 1
       material_type: mc
       material: BLUE_STAINED_GLASS_PANE
-    '24-26':
-      name: ' '
-      amount: 1
-      material_type: mc
-      material: YELLOW_STAINED_GLASS_PANE
     '23':
       name: ' '
       amount: 1
       material_type: mc
       material: LIME_STAINED_GLASS_PANE
+    '24':
+      name: ' '
+      amount: 1
+      material_type: mc
+      material: YELLOW_STAINED_GLASS_PANE
+    '25':
+      name: '&7上方为输出槽位'
+      amount: 1
+      material_type: mc
+      material: YELLOW_STAINED_GLASS
+    '26':
+      name: ' '
+      amount: 1
+      material_type: mc
+      material: YELLOW_STAINED_GLASS_PANE

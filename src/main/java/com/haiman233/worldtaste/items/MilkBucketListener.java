@@ -28,7 +28,8 @@ public final class MilkBucketListener implements Listener {
             EntityType.CAMEL, "WT_LUOTUONAI",
             EntityType.HORSE, "WT_MANAI",
             EntityType.SHEEP, "WT_YANGNAI",
-            EntityType.DONKEY, "WT_LVNAI");
+            EntityType.DONKEY, "WT_LVNAI",
+            EntityType.PLAYER, "WT_MILK");
 
     private MilkBucketListener() {}
 
