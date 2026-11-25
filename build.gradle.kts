@@ -5,10 +5,12 @@ import org.gradle.api.attributes.java.TargetJvmVersion
 
 plugins {
     java
+    // shadow：把 bStats 依赖打包进插件 jar 并 relocate 到本插件包下（避免与其他附属的 bStats 冲突）
+    id("com.gradleup.shadow") version "9.6.1"
 }
 
 group = "com.haiman233"
-version = "1.10.4-standalone"
+version = "1.10.5-standalone"
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
@@ -64,6 +66,9 @@ dependencies {
     // 路由：低版本运行时不会加载 modern 类，高版本不会加载 legacy 类（互不 ICCE/NCDFE）。
     "legacyCompileOnly"("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
     "modernCompileOnly"("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+
+    // bStats 匿名统计（serviceId 35642，由 shadowJar 打包 + relocate）
+    implementation("org.bstats:bstats-bukkit:3.2.1")
 }
 
 // paper-api 1.21.x 的模块元数据只发布 JVM 21 variant；本插件字节码目标为 Java 17（运行期覆盖 1.20~1.21.4），
@@ -121,13 +126,28 @@ tasks.processResources {
 tasks.jar {
     archiveBaseName.set("WorldTaste")
     archiveVersion.set(project.version.toString())
-    archiveClassifier.set("")
+    // 不含依赖的纯插件 jar（bStats 已由 shadowJar 打入，发布以 shadow 产物为准）
+    archiveClassifier.set("unshaded")
     // legacy / modern / compatApi 源集的 class 产物一并打入（版本兼容层）
     from(sourceSets["compatApi"].output)
     from(sourceSets["legacy"].output)
     from(sourceSets["modern"].output)
 }
 
+// 发布产物：WorldTaste-<version>.jar（= jar 内容 + relocate 后的 bStats）
+tasks.shadowJar {
+    archiveBaseName.set("WorldTaste")
+    archiveVersion.set(project.version.toString())
+    archiveClassifier.set("")
+    // legacy / modern / compatApi 源集的 class 产物一并打入（版本兼容层）
+    from(sourceSets["compatApi"].output)
+    from(sourceSets["legacy"].output)
+    from(sourceSets["modern"].output)
+    // bStats 重定位：org.bstats.* → com.haiman233.worldtaste.libs.bstats.*，
+    // 防止与其他同样 shade bStats 的附属插件在 classpath 上互相污染（MetricsService 重复注册）
+    relocate("org.bstats", "com.haiman233.worldtaste.libs.bstats")
+}
+
 tasks.build {
-    dependsOn(tasks.jar)
+    dependsOn(tasks.shadowJar)
 }

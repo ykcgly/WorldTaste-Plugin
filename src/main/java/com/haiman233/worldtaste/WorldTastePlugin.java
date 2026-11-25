@@ -51,6 +51,13 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
         getLogger().info(Lang.get("log.worldtasteplugin.001"));
         // 依赖检查前置：硬依赖缺失时不加载任何内容，直接卸载
         if (!checkDependencies()) return;
+        // bStats 匿名统计（serviceId 35642）：服务端可全局关闭（plugins/bStats/config.yml），
+        // 编译期 org.bstats，运行期由 shadowJar relocate 为 com.haiman233.worldtaste.libs.bstats
+        try {
+            new org.bstats.bukkit.Metrics(this, 35642);
+        } catch (Throwable t) {
+            getLogger().warning("[bStats] 初始化失败，不影响功能: " + t);
+        }
         try {
             Setup.loadAll();
             getLogger().info(Lang.get("log.worldtasteplugin.002"));
