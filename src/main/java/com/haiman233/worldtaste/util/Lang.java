@@ -66,6 +66,31 @@ public final class Lang {
     private static final Map<String, Integer> MISSING = new LinkedHashMap<>();
 
     /**
+     * 最早可用时机的语言装载：语言码直接读 config.yml（磁盘优先，jar 内资源兜底），
+     * <b>不依赖 WTConfig</b>——因为 WTConfig.load 自身的配置摘要日志与主类 onEnable
+     * 的启动横幅都会经 {@link #get} 取文本，若等 WTConfig.load 之后再 load 语言，
+     * 这些早期日志只会回显键名（{@code log.wtconfig.006log.wtconfig.007} 之类）。
+     *
+     * <p>在 {@code WorldTastePlugin.onEnable} 一开始（{@code WT.plugin} 赋值后）调用；
+     * {@code Setup.loadAll} 内 {@code WTConfig.load()} 完成后的 {@link #load} 用权威
+     * language 值重入（幂等，仅多读一次文件）。首次启动 config.yml 尚未释放时读 jar 内资源。</p>
+     */
+    public static void loadEarly() {
+        String wanted = null;
+        try {
+            File cfg = new File(WT.plugin.getDataFolder(), "config.yml");
+            YamlConfiguration y = cfg.exists()
+                    ? YamlConfiguration.loadConfiguration(cfg)
+                    : YamlConfiguration.loadConfiguration(new InputStreamReader(
+                            WT.plugin.getResource("config.yml"), StandardCharsets.UTF_8));
+            if (y != null) wanted = y.getString("language");
+        } catch (Exception ignored) {
+            // 读取失败按 null 处理 → normalize 回退默认语言
+        }
+        load(wanted);
+    }
+
+    /**
      * 加载语言文件。必须在任何内容加载之前调用（{@code Setup.loadAll} 中紧随
      * {@code WTConfig.load()} 之后）——分组名、配方类型名、菜单标题都依赖它。
      *

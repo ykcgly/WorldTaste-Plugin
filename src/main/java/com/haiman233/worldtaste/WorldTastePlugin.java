@@ -29,17 +29,18 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
 
     private static WorldTastePlugin instance;
 
-    /** 硬依赖：{插件名, 中文名}，缺任一即自动卸载。 */
+    /** 硬依赖：{插件名, 中文名的语言键}，缺任一即自动卸载。
+     *  存键而非翻译结果——静态初始化早于 Lang.loadEarly，存译文只会捕获键名回显。 */
     private static final String[][] HARD_DEPS = {
-            {"Slimefun", Lang.get("msg.worldtasteplugin.001")},
-            {"Gastronomicon", Lang.get("msg.worldtasteplugin.002")},
-            {"ExoticGarden", Lang.get("msg.worldtasteplugin.003")},
+            {"Slimefun", "msg.worldtasteplugin.001"},
+            {"Gastronomicon", "msg.worldtasteplugin.002"},
+            {"ExoticGarden", "msg.worldtasteplugin.003"},
     };
 
-    /** 软依赖：{插件名, 中文名}，缺失仅提示后继续加载。 */
+    /** 软依赖：{插件名, 中文名的语言键}，缺失仅提示后继续加载（dep[1] 不含 '.' 时为字面量）。 */
     private static final String[][] SOFT_DEPS = {
-            {"Cultivation", Lang.get("msg.worldtasteplugin.004")},
-            {"InfinityExpansion", Lang.get("msg.worldtasteplugin.005")},
+            {"Cultivation", "msg.worldtasteplugin.004"},
+            {"InfinityExpansion", "msg.worldtasteplugin.005"},
             {"LogiTech", "LogiTech"},
     };
 
@@ -48,6 +49,11 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
         instance = this;
         WT.plugin = this;
         WT.packFormKey = new org.bukkit.NamespacedKey(this, "pack_form");
+        // 语言最先装载（语言码直读 config.yml，不依赖 WTConfig）：
+        // 本类的启动横幅与依赖检查、Setup 里 WTConfig 的配置摘要日志都经 Lang 取文本，
+        // Lang 晚于它们就会全部回显键名。Setup.loadAll 内 WTConfig.load 完成后会再
+        // 用权威 language 值重入 load（幂等）。
+        Lang.loadEarly();
         getLogger().info(Lang.get("log.worldtasteplugin.001"));
         // 依赖检查前置：硬依赖缺失时不加载任何内容，直接卸载
         if (!checkDependencies()) return;
@@ -87,9 +93,11 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
         return true;
     }
 
-    /** 依赖展示名：中文名与插件名相同（如 LogiTech）时只显示一处。 */
+    /** 依赖展示名：dep[1] 为语言键（含 '.'）时按当前语言解析，否则视为字面量；
+     *  中文名与插件名相同时只显示一处。 */
     private static String label(String[] dep) {
-        return dep[1].equalsIgnoreCase(dep[0]) ? dep[0] : dep[0] + "（" + dep[1] + "）";
+        String zh = dep[1].indexOf('.') >= 0 ? Lang.get(dep[1]) : dep[1];
+        return zh.equalsIgnoreCase(dep[0]) ? dep[0] : dep[0] + "（" + zh + "）";
     }
 
     @Override
