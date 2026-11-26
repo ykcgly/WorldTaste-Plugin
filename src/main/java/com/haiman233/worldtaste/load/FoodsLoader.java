@@ -15,9 +15,16 @@ import org.bukkit.inventory.ItemStack;
 import com.haiman233.worldtaste.util.Lang;
 
 /**
- * 加载 foods.yml：应用 FoodComponent(nutrition/saturation/canAlwaysEat 恒 true) 使食物可食，
+ * 加载 foods.yml：应用 FoodComponent(canAlwaysEat 恒 true) 使食物可食，
  * 并登记 onEat 脚本(kind=eat)供 {@link com.haiman233.worldtaste.behavior.FoodConsumeListener} 追加效果。
  * eatseconds：Paper 1.21.11 的 FoodComponent 不支持，忽略（与 RSC 一致）。
+ *
+ * <p>组件数值来源（与 ItemsLoader 语义对齐）：脚本 opts（简单数值型，即
+ * {@code componentCarriesFood()}）的 food/saturation <b>优先</b>写进 FoodComponent
+ * （如动物奶的 milk 脚本 3/3）；无脚本或脚本非数值型时回落 foods.yml 自身的
+ * nutrition/saturation 键（缺省 0 → &lt;1 提升为 1，对齐 RSC FoodReader）。
+ * 原版进食模式（food.native-eat）下经 {@link FoodHelper#applyNativeFood} 一并注入
+ * consumable 组件（动画/音效/药水）。</p>
  *
  * <p>饱食度检测已整体移除： foods.yml 全部食物饱食度满时（含创造模式恒 20）同样可食用，
  * {@code canAlwaysEat} 恒为 true，数据里的 {@code always_eatable} 字段不再读取。</p>
@@ -43,24 +50,46 @@ public final class FoodsLoader {
                 float eatSeconds = (float) s.getDouble("eatseconds", s.getDouble("eat_seconds", 0));
                 // canAlwaysEat 恒 true：饱食度检测已整体移除（饱食度满/创造模式同样可食用），
                 // 与 items.yml 脚本食物路径语义一致；数据里的 always_eatable 字段已废弃
-                boolean foodOk = FoodHelper.apply(display, s.getInt("nutrition", 0), (float) s.getDouble("saturation", 0),
-                        true, eatSeconds);
-                if (!foodOk) foodFail++;
-                // 原版进食模式：显式注入 consumable 组件，覆盖 Paper 自动补的默认（保证动画/音效正确）——
-                // 饮品（POTION 材质、奶桶 MILK_BUCKET，或脚本音效为 entity.generic.drink）走原版
-                // DRINK 动画 + 饮用音效（骆驼奶/马奶/羊奶/驴奶等奶桶原版即饮用语义）；
+                //
+                // 组件数值来源（方案 A，与 ItemsLoader 对齐）：脚本 opts 值优先——
+                // 简单数值型脚本（componentCarriesFood：有 food 且无 foodSet/randomFood）的
+                // food/saturation 直接写进 FoodComponent（如动物奶的 milk 脚本 3/3）；
+                // 运行期 FoodConsumeListener 按 componentCarriesFood()=true 跳过脚本结算，
+                // 组件不承载真实数值会导致恢复量坍缩为 bump 后的 1/0.0。
+                // 无脚本或脚本非数值型时回落 foods.yml 自身的 nutrition/saturation 键
+                // （缺省 0 → <1 提升为 1，对齐 RSC FoodReader 语义）。
+                String script0 = s.getString("script");
+                com.haiman233.worldtaste.behavior.Behaviors.ConsumableOpts opts0 = script0 != null
+                        ? com.haiman233.worldtaste.behavior.Behaviors.consumables.get(script0.trim()) : null;
+                boolean scriptCarriesFood = opts0 != null && opts0.componentCarriesFood();
+                int nutrition = scriptCarriesFood ? Math.max(0, opts0.food.intValue()) : s.getInt("nutrition", 0);
+                float saturation = scriptCarriesFood
+                        ? (opts0.saturation != null ? opts0.saturation.floatValue() : 0f)
+                        : (float) s.getDouble("saturation", 0);
+                if (nutrition < 1) nutrition = 1;
+                if (saturation < 0f) saturation = 0f;
+                // 原版进食模式：applyNativeFood 一并注入 consumable 组件（动画/音效/药水），
+                // 覆盖 Paper 自动补的默认——饮品（POTION 材质或脚本音效为
+                // entity.generic.drink）走原版 DRINK 动画 + 饮用音效；
                 // 可选 consume-animation 字段显式指定（eat/drink），优先级最高。
                 if (WTConfig.nativeEat) {
-                    org.bukkit.Material m = display.getType();
                     String anim = s.getString("consume-animation",
-                            m == org.bukkit.Material.POTION || m == org.bukkit.Material.MILK_BUCKET
-                                    ? "drink" : "eat");
-                    String script0 = s.getString("script");
-                    com.haiman233.worldtaste.behavior.Behaviors.ConsumableOpts opts0 = script0 != null
-                            ? com.haiman233.worldtaste.behavior.Behaviors.consumables.get(script0.trim()) : null;
+                            display.getType() == org.bukkit.Material.POTION ? "drink" : "eat");
                     String skey = opts0 != null ? (opts0.silent ? "intentionally_empty" : opts0.soundKey) : null;
                     if ("drink".equals(anim) && skey == null) skey = "entity.generic.drink";
-                    FoodHelper.applyConsumable(display, eatSeconds, anim, skey);
+                    java.util.List<org.bukkit.potion.PotionEffect> fx = opts0 != null
+                            ? FoodHelper.potionEffects(opts0.potions) : null;
+                    FoodHelper.applyNativeFood(display, true, anim, skey, eatSeconds, nutrition, saturation, fx);
+                    // 药水已写入组件（1.21.2+ 原版进食自动施加）→ 标记防脚本双重结算
+                    // （与 ItemsLoader 一致；legacy/noop 段 fx 为空列表写入、标记不置位，脚本照旧结算）
+                    if (opts0 != null && fx != null && !fx.isEmpty()
+                            && com.haiman233.worldtaste.compat.Compat.hasConsumeEffectsApi()) {
+                        opts0.componentCarriesEffects = true;
+                    }
+                } else {
+                    // 旧脚本模式：只写 FoodComponent（可食），效果仍由 FoodConsumeListener 脚本结算
+                    boolean foodOk = FoodHelper.apply(display, nutrition, saturation, true, eatSeconds, false);
+                    if (!foodOk) foodFail++;
                 }
 
                 SlimefunItemStack sfis = new SlimefunItemStack(effId, display);

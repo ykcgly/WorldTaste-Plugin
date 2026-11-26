@@ -429,3 +429,9 @@
   "kind": "use"
   "food": 5
   "saturation": 6
+"milk":
+  "kind": "eat"
+  "food": 3
+  "saturation": 3
+  "exhaustion": 2
+  "sound": "entity.generic.drink"

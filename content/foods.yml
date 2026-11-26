@@ -3424,7 +3424,7 @@ WT_LUOTUONAI:
     material_type: mc
     material: MILK_BUCKET
     amount: 1
-  script: gz2
+  script: milk
   recipe_type: 'NULL'
 WT_MANAI:
   lateInit: false
@@ -3438,7 +3438,7 @@ WT_MANAI:
     material_type: mc
     material: MILK_BUCKET
     amount: 1
-  script: gz2
+  script: milk
   recipe_type: 'NULL'
 WT_YANGNAI:
   lateInit: false
@@ -3452,7 +3452,7 @@ WT_YANGNAI:
     material_type: mc
     material: MILK_BUCKET
     amount: 1
-  script: gz2
+  script: milk
   recipe_type: 'NULL'
 WT_LVNAI:
   lateInit: false
@@ -3466,7 +3466,7 @@ WT_LVNAI:
     material_type: mc
     material: MILK_BUCKET
     amount: 1
-  script: gz2
+  script: milk
   recipe_type: 'NULL'
 WT_MILK:
   lateInit: false
@@ -3481,7 +3481,7 @@ WT_MILK:
     material_type: mc
     material: MILK_BUCKET
     amount: 1
-  script: gz2
+  script: milk
   recipe_type: 'NULL'
 
 # 肝帝月
