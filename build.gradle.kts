@@ -48,14 +48,34 @@ val modern by sourceSets.creating {
 // main 的 Compat 路由器引用三个源集的实现类/接口 → main 编译依赖它们的产物
 sourceSets.main.get().compileClasspath += compatApi.output + legacy.output + modern.output
 
+// 生成滤除 org/bstats 的 JEG 编译副本（原因见 dependencies 里 JustEnoughGuide 注释）。
+// 产物随内容变化自动重建；不影响运行期——服务器上的 JEG 用其原始 jar。
+val filterJegJar = tasks.register<Jar>("filterJegJar") {
+    val src = layout.projectDirectory.file("libs/JustEnoughGuide.jar")
+    inputs.file(src)
+    archiveFileName.set("JustEnoughGuide-filtered.jar")
+    destinationDirectory.set(layout.buildDirectory.dir("libs-filtered"))
+    from(zipTree(src)) {
+        exclude("org/bstats/**")
+    }
+}
+
 dependencies {
     // Paper 1.21.11 API（非 Slimefun，可从 papermc 仓库获取）
         compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    // bStats 匿名统计（serviceId 35642，由 shadowJar 打包 + relocate）
+    implementation("org.bstats:bstats-bukkit:3.2.1")
     // 本地 Slimefun 依赖（compileOnly，运行期由服务器提供）：
     // 服务端为修改版 Slimefun fork，libs/ 下的 2025.11 release jar 与其包结构一致，仅作编译参考
     compileOnly(files("libs/Slimefun-2025.11-release.jar"))
-    // JEG（JustEnoughGuide）软依赖：大配方菜单点击拦截（反射注册，JEG 未装时零影响）
-    compileOnly(files("libs/JustEnoughGuide.jar"))
+    // JEG（JustEnoughGuide）软依赖：大配方菜单点击拦截（反射注册，JEG 未装时零影响）。
+    // ⚠ 编译期用 filterJegJar 任务产出的滤除副本，不用原始 jar：
+    // JEG jar 内含 2023 年未 relocate 的 org.bstats 旧副本（构造器 (JavaPlugin,int)），
+    // 而 Gradle compile classpath 把 files() 本地 jar 排在模块依赖之前（改声明顺序无效），
+    // javac 会按旧签名编译 new Metrics(...) 调用点——打包的 bStats 3.2.1 构造器已是
+    // (Plugin,int)，运行期即 NoSuchMethodError。运行期 JEG 用它自己 jar 里的副本，
+    // 插件类加载器互相隔离，互不影响。
+    compileOnly(files(filterJegJar))
 
     // compatApi 源集：接口签名全部为 Bukkit/原版类型（不含 Slimefun 类型），无需挂 Slimefun jar
     "compatApiCompileOnly"("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
@@ -66,9 +86,6 @@ dependencies {
     // 路由：低版本运行时不会加载 modern 类，高版本不会加载 legacy 类（互不 ICCE/NCDFE）。
     "legacyCompileOnly"("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
     "modernCompileOnly"("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
-
-    // bStats 匿名统计（serviceId 35642，由 shadowJar 打包 + relocate）
-    implementation("org.bstats:bstats-bukkit:3.2.1")
 }
 
 // paper-api 1.21.x 的模块元数据只发布 JVM 21 variant；本插件字节码目标为 Java 17（运行期覆盖 1.20~1.21.4），
